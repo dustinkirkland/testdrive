@@ -1,0 +1,81 @@
+#!/bin/sh -e
+#
+#    preview - run today's Ubuntu development ISO, in a virtual machine
+#    Copyright (C) 2009 Canonical Ltd.
+#    Copyright (C) 2009 Dustin Kirkland
+#
+#    Authors: Dustin Kirkland <kirkland@canonical.com>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, version 3 of the License.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+PKG="preview"
+PKGRC=$PKG"rc"
+
+usage() {
+	echo "
+Usage:
+  $PKG [configuration file]
+
+  $PKG is a utility that allows you to easily download the latest Ubuntu
+  development release and run it in a KVM virtual machine.
+
+  All options to this program are handled through the global configuration
+  file, /etc/$PKGRC, and then the user's local configuration file,
+  ~/.$PKGRC.
+
+  Users wanting to change the behavior default configuration can make a
+  copy of /etc/$PKGRC, and pass this as a parameter to $PKG.
+"
+	exit 1
+}
+
+# Source global configuration overrides
+[ -r "/etc/$PKG.conf" ] && . "/etc/$PKG.conf"
+
+# Source user configuration overrides
+[ -r "$HOME/.$PKG"rc ] && . "$HOME/.$PKG"rc
+
+# Handle parameter configuration file
+if [ -n "$1" ]; then
+	[ -r "$1" ] || usage
+	. "$1"
+fi
+
+# Set defaults where undefined
+[ -z "$CACHE" ] && [ -w "/var/cache/$PKG" ] && CACHE="/var/cache/$PKG"
+[ -z "$CACHE" ] && CACHE="$HOME/.cache/$PKG" && mkdir -p $CACHE
+[ -z "$CODENAME" ] && CODENAME="karmic"
+[ -z "$TYPE" ] && TYPE="desktop"
+[ -z "$ARCH" ] && [ "$(uname -m)" = "x86_64" ] && ARCH="amd64" || ARCH="i386"
+[ -z "$PROTOCOL" ] && PROTOCOL="rsync"
+[ -z "$MIRROR" ] && MIRROR="cdimage.ubuntu.com"
+[ -z "$DIR" ] && DIR="cdimage/daily-live/current/"
+[ -z "$ISO_URL" ] && ISO_URL="$PROTOCOL://$MIRROR/$DIR/$CODENAME-$TYPE-$ARCH.iso"
+ISO=$(echo "$ISO_URL" | sed "s:.*/::")
+[ -z "$MEM" ] && [ $(grep "^MemTotal" /proc/meminfo | awk '{print $2}') -gt 1000000 ] && MEM=512 || MEM=256
+[ -z "$DISK_FILE" ] && DISK_FILE=$ISO.img
+[ -z "$DISK_SIZE" ] && DISK_SIZE=6G
+[ -z "$KVM_ARGS" ] && KVM_ARGS="-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370"
+
+# Update the cache
+echo "INFO: Syncing the latest ISO..."
+echo "      $ISO_URL"
+rsync -aP $ISO_URL $ISO
+
+# Create the disk image
+echo "INFO: Creating disk image..."
+echo "      $DISK_FILE"
+/usr/bin/kvm-img create -f qcow2 $DISK_FILE $DISK_SIZE
+
+# Launch the VM
+/usr/bin/kvm -m $MEM -cdrom $ISO -drive file=$DISK_FILE,if=virtio,index=0,boot=on $KVM_ARGS
