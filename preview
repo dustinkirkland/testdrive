@@ -63,19 +63,27 @@ fi
 [ -z "$ISO_URL" ] && ISO_URL="$PROTOCOL://$MIRROR/$DIR/$CODENAME-$TYPE-$ARCH.iso"
 ISO=$(echo "$ISO_URL" | sed "s:.*/::")
 [ -z "$MEM" ] && [ $(grep "^MemTotal" /proc/meminfo | awk '{print $2}') -gt 1000000 ] && MEM=512 || MEM=256
-[ -z "$DISK_FILE" ] && DISK_FILE=$ISO.img
+[ -z "$DISK_FILE" ] && DISK_FILE=$CACHE/$ISO.img
 [ -z "$DISK_SIZE" ] && DISK_SIZE=6G
 [ -z "$KVM_ARGS" ] && KVM_ARGS="-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370"
 
 # Update the cache
+echo
 echo "INFO: Syncing the latest ISO..."
-echo "      $ISO_URL"
-rsync -aP $ISO_URL $ISO
+set -x
+rsync -aP $ISO_URL $CACHE/$ISO
+set +x
 
 # Create the disk image
+echo
 echo "INFO: Creating disk image..."
-echo "      $DISK_FILE"
+set -x
 /usr/bin/kvm-img create -f qcow2 $DISK_FILE $DISK_SIZE
+set +x
 
 # Launch the VM
-/usr/bin/kvm -m $MEM -cdrom $ISO -drive file=$DISK_FILE,if=virtio,index=0,boot=on $KVM_ARGS
+echo
+echo "INFO: Launching the Virtual Machine..."
+set -x
+/usr/bin/kvm -m $MEM -cdrom $CACHE/$ISO -drive file=$DISK_FILE,if=virtio,index=0,boot=on $KVM_ARGS
+set +x
