@@ -1,0 +1,79 @@
+# This is the global configuration file for the preview(1) utility.
+
+# CACHE is the directory to cache the ISOs and disk images
+# Default: /var/cache/preview
+#          If this is not writable, then the default is
+#          $HOME/.cache
+#CACHE=/var/cache/preview
+#CACHE=$HOME/preview
+
+# CODENAME is the code name of the Ubuntu release
+# Default: lucid
+# Examples:
+#CODENAME=jaunty
+#CODENAME=karmic
+#CODENAME=lucid
+
+# TYPE is the type of Ubuntu installation
+# Default: desktop
+# Examples:
+#CODENAME=desktop
+#CODENAME=server
+
+# ARCH is the architecture of the build
+# Default: your current architecture
+# Examples:
+#ARCH=amd64
+#ARCH=i386
+
+# PROTO is the protocol by which the ISO should be retrieved
+# Default: rsync
+# Examples:
+#PROTO=rsync
+#PROTO=ftp
+#PROTO=http
+
+# MIRROR is the hostname of the mirror to be used
+# Default: cdimage.ubuntu.com
+# Examples:
+#MIRROR=cdimage.ubuntu.com
+#MIRROR=releases.ubuntu.com
+#MIRROR=mirrors.kernel.org
+
+# DIR is the directory on the hostname where the ISO can be found
+# Default: cdimage/daily-live/current
+#MIRROR=cdimage/daily-live/current
+#MIRROR=cdimage/kubuntu/daily-live/current
+#MIRROR=cdimage/kubuntu/daily-live/current
+#MIRROR=cdimage/mythbuntu/daily-live/current
+#MIRROR=cdimage/ubuntu-notebook-remix/daily-live/current
+#MIRROR=cdimage/ubuntu-server/daily/current
+
+# ISO_URL is the complete path to the ISO
+# Default: $PROTO://$MIRROR/$DIR/$CODENAME-$TYPE-$ARCH.iso
+#ISO_URL=http://cdimage.ubuntu.com/ubuntu-netbook-remix/daily-live/current/karmic-netbook-remix-i386.iso
+#ISO_URL=rsync://cdimage.ubuntu.com/cdimage/ubuntu-server/daily/current/karmic-server-amd64.iso
+#ISO_URL=ftp://mirrors.kernel.org/ubuntu-releases/karmic/ubuntu-9.10-desktop-amd64.iso
+
+# MEM is the amount of memory in MB to give to the VM guest
+# Default: 512
+#MEM=384
+#MEM=512
+#MEM=1024
+
+# DISK_FILE is the full path to the disk image
+# Default: $CACHE/$ISO.img
+#DISK_FILE=$HOME/.cache/foo.img
+
+# DISK_SIZE is the size of the disk image
+# Note that this will be a sparse, qcow2 file, so it should not actually
+# take that much space on the filesystem.
+# Default: 6G
+#DISK_SIZE=4G
+#DISK_SIZE=6G
+#DISK_SIZE=10G
+
+# KVM_ARGS is a string of arbitrary KVM_ARGS to use when launching the VM
+# Default: "-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370"
+# See kvm(1) for a comprehensive list of arguments
+#KVM_ARGS="-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370"
