@@ -9,7 +9,11 @@ Vcs-Bzr: http://bazaar.launchpad.net/~kirkland/preview/trunk
 
 Package: preview
 Architecture: all
-Depends: ${misc:Depends}, debconf (>= 0.5) | debconf-2.0, qemu-kvm, rsync
+Depends: ${misc:Depends},
+ debconf (>= 0.5) | debconf-2.0,
+ gnome-icon-theme,
+ qemu-kvm,
+ rsync
 Description: run the daily Ubuntu ISO in a virtual machine
  TheFuture is a small package that helps you download and run the daily
  Ubuntu development ISO in a virtual machine on your local hardware.

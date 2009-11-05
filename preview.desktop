@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Preview Ubuntu under Development
+Comment=Download and run the current Ubuntu Development Snapshot in a Virtual Machine
+Icon=/usr/share/icons/gnome/scalable/status/dialog-warning.svg
+Exec=preview
+Type=Application
+Terminal=true
+Encoding=UTF-8
+Categories=Utility;System;

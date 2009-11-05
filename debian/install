@@ -1,2 +1,3 @@
 preview usr/bin/
 previewrc etc/
+preview.desktop usr/share/applications/
