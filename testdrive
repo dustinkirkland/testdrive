@@ -91,6 +91,7 @@ PROTO=$(echo "$ISO_URL" | sed "s/:.*$//")
 [ -z "$KVM_ARGS" ] && KVM_ARGS="-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370"
 PATH_TO_ISO="$CACHE/$ISO"
 
+# BUG: should check disk space availability in $CACHE dir
 # Update the cache
 echo
 echo "INFO: Syncing the specified ISO..."

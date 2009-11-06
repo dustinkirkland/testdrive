@@ -29,6 +29,7 @@
 #PROTO=rsync
 #PROTO=ftp
 #PROTO=http
+#PROTO=file
 
 # MIRROR is the hostname of the mirror to be used
 # Default: cdimage.ubuntu.com
