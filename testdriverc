@@ -1,11 +1,8 @@
 # This is the global configuration file for the testdrive(1) utility.
 
 # CACHE is the directory to cache the ISOs and disk images
-# Default: /var/cache/testdrive
-#          If this is not writable, then the default is
-#          $HOME/.cache
-#CACHE=/var/cache/testdrive
-#CACHE=$HOME/testdrive
+# Default: $HOME/.cache/testdrive
+#CACHE=$HOME/.cache/testdrive
 
 # CODENAME is the code name of the Ubuntu release
 # Default: lucid

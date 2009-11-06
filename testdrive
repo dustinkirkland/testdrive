@@ -52,8 +52,8 @@ if [ -n "$1" ]; then
 fi
 
 # Set defaults where undefined
-[ -z "$CACHE" ] && [ -w "/var/cache/$PKG" ] && CACHE="/var/cache/$PKG"
-[ -z "$CACHE" ] && CACHE="$HOME/.cache/$PKG" && mkdir -p $CACHE
+[ -z "$CACHE" ] && CACHE="$HOME/.cache/$PKG"
+mkdir -p $CACHE
 [ -z "$CODENAME" ] && CODENAME="karmic"
 [ -z "$TYPE" ] && TYPE="desktop"
 [ -z "$ARCH" ] && [ "$(uname -m)" = "x86_64" ] && ARCH="amd64" || ARCH="i386"
