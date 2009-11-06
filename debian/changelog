@@ -1,4 +1,4 @@
-testdrive (1.1) UNRELEASED; urgency=low
+testdrive (1.1~ppa1) karmic; urgency=low
 
   * testdrive, debian/control: use zsync for http|ftp protocol access,
     fail back to curl or wget
