@@ -39,6 +39,13 @@ Usage:
 	exit 1
 }
 
+# Check if KVM acceleration can be used
+if kvm-ok; then
+	true
+else
+	echo "WARNING: Your CPU's lack of VT will impact the performance of your VMs!"
+fi
+
 # Source global configuration overrides
 [ -r "/etc/$PKG.conf" ] && . "/etc/$PKG.conf"
 
