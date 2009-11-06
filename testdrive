@@ -57,11 +57,12 @@ mkdir -p $CACHE
 [ -z "$CODENAME" ] && CODENAME="karmic"
 [ -z "$TYPE" ] && TYPE="desktop"
 [ -z "$ARCH" ] && [ "$(uname -m)" = "x86_64" ] && ARCH="amd64" || ARCH="i386"
-[ -z "$PROTOCOL" ] && PROTOCOL="rsync"
+[ -z "$PROTO" ] && PROTO="rsync"
 [ -z "$MIRROR" ] && MIRROR="cdimage.ubuntu.com"
 [ -z "$DIR" ] && DIR="cdimage/daily-live/current/"
-[ -z "$ISO_URL" ] && ISO_URL="$PROTOCOL://$MIRROR/$DIR/$CODENAME-$TYPE-$ARCH.iso"
+[ -z "$ISO_URL" ] && ISO_URL="$PROTO://$MIRROR/$DIR/$CODENAME-$TYPE-$ARCH.iso"
 ISO=$(echo "$ISO_URL" | sed "s:.*/::")
+PROTO=$(echo "$ISO_URL" | sed "s/:.*$//")
 [ -z "$MEM" ] && [ $(grep "^MemTotal" /proc/meminfo | awk '{print $2}') -gt 1000000 ] && MEM=512 || MEM=256
 [ -z "$DISK_FILE" ] && DISK_FILE=$CACHE/$ISO.img
 [ -z "$DISK_SIZE" ] && DISK_SIZE=6G
@@ -70,9 +71,32 @@ ISO=$(echo "$ISO_URL" | sed "s:.*/::")
 # Update the cache
 echo
 echo "INFO: Syncing the latest ISO..."
-set -x
-rsync -aP $ISO_URL $CACHE/$ISO
-set +x
+case $PROTO in
+	rsync)
+		set -x
+		rsync -aP $ISO_URL $CACHE/$ISO
+		set +x
+	;;
+	http|ftp)
+		if which zsync >/dev/null; then
+			set -x
+			zsync $ISO_URL -o $CACHE/$ISO
+			set +x
+		elif which curl >/dev/null; then
+			set -x
+			curl $ISO_URL -o $CACHE/$ISO
+			set +x
+		else
+			set -x
+			wget $ISO_URL -o $CACHE/$ISO
+			set +x
+		fi
+	;;
+	*)
+		echo "Unsupported protocol [$PROTO]"
+		exit 1
+	;;
+esac
 
 # Create the disk image
 echo

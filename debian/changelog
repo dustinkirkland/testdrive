@@ -1,5 +1,12 @@
-testdrive (1.0) UNRELEASED; urgency=low
+testdrive (1.1) UNRELEASED; urgency=low
 
-  * 
+  * testdrive, debian/control: use zsync for http|ftp protocol access,
+    fail back to curl or wget
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 05 Nov 2009 19:15:57 -0600
+
+testdrive (1.0~ppa1) karmic; urgency=low
+
+  * Initial release
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 05 Nov 2009 17:40:20 -0600
