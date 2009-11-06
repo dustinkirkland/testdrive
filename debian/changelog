@@ -1,6 +1,12 @@
 testdrive (1.2~ppa1) UNRELEASED; urgency=low
 
-  * testdrive: use kvm-ok to test for VT
+  * testdrive:
+    - use kvm-ok to test for VT
+    - support file:///
+    - fix zsync support
+    - echo error messages to stderr
+    - add -f and -u parameters
+  * testdrive.1: updated for -f and -u parameters
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 06 Nov 2009 07:27:05 -0600
 

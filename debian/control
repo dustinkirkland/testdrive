@@ -12,8 +12,8 @@ Architecture: all
 Depends: ${misc:Depends},
  debconf (>= 0.5) | debconf-2.0,
  qemu-kvm | kvm,
- curl | wget,
- rsync
+ rsync,
+ wget,
 Recommends: zsync
 Description: run the daily Ubuntu ISO in a virtual machine
  TheFuture is a small package that helps you download and run the daily

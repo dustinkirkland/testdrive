@@ -24,7 +24,7 @@ PKGRC=$PKG"rc"
 usage() {
 	echo "
 Usage:
-  $PKG [configuration file]
+  $PKG [-f FILE] [-u URL]
 
   $PKG is a utility that allows you to easily download the latest Ubuntu
   development release and run it in a KVM virtual machine.
@@ -39,23 +39,38 @@ Usage:
 	exit 1
 }
 
-# Check if KVM acceleration can be used
-if kvm-ok; then
-	true
-else
-	echo "WARNING: Your CPU's lack of VT will impact the performance of your VMs!"
-fi
-
 # Source global configuration overrides
 [ -r "/etc/$PKG.conf" ] && . "/etc/$PKG.conf"
 
 # Source user configuration overrides
 [ -r "$HOME/.$PKG"rc ] && . "$HOME/.$PKG"rc
 
-# Handle parameter configuration file
-if [ -n "$1" ]; then
-	[ -r "$1" ] || usage
-	. "$1"
+# Handle parameters
+while [ -n "$1" ]; do
+	case "$1" in
+		-f)
+			[ -r "$2" ] && . "$2" || usage
+			shift 2
+		;;
+		-u)
+			ISO_URL="$2"
+			if ! echo "$ISO_URL" | grep -qs "\.iso$"; then
+				echo "ERROR: URL parameter must point to a .iso file" 1>&2
+				exit 1
+			fi
+			shift 2
+		;;
+		*)
+			usage
+		;;
+	esac
+done
+
+# Check if KVM acceleration can be used
+if kvm-ok; then
+	true
+else
+	echo "WARNING: Your CPU's lack of VT will impact the performance of your VMs!"
 fi
 
 # Set defaults where undefined
@@ -74,33 +89,36 @@ PROTO=$(echo "$ISO_URL" | sed "s/:.*$//")
 [ -z "$DISK_FILE" ] && DISK_FILE=$CACHE/$ISO.img
 [ -z "$DISK_SIZE" ] && DISK_SIZE=6G
 [ -z "$KVM_ARGS" ] && KVM_ARGS="-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370"
+PATH_TO_ISO="$CACHE/$ISO"
 
 # Update the cache
 echo
-echo "INFO: Syncing the latest ISO..."
+echo "INFO: Syncing the specified ISO..."
 case $PROTO in
 	rsync)
 		set -x
-		rsync -aP $ISO_URL $CACHE/$ISO
+		rsync -aP $ISO_URL $PATH_TO_ISO
 		set +x
 	;;
 	http|ftp)
 		if which zsync >/dev/null; then
+			cd $CACHE
 			set -x
-			zsync $ISO_URL -o $CACHE/$ISO
+			zsync $ISO_URL.zsync
 			set +x
-		elif which curl >/dev/null; then
-			set -x
-			curl $ISO_URL -o $CACHE/$ISO
-			set +x
+			cd -
 		else
 			set -x
-			wget $ISO_URL -o $CACHE/$ISO
+			wget $ISO_URL -o $PATH_TO_ISO
 			set +x
 		fi
 	;;
+	file)
+		# If the iso is on file:///, use the ISO in place
+		PATH_TO_ISO=$(echo $ISO_URL | sed "s/^file:\///")
+	;;
 	*)
-		echo "Unsupported protocol [$PROTO]"
+		echo "ERROR: Unsupported protocol [$PROTO]" 1>&2
 		exit 1
 	;;
 esac
@@ -116,5 +134,5 @@ set +x
 echo
 echo "INFO: Launching the Virtual Machine..."
 set -x
-/usr/bin/kvm -m $MEM -cdrom $CACHE/$ISO -drive file=$DISK_FILE,if=virtio,index=0,boot=on $KVM_ARGS
+/usr/bin/kvm -m $MEM -cdrom $PATH_TO_ISO -drive file=$DISK_FILE,if=virtio,index=0,boot=on $KVM_ARGS
 set +x
