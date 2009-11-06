@@ -110,7 +110,7 @@ case $PROTO in
 			cd -
 		else
 			set -x
-			wget $ISO_URL -o $PATH_TO_ISO
+			wget $ISO_URL -O $PATH_TO_ISO
 			set +x
 		fi
 	;;

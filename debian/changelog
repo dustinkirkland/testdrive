@@ -7,6 +7,7 @@ testdrive (1.2) unreleased; urgency=low
     - echo error messages to stderr
     - add -f and -u parameters
     - add a helpful message about cleaning up cache
+    - use -O rather than -o for wget
   * testdrive.1: updated for -f and -u parameters
   * debian/release*: added some release scripts to help with ppa publication
     for backport releases
