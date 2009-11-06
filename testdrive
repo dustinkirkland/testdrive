@@ -137,3 +137,11 @@ echo "INFO: Launching the Virtual Machine..."
 set -x
 /usr/bin/kvm -m $MEM -cdrom $PATH_TO_ISO -drive file=$DISK_FILE,if=virtio,index=0,boot=on $KVM_ARGS
 set +x
+
+# Remind about cache cleanup
+echo
+echo "INFO: You may clean up the cache directory, at your leisure..."
+echo "      $CACHE"
+ls -halF $CACHE
+du -sh --apparent-size $CACHE
+echo
