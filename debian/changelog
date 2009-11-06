@@ -8,6 +8,7 @@ testdrive (1.2) unreleased; urgency=low
     - add -f and -u parameters
     - add a helpful message about cleaning up cache
     - use -O rather than -o for wget
+    - drop fully qualified path to kvm and kvm-img
   * testdrive.1: updated for -f and -u parameters
   * debian/release*: added some release scripts to help with ppa publication
     for backport releases
