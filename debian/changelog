@@ -1,4 +1,4 @@
-testdrive (1.2~ppa1) UNRELEASED; urgency=low
+testdrive (1.2) unreleased; urgency=low
 
   * testdrive:
     - use kvm-ok to test for VT
@@ -8,6 +8,10 @@ testdrive (1.2~ppa1) UNRELEASED; urgency=low
     - add -f and -u parameters
     - add a helpful message about cleaning up cache
   * testdrive.1: updated for -f and -u parameters
+  * debian/release*: added some release scripts to help with ppa publication
+    for backport releases
+  * debian/control: depend on a particular version of kvm-84 that fixes some
+    known virtio issues
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 06 Nov 2009 07:27:05 -0600
 
