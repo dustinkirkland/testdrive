@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Test Drive the Ubuntu Development Branch
 Comment=Download and run the current Ubuntu Development Snapshot in a Virtual Machine
-Icon=/usr/share/icons/gnome/scalable/status/dialog-warning.svg
+Icon=/usr/share/testdrive/testdrive.png
 Exec=testdrive
 Type=Application
 Terminal=true
