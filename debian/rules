@@ -4,7 +4,7 @@
 # Uncomment this to turn on verbose mode.
 # export DH_VERBOSE=1
 
-PKG=preview
+PKG=testdrive
 VER=`head -n 1 debian/changelog | sed 's/^.*(//' | sed 's/).*//' | sed 's/-.*//'`
 
 release-upstream:

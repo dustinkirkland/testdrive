@@ -1,6 +1,6 @@
 #!/bin/sh -e
 #
-#    preview - run today's Ubuntu development ISO, in a virtual machine
+#    testdrive - run today's Ubuntu development ISO, in a virtual machine
 #    Copyright (C) 2009 Canonical Ltd.
 #    Copyright (C) 2009 Dustin Kirkland
 #
@@ -18,7 +18,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-PKG="preview"
+PKG="testdrive"
 PKGRC=$PKG"rc"
 
 usage() {
