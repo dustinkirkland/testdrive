@@ -105,14 +105,14 @@ case $PROTO in
 		if which zsync >/dev/null; then
 			cd $CACHE
 			set -x
-			zsync $ISO_URL.zsync
+			zsync $ISO_URL.zsync && break || true
 			set +x
 			cd -
-		else
-			set -x
-			wget $ISO_URL -O $PATH_TO_ISO
-			set +x
 		fi
+		# If the zsync failed, use wget
+		set -x
+		wget $ISO_URL -O $PATH_TO_ISO
+		set +x
 	;;
 	file)
 		# If the iso is on file:///, use the ISO in place
