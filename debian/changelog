@@ -1,4 +1,4 @@
-testdrive (1.2) unreleased; urgency=low
+testdrive (1.2-0ubuntu1~ppa5) lucid; urgency=low
 
   * testdrive:
     - use kvm-ok to test for VT
