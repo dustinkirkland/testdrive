@@ -1,4 +1,4 @@
-testdrive (1.4) unreleased; urgency=low
+testdrive (1.4-0ubuntu1~ppa5) lucid; urgency=low
 
   [ Dustin Kirkland ]
   * bin/testdrive, bin/testdriverc, debian/install: move the bin scripts
@@ -13,7 +13,7 @@ testdrive (1.4) unreleased; urgency=low
   * Massive merge, adding a gtk frontend to testdrive (testdrivegtk),
     https://code.launchpad.net/~rick-rickspencer3/testdrive/gtk-client/+merge/14595
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 07 Nov 2009 13:55:54 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 07 Nov 2009 14:24:57 -0600
 
 testdrive (1.3-0ubuntu1~ppa5) lucid; urgency=low
 
