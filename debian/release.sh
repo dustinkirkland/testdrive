@@ -20,7 +20,6 @@ gpg --armor --sign --detach-sig ../"$PKG"_*.orig.tar.gz
 
 # Open the next release for development
 nextminor=`expr $minor + 1`
-sed -i "s/^VERSION=.*$/VERSION=$MAJOR.$nextminor/" $PKG
 dch -v "$MAJOR.$nextminor" "UNRELEASED"
 sed -i "s/$MAJOR.$nextminor) .*;/$MAJOR.$nextminor) unreleased;/" debian/changelog
 bzr commit -m "opening $MAJOR.$nextminor"

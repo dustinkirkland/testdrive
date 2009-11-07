@@ -1,4 +1,4 @@
-testdrive (1.4-0ubuntu1~ppa5) lucid; urgency=low
+testdrive (1.4) unreleased; urgency=low
 
   [ Dustin Kirkland ]
   * bin/testdrive, bin/testdriverc, debian/install: move the bin scripts
