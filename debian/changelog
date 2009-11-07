@@ -3,7 +3,7 @@ testdrive (1.4) unreleased; urgency=low
   [ Dustin Kirkland ]
   * bin/testdrive, bin/testdriverc, debian/install: move the bin scripts
     to a bin directory, in order to prepare for Rick Spencer's gui merge
-  * install the binaries properly for gtk to work
+  * debian/rules: install the binaries properly for gtk to work
   * doc/testdrive.1: move to the doc directory
   * testdrive.desktop: update the desktop file to point to the gtk launcher
   * bin/testdrivegtk: add shell wrapper suitable for /usr/bin installation

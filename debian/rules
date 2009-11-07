@@ -31,12 +31,13 @@ binary-indep: build install
 	dh_testdir -i
 	dh_testroot -i
 	dh_installdocs -X.bzr -i
-	dh_link -i
 	dh_installman -i doc/testdrive.1
 	dh_installchangelogs -i
 	dh_installdebconf -i
 	dh_compress -i
 	dh_fixperms -i
+	dh_link -i usr/bin/testdrive usr/share/testdrivegtk/bin/testdrive
+	dh_link -i etc/testdriverc usr/share/testdrivegtk/bin/testdriverc
 	dh_installdeb -i
 	dh_gencontrol -i
 	dh_md5sums -i
