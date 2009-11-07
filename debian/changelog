@@ -5,6 +5,7 @@ testdrive (1.4) unreleased; urgency=low
     to a bin directory, in order to prepare for Rick Spencer's gui merge
   * install the binaries properly for gtk to work
   * doc/testdrive.1: move to the doc directory
+  * testdrive.desktop: update the desktop file to point to the gtk launcher
 
   [ Rick Spencer ]
   * Massive merge, adding a gtk frontend to testdrive (testdrivegtk),

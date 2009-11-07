@@ -1,9 +1,8 @@
 [Desktop Entry]
-Name=Test Drive the Ubuntu Development Branch
-Comment=Download and run the current Ubuntu Development Snapshot in a Virtual Machine
-Icon=/usr/share/testdrive/testdrive.png
-Exec=testdrive
-Type=Application
-Terminal=true
-Encoding=UTF-8
+Name=Test Drive an Ubuntu ISO
+Comment=Download and run an Ubuntu ISO in a Virtual Machine
 Categories=Utility;System;
+Exec=testdrivegtk
+Icon=/usr/share/testdrive/testdrive.png
+Terminal=false
+Type=Application
