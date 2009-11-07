@@ -1,0 +1,9 @@
+<glade-catalog name="about_testdrivegtk_dialog" domain="glade-3" 
+               depends="gtk+" version="1.0">
+  <glade-widget-classes>
+    <glade-widget-class title="About Testdrivegtk Dialog" name="AboutTestdrivegtkDialog" 
+                        generic-name="AboutTestdrivegtkDialog" parent="GtkAboutDialog"
+                        icon-name="widget-gtk-about-dialog"/>
+  </glade-widget-classes>
+
+</glade-catalog>
