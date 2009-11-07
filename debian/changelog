@@ -4,6 +4,7 @@ testdrive (1.4) unreleased; urgency=low
   * bin/testdrive, bin/testdriverc, debian/install: move the bin scripts
     to a bin directory, in order to prepare for Rick Spencer's gui merge
   * install the binaries properly for gtk to work
+  * doc/testdrive.1: move to the doc directory
 
   [ Rick Spencer ]
   * Massive merge, adding a gtk frontend to testdrive (testdrivegtk),
