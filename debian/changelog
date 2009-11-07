@@ -1,6 +1,8 @@
 testdrive (1.4) unreleased; urgency=low
 
-  * UNRELEASED
+  [ Dustin Kirkland ]
+  * bin/testdrive, bin/testdriverc, debian/install: move the bin scripts
+    to a bin directory, in order to prepare for Rick Spencer's gui merge
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 06 Nov 2009 14:11:36 -0600
 
