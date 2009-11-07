@@ -133,7 +133,7 @@ set +x
 
 # Launch the VM
 echo
-echo "INFO: Launching the Virtual Machine..."
+echo "INFO: Running the Virtual Machine..."
 set -x
 kvm -m $MEM -cdrom $PATH_TO_ISO -drive file=$DISK_FILE,if=virtio,index=0,boot=on $KVM_ARGS
 set +x
