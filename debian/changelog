@@ -3,6 +3,8 @@ testdrive (1.5) unreleased; urgency=low
   * bin/testdrive, debian/control, debian/install, testdrive.desktop:
     separate the GTK frontend to a separate binary package, allowing
     for testdrive to operate purely from the command line, if necessary
+  * bin/testdrive, debian/control: add fallback support for VirtualBox;
+    prefer KVM, but if KVM cannot be used with VT, use VirtualBox instead
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 07 Nov 2009 14:25:50 -0600
 

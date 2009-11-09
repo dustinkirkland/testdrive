@@ -68,11 +68,26 @@ done
 
 # Check if KVM acceleration can be used
 if kvm-ok; then
-	true
+	VIRT="kvm"
+	echo
+	echo "INFO: Using KVM for virtual machine hosting..."
+	echo
 else
-	echo "WARNING: Your CPU's lack of VT will impact the performance of your VMs!"
-	# Try something like:
-	# VBoxManage modifyvm testdrive --memory 512 && VBoxManage startvm testdrive && VBoxManage controlvm testdrive dvdattach /local/virt/iso/karmic-desktop-amd64.iso && VBoxManage modifyvm testdrive --boot1 dvd
+	if which VBoxManage >/dev/null; then
+		echo
+		echo "WARNING: Your CPU's lack of VT will impact the performance of your VMs."
+		echo "INFO: Using VirtualBox for virtual machine hosting..."
+		echo
+		VIRT="virtualbox"
+	else
+		echo
+		echo "ERROR: You must have either /usr/bin/kvm or /usr/bin/VBoxManage installed."
+		echo "HINT: Consider installing kvm or virtualbox-ose..."
+		echo " sudo apt-get install kvm"
+		echo " sudo apt-get install virtualbox-ose"
+		echo
+		exit 1
+	fi
 fi
 
 # Set defaults where undefined
@@ -88,33 +103,29 @@ mkdir -p $CACHE
 ISO=$(echo "$ISO_URL" | sed "s:.*/::")
 PROTO=$(echo "$ISO_URL" | sed "s/:.*$//")
 [ -z "$MEM" ] && [ $(grep "^MemTotal" /proc/meminfo | awk '{print $2}') -gt 1000000 ] && MEM=512 || MEM=256
-[ -z "$DISK_FILE" ] && DISK_FILE=$CACHE/$ISO.img
+[ -z "$DISK_FILE" ] && DISK_FILE=$CACHE/$PKG.img
 [ -z "$DISK_SIZE" ] && DISK_SIZE=6G
 [ -z "$KVM_ARGS" ] && KVM_ARGS="-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370"
+[ -z "$VBOX_NAME" ] && VBOX_NAME="$PKG"
 PATH_TO_ISO="$CACHE/$ISO"
 
 # BUG: should check disk space availability in $CACHE dir
 # Update the cache
 echo
 echo "INFO: Syncing the specified ISO..."
+echo "      $ISO_URL"
 case $PROTO in
 	rsync)
-		set -x
 		rsync -aP $ISO_URL $PATH_TO_ISO
-		set +x
 	;;
 	http|ftp)
 		if which zsync >/dev/null; then
 			cd $CACHE
-			set -x
 			zsync $ISO_URL.zsync && break || true
-			set +x
 			cd -
 		fi
 		# If the zsync failed, use wget
-		set -x
 		wget $ISO_URL -O $PATH_TO_ISO
-		set +x
 	;;
 	file)
 		# If the iso is on file:///, use the ISO in place
@@ -126,23 +137,52 @@ case $PROTO in
 	;;
 esac
 
-# Create the disk image
-echo
-echo "INFO: Creating disk image..."
-set -x
-kvm-img create -f qcow2 $DISK_FILE $DISK_SIZE
-set +x
-
 # Launch the VM
-echo
-echo "INFO: Running the Virtual Machine..."
-set -x
-kvm -m $MEM -cdrom $PATH_TO_ISO -drive file=$DISK_FILE,if=virtio,index=0,boot=on $KVM_ARGS
-set +x
+case $VIRT in
+	kvm)
+		echo
+		echo "INFO: Creating disk image..."
+		kvm-img create -f qcow2 $DISK_FILE $DISK_SIZE
+		echo
+		echo "INFO: Running the Virtual Machine..."
+		kvm -m $MEM -cdrom $PATH_TO_ISO -drive file=$DISK_FILE,if=virtio,index=0,boot=on $KVM_ARGS
+	;;
+	virtualbox)
+		echo
+		echo "INFO: Creating disk image..."
+		DISK_SIZE=$(echo "$DISK_SIZE" | sed "s/G$/000/")
+		rm -f $DISK_FILE
+		sed -i "\:HardDisk.*$DISK_FILE:d" $HOME/.VirtualBox/VirtualBox.xml
+		VBoxManage createhd --filename $DISK_FILE --size $DISK_SIZE
+		VBoxManage modifyvm $VBOX_NAME --hda none >/dev/null || true
+		VBoxManage unregistervm $VBOX_NAME --delete >/dev/null || true
+		rm -f $HOME/.VirtualBox/Machines/$VBOX_NAME/$VBOX_NAME.xml
+		echo
+		echo "INFO: Running the Virtual Machine..."
+		VBoxManage createvm --register --name $VBOX_NAME
+		VBoxManage modifyvm $VBOX_NAME --memory $MEM
+		VBoxManage modifyvm $VBOX_NAME --hda $DISK_FILE
+		VBoxManage modifyvm $VBOX_NAME --boot1 disk
+		VBoxManage modifyvm $VBOX_NAME --boot2 dvd
+		VBoxManage modifyvm $VBOX_NAME --nic1 nat
+		VBoxManage startvm $VBOX_NAME
+		VBoxManage controlvm $VBOX_NAME dvdattach $PATH_TO_ISO
+		# Loop as long as this VM is running
+		while true; do
+			sleep 2
+			if ! VBoxManage list runningvms | grep -qs "^\"$VBOX_NAME\""; then
+				break
+			fi
+		done
+	;;
+	*)
+		echo "ERROR: Unsupported virtualization method [$VIRT]"
+	;;
+esac
 
 # Remind about cache cleanup
 echo
-echo "INFO: You may clean up the cache directory, at your leisure..."
+echo "INFO: You may wish to clean up the cache directory..."
 echo "      $CACHE"
 ls -halF $CACHE
 du -sh --apparent-size $CACHE
