@@ -1,4 +1,4 @@
-testdrive (1.5) unreleased; urgency=low
+testdrive (1.5-0ubuntu1~ppa5) lucid; urgency=low
 
   * bin/testdrive, debian/control, debian/install, testdrive.desktop:
     separate the GTK frontend to a separate binary package, allowing
@@ -6,7 +6,7 @@ testdrive (1.5) unreleased; urgency=low
   * bin/testdrive, debian/control: add fallback support for VirtualBox;
     prefer KVM, but if KVM cannot be used with VT, use VirtualBox instead
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 07 Nov 2009 14:25:50 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 09 Nov 2009 15:11:54 -0600
 
 testdrive (1.4-0ubuntu1~ppa5) lucid; urgency=low
 
