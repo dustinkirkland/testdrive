@@ -1,3 +1,9 @@
+testdrive (1.6) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 09 Nov 2009 15:12:05 -0600
+
 testdrive (1.5-0ubuntu1~ppa5) lucid; urgency=low
 
   * bin/testdrive, debian/control, debian/install, testdrive.desktop:
