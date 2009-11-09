@@ -1,6 +1,8 @@
 testdrive (1.5) unreleased; urgency=low
 
-  * UNRELEASED
+  * bin/testdrive, debian/control, debian/install, testdrive.desktop:
+    separate the GTK frontend to a separate binary package, allowing
+    for testdrive to operate purely from the command line, if necessary
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 07 Nov 2009 14:25:50 -0600
 

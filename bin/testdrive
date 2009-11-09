@@ -71,6 +71,8 @@ if kvm-ok; then
 	true
 else
 	echo "WARNING: Your CPU's lack of VT will impact the performance of your VMs!"
+	# Try something like:
+	# VBoxManage modifyvm testdrive --memory 512 && VBoxManage startvm testdrive && VBoxManage controlvm testdrive dvdattach /local/virt/iso/karmic-desktop-amd64.iso && VBoxManage modifyvm testdrive --boot1 dvd
 fi
 
 # Set defaults where undefined

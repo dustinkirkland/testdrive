@@ -2,7 +2,7 @@
 Name=Test Drive an Ubuntu ISO
 Comment=Download and run an Ubuntu ISO in a Virtual Machine
 Categories=Utility;System;
-Exec=testdrivegtk
+Exec=testdrive
 Icon=/usr/share/testdrive/testdrive.png
-Terminal=false
+Terminal=true
 Type=Application
