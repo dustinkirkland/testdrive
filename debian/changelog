@@ -1,3 +1,9 @@
+testdrive (1.7) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 10 Nov 2009 15:28:57 -0600
+
 testdrive (1.6-0ubuntu1~ppa5) lucid; urgency=low
 
   * debian/testdrive-gtk.install: install testdrive-gtk's files
