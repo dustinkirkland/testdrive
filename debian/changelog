@@ -1,6 +1,6 @@
 testdrive (1.6) unreleased; urgency=low
 
-  * UNRELEASED
+  * debian/testdrive-gtk.install: install testdrive-gtk's files
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 09 Nov 2009 15:12:05 -0600
 
