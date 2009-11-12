@@ -93,13 +93,8 @@ fi
 # Set defaults where undefined
 [ -z "$CACHE" ] && CACHE="$HOME/.cache/$PKG"
 mkdir -p $CACHE
-[ -z "$CODENAME" ] && CODENAME="karmic"
-[ -z "$TYPE" ] && TYPE="desktop"
 [ -z "$ARCH" ] && [ "$(uname -m)" = "x86_64" ] && ARCH="amd64" || ARCH="i386"
-[ -z "$PROTO" ] && PROTO="rsync"
-[ -z "$MIRROR" ] && MIRROR="cdimage.ubuntu.com"
-[ -z "$DIR" ] && DIR="cdimage/daily-live/current/"
-[ -z "$ISO_URL" ] && ISO_URL="$PROTO://$MIRROR/$DIR/$CODENAME-$TYPE-$ARCH.iso"
+[ -z "$ISO_URL" ] && ISO_URL="rsync://cdimage.ubuntu.com/cdimage/daily-live/current/karmic-desktop-$ARCH.iso"
 ISO=$(echo "$ISO_URL" | sed "s:.*/::")
 PROTO=$(echo "$ISO_URL" | sed "s/:.*$//")
 [ -z "$MEM" ] && [ $(grep "^MemTotal" /proc/meminfo | awk '{print $2}') -gt 1000000 ] && MEM=512 || MEM=256

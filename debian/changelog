@@ -1,6 +1,7 @@
 testdrive (1.7) unreleased; urgency=low
 
-  * UNRELEASED
+  * bin/testdrive, bin/testdriverc: simplify the configuration drastically,
+    all we really need is the ISO_URL paramater
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 10 Nov 2009 15:28:57 -0600
 

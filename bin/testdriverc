@@ -4,49 +4,6 @@
 # Default: $HOME/.cache/testdrive
 #CACHE=$HOME/.cache/testdrive
 
-# CODENAME is the code name of the Ubuntu release
-# Default: lucid
-# Examples:
-#CODENAME=jaunty
-#CODENAME=karmic
-#CODENAME=lucid
-
-# TYPE is the type of Ubuntu installation
-# Default: desktop
-# Examples:
-#CODENAME=desktop
-#CODENAME=server
-
-# ARCH is the architecture of the build
-# Default: your current architecture
-# Examples:
-#ARCH=amd64
-#ARCH=i386
-
-# PROTO is the protocol by which the ISO should be retrieved
-# Default: rsync
-# Examples:
-#PROTO=rsync
-#PROTO=ftp
-#PROTO=http
-#PROTO=file
-
-# MIRROR is the hostname of the mirror to be used
-# Default: cdimage.ubuntu.com
-# Examples:
-#MIRROR=cdimage.ubuntu.com
-#MIRROR=releases.ubuntu.com
-#MIRROR=mirrors.kernel.org
-
-# DIR is the directory on the hostname where the ISO can be found
-# Default: cdimage/daily-live/current
-#MIRROR=cdimage/daily-live/current
-#MIRROR=cdimage/kubuntu/daily-live/current
-#MIRROR=cdimage/kubuntu/daily-live/current
-#MIRROR=cdimage/mythbuntu/daily-live/current
-#MIRROR=cdimage/ubuntu-notebook-remix/daily-live/current
-#MIRROR=cdimage/ubuntu-server/daily/current
-
 # ISO_URL is the complete path to the ISO
 # Default: $PROTO://$MIRROR/$DIR/$CODENAME-$TYPE-$ARCH.iso
 #ISO_URL=http://cdimage.ubuntu.com/ubuntu-netbook-remix/daily-live/current/karmic-netbook-remix-i386.iso
