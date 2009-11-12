@@ -28,13 +28,11 @@ echo
 echo "# To push:"
 echo "  bzr push lp:$PKG"
 echo
-echo "# To upload PPA packages:"
+echo "# To upload:"
 echo "  dput $PKG-ppa ../*ppa*changes"
+echo "  dput ../${PKG}_${MAJOR}.${minor}-0ubuntu1_source.changes"
 echo
 echo "# Publish tarball at:"
 echo "  https://launchpad.net/$PKG/trunk/+addrelease"
-echo
-echo "# Upload to Ubuntu:"
-echo "  dput ../${PKG}_${MAJOR}.${minor}-0ubuntu1_source.changes"
 echo
 echo
