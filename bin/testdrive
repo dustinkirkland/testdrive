@@ -66,31 +66,33 @@ while [ -n "$1" ]; do
 	esac
 done
 
-# Check if KVM acceleration can be used
-if kvm-ok; then
-	VIRT="kvm"
-	echo
-	echo "INFO: Using KVM for virtual machine hosting..."
-	echo
-else
-	if which VBoxManage >/dev/null; then
+# Set defaults where undefined
+if [ -z "$VIRT" ]; then
+	# Check if KVM acceleration can be used
+	if kvm-ok; then
+		VIRT="kvm"
 		echo
-		echo "WARNING: Your CPU's lack of VT will impact the performance of your VMs."
-		echo "INFO: Using VirtualBox for virtual machine hosting..."
+		echo "INFO: Using KVM for virtual machine hosting..."
 		echo
-		VIRT="virtualbox"
 	else
-		echo
-		echo "ERROR: You must have either /usr/bin/kvm or /usr/bin/VBoxManage installed."
-		echo "HINT: Consider installing kvm or virtualbox-ose..."
-		echo " sudo apt-get install kvm"
-		echo " sudo apt-get install virtualbox-ose"
-		echo
-		exit 1
+		if which VBoxManage >/dev/null; then
+			echo
+			echo "WARNING: Your CPU's lack of VT will impact the performance of your VMs."
+			echo "INFO: Using VirtualBox for virtual machine hosting..."
+			echo
+			VIRT="virtualbox"
+		else
+			echo
+			echo "ERROR: You must have either /usr/bin/kvm or /usr/bin/VBoxManage installed."
+			echo "HINT: Consider installing kvm or virtualbox-ose..."
+			echo " sudo apt-get install kvm"
+			echo " sudo apt-get install virtualbox-ose"
+			echo
+			exit 1
+		fi
 	fi
 fi
 
-# Set defaults where undefined
 [ -z "$CACHE" ] && CACHE="$HOME/.cache/$PKG"
 mkdir -p $CACHE
 [ -z "$ARCH" ] && [ "$(uname -m)" = "x86_64" ] && ARCH="amd64" || ARCH="i386"

@@ -1,6 +1,7 @@
 testdrive (1.8) unreleased; urgency=low
 
-  * UNRELEASED
+  * bin/testdrive, bin/testdriverc: allow for the user to specify the
+    hypervisor type
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 12 Nov 2009 17:24:42 -0600
 

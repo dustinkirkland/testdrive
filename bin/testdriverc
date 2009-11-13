@@ -10,6 +10,11 @@
 #ISO_URL=rsync://cdimage.ubuntu.com/cdimage/ubuntu-server/daily/current/karmic-server-amd64.iso
 #ISO_URL=ftp://mirrors.kernel.org/ubuntu-releases/karmic/ubuntu-9.10-desktop-amd64.iso
 
+# VIRT is the type of hypervisor to use
+# VIRT can be either 'kvm' or 'virtualbox'
+#VIRT=kvm
+#VIRT=virtualbox
+
 # MEM is the amount of memory in MB to give to the VM guest
 # Default: 512
 #MEM=384
