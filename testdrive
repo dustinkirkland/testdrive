@@ -54,11 +54,15 @@ while [ -n "$1" ]; do
 		;;
 		-u)
 			ISO_URL="$2"
+			shift 2
 			if ! echo "$ISO_URL" | grep -qs "\.iso$"; then
 				echo "ERROR: URL parameter must point to a .iso file" 1>&2
 				exit 1
 			fi
-			shift 2
+			if [ -r "$ISO_URL" ]; then
+				# arg is a path to a local file
+				ISO_URL="file://$ISO_URL"
+			fi
 		;;
 		*)
 			usage
@@ -129,7 +133,7 @@ case $PROTO in
 	;;
 	file)
 		# If the iso is on file:///, use the ISO in place
-		PATH_TO_ISO=$(echo $ISO_URL | sed "s/^file:\///")
+		PATH_TO_ISO=$(echo $ISO_URL | sed "s/^file:\/\///")
 	;;
 	*)
 		echo "ERROR: Unsupported protocol [$PROTO]" 1>&2
