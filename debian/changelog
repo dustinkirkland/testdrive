@@ -1,6 +1,7 @@
 testdrive (1.12) unreleased; urgency=low
 
-  * UNRELEASED
+  * testdrive: create temp file names, such that you can run multiple
+    instances of testdrive
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 17 Nov 2009 14:23:47 -0600
 

@@ -104,7 +104,7 @@ mkdir -p $CACHE
 ISO=$(echo "$ISO_URL" | sed "s:.*/::")
 PROTO=$(echo "$ISO_URL" | sed "s/:.*$//")
 [ -z "$MEM" ] && [ $(grep "^MemTotal" /proc/meminfo | awk '{print $2}') -gt 1000000 ] && MEM=512 || MEM=256
-[ -z "$DISK_FILE" ] && DISK_FILE=$CACHE/$PKG.img
+[ -z "$DISK_FILE" ] && DISK_FILE=$(mktemp $CACHE/$PKG-disk-XXXXXX)
 [ -z "$DISK_SIZE" ] && DISK_SIZE=6G
 [ -z "$KVM_ARGS" ] && KVM_ARGS="-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370"
 [ -z "$VBOX_NAME" ] && VBOX_NAME="$PKG"
