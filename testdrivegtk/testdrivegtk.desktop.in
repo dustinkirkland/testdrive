@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=Test Drive an Ubuntu ISO
-Comment=Download and run an Ubuntu ISO in a Virtual Machine
-Categories=Utility;System;
-Exec=testdrivegtk
-Icon=/usr/share/testdrive/testdrive.png
-Terminal=false
-Type=Application
