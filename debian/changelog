@@ -1,6 +1,6 @@
 testdrive (1.10) unreleased; urgency=low
 
-  * UNRELEASED
+  * testdrive: fix zsync/wget failover
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 17 Nov 2009 10:09:11 -0600
 

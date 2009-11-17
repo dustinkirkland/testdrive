@@ -116,13 +116,16 @@ case $PROTO in
 		rsync -azP $ISO_URL $PATH_TO_ISO
 	;;
 	http|ftp)
+		ZSYNC_WORKED=0
 		if which zsync >/dev/null; then
 			cd $CACHE
-			zsync $ISO_URL.zsync && break || true
+			zsync $ISO_URL.zsync && ZSYNC_WORKED=1 || true
 			cd -
 		fi
-		# If the zsync failed, use wget
-		wget $ISO_URL -O $PATH_TO_ISO
+		if [ "$ZSYNC_WORKED" = "0" ]; then
+			# If the zsync failed, use wget
+			wget $ISO_URL -O $PATH_TO_ISO
+		fi
 	;;
 	file)
 		# If the iso is on file:///, use the ISO in place
