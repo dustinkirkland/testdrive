@@ -6,9 +6,9 @@
 
 # ISO_URL is the complete path to the ISO
 # Default: $PROTO://$MIRROR/$DIR/$CODENAME-$TYPE-$ARCH.iso
-#ISO_URL=http://cdimage.ubuntu.com/ubuntu-netbook-remix/daily-live/current/karmic-netbook-remix-i386.iso
-#ISO_URL=rsync://cdimage.ubuntu.com/cdimage/ubuntu-server/daily/current/karmic-server-amd64.iso
-#ISO_URL=ftp://mirrors.kernel.org/ubuntu-releases/karmic/ubuntu-9.10-desktop-amd64.iso
+#ISO_URL=http://cdimage.ubuntu.com/ubuntu-netbook-remix/daily-live/current/lucid-netbook-remix-i386.iso
+#ISO_URL=rsync://cdimage.ubuntu.com/cdimage/ubuntu-server/daily/current/lucid-server-amd64.iso
+#ISO_URL=ftp://mirrors.kernel.org/ubuntu-releases/lucid/ubuntu-9.10-desktop-amd64.iso
 
 # VIRT is the type of hypervisor to use
 # VIRT can be either 'kvm' or 'virtualbox'

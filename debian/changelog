@@ -1,6 +1,8 @@
 testdrive (1.9) unreleased; urgency=low
 
   * testdrivegtk: moved to lp:testdrive-gtk project
+  * testdrive, testdriverc: update for testdriving lucid by default
+
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 12 Nov 2009 21:08:39 -0600
 
