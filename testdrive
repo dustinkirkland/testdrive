@@ -113,7 +113,7 @@ echo "INFO: Syncing the specified ISO..."
 echo "      $ISO_URL"
 case $PROTO in
 	rsync)
-		rsync -aP $ISO_URL $PATH_TO_ISO
+		rsync -azP $ISO_URL $PATH_TO_ISO
 	;;
 	http|ftp)
 		if which zsync >/dev/null; then
