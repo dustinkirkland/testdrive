@@ -1,4 +1,4 @@
-testdrive (1.9) unreleased; urgency=low
+testdrive (1.9-0ubuntu1~ppa5) lucid; urgency=low
 
   * testdrivegtk, debian/control, debian/rules,
     debian/testdrive-gtk.install: moved to lp:testdrive-gtk project
@@ -7,7 +7,7 @@ testdrive (1.9) unreleased; urgency=low
     drop the testdrivegtk wrapper script for now, remove the bin dir
   * testdrive: use rsync compression
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 12 Nov 2009 21:08:39 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 17 Nov 2009 10:09:05 -0600
 
 testdrive (1.8-0ubuntu1~ppa5) lucid; urgency=low
 
