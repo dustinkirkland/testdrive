@@ -2,7 +2,7 @@ testdrive (1.11-0ubuntu1~ppa5) lucid; urgency=low
 
   * testdrive: allow for -u paths to local files
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 17 Nov 2009 14:15:10 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 17 Nov 2009 14:23:42 -0600
 
 testdrive (1.10-0ubuntu1~ppa5) lucid; urgency=low
 
