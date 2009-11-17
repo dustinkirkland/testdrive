@@ -1,8 +1,8 @@
-testdrive (1.10) unreleased; urgency=low
+testdrive (1.10-0ubuntu1~ppa5) lucid; urgency=low
 
   * testdrive: fix zsync/wget failover
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 17 Nov 2009 10:09:11 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 17 Nov 2009 14:14:59 -0600
 
 testdrive (1.9-0ubuntu1~ppa5) lucid; urgency=low
 
