@@ -1,4 +1,4 @@
-bin/testdrive usr/bin/
-bin/testdriverc etc/
+testdrive usr/bin/
+testdriverc etc/
 testdrive.desktop usr/share/applications/
 img/testdrive.png usr/share/testdrive/

@@ -36,8 +36,6 @@ binary-indep: build install
 	dh_installdebconf -i
 	dh_compress -i
 	dh_fixperms -i
-	dh_link -i usr/bin/testdrive usr/share/testdrivegtk/bin/testdrive
-	dh_link -i etc/testdriverc usr/share/testdrivegtk/bin/testdriverc
 	dh_installdeb -i
 	dh_gencontrol -i
 	dh_md5sums -i

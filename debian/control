@@ -25,15 +25,3 @@ Description: run the daily Ubuntu ISO in a virtual machine
  will use KVM to host your virtual machines.
  .
  Alternatively, you can use VirtualBox.
-
-Package: testdrive-gtk
-Architecture: all
-Depends: ${misc:Depends},
- debconf (>= 0.5) | debconf-2.0,
- python,
- python-gtk2,
- testdrive
-Description: GTK front-end to the testdrive utility
- Testdrive-gtk provides a graphical frontend to the testdrive utility,
- allowing you point-and-click your way through ISO selection and most of
- the parameters supported by testdrive.
