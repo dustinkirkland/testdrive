@@ -1,3 +1,9 @@
+testdrive (1.10) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 17 Nov 2009 10:09:11 -0600
+
 testdrive (1.9-0ubuntu1~ppa5) lucid; urgency=low
 
   * testdrivegtk, debian/control, debian/rules,
