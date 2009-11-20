@@ -1,6 +1,7 @@
 testdrive (1.13) unreleased; urgency=low
 
-  * UNRELEASED
+  * testdrive-select-iso: added some code to present a list
+    and code for selecting an ISO from a list
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 17 Nov 2009 15:29:50 -0600
 
