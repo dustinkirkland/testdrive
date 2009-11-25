@@ -1,6 +1,7 @@
 testdrive (1.14) unreleased; urgency=low
 
-  * UNRELEASED
+  * testdrive-select-iso: loop around input, improve input exception
+    handling, launch testdrive upon url selection
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 25 Nov 2009 11:22:29 -0600
 
