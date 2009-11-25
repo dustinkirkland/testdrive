@@ -1,10 +1,10 @@
-testdrive (1.13) unreleased; urgency=low
+testdrive (1.13-0ubuntu1) lucid; urgency=low
 
   * testdrive-select-iso: added some code to present a list
     and code for selecting an ISO from a list; add GPL header
   * COPYING: added GPLv3 copyright file to top level tarball
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 17 Nov 2009 15:29:50 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 25 Nov 2009 11:22:22 -0600
 
 testdrive (1.12-0ubuntu1) lucid; urgency=low
 
