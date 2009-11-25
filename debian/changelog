@@ -1,3 +1,9 @@
+testdrive (1.14) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 25 Nov 2009 11:22:29 -0600
+
 testdrive (1.13-0ubuntu1) lucid; urgency=low
 
   * testdrive-select-iso: added some code to present a list
