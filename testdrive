@@ -73,7 +73,7 @@ done
 # Set defaults where undefined
 if [ -z "$VIRT" ]; then
 	# Check if KVM acceleration can be used
-	if which kvm-ok >/dev/null && kvm-ok; then
+	if which kvm-ok >/dev/null && kvm-ok >/dev/null 2>&1; then
 		VIRT="kvm"
 		echo
 		echo "INFO: Using KVM for virtual machine hosting..."

@@ -3,7 +3,10 @@ testdrive (1.14) unreleased; urgency=low
   [ Dustin Kirkland ]
   * testdrive-select-iso: loop around input, improve input exception
     handling, launch testdrive upon url selection
-  * testdrive: source /etc/testdriverc rather than .conf, LP: #485930
+  * testdrive:
+    - source /etc/testdriverc rather than .conf, LP: #485930
+    - silence kvm-ok messages, which are misleading when using
+      VirtualBox, LP: #486884
 
   [ Kevin Fullerton ]
   * testdrive: Add support for MacOS/Parallels for testdriving Linux ISOs,
