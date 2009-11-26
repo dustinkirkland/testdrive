@@ -40,7 +40,7 @@ Usage:
 }
 
 # Source global configuration overrides
-[ -r "/etc/$PKG.conf" ] && . "/etc/$PKG.conf"
+[ -r "/etc/$PKG"rc ] && . "/etc/$PKG"rc
 
 # Source user configuration overrides
 [ -r "$HOME/.$PKG"rc ] && . "$HOME/.$PKG"rc
@@ -73,27 +73,30 @@ done
 # Set defaults where undefined
 if [ -z "$VIRT" ]; then
 	# Check if KVM acceleration can be used
-	if kvm-ok; then
+	if which kvm-ok >/dev/null && kvm-ok; then
 		VIRT="kvm"
 		echo
 		echo "INFO: Using KVM for virtual machine hosting..."
 		echo
+	elif which VBoxManage >/dev/null; then
+		echo
+		echo "WARNING: Your CPU's lack of VT will impact the performance of your VMs."
+		echo "INFO: Using VirtualBox for virtual machine hosting..."
+		echo
+		VIRT="virtualbox"
+	elif which prlctl >/dev/null; then
+		VIRT="parallels"
+		echo
+		echo "INFO: Using Parallels Desktop for virtual machine hosting..."
+		echo
 	else
-		if which VBoxManage >/dev/null; then
-			echo
-			echo "WARNING: Your CPU's lack of VT will impact the performance of your VMs."
-			echo "INFO: Using VirtualBox for virtual machine hosting..."
-			echo
-			VIRT="virtualbox"
-		else
-			echo
-			echo "ERROR: You must have either /usr/bin/kvm or /usr/bin/VBoxManage installed."
-			echo "HINT: Consider installing kvm or virtualbox-ose..."
-			echo " sudo apt-get install kvm"
-			echo " sudo apt-get install virtualbox-ose"
-			echo
-			exit 1
-		fi
+		echo
+		echo "ERROR: You must have either /usr/bin/kvm or /usr/bin/VBoxManage installed."
+		echo "HINT: Consider installing kvm or virtualbox-ose..."
+		echo " sudo apt-get install kvm"
+		echo " sudo apt-get install virtualbox-ose"
+		echo
+		exit 1
 	fi
 fi
 
@@ -179,6 +182,27 @@ case $VIRT in
 			fi
 		done
 	;;
+	parallels)
+		echo
+		if prlctl list $VBOX_NAME | grep -qsv "UUID"; then
+			prlctl delete $VBOX_NAME
+		fi
+		DISK_SIZE=$(echo "$DISK_SIZE" | sed "s/G$/000/")
+		echo "INFO: Creating VM..."
+		prlctl create $VBOX_NAME --ostype linux --distribution ubuntu
+		prlctl set $VBOX_NAME --memsize $MEM
+		prlctl set $VBOX_NAME --device-del hdd0
+		prlctl set $VBOX_NAME --device-add hdd --type expand --size $DISK_SIZE --iface scsi --position 0:0
+		prlctl set $VBOX_NAME --device-set cdrom0 --image $PATH_TO_ISO
+		prlctl start $VBOX_NAME
+		# Loop as long as this VM is running
+		while true; do
+			sleep 2
+			if prlctl list $VBOX_NAME | grep -qs "stopped"; then
+				break
+			fi
+		done
+	;;
 	*)
 		echo "ERROR: Unsupported virtualization method [$VIRT]"
 	;;
@@ -189,5 +213,5 @@ echo
 echo "INFO: You may wish to clean up the cache directory..."
 echo "      $CACHE"
 ls -halF $CACHE
-du -sh --apparent-size $CACHE
+du -sh --apparent-size $CACHE 2>/dev/null || du -sh $CACHE
 echo
