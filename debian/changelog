@@ -16,7 +16,7 @@ testdrive (1.14) unreleased; urgency=low
     - dereference symlinks on ls of cache dir
   * debian/install: install testdrive-select-iso
   * debian/control: depend on python for testdrive-select-iso
-  * doc/testdrive-select-iso.1: initial manpage
+  * doc/testdrive-select-iso.1: initial manpage, clean it up
 
   [ Kevin Fullerton ]
   * testdrive: Add support for MacOS/Parallels for testdriving Linux ISOs,
