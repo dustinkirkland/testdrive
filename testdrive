@@ -70,7 +70,10 @@ while [ -n "$1" ]; do
 	esac
 done
 
-# Set defaults where undefined
+# If the ISO URL is undefined, make a selection, and then relaunch
+[ -z "$ISO_URL" ] && exec testdrive-select-iso
+
+# Choose the virtualization engine
 if [ -z "$VIRT" ]; then
 	# Check if KVM acceleration can be used
 	if which kvm-ok >/dev/null && kvm-ok >/dev/null 2>&1; then
@@ -100,14 +103,13 @@ if [ -z "$VIRT" ]; then
 	fi
 fi
 
+# Set defaults where undefined
 [ -z "$CACHE" ] && CACHE="$HOME/.cache/$PKG"
 mkdir -p $CACHE
-[ -z "$ARCH" ] && [ "$(uname -m)" = "x86_64" ] && ARCH="amd64" || ARCH="i386"
-[ -z "$ISO_URL" ] && ISO_URL="rsync://cdimage.ubuntu.com/cdimage/daily-live/current/lucid-desktop-$ARCH.iso"
 ISO=$(echo "$ISO_URL" | sed "s:.*/::")
 PROTO=$(echo "$ISO_URL" | sed "s/:.*$//")
 [ -z "$MEM" ] && [ $(grep "^MemTotal" /proc/meminfo | awk '{print $2}') -gt 1000000 ] && MEM=512 || MEM=256
-[ -z "$DISK_FILE" ] && DISK_FILE=$(mktemp $CACHE/$PKG-disk-XXXXXX)
+[ -z "$DISK_FILE" ] && DISK_FILE=$(mktemp $CACHE/$PKG-disk-XXXXXX) && mv -i $DISK_FILE $DISK_FILE.img && DISK_FILE=$DISK_FILE.img
 [ -z "$DISK_SIZE" ] && DISK_SIZE=6G
 [ -z "$KVM_ARGS" ] && KVM_ARGS="-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370"
 [ -z "$VBOX_NAME" ] && VBOX_NAME="$PKG"
@@ -212,6 +214,6 @@ esac
 echo
 echo "INFO: You may wish to clean up the cache directory..."
 echo "      $CACHE"
-ls -halF $CACHE
+ls -HhalF $CACHE
 du -sh --apparent-size $CACHE 2>/dev/null || du -sh $CACHE
 echo

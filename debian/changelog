@@ -1,12 +1,22 @@
 testdrive (1.14) unreleased; urgency=low
 
   [ Dustin Kirkland ]
-  * testdrive-select-iso: loop around input, improve input exception
-    handling, launch testdrive upon url selection
+  * testdrive-select-iso:
+    - loop around input
+    - improve input exception handling
+    - allow for ctrl-c canceling
+    - launch testdrive upon url selection
+    - fix array indexing
   * testdrive:
     - source /etc/testdriverc rather than .conf, LP: #485930
     - silence kvm-ok messages, which are misleading when using
       VirtualBox, LP: #486884
+    - use .img for backing disk tempfile
+    - launch testdrive-select-iso, if ISO_URL undefined
+    - dereference symlinks on ls of cache dir
+  * debian/install: install testdrive-select-iso
+  * debian/control: depend on python for testdrive-select-iso
+  * doc/testdrive-select-iso.1: initial manpage
 
   [ Kevin Fullerton ]
   * testdrive: Add support for MacOS/Parallels for testdriving Linux ISOs,
