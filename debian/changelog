@@ -1,4 +1,4 @@
-testdrive (1.14) unreleased; urgency=low
+testdrive (1.14-0ubuntu1) lucid; urgency=low
 
   [ Dustin Kirkland ]
   * testdrive-select-iso:
@@ -22,7 +22,7 @@ testdrive (1.14) unreleased; urgency=low
   * testdrive: Add support for MacOS/Parallels for testdriving Linux ISOs,
     LP: #488084
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 25 Nov 2009 11:22:29 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 26 Nov 2009 13:48:43 -0600
 
 testdrive (1.13-0ubuntu1) lucid; urgency=low
 
