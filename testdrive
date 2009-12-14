@@ -95,9 +95,10 @@ if [ -z "$VIRT" ]; then
 	else
 		echo
 		echo "ERROR: You must have either /usr/bin/kvm or /usr/bin/VBoxManage installed."
-		echo "HINT: Consider installing kvm or virtualbox-ose..."
-		echo " sudo apt-get install kvm"
-		echo " sudo apt-get install virtualbox-ose"
+		echo "HINT: Consider installing kvm if your CPU supports VT, or virtualbox-ose..."
+		echo " egrep \"flags.*:.*(svm|vmx)\" /proc/cpuinfo && \\"
+		echo "   sudo apt-get install kvm || \\"
+		echo "   sudo apt-get install virtualbox-ose"
 		echo
 		exit 1
 	fi
