@@ -154,6 +154,9 @@ case $VIRT in
 		echo "INFO: Creating disk image..."
 		kvm-img create -f qcow2 $DISK_FILE $DISK_SIZE
 		echo
+		if ! out=$(kvm-ok 2>&1); then
+			echo "$out"
+		fi
 		echo "INFO: Running the Virtual Machine..."
 		kvm -m $MEM -cdrom $PATH_TO_ISO -drive file=$DISK_FILE,if=virtio,index=0,boot=on $KVM_ARGS
 	;;

@@ -1,7 +1,9 @@
 testdrive (1.15) unreleased; urgency=low
 
-  * testdrive: improve the copy-and-paste instructions for installing
-    kvm or virtualbox, LP: #494632
+  * testdrive:
+    - improve the copy-and-paste instructions for installing kvm or
+      virtualbox, LP: #494632
+    - show the kvm-ok output, if VIRT=kvm and !kvm-ok, LP: #495746
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 26 Nov 2009 13:48:50 -0600
 
