@@ -1,11 +1,11 @@
-testdrive (1.15) unreleased; urgency=low
+testdrive (1.15-0ubuntu1) lucid; urgency=low
 
   * testdrive:
     - improve the copy-and-paste instructions for installing kvm or
       virtualbox, LP: #494632
     - show the kvm-ok output, if VIRT=kvm and !kvm-ok, LP: #495746
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 26 Nov 2009 13:48:50 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 13 Dec 2009 22:51:18 -0600
 
 testdrive (1.14-0ubuntu1) lucid; urgency=low
 
