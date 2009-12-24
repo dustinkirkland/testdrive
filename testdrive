@@ -106,15 +106,15 @@ fi
 
 # Set defaults where undefined
 [ -z "$CACHE" ] && CACHE="$HOME/.cache/$PKG"
-mkdir -p $CACHE
+mkdir -p $CACHE/iso $CACHE/img
 ISO=$(echo "$ISO_URL" | sed "s:.*/::")
 PROTO=$(echo "$ISO_URL" | sed "s/:.*$//")
 [ -z "$MEM" ] && [ $(grep "^MemTotal" /proc/meminfo | awk '{print $2}') -gt 1000000 ] && MEM=512 || MEM=256
-[ -z "$DISK_FILE" ] && DISK_FILE=$(mktemp $CACHE/$PKG-disk-XXXXXX) && mv -i $DISK_FILE $DISK_FILE.img && DISK_FILE=$DISK_FILE.img
+[ -z "$DISK_FILE" ] && DISK_FILE=$(mktemp $CACHE/img/$PKG-disk-XXXXXX) && mv -i $DISK_FILE $DISK_FILE.img && DISK_FILE=$DISK_FILE.img
 [ -z "$DISK_SIZE" ] && DISK_SIZE=6G
 [ -z "$KVM_ARGS" ] && KVM_ARGS="-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370"
 [ -z "$VBOX_NAME" ] && VBOX_NAME="$PKG"
-PATH_TO_ISO="$CACHE/$ISO"
+PATH_TO_ISO="$CACHE/iso/$ISO"
 
 # BUG: should check disk space availability in $CACHE dir
 # Update the cache
@@ -128,7 +128,7 @@ case $PROTO in
 	http|ftp)
 		ZSYNC_WORKED=0
 		if which zsync >/dev/null; then
-			cd $CACHE
+			cd $CACHE/iso
 			zsync $ISO_URL.zsync && ZSYNC_WORKED=1 || true
 			cd -
 		fi
@@ -218,6 +218,6 @@ esac
 echo
 echo "INFO: You may wish to clean up the cache directory..."
 echo "      $CACHE"
-ls -HhalF $CACHE
+ls -HhalF $CACHE/iso $CACHE/img
 du -sh --apparent-size $CACHE 2>/dev/null || du -sh $CACHE
 echo

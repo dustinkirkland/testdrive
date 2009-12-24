@@ -44,7 +44,7 @@ while 1:
 	for iso in ISO:
 		print("  %d. %s (%s)" % (i, iso["name"], RELEASE))
 		filename = os.path.basename(iso["url"])
-		path = "%s/.cache/%s/%s" % (os.environ["HOME"], PKG, filename)
+		path = "%s/.cache/%s/iso/%s" % (os.environ["HOME"], PKG, filename)
 		if os.path.exists(path):
 			print("     +-cache--> [%s] %s" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path))), filename))
 		i=i+1
