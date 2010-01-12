@@ -39,6 +39,17 @@ Usage:
 	exit 1
 }
 
+error() {
+	echo
+	echo "ERROR: $@" 2>&1
+	echo
+	if [ -n "$DESKTOP" ]; then
+		echo -n "Press <enter> to exit..."
+		foo=$(head -n1)
+	fi
+	exit 1
+}
+
 # Source global configuration overrides
 [ -r "/etc/$PKG"rc ] && . "/etc/$PKG"rc
 
@@ -59,13 +70,16 @@ while [ -n "$1" ]; do
 			ISO_URL="$2"
 			shift 2
 			if ! echo "$ISO_URL" | grep -qs "\.iso$"; then
-				echo "ERROR: URL parameter must point to a .iso file" 1>&2
-				exit 1
+				error "URL parameter must point to a .iso file"
 			fi
 			if [ -r "$ISO_URL" ]; then
 				# arg is a path to a local file
 				ISO_URL="file://$ISO_URL"
 			fi
+		;;
+		--desktop)
+			DESKTOP=1
+			shift
 		;;
 		*)
 			usage
@@ -96,14 +110,11 @@ if [ -z "$VIRT" ]; then
 		echo "INFO: Using Parallels Desktop for virtual machine hosting..."
 		echo
 	else
-		echo
-		echo "ERROR: You must have either /usr/bin/kvm or /usr/bin/VBoxManage installed."
-		echo "HINT: Consider installing kvm if your CPU supports VT, or virtualbox-ose..."
-		echo " egrep \"flags.*:.*(svm|vmx)\" /proc/cpuinfo && \\"
-		echo "   sudo apt-get install kvm || \\"
-		echo "   sudo apt-get install virtualbox-ose"
-		echo
-		exit 1
+		error "You must have either /usr/bin/kvm or /usr/bin/VBoxManage installed.
+HINT: Consider installing kvm if your CPU supports VT, or virtualbox-ose...
+ egrep \"flags.*:.*(svm|vmx)\" /proc/cpuinfo && \\
+   sudo apt-get install kvm || \\
+   sudo apt-get install virtualbox-ose"
 	fi
 fi
 
@@ -148,8 +159,7 @@ case $PROTO in
 		PATH_TO_ISO="$DIR/$FILE"
 	;;
 	*)
-		echo "ERROR: Unsupported protocol [$PROTO]" 1>&2
-		exit 1
+		error "Unsupported protocol [$PROTO]"
 	;;
 esac
 
@@ -261,7 +271,7 @@ case $VIRT in
 		done
 	;;
 	*)
-		echo "ERROR: Unsupported virtualization method [$VIRT]"
+		error "Unsupported virtualization method [$VIRT]"
 	;;
 esac
 

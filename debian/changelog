@@ -8,6 +8,8 @@ testdrive (1.16) unreleased; urgency=low
     work with testdrive, LP: #499413
   * testdrive-select-iso: if the user doesn't have VT, then defaul to
     i386 images, LP: #497984
+  * testdrive, testdrive.desktop: make sure error messages get shown to
+    the user, if running from the desktop menu, LP: #497955
 
   [ Paul Rudkin and Dustin Kirkland ]
   * testdrive: support virtualbox 3.1, LP: #495178
