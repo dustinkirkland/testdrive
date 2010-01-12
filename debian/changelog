@@ -6,6 +6,8 @@ testdrive (1.16) unreleased; urgency=low
   * debian/control: depend on virtualbox >= 3.0.8 (Karmic), which currently
     seems to be the oldest successfully tested version of virtualbox to
     work with testdrive, LP: #499413
+  * testdrive-select-iso: if the user doesn't have VT, then defaul to
+    i386 images, LP: #497984
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 13 Dec 2009 22:51:23 -0600
 

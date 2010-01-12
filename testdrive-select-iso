@@ -22,7 +22,11 @@
 import commands, time, os
 
 PKG = "testdrive"
-ARCH = commands.getoutput("uname -m | grep -qs x86_64 && echo amd64 || echo i386")
+VT = commands.getoutput("kvm-ok >/dev/null 2>&1 && echo 1 || echo 0")
+if VT == "0":
+	ARCH = "i386"
+else:
+	ARCH = commands.getoutput("uname -m | grep -qs x86_64 && echo amd64 || echo i386")
 RELEASE = "lucid"
 
 ISO = []
