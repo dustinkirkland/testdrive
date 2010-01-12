@@ -24,7 +24,7 @@ PKGRC=$PKG"rc"
 usage() {
 	echo "
 Usage:
-  $PKG [-f FILE] [-u URL]
+  $PKG [-f CONFIG_FILE] [-u URL_TO_ISO]
 
   $PKG is a utility that allows you to easily download the latest Ubuntu
   development release and run it in a KVM virtual machine.
@@ -44,6 +44,9 @@ Usage:
 
 # Source user configuration overrides
 [ -r "$HOME/.$PKG"rc ] && . "$HOME/.$PKG"rc
+
+# Source xdg user configuration overrides
+[ -r "$HOME/.config/$PKG/$PKG"rc ] && . "$HOME/.$PKG"rc
 
 # Handle parameters
 while [ -n "$1" ]; do
