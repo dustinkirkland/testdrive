@@ -1,3 +1,9 @@
+testdrive (1.17) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 12 Jan 2010 14:55:34 -0600
+
 testdrive (1.16-0ubuntu1) lucid; urgency=low
 
   * testdrive, testdrive-select-iso: separate the img and iso in the
