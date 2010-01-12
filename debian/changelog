@@ -3,6 +3,9 @@ testdrive (1.16) unreleased; urgency=low
   * testdrive, testdrive-select-iso: separate the img and iso in the
     cache directory
   * doc/testdrive.1, testdrive: respect xdg, LP: #501766
+  * debian/control: depend on virtualbox >= 3.0.8 (Karmic), which currently
+    seems to be the oldest successfully tested version of virtualbox to
+    work with testdrive, LP: #499413
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 13 Dec 2009 22:51:23 -0600
 

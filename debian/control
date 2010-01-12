@@ -12,7 +12,7 @@ Architecture: all
 Depends: ${misc:Depends},
  debconf (>= 0.5) | debconf-2.0,
  python,
- qemu-kvm | kvm ( >= 1:84+dfsg-0ubuntu12.4 ) | virtualbox-ose,
+ qemu-kvm | kvm ( >= 1:84+dfsg-0ubuntu12.4 ) | virtualbox-ose ( >= 3.0.8),
  rsync,
  wget
 Recommends: zsync

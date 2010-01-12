@@ -86,7 +86,7 @@ if [ -z "$VIRT" ]; then
 		echo
 	elif which VBoxManage >/dev/null; then
 		echo
-		echo "WARNING: Your CPU's lack of VT will impact the performance of your VMs."
+		echo "WARNING: Your CPU's lack of VT will seriously impact performance."
 		echo "INFO: Using VirtualBox for virtual machine hosting..."
 		echo
 		VIRT="virtualbox"
