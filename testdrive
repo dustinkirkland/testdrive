@@ -143,6 +143,9 @@ case $PROTO in
 	file)
 		# If the iso is on file:///, use the ISO in place
 		PATH_TO_ISO=$(echo $ISO_URL | sed "s/^file:\/\///")
+		DIR=$(cd "$(dirname "$PATH_TO_ISO")"; pwd)
+		FILE=$(basename "$PATH_TO_ISO")
+		PATH_TO_ISO="$DIR/$FILE"
 	;;
 	*)
 		echo "ERROR: Unsupported protocol [$PROTO]" 1>&2
@@ -164,25 +167,70 @@ case $VIRT in
 		kvm -m $MEM -cdrom $PATH_TO_ISO -drive file=$DISK_FILE,if=virtio,index=0,boot=on $KVM_ARGS
 	;;
 	virtualbox)
-		echo
-		echo "INFO: Creating disk image..."
+	       	# Determine which version of VirtualBox we have installed.  What is returned is
+		# typically a string such as '3.1.0r55467', lets assume that the command line
+		# is consistent within 3.0.x versions and 3.1.x version so extract this part of the
+		# version string for comparison later
+		vboxversion=$(VBoxManage --version)
+		vboxversion=${vboxversion%.*}
+		case $vboxversion in
+			"3.0"|"3.1")
+				echo
+				echo "INFO: VirtualBox $vboxversion detected."
+			;;
+			*)
+				echo
+				echo "INFO: Unsupported version of VirtualBox; pleast install v3.0 or v3.1."
+				exit 1
+			;;
+		esac
 		DISK_SIZE=$(echo "$DISK_SIZE" | sed "s/G$/000/")
 		rm -f $DISK_FILE
-		sed -i "\:HardDisk.*$DISK_FILE:d" $HOME/.VirtualBox/VirtualBox.xml
-		VBoxManage createhd --filename $DISK_FILE --size $DISK_SIZE
-		VBoxManage modifyvm $VBOX_NAME --hda none >/dev/null || true
-		VBoxManage unregistervm $VBOX_NAME --delete >/dev/null || true
-		rm -f $HOME/.VirtualBox/Machines/$VBOX_NAME/$VBOX_NAME.xml
+		sed -i "\:HardDisk.*$DISK_FILE:d" $HOME/.VirtualBox/VirtualBox.xml 2>/dev/null || true
 		echo
-		echo "INFO: Running the Virtual Machine..."
+		echo "INFO: Creating disk image..."
+		VBoxManage createhd --filename $DISK_FILE --size $DISK_SIZE
+		case $vboxversion in
+			"3.0")
+				VBoxManage modifyvm $VBOX_NAME --hda none >/dev/null || true
+				rm -f $HOME/.VirtualBox/Machines/$VBOX_NAME/$VBOX_NAME.xml
+			;;
+			"3.1")
+				VBoxManage storageattach $VBOX_NAME --storagectl "IDE Controller" --port 0 --device 0 --type hdd --medium none >/dev/null || true
+				VBoxManage storageattach $VBOX_NAME --storagectl "IDE Controller" --port 0 --device 1 --type dvddrive --medium none >/dev/null || true
+			;;
+		esac
+		echo
+		echo "INFO: Creating the Virtual Machine..."
+		VBoxManage unregistervm $VBOX_NAME --delete >/dev/null || true
 		VBoxManage createvm --register --name $VBOX_NAME
 		VBoxManage modifyvm $VBOX_NAME --memory $MEM
-		VBoxManage modifyvm $VBOX_NAME --hda $DISK_FILE
+#		case $vboxversion in
+#			"3.0") VBoxManage modifyvm $VBOX_NAME --hda $DISK_FILE ;;
+#		esac
+		platform=$(echo $ISO_URL | grep -qs amd64 && echo Ubuntu_64 || echo Ubuntu)
+		VBoxManage modifyvm $VBOX_NAME --ostype $platform
+		VBoxManage modifyvm $VBOX_NAME --vram 128
 		VBoxManage modifyvm $VBOX_NAME --boot1 disk
 		VBoxManage modifyvm $VBOX_NAME --boot2 dvd
 		VBoxManage modifyvm $VBOX_NAME --nic1 nat
-		VBoxManage startvm $VBOX_NAME
-		VBoxManage controlvm $VBOX_NAME dvdattach $PATH_TO_ISO
+		echo
+		echo "INFO: Running the Virtual Machine..."
+		case $vboxversion in
+			"3.0")
+				VBoxManage modifyvm $VBOX_NAME --hda $DISK_FILE
+				VBoxManage startvm $VBOX_NAME
+				echo ">>>$PATH_TO_ISO<<<"
+				VBoxManage controlvm $VBOX_NAME dvdattach $PATH_TO_ISO
+			;;
+			"3.1")
+				VBoxManage storagectl $VBOX_NAME --name "IDE Controller" --add ide
+				VBoxManage storageattach $VBOX_NAME --storagectl "IDE Controller" --port 0 --device 0 --type hdd --medium $DISK_FILE
+				VBoxManage storageattach $VBOX_NAME --storagectl "IDE Controller" --port 0 --device 1 --type dvddrive --medium $PATH_TO_ISO
+				VBoxManage startvm $VBOX_NAME
+			;;
+		esac
+
 		# Loop as long as this VM is running
 		while true; do
 			sleep 2

@@ -9,6 +9,9 @@ testdrive (1.16) unreleased; urgency=low
   * testdrive-select-iso: if the user doesn't have VT, then defaul to
     i386 images, LP: #497984
 
+  [ Paul Rudkin and Dustin Kirkland ]
+  * testdrive: support virtualbox 3.1, LP: #495178
+
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 13 Dec 2009 22:51:23 -0600
 
 testdrive (1.15-0ubuntu1) lucid; urgency=low
