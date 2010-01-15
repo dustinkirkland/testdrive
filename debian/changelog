@@ -1,10 +1,10 @@
-testdrive (1.17) unreleased; urgency=low
+testdrive (1.17-0ubuntu1) lucid; urgency=low
 
   * testdrive-select-iso, testdriverc: netbook remix no longer "remix",
     LP: #505909
   * testdrive: fix MEM setting logic, LP: #497499
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 12 Jan 2010 14:55:34 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 16 Jan 2010 11:00:36 +1300
 
 testdrive (1.16-0ubuntu1) lucid; urgency=low
 
