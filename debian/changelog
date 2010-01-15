@@ -1,6 +1,7 @@
 testdrive (1.17) unreleased; urgency=low
 
-  * UNRELEASED
+  * testdrive-select-iso, testdriverc: netbook remix no longer "remix",
+    LP: #505909
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 12 Jan 2010 14:55:34 -0600
 

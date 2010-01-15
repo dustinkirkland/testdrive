@@ -34,7 +34,7 @@ ISO.append({"name":"Ubuntu Desktop", "url":"rsync://cdimage.ubuntu.com/cdimage/d
 ISO.append({"name":"Ubuntu Server", "url":"rsync://cdimage.ubuntu.com/cdimage/ubuntu-server/daily/current/%s-server-%s.iso"%(RELEASE,ARCH)})
 ISO.append({"name":"Ubuntu Alternate", "url":"rsync://cdimage.ubuntu.com/cdimage/daily/current/%s-alternate-%s.iso"%(RELEASE,ARCH)})
 ISO.append({"name":"Ubuntu DVD", "url":"rsync://cdimage.ubuntu.com/cdimage/dvd/current/%s-dvd-%s.iso"%(RELEASE,ARCH)})
-ISO.append({"name":"Ubuntu Netbook Remix", "url":"rsync://cdimage.ubuntu.com/cdimage/ubuntu-netbook-remix/daily-live/current/%s-netbook-remix-i386.iso"%(RELEASE)})
+ISO.append({"name":"Ubuntu Netbook", "url":"rsync://cdimage.ubuntu.com/cdimage/ubuntu-netbook/daily-live/current/%s-netbook-i386.iso"%(RELEASE)})
 
 # These are problematic, because the names are all the same ... lucid-desktop-i386.iso
 # Need to rename the destination ISO accordingly
