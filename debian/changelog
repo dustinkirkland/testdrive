@@ -1,3 +1,9 @@
+testdrive (1.18) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 16 Jan 2010 11:00:42 +1300
+
 testdrive (1.17-0ubuntu1) lucid; urgency=low
 
   * testdrive-select-iso, testdriverc: netbook remix no longer "remix",
