@@ -123,7 +123,11 @@ fi
 mkdir -p $CACHE/iso $CACHE/img
 ISO=$(echo "$ISO_URL" | sed "s:.*/::")
 PROTO=$(echo "$ISO_URL" | sed "s/:.*$//")
-[ -z "$MEM" ] && [ $(grep "^MemTotal" /proc/meminfo | awk '{print $2}') -gt 1000000 ] && MEM=512 || MEM=256
+if [ -z "$MEM" ]; then
+	[ $(grep "^MemTotal" /proc/meminfo | awk '{print $2}') -gt 1000000 ] && MEM=512 || MEM=256
+else
+	MEM=256
+fi
 [ -z "$DISK_FILE" ] && DISK_FILE=$(mktemp $CACHE/img/$PKG-disk-XXXXXX) && mv -i $DISK_FILE $DISK_FILE.img && DISK_FILE=$DISK_FILE.img
 [ -z "$DISK_SIZE" ] && DISK_SIZE=6G
 [ -z "$KVM_ARGS" ] && KVM_ARGS="-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370"
