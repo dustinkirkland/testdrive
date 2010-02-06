@@ -1,6 +1,8 @@
 testdrive (1.18) unreleased; urgency=low
 
-  * UNRELEASED
+  * testdrive:
+    - automatically clean up empty disk images from cache
+    - allow for omission of the -u parameter
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 16 Jan 2010 11:00:42 +1300
 

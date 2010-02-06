@@ -41,13 +41,20 @@ Usage:
 
 error() {
 	echo
-	echo "ERROR: $@" 2>&1
+	echo "ERROR: $@" 1>&2
 	echo
 	if [ -n "$DESKTOP" ]; then
 		echo -n "Press <enter> to exit..."
 		foo=$(head -n1)
 	fi
 	exit 1
+}
+
+is_iso() {
+	if ! file "$1" | grep -qs "ISO 9660"; then
+		error "URL parameter must point to a .iso file"
+	fi
+	echo "file://$1"
 }
 
 # Source global configuration overrides
@@ -61,21 +68,19 @@ error() {
 
 # Handle parameters
 while [ -n "$1" ]; do
+	if [ -n "$1" ] && [ -z "$2" ]; then
+		# Just one argument, assume it's an ISO
+		ISO_URL=$(is_iso "$1")
+		break
+	fi
 	case "$1" in
 		-f)
 			[ -r "$2" ] && . "$2" || usage
 			shift 2
 		;;
 		-u)
-			ISO_URL="$2"
+			ISO_URL=$(is_iso "$2")
 			shift 2
-			if ! echo "$ISO_URL" | grep -qs "\.iso$"; then
-				error "URL parameter must point to a .iso file"
-			fi
-			if [ -r "$ISO_URL" ]; then
-				# arg is a path to a local file
-				ISO_URL="file://$ISO_URL"
-			fi
 		;;
 		--desktop)
 			DESKTOP=1
@@ -279,10 +284,19 @@ case $VIRT in
 	;;
 esac
 
-# Remind about cache cleanup
-echo
-echo "INFO: You may wish to clean up the cache directory..."
-echo "      $CACHE"
-ls -HhalF $CACHE/iso $CACHE/img
-du -sh --apparent-size $CACHE 2>/dev/null || du -sh $CACHE
-echo
+# If disk image is stock (e.g., you just ran a LiveCD, no installation),
+# purge it automatically.
+size=$(ls -l $DISK_FILE | awk '{print $5}')
+if [ "$size" = "262144" ]; then
+	if md5sum $DISK_FILE | grep -qs "^1da7553f642332ec9fb58a6094d2c8ef"; then
+		rm -f $DISK_FILE
+	fi
+else
+	# Otherwise, remind about cache cleanup
+	echo
+	echo "INFO: You may wish to clean up the cache directory..."
+	echo "      $CACHE"
+	ls -HhalF $CACHE/iso $CACHE/img
+	du -sh --apparent-size $CACHE 2>/dev/null || du -sh $CACHE
+	echo
+fi
