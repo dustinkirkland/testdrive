@@ -289,6 +289,10 @@ esac
 size=$(ls -l $DISK_FILE | awk '{print $5}')
 if [ "$size" = "262144" ]; then
 	if md5sum $DISK_FILE | grep -qs "^1da7553f642332ec9fb58a6094d2c8ef"; then
+		echo
+		echo "INFO: Cleaning up empty disk image [$DISK_FILE]..."
+		echo
+
 		rm -f $DISK_FILE
 	fi
 else
