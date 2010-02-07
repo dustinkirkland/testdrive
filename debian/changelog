@@ -1,11 +1,11 @@
-testdrive (1.18) unreleased; urgency=low
+testdrive (1.18-0ubuntu1) lucid; urgency=low
 
   * testdrive:
     - automatically clean up empty disk images from cache
     - allow for omission of the -u parameter
     - info message about cleaned disk image
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 16 Jan 2010 11:00:42 +1300
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 06 Feb 2010 22:38:53 -0600
 
 testdrive (1.17-0ubuntu1) lucid; urgency=low
 
