@@ -1,6 +1,6 @@
 testdrive (1.19) unreleased; urgency=low
 
-  * UNRELEASED
+  * testdrive: total rewrite in python to make testdrive more translatable
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 06 Feb 2010 22:38:58 -0600
 
