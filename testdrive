@@ -79,9 +79,12 @@ def md5sum(file):
 	m.update(x)
 	return m.hexdigest()
 
+def run(cmd):
+	return(os.system(cmd))
+
 def run_or_die(cmd):
-	if os.system(cmd) != 0:
-		error("Command failed [%s]" % cmd)
+	if run(cmd) != 0:
+		error("Command failed\n    `%s`" % cmd)
 
 ########
 # Main #
@@ -183,7 +186,7 @@ if PROTO == "rsync":
 elif PROTO == "http" or PROTO == "ftp":
 	ZSYNC_WORKED = 0
 	if commands.getstatusoutput("which zsync")[0] == 0:
-		if os.system("cd %s/iso && zsync %s.zsync" % (CACHE, ISO_URL))[0] != 0:
+		if run("cd %s/iso && zsync %s.zsync" % (CACHE, ISO_URL))[0] != 0:
 			# If the zsync failed, use wget
 			run_or_die("wget %s -O %s" % (ISO_URL, PATH_TO_ISO))
 	else:
@@ -225,18 +228,18 @@ elif VIRT == "virtualbox":
 	DISK_SIZE = DISK_SIZE.replace("G", "000")
 	if os.path.exists(DISK_FILE):
 		os.unlink(DISK_FILE)
-	run_or_die("sed -i \":HardDisk.*%s:d\" %s/.VirtualBox/VirtualBox.xml" % (HOME, DISK_FILE))
+	run("sed -i \":HardDisk.*%s:d\" %s/.VirtualBox/VirtualBox.xml" % (DISK_FILE, HOME))
 	info("Creating disk image...")
 	run_or_die("VBoxManage createhd --filename %s --size %s" % (DISK_FILE, DISK_SIZE))
 	if vboxversion == "3.0":
-		run_or_die("VBoxManage modifyvm %s --hda none" % VBOX_NAME)
+		run("VBoxManage modifyvm %s --hda none" % VBOX_NAME)
 		if os.path.exists("%s/.VirtualBox/Machines/%s/%s.xml" % (HOME, VBOX_NAME, VBOX_NAME)) != 0:
 			os.unlink("%s/.VirtualBox/Machines/%s/%s.xml" % (HOME, VBOX_NAME, VBOX_NAME))
 	elif vboxversion == "3.1":
-		run_or_die("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 0 --type hdd --medium none" % VBOX_NAME)
-		run_or_die("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 1 --type dvddrive --medium none" % VBOX_NAME)
+		run("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 0 --type hdd --medium none" % VBOX_NAME)
+		run("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 1 --type dvddrive --medium none" % VBOX_NAME)
 	info("Creating the Virtual Machine...")
-	run_or_die("VBoxManage unregistervm %s --delete" % VBOX_NAME)
+	run("VBoxManage unregistervm %s --delete" % VBOX_NAME)
 	run_or_die("VBoxManage createvm --register --name %s" % VBOX_NAME)
 	run_or_die("VBoxManage modifyvm %s --memory %s" % (VBOX_NAME, MEM))
 	# This should probably support more than just Ubuntu...
