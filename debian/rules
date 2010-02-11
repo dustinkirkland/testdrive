@@ -14,6 +14,7 @@ release-upstream:
 prebuild:
 
 build:
+	intltool-merge -d po testdrive.desktop.in testdrive.desktop
 
 clean:
 	dh_clean
