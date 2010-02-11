@@ -4,6 +4,7 @@ testdrive (1.19) unreleased; urgency=low
     - total rewrite in python to make testdrive more translatable
     - some commands are allowed to fail -> run(),
       others are not -> run_or_die()
+    - improve file cleanup of vbox empty images
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 06 Feb 2010 22:38:58 -0600
 

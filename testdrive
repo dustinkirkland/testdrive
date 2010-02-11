@@ -233,12 +233,12 @@ elif VIRT == "virtualbox":
 	run_or_die("VBoxManage createhd --filename %s --size %s" % (DISK_FILE, DISK_SIZE))
 	if vboxversion == "3.0":
 		run("VBoxManage modifyvm %s --hda none" % VBOX_NAME)
-		if os.path.exists("%s/.VirtualBox/Machines/%s/%s.xml" % (HOME, VBOX_NAME, VBOX_NAME)) != 0:
-			os.unlink("%s/.VirtualBox/Machines/%s/%s.xml" % (HOME, VBOX_NAME, VBOX_NAME))
 	elif vboxversion == "3.1":
 		run("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 0 --type hdd --medium none" % VBOX_NAME)
 		run("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 1 --type dvddrive --medium none" % VBOX_NAME)
 	info("Creating the Virtual Machine...")
+	if os.path.exists("%s/.VirtualBox/Machines/%s/%s.xml" % (HOME, VBOX_NAME, VBOX_NAME)) == 0:
+		os.unlink("%s/.VirtualBox/Machines/%s/%s.xml" % (HOME, VBOX_NAME, VBOX_NAME))
 	run("VBoxManage unregistervm %s --delete" % VBOX_NAME)
 	run_or_die("VBoxManage createvm --register --name %s" % VBOX_NAME)
 	run_or_die("VBoxManage modifyvm %s --memory %s" % (VBOX_NAME, MEM))
@@ -261,7 +261,7 @@ elif VIRT == "virtualbox":
 	elif vboxversion == "3.1":
 		run_or_die("VBoxManage storagectl %s --name \"IDE Controller\" --add ide" % VBOX_NAME)
 		run_or_die("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 0 --type hdd --medium %s" % (VBOX_NAME, DISK_FILE))
-		run_or_die("VBoxManage storageattach %s --storagectl \"IDE Controlleri\" --port 0 --device 1 --type dvddrive --medium %s" % (VBOX_NAME, PATH_TO_ISO))
+		run_or_die("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 1 --type dvddrive --medium %s" % (VBOX_NAME, PATH_TO_ISO))
 		run_or_die("VBoxManage startvm %s" % VBOX_NAME)
 
 	# Loop as long as this VM is running
@@ -287,21 +287,28 @@ else:
 
 # If disk image is stock (e.g., you just ran a LiveCD, no installation),
 # purge it automatically.
-if os.path.exists(DISK_FILE) and os.path.getsize(DISK_FILE) == 262144:
-	if md5sum(DISK_FILE) == "1da7553f642332ec9fb58a6094d2c8ef":
+rm_disk = 0
+if os.path.exists(DISK_FILE):
+	if os.path.getsize(DISK_FILE) == 262144 and md5sum(DISK_FILE) == "1da7553f642332ec9fb58a6094d2c8ef":
+		# Clean up kvm qcow2 image
+		rm_disk = 1
+	if os.path.getsize(DISK_FILE) == 24576:
+		# Clean up vbox image
+		rm_disk = 1
+	elif os.path.getsize(DISK_FILE) == 0:
+		# Clean up empty file
+		rm_disk = 1
+	if rm_disk == 1:
 		info("Cleaning up empty disk image [%s]..." % DISK_FILE)
 		os.unlink(DISK_FILE)
-elif os.path.exists(DISK_FILE) and os.path.getsize(DISK_FILE) == 0:
-	os.unlink(DISK_FILE)
-else:
-	# Otherwise, remind about cache cleanup
-	info("You may wish to clean up the cache directory...")
-	print("      %s" % CACHE)
-	run_or_die("ls -HhalF %s/iso %s/img" % (CACHE, CACHE))
-	run_or_die("du -sh --apparent-size %s 2>/dev/null || du -sh %s" % (CACHE, CACHE))
-print("\n")
+	else:
+		# Otherwise, remind about cache cleanup
+		info("You may wish to clean up the cache directory...")
+		print("      %s" % CACHE)
+		run("ls -HhalF %s/iso %s/img" % (CACHE, CACHE))
+		run("du -sh --apparent-size %s 2>/dev/null || du -sh %s" % (CACHE, CACHE))
 
 if DESKTOP == 1:
-	raw_input("Press <enter> to exit...")
+	raw_input("\nPress <enter> to exit...")
 
 sys.exit(0)
