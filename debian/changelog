@@ -1,4 +1,4 @@
-testdrive (1.19) unreleased; urgency=low
+testdrive (1.19-0ubuntu1) lucid; urgency=low
 
   * testdrive:
     - total rewrite in python to make testdrive more translatable
@@ -13,7 +13,7 @@ testdrive (1.19) unreleased; urgency=low
   * testdrive-select-iso: offer both i386 and amd64 ISO's to amd64 kvm users,
     LP: #518069
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 06 Feb 2010 22:38:58 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 11 Feb 2010 19:29:47 -0600
 
 testdrive (1.18-0ubuntu1) lucid; urgency=low
 
