@@ -123,7 +123,7 @@ else:
 
 # If the ISO URL is undefined, make a selection, and then relaunch
 if len(ISO_URL) == 0:
-	os.execv("testdrive-select-iso", ())
+	os.execv("/usr/bin/testdrive-select-iso", ())
 
 # Choose the virtualization engine
 if len(VIRT) == 0:
