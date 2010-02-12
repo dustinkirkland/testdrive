@@ -264,8 +264,10 @@ elif VIRT == "virtualbox":
 		run_or_die("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 1 --type dvddrive --medium %s" % (VBOX_NAME, PATH_TO_ISO))
 		run_or_die("VBoxManage startvm %s" % VBOX_NAME)
 
+	# Give this VM a few seconds to start up
+	time.sleep(5)
 	# Loop as long as this VM is running
-	while commands.getstatusoutput("VBoxManage list runningvms | grep -qs \"^%s\"" % VBOX_NAME)[0] == 0:
+	while commands.getstatusoutput("VBoxManage list runningvms | grep -qs %s" % VBOX_NAME)[0] == 0:
 		time.sleep(2)
 elif VIRT == "parallels":
 	print("\n")
