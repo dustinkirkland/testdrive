@@ -6,6 +6,7 @@ testdrive (1.19) unreleased; urgency=low
       others are not -> run_or_die()
     - improve file cleanup of vbox empty images
     - fix the vbox running grep
+    - LP: #520680 - fix erroneous iso check
   * testdriverc: port to python syntax
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 06 Feb 2010 22:38:58 -0600
