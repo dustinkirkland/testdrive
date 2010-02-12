@@ -8,6 +8,8 @@ testdrive (1.19) unreleased; urgency=low
     - fix the vbox running grep
     - LP: #520680 - fix erroneous iso check
   * testdriverc: port to python syntax
+  * testdrive-select-iso: offer both i386 and amd64 ISO's to amd64 kvm users,
+    LP: #518069
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 06 Feb 2010 22:38:58 -0600
 

@@ -30,10 +30,16 @@ else:
 RELEASE = "lucid"
 
 ISO = []
-ISO.append({"name":"Ubuntu Desktop", "url":"rsync://cdimage.ubuntu.com/cdimage/daily-live/current/%s-desktop-%s.iso"%(RELEASE,ARCH)})
-ISO.append({"name":"Ubuntu Server", "url":"rsync://cdimage.ubuntu.com/cdimage/ubuntu-server/daily/current/%s-server-%s.iso"%(RELEASE,ARCH)})
-ISO.append({"name":"Ubuntu Alternate", "url":"rsync://cdimage.ubuntu.com/cdimage/daily/current/%s-alternate-%s.iso"%(RELEASE,ARCH)})
-ISO.append({"name":"Ubuntu DVD", "url":"rsync://cdimage.ubuntu.com/cdimage/dvd/current/%s-dvd-%s.iso"%(RELEASE,ARCH)})
+ISO.append({"name":"Ubuntu Desktop (%s)"%ARCH, "url":"rsync://cdimage.ubuntu.com/cdimage/daily-live/current/%s-desktop-%s.iso"%(RELEASE,ARCH)})
+ISO.append({"name":"Ubuntu Server (%s)"%ARCH, "url":"rsync://cdimage.ubuntu.com/cdimage/ubuntu-server/daily/current/%s-server-%s.iso"%(RELEASE,ARCH)})
+ISO.append({"name":"Ubuntu Alternate (%s)"%ARCH, "url":"rsync://cdimage.ubuntu.com/cdimage/daily/current/%s-alternate-%s.iso"%(RELEASE,ARCH)})
+ISO.append({"name":"Ubuntu DVD (%s)"%ARCH, "url":"rsync://cdimage.ubuntu.com/cdimage/dvd/current/%s-dvd-%s.iso"%(RELEASE,ARCH)})
+if ARCH == "amd64":
+	arch = "i386"
+	ISO.append({"name":"Ubuntu Desktop (%s)"%arch, "url":"rsync://cdimage.ubuntu.com/cdimage/daily-live/current/%s-desktop-%s.iso"%(RELEASE,arch)})
+	ISO.append({"name":"Ubuntu Server (%s)"%arch, "url":"rsync://cdimage.ubuntu.com/cdimage/ubuntu-server/daily/current/%s-server-%s.iso"%(RELEASE,arch)})
+	ISO.append({"name":"Ubuntu Alternate (%s)"%arch, "url":"rsync://cdimage.ubuntu.com/cdimage/daily/current/%s-alternate-%s.iso"%(RELEASE,arch)})
+	ISO.append({"name":"Ubuntu DVD (%s)"%arch, "url":"rsync://cdimage.ubuntu.com/cdimage/dvd/current/%s-dvd-%s.iso"%(RELEASE,arch)})
 ISO.append({"name":"Ubuntu Netbook", "url":"rsync://cdimage.ubuntu.com/cdimage/ubuntu-netbook/daily-live/current/%s-netbook-i386.iso"%(RELEASE)})
 
 # These are problematic, because the names are all the same ... lucid-desktop-i386.iso
