@@ -99,7 +99,7 @@ for i in ("/etc/%s" % PKGRC, "%s/.%s" % (HOME, PKGRC), "%s/.config/%s/%s" % (HOM
 			error("Invalid configuration [%s]" % i)
 
 # Handle parameters
-if len(sys.argv) == 2:
+if len(sys.argv) == 2 and sys.argv[1] != "--desktop":
 	# Just one argument, assume it's an ISO
 	ISO_URL = is_iso(sys.argv[1])
 else:

@@ -1,6 +1,6 @@
 testdrive (1.20) unreleased; urgency=low
 
-  * UNRELEASED
+  * testdrive: fix broken handling of --desktop
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 11 Feb 2010 19:29:55 -0600
 
