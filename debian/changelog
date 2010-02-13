@@ -1,9 +1,9 @@
-testdrive (1.20) unreleased; urgency=low
+testdrive (1.20-0ubuntu1) lucid; urgency=low
 
   * testdrive: fix broken handling of --desktop
   * testdrive-select-iso: welcome
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 11 Feb 2010 19:29:55 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 13 Feb 2010 17:38:08 -0600
 
 testdrive (1.19-0ubuntu1) lucid; urgency=low
 
