@@ -51,6 +51,7 @@ ISO.append({"name":"Ubuntu Netbook", "url":"rsync://cdimage.ubuntu.com/cdimage/u
 
 while 1:
 	i = 1
+	print("\nWelcome to Testdrive!\n")
 	for iso in ISO:
 		print("  %d. %s (%s)" % (i, iso["name"], RELEASE))
 		filename = os.path.basename(iso["url"])

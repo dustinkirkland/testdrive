@@ -1,6 +1,7 @@
 testdrive (1.20) unreleased; urgency=low
 
   * testdrive: fix broken handling of --desktop
+  * testdrive-select-iso: welcome
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 11 Feb 2010 19:29:55 -0600
 
