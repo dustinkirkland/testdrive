@@ -237,7 +237,7 @@ elif VIRT == "virtualbox":
 		run("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 0 --type hdd --medium none" % VBOX_NAME)
 		run("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 1 --type dvddrive --medium none" % VBOX_NAME)
 	info("Creating the Virtual Machine...")
-	if os.path.exists("%s/.VirtualBox/Machines/%s/%s.xml" % (HOME, VBOX_NAME, VBOX_NAME)) == 0:
+	if os.path.exists("%s/.VirtualBox/Machines/%s/%s.xml" % (HOME, VBOX_NAME, VBOX_NAME)):
 		os.unlink("%s/.VirtualBox/Machines/%s/%s.xml" % (HOME, VBOX_NAME, VBOX_NAME))
 	run("VBoxManage unregistervm %s --delete" % VBOX_NAME)
 	run_or_die("VBoxManage createvm --register --name %s" % VBOX_NAME)
