@@ -1,6 +1,6 @@
 testdrive (1.22) unreleased; urgency=low
 
-  * UNRELEASED
+  * testdriverc: quote sample CACHE value, LP: #524241
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 18 Feb 2010 22:31:34 -0600
 

@@ -3,7 +3,7 @@
 
 # CACHE is the directory to cache the ISOs and disk images
 # Default: $HOME/.cache/testdrive
-#CACHE = /path/to/your/cache
+#CACHE = "/path/to/your/cache"
 
 # ISO_URL is the complete path to the ISO
 # Default: $PROTO://$MIRROR/$DIR/$CODENAME-$TYPE-$ARCH.iso
