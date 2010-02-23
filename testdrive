@@ -133,7 +133,6 @@ if len(VIRT) == 0:
 		info("Using KVM for virtual machine hosting...");
 	elif commands.getstatusoutput("which VBoxManage")[0] == 0:
 		VIRT = "virtualbox"
-		warning("Your CPU's lack of VT will seriously impact performance.")
 		info("Using VirtualBox for virtual machine hosting...")
 	elif commands.getstatusoutput("which prlctl")[0] == 0:
 		VIRT = "parallels"
