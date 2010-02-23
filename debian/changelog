@@ -1,6 +1,8 @@
 testdrive (1.22) unreleased; urgency=low
 
   * testdriverc: quote sample CACHE value, LP: #524241
+  * debian/control: allow for non-free virtualbox in package dependencies,
+    LP: #524704
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 18 Feb 2010 22:31:34 -0600
 
