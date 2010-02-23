@@ -4,6 +4,7 @@ testdrive (1.22) unreleased; urgency=low
     - fix run() return value checking, LP: #525438
     - more graceful error if ISO url 404's, LP: #491600
     - remove unnecessary warning when running VB, LP: #486884
+    - offer to launch usb-creator after running VM, LP: #507537
   * testdriverc: quote sample CACHE value, LP: #524241
   * debian/control:
     - allow for non-free virtualbox in package dependencies, LP: #524704

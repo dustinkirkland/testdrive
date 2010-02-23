@@ -15,7 +15,7 @@ Depends: ${misc:Depends},
  qemu-kvm | kvm ( >= 1:84+dfsg-0ubuntu12.4 ) | virtualbox-ose ( >= 3.0.8) | virtualbox-3.0 | virtualbox-3.1,
  rsync,
  wget
-Recommends: zsync
+Recommends: zsync, usb-creator-gtk
 Description: run the daily Ubuntu ISO in a virtual machine
  Testdrive helps you download and run the daily Ubuntu development ISO
  in a virtual machine on your local hardware.

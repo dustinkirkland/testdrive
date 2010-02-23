@@ -114,7 +114,7 @@ else:
 					error("Invalid configuration [%s]" % i)
 		elif sys.argv[i] == "-u":
 			i += 1
-			ISO_URL = sys.argv[i]
+			ISO_URL = is_iso(sys.argv[i])
 		elif sys.argv[i] == "--desktop":
 			DESKTOP = 1
 		else:
@@ -312,6 +312,11 @@ if os.path.exists(DISK_FILE):
 		run("du -sh --apparent-size %s 2>/dev/null || du -sh %s" % (CACHE, CACHE))
 
 if DESKTOP == 1:
-	raw_input("\nPress <enter> to exit...")
+	if os.path.exists("/usr/bin/usb-creator-gtk"):
+		input = raw_input("\nDo you want to launch Startup Disk Creator (to write this ISO to a LiveUSB drive)? [y/N] ")
+		if input == "y" or input == "Y":
+			os.execv("/usr/bin/usb-creator-gtk", ("-i", PATH_TO_ISO))
+	else:
+		raw_input("\nPress <enter> to exit...")
 
 sys.exit(0)
