@@ -32,7 +32,7 @@ binary-indep: build install
 	dh_testdir -i
 	dh_testroot -i
 	dh_installdocs -X.bzr -i
-	dh_installman -i doc/testdrive.1 -i doc/testdrive-select-iso.1
+	dh_installman -i doc/testdrive.1
 	dh_installchangelogs -i
 	dh_installdebconf -i
 	dh_compress -i

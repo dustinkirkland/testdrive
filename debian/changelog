@@ -8,6 +8,9 @@ testdrive (1.22) unreleased; urgency=low
     - add a -v|--version option, LP: #526548
     - unconditional print message about cleaning cache, LP: #526546
     - fix typo, LP: #526570
+  * testdrive-select-iso, doc/testdrive-select-iso.1, debian/install,
+    debian/rules:
+    - move this file into testdrive, now that testdrive is in python too
   * testdriverc: quote sample CACHE value, LP: #524241
   * debian/control:
     - allow for non-free virtualbox in package dependencies, LP: #524704
