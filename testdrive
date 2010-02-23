@@ -378,14 +378,14 @@ if os.path.exists(DISK_FILE):
 # Remind about cache cleanup
 info("You may wish to clean up the cache directory...")
 print("      %s" % CACHE)
-run("ls -HhalF %s/iso %s/img" % (CACHE, CACHE))
-run("du -sh --apparent-size %s 2>/dev/null || du -sh %s" % (CACHE, CACHE))
+#run("ls -HhalF %s/iso %s/img" % (CACHE, CACHE))
+#run("du -sh --apparent-size %s 2>/dev/null || du -sh %s" % (CACHE, CACHE))
 
 if DESKTOP == 1:
 	if os.path.exists("/usr/bin/usb-creator-gtk"):
-		input = raw_input("\nDo you want to launch Startup Disk Creator (to write this ISO to a LiveUSB drive)? [y/N] ")
+		input = raw_input("\nLaunch USB Startup Disk Creator for further testing of this ISO? [y/N] ")
 		if input == "y" or input == "Y":
-			os.execv("/usr/bin/usb-creator-gtk", ("-i", PATH_TO_ISO))
+			os.execv("/usr/bin/usb-creator-gtk", ["usb-creator-gtk", "-i", PATH_TO_ISO])
 	else:
 		raw_input("\nPress <enter> to exit...")
 
