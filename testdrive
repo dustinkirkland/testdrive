@@ -232,7 +232,7 @@ elif VIRT == "virtualbox":
 	if vboxversion == "3.0" or vboxversion == "3.1":
 		info("VirtualBox %s detected." % vboxversion)
 	else:
-		error("Unsupported version (%s) of VirtualBox; pleast install v3.0 or v3.1." % vboxversion)
+		error("Unsupported version (%s) of VirtualBox; please install v3.0 or v3.1." % vboxversion)
 
 	DISK_SIZE = DISK_SIZE.replace("G", "000")
 	if os.path.exists(DISK_FILE):
