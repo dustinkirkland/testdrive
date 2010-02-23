@@ -1,5 +1,6 @@
 testdrive (1.22) unreleased; urgency=low
 
+  * testdrive: fix run() return value checking, LP: #525438
   * testdriverc: quote sample CACHE value, LP: #524241
   * debian/control: allow for non-free virtualbox in package dependencies,
     LP: #524704

@@ -186,7 +186,7 @@ if PROTO == "rsync":
 elif PROTO == "http" or PROTO == "ftp":
 	ZSYNC_WORKED = 0
 	if commands.getstatusoutput("which zsync")[0] == 0:
-		if run("cd %s/iso && zsync %s.zsync" % (CACHE, ISO_URL))[0] != 0:
+		if run("cd %s/iso && zsync %s.zsync" % (CACHE, ISO_URL)) != 0:
 			# If the zsync failed, use wget
 			run_or_die("wget %s -O %s" % (ISO_URL, PATH_TO_ISO))
 	else:
