@@ -1,6 +1,8 @@
 testdrive (1.22) unreleased; urgency=low
 
-  * testdrive: fix run() return value checking, LP: #525438
+  * testdrive:
+    - fix run() return value checking, LP: #525438
+    - more graceful error if ISO url 404's, LP: #491600
   * testdriverc: quote sample CACHE value, LP: #524241
   * debian/control: allow for non-free virtualbox in package dependencies,
     LP: #524704
