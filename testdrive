@@ -38,7 +38,7 @@ VBOX_NAME = os.getenv("VBOX_NAME", "")
 def usage():
 	print("\n\
 Usage:\n\
-  %s [-f CONFIG_FILE] [-u URL_TO_ISO]\n\
+  %s [-f CONFIG_FILE] [-u URL_TO_ISO] [-v|--version]\n\
 \n\
   %s is a utility that allows you to easily download the latest Ubuntu\n\
   development release and run it in a KVM virtual machine.\n\
@@ -86,6 +86,24 @@ def run_or_die(cmd):
 	if run(cmd) != 0:
 		error("Command failed\n    `%s`" % cmd)
 
+def get_virt():
+	# Check if KVM acceleration can be used
+	if commands.getstatusoutput("which kvm-ok && kvm-ok")[0] == 0:
+		info("Using KVM for virtual machine hosting...");
+		return "kvm"
+	elif commands.getstatusoutput("which VBoxManage")[0] == 0:
+		info("Using VirtualBox for virtual machine hosting...")
+		return "virtualbox"
+	elif commands.getstatusoutput("which prlctl")[0] == 0:
+		info("Using Parallels Desktop for virtual machine hosting...")
+		return "parallels"
+	else:
+		error("You must have either /usr/bin/kvm or /usr/bin/VBoxManage installed.\n\
+HINT: Consider installing kvm if your CPU supports VT, or virtualbox-ose...\n\
+ egrep \"flags.*:.*(svm|vmx)\" /proc/cpuinfo && \\ \n\
+   sudo apt-get install kvm || \\ \n\
+   sudo apt-get install virtualbox-ose")
+
 ########
 # Main #
 ########
@@ -99,7 +117,7 @@ for i in ("/etc/%s" % PKGRC, "%s/.%s" % (HOME, PKGRC), "%s/.config/%s/%s" % (HOM
 			error("Invalid configuration [%s]" % i)
 
 # Handle parameters
-if len(sys.argv) == 2 and sys.argv[1] != "--desktop":
+if len(sys.argv) == 2 and sys.argv[1] != "--desktop" and sys.argv[1] != "-v" and sys.argv[1] != "--version":
 	# Just one argument, assume it's an ISO
 	ISO_URL = is_iso(sys.argv[1])
 else:
@@ -117,6 +135,11 @@ else:
 			ISO_URL = is_iso(sys.argv[i])
 		elif sys.argv[i] == "--desktop":
 			DESKTOP = 1
+		elif sys.argv[i] == "-v" or sys.argv[i] == "--version":
+			version = commands.getstatusoutput("dpkg -l testdrive | tail -n1 | awk '{print $3}'")
+			info("testdrive %s" % version[1])
+			get_virt()
+			sys.exit(0)
 		else:
 			usage
 		i += 1
@@ -127,22 +150,7 @@ if len(ISO_URL) == 0:
 
 # Choose the virtualization engine
 if len(VIRT) == 0:
-	# Check if KVM acceleration can be used
-	if commands.getstatusoutput("which kvm-ok && kvm-ok")[0] == 0:
-		VIRT = "kvm"
-		info("Using KVM for virtual machine hosting...");
-	elif commands.getstatusoutput("which VBoxManage")[0] == 0:
-		VIRT = "virtualbox"
-		info("Using VirtualBox for virtual machine hosting...")
-	elif commands.getstatusoutput("which prlctl")[0] == 0:
-		VIRT = "parallels"
-		info("Using Parallels Desktop for virtual machine hosting...")
-	else:
-		error("You must have either /usr/bin/kvm or /usr/bin/VBoxManage installed.\n\
-HINT: Consider installing kvm if your CPU supports VT, or virtualbox-ose...\n\
- egrep \"flags.*:.*(svm|vmx)\" /proc/cpuinfo && \\ \n\
-   sudo apt-get install kvm || \\ \n\
-   sudo apt-get install virtualbox-ose")
+	VIRT = get_virt()
 
 # Set defaults where undefined
 
