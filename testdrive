@@ -312,12 +312,12 @@ if os.path.exists(DISK_FILE):
 	if rm_disk == 1:
 		info("Cleaning up empty disk image [%s]..." % DISK_FILE)
 		os.unlink(DISK_FILE)
-	else:
-		# Otherwise, remind about cache cleanup
-		info("You may wish to clean up the cache directory...")
-		print("      %s" % CACHE)
-		run("ls -HhalF %s/iso %s/img" % (CACHE, CACHE))
-		run("du -sh --apparent-size %s 2>/dev/null || du -sh %s" % (CACHE, CACHE))
+
+# Remind about cache cleanup
+info("You may wish to clean up the cache directory...")
+print("      %s" % CACHE)
+run("ls -HhalF %s/iso %s/img" % (CACHE, CACHE))
+run("du -sh --apparent-size %s 2>/dev/null || du -sh %s" % (CACHE, CACHE))
 
 if DESKTOP == 1:
 	if os.path.exists("/usr/bin/usb-creator-gtk"):
