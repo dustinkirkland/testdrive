@@ -1,8 +1,8 @@
-testdrive (1.23) unreleased; urgency=low
+testdrive (1.23-0ubuntu1) lucid; urgency=low
 
-  * testdrive: wget's output is on stdout, handle.  LP: #526674
+  * testdrive: wget's output is on stderr, handle.  LP: #526674
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 23 Feb 2010 12:27:52 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 23 Feb 2010 18:35:24 -0600
 
 testdrive (1.22-0ubuntu1) lucid; urgency=low
 
