@@ -1,10 +1,10 @@
-testdrive (1.24) unreleased; urgency=low
+testdrive (1.24-0ubuntu1) lucid; urgency=low
 
   * testdrive:
     - fix iso-not-found errors, LP: #526674
     - fix archecture detection logic, LP: #526701
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 23 Feb 2010 18:35:38 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 26 Feb 2010 10:34:28 -0600
 
 testdrive (1.23-0ubuntu1) lucid; urgency=low
 
