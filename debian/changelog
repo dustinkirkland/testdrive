@@ -1,6 +1,6 @@
 testdrive (1.24) unreleased; urgency=low
 
-  * UNRELEASED
+  * testdrive: fix iso-not-found errors, LP: #526674
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 23 Feb 2010 18:35:38 -0600
 

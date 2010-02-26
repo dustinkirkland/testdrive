@@ -253,7 +253,7 @@ print("      %s\n" % ISO_URL)
 if PROTO == "rsync":
 	run_or_die("rsync -azP %s %s" % (ISO_URL, PATH_TO_ISO))
 elif PROTO == "http" or PROTO == "ftp":
-	if run("wget -q --spider -S %s 2>&1 | grep 'HTTP/1.. 200 OK'" % ISO_URL) != 0:
+	if run("wget --spider -S %s 2>&1 | grep 'HTTP/1.. 200 OK'" % ISO_URL) != 0:
 		error("ISO not found at [%s]" % ISO_URL)
 	ZSYNC_WORKED = 0
 	if commands.getstatusoutput("which zsync")[0] == 0:
