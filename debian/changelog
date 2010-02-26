@@ -2,7 +2,7 @@ testdrive (1.24) unreleased; urgency=low
 
   * testdrive:
     - fix iso-not-found errors, LP: #526674
-    - adjust archecture detection logic, LP: #526701
+    - fix archecture detection logic, LP: #526701
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 23 Feb 2010 18:35:38 -0600
 

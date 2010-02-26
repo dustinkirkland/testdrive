@@ -36,10 +36,9 @@ KVM_ARGS = os.getenv("KVM_ARGS", "")
 VBOX_NAME = os.getenv("VBOX_NAME", "")
 
 ARCHES = ["i386"]
-if commands.getstatusoutput("kvm-ok")[0] == 0:
-	if commands.getstatusoutput("uname -m | grep -qs x86_64")[0] == 0:
-		ARCHES.append("amd64")
-		ARCHES.reverse()
+if commands.getstatusoutput("uname -m | grep -qs x86_64")[0] == 0:
+	ARCHES.append("amd64")
+	ARCHES.reverse()
 RELEASE = "lucid"
 ISO = []
 for a in ARCHES:
