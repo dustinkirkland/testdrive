@@ -1,4 +1,4 @@
-testdrive (1.25) unreleased; urgency=low
+testdrive (1.25-0ubuntu1) lucid; urgency=low
 
   * testdrive:
     - make memory selection slightly more granular for a bit
@@ -7,7 +7,7 @@ testdrive (1.25) unreleased; urgency=low
   * testdrive, testdriverc: move the ISO url list building to a conffile
     to make maintenance a bit easier after lucid releases
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 26 Feb 2010 10:34:34 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 01 Mar 2010 21:49:25 -0600
 
 testdrive (1.24-0ubuntu1) lucid; urgency=low
 
