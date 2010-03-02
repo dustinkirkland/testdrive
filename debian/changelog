@@ -1,3 +1,9 @@
+testdrive (1.27) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 02 Mar 2010 09:05:41 -0600
+
 testdrive (1.26-0ubuntu1) lucid; urgency=low
 
   * testdrive: remove debug print statement
