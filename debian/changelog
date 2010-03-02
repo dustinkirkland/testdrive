@@ -1,6 +1,7 @@
 testdrive (1.25) unreleased; urgency=low
 
-  * UNRELEASED
+  * testdrive: make memory selection slightly more granular for a bit
+    better performance for guests with >750MB memory, but less than 1GB
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 26 Feb 2010 10:34:34 -0600
 

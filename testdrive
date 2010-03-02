@@ -224,6 +224,8 @@ if len(MEM) == 0:
 	total = commands.getoutput("grep ^MemTotal /proc/meminfo | awk '{print $2}'")
 	if total > 1000000:
 		MEM = 512
+	elif total > 750000:
+		MEM = 384
 	else:
 		MEM = 256
 
