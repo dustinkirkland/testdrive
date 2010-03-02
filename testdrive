@@ -35,32 +35,27 @@ DISK_SIZE = os.getenv("DISK_SIZE", "")
 KVM_ARGS = os.getenv("KVM_ARGS", "")
 VBOX_NAME = os.getenv("VBOX_NAME", "")
 
+RELEASE = "lucid"
 ARCHES = ["i386"]
 if commands.getstatusoutput("uname -m | grep -qs x86_64")[0] == 0:
 	ARCHES.append("amd64")
 	ARCHES.reverse()
-RELEASE = "lucid"
 ISO = []
 for a in ARCHES:
-	ISO.append({"name":"Ubuntu Desktop (%s)"%a, "url":"rsync://cdimage.ubuntu.com/cdimage/daily-live/current/%s-desktop-%s.iso"%(RELEASE,a)})
-	ISO.append({"name":"Ubuntu Server (%s)"%a, "url":"rsync://cdimage.ubuntu.com/cdimage/ubuntu-server/daily/current/%s-server-%s.iso"%(RELEASE,a)})
-	ISO.append({"name":"Ubuntu Alternate (%s)"%a, "url":"rsync://cdimage.ubuntu.com/cdimage/daily/current/%s-alternate-%s.iso"%(RELEASE,a)})
-	ISO.append({"name":"Ubuntu DVD (%s)"%a, "url":"rsync://cdimage.ubuntu.com/cdimage/dvd/current/%s-dvd-%s.iso"%(RELEASE,a)})
-ISO.append({"name":"Ubuntu Netbook", "url":"rsync://cdimage.ubuntu.com/cdimage/ubuntu-netbook/daily-live/current/%s-netbook-i386.iso"%(RELEASE)})
-# These are problematic, because the names are all the same ... lucid-desktop-i386.iso
-# Need to rename the destination ISO accordingly
-#rsync://cdimage.ubuntu.com/cdimage/kubuntu/daily-live/current/%s-desktop-%s.iso
-#rsync://cdimage.ubuntu.com/cdimage/xubuntu/daily-live/current/%s-desktop-%s.iso
-#rsync://cdimage.ubuntu.com/cdimage/mythbuntu/daily-live/current/%s-desktop-%s.iso
-#rsync://cdimage.ubuntu.com/cdimage/kubuntu-netbook/daily-live/current/%s-netbook-i386.iso"
+	ISO.append({"name":"Ubuntu Desktop (%s-%s)"%(RELEASE,a), "url":"rsync://cdimage.ubuntu.com/cdimage/daily-live/current/%s-desktop-%s.iso"%(RELEASE,a)})
+	ISO.append({"name":"Ubuntu Server (%s-%s)"%(RELEASE,a), "url":"rsync://cdimage.ubuntu.com/cdimage/ubuntu-server/daily/current/%s-server-%s.iso"%(RELEASE,a)})
+	ISO.append({"name":"Ubuntu Alternate (%s-%s)"%(RELEASE,a), "url":"rsync://cdimage.ubuntu.com/cdimage/daily/current/%s-alternate-%s.iso"%(RELEASE,a)})
+	ISO.append({"name":"Ubuntu DVD (%s-%s)"%(RELEASE,a), "url":"rsync://cdimage.ubuntu.com/cdimage/dvd/current/%s-dvd-%s.iso"%(RELEASE,a)})
+# a=i386 at this point
+ISO.append({"name":"Ubuntu Netbook (%s-%s)"%(RELEASE,a), "url":"rsync://cdimage.ubuntu.com/cdimage/ubuntu-netbook/daily-live/current/%s-netbook-%s.iso"%(RELEASE,a)})
 
 def select_iso():
-	global ISO, RELEASE
+	global ISO
 	while 1:
 		i = 1
 		print("\nWelcome to Testdrive!\n")
 		for iso in ISO:
-			print("  %d. %s (%s)" % (i, iso["name"], RELEASE))
+			print("  %d. %s" % (i, iso["name"]))
 			filename = os.path.basename(iso["url"])
 			path = "%s/.cache/%s/iso/%s" % (os.environ["HOME"], PKG, filename)
 			if os.path.exists(path):
@@ -220,9 +215,9 @@ for i in ("iso", "img"):
 	if not os.path.exists("%s/%s" % (CACHE, i)):
 		os.makedirs("%s/%s" % (CACHE, i), 0700)
 
-ISO = os.path.basename(ISO_URL)
+ISO_NAME = os.path.basename(ISO_URL)
 PROTO = ISO_URL.partition(":")[0]
-PATH_TO_ISO = "%s/iso/%s" % (CACHE, ISO)
+PATH_TO_ISO = "%s/iso/%s" % (CACHE, ISO_NAME)
 
 if len(MEM) == 0:
 	total = commands.getoutput("grep ^MemTotal /proc/meminfo | awk '{print $2}'")

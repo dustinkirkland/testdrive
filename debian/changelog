@@ -4,6 +4,9 @@ testdrive (1.25) unreleased; urgency=low
     - make memory selection slightly more granular for a bit
       better performance for guests with >750MB memory, but less than 1GB
     - default to choice number 1, if user just hits enter
+  * testdrive, testdriverc: move the ISO url list building to a conffile
+    to make maintenance a bit easier after lucid releases and mangy minx
+    (or whatever) is the new release name
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 26 Feb 2010 10:34:34 -0600
 
