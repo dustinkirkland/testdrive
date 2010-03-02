@@ -1,7 +1,9 @@
 testdrive (1.25) unreleased; urgency=low
 
-  * testdrive: make memory selection slightly more granular for a bit
-    better performance for guests with >750MB memory, but less than 1GB
+  * testdrive:
+    - make memory selection slightly more granular for a bit
+      better performance for guests with >750MB memory, but less than 1GB
+    - default to choice number 1, if user just hits enter
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 26 Feb 2010 10:34:34 -0600
 

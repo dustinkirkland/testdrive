@@ -68,8 +68,12 @@ def select_iso():
 			i=i+1
 		print("  %d. Other (prompt for ISO URL)" % i)
 		try:
-			input = raw_input("\nSelect an ISO to testdrive: ")
-			choice = int(input)
+			input = raw_input("\nSelect an ISO to testdrive [1]: ")
+			if len(input) == 0:
+				choice = 1
+			else:
+				choice = int(input)
+			print("CHOICE = [%s]" % input)
 		except KeyboardInterrupt:
 			print("\n")
 			exit(0)
