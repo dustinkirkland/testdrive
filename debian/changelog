@@ -1,6 +1,6 @@
 testdrive (1.26) unreleased; urgency=low
 
-  * UNRELEASED
+   * testdrive: remove debug print statement
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 01 Mar 2010 21:49:33 -0600
 

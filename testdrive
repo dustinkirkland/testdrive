@@ -54,7 +54,6 @@ def select_iso():
 				choice = 1
 			else:
 				choice = int(input)
-			print("CHOICE = [%s]" % input)
 		except KeyboardInterrupt:
 			print("\n")
 			exit(0)
