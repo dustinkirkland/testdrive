@@ -1,3 +1,9 @@
+testdrive (1.28) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 08 Mar 2010 17:58:43 -0600
+
 testdrive (1.27-0ubuntu1) lucid; urgency=low
 
   * doc/testdrive.1: fix manpage verbage, LP: #534712
