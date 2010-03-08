@@ -1,6 +1,6 @@
 testdrive (1.27) unreleased; urgency=low
 
-  * UNRELEASED
+  * doc/testdrive.1: fix manpage verbage, LP: #534712
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 02 Mar 2010 09:05:41 -0600
 
