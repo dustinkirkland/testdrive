@@ -1,8 +1,8 @@
-testdrive (1.28) unreleased; urgency=low
+testdrive (1.28-0ubuntu1) lucid; urgency=low
 
   * debian/control: depend on cpu-checker, which now provides kvm-ok
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 08 Mar 2010 17:58:43 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 10 Mar 2010 14:12:04 -0600
 
 testdrive (1.27-0ubuntu1) lucid; urgency=low
 
