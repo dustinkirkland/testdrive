@@ -1,6 +1,6 @@
 testdrive (1.28) unreleased; urgency=low
 
-  * UNRELEASED
+  * debian/control: depend on cpu-checker, which now provides kvm-ok
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 08 Mar 2010 17:58:43 -0600
 
