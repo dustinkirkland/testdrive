@@ -1,6 +1,8 @@
 testdrive (1.29) unreleased; urgency=low
 
-  * UNRELEASED
+  * debian/control, testdrive: lower the requirement on cpu-checker to
+    a recommends, improve the code that uses kvm-ok to not necessarily
+    depend on it
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 10 Mar 2010 14:12:17 -0600
 

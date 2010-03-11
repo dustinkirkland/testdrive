@@ -128,17 +128,25 @@ def run_or_die(cmd):
 
 def get_virt():
 	# Check if KVM acceleration can be used
-	if commands.getstatusoutput("which kvm-ok && kvm-ok")[0] == 0:
-		info("Using KVM for virtual machine hosting...");
-		return "kvm"
-	elif commands.getstatusoutput("which VBoxManage")[0] == 0:
+	if commands.getstatusoutput("which kvm-ok")[0] == 0:
+		# If we have kvm-ok, let's use it...
+		if commands.getstatusoutput("kvm-ok")[0] == 0:
+			info("Using KVM for virtual machine hosting...");
+			return "kvm"
+	else:
+		# Okay, we don't have kvm-ok, so let's hack it...
+		if commands.getstatusoutput("egrep \"^flags.*:.*(svm|vmx)\" /proc/cpuinfo")[0] == 0:
+			info("Using KVM for virtual machine hosting...");
+			return "kvm"
+	# Okay, no KVM, VirtualBox maybe?
+	if commands.getstatusoutput("which VBoxManage")[0] == 0:
 		info("Using VirtualBox for virtual machine hosting...")
 		return "virtualbox"
-	elif commands.getstatusoutput("which prlctl")[0] == 0:
+	# No VirtualBox, how about Parallels?
+	if commands.getstatusoutput("which prlctl")[0] == 0:
 		info("Using Parallels Desktop for virtual machine hosting...")
 		return "parallels"
-	else:
-		error("You must have either /usr/bin/kvm or /usr/bin/VBoxManage installed.\n\
+	error("You must have either /usr/bin/kvm or /usr/bin/VBoxManage installed.\n\
 HINT: Consider installing kvm if your CPU supports VT, or virtualbox-ose...\n\
  egrep \"flags.*:.*(svm|vmx)\" /proc/cpuinfo && \\ \n\
    sudo apt-get install kvm || \\ \n\
