@@ -19,6 +19,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import commands, hashlib, os, string, sys, tempfile, time
+#import optparse
+from optparse import OptionParser
 
 PKG = "testdrive"
 PKGRC = "%src" % PKG
@@ -69,24 +71,6 @@ def select_iso():
 		else:
 			print("\nERROR: Invalid selection\n")
 	return(url)
-
-def usage():
-	print("\n\
-Usage:\n\
-  %s [-f CONFIG_FILE] [-u URL_TO_ISO] [-v|--version]\n\
-\n\
-  %s is a utility that allows you to easily download the latest Ubuntu\n\
-  development release and run it in a KVM virtual machine.\n\
-\n\
-  All options to this program are handled through the global configuration\n\
-  file, /etc/%s, and then the user's local configuration file,\n\
-  ~/.%s.\n\
-\n\
-  Users wanting to change the behavior default configuration can make a\n\
-  copy of /etc/%s, and pass this as a parameter to %s.\n\
-" % (PKG, PKG, PKGRC, PKGRC, PKGRC, PKG))
-	sys.exit(1)
-
 
 def error(str):
 	print("\nERROR: %s\n" % str)
@@ -157,40 +141,75 @@ HINT: Consider installing kvm if your CPU supports VT, or virtualbox-ose...\n\
 ########
 
 # Load configuration files
-for i in ("/etc/%s" % PKGRC, "%s/.%s" % (HOME, PKGRC), "%s/.config/%s/%s" % (HOME, PKG, PKGRC)):
+
+# Load configuration files
+
+usage = "usage: %prog <parameters>\n\
+\n\
+  %prog is a utility that allows you to easily download the latest Ubuntu\n\
+  development release and run it in a KVM virtual machine.\n\
+\n\
+  All options to this program are handled through the global configuration\n\
+  file, /etc/%progrc, and then the user's local configuration file,\n\
+  ~/.%progrc, then the configuration stored in\n\
+  ~/.config/%prog/%progrc\n\
+\n\
+  Users wanting to change the behavior default configuration can make a\n\
+  copy of /etc/%s, and pass this as a parameter to %prog.\n"
+
+
+parser = OptionParser(usage)
+parser.add_option('-f', '--config', action='store', type='string', dest='config',
+		help='user configuration file (overriding default values')
+parser.add_option('-v', '--version', action='store_true', dest='version', default=False,
+		help='print version and system data, and exit')
+parser.add_option('-u', '--url', action='store', type='string', dest='url', 
+		help='get ISO image from this URL location')
+parser.add_option('-d', '--desktop', action='store_true', dest='desktop', default=False,
+		help='try to launch usb-creator for further testing')
+
+(opt, args) = parser.parse_args()
+info("version passed: %s" % opt.version)
+if opt.version:
+	hasOptions = True
+	version = commands.getstatusoutput("dpkg -l testdrive | tail -n1 | awk '{print $3}'")
+	info("testdrive %s" % version[1])
+	get_virt()
+	sys.exit(0)
+
+# prime configuration with defaults
+
+config_files = ["/etc/%s" % PKGRC, "%s/.%s" % (HOME, PKGRC), "%s/.config/%s/%s" % (HOME, PKG, PKGRC) ]
+info("config passed: %s" %opt.config)
+if opt.config:
+	hasOptions = True
+	if opt.config[0] != '/':
+		opt.config = '%s/.config/%s/%s' % (HOME, PKG, opt.config)
+	config_files += [opt.config]
+
+# try to load configuration files; on error exit
+# Let the user know which config files were used
+for i in config_files:
+	info('Trying config in %s' % i)
 	if os.path.exists(i):
 		try:
 			execfile(i)
+			info("Using configuration in %s" % i)
 		except:
 			error("Invalid configuration [%s]" % i)
 
-# Handle parameters
-if len(sys.argv) == 2 and sys.argv[1] != "--desktop" and sys.argv[1] != "-v" and sys.argv[1] != "--version":
-	# Just one argument, assume it's an ISO
-	ISO_URL = is_iso(sys.argv[1])
-else:
-	i = 1
-	while i < len(sys.argv):
-		if sys.argv[i] == "-f":
-			i += 1
-			if os.path.exists(sys.argv[i]):
-				try:
-					execfile(i)
-				except:
-					error("Invalid configuration [%s]" % i)
-		elif sys.argv[i] == "-u":
-			i += 1
-			ISO_URL = is_iso(sys.argv[i])
-		elif sys.argv[i] == "--desktop":
-			DESKTOP = 1
-		elif sys.argv[i] == "-v" or sys.argv[i] == "--version":
-			version = commands.getstatusoutput("dpkg -l testdrive | tail -n1 | awk '{print $3}'")
-			info("testdrive %s" % version[1])
-			get_virt()
-			sys.exit(0)
-		else:
-			usage
-		i += 1
+# now process the rest of the options (if any)
+if opt.url:
+	hasOptions = True
+	ISO_URL = is_iso(opt.url)
+if opt.desktop:
+	hasOptions = True
+	DESKTOP = 1
+
+# Handle single positional parameter
+if not hasOptions:
+	if args:
+		ISO_URL = is_iso(args)
 
 # If the ISO URL is undefined, make a selection
 if len(ISO_URL) == 0:
@@ -223,6 +242,7 @@ if len(MEM) == 0:
 
 if len(DISK_FILE) == 0:
 	DISK_FILE = tempfile.mkstemp(".img", "testdrive-disk-", "%s/img" % CACHE)[1]
+	info('disk file=%s' % DISK_FILE)
 
 if len(DISK_SIZE) == 0:
 	DISK_SIZE = "6G"
@@ -254,7 +274,7 @@ elif PROTO == "http" or PROTO == "ftp":
 elif PROTO == "file":
 	# If the iso is on file:///, use the ISO in place
 	PATH_TO_ISO = ISO_URL.partition("://")[2]
-	# Get aboslute path if a relative path is used
+	# Get absolute path if a relative path is used
 	DIR = commands.getoutput("cd `dirname '%s'` && pwd" % PATH_TO_ISO)
 	FILE = os.path.basename("%s" % PATH_TO_ISO)
 	PATH_TO_ISO = "%s/%s" % (DIR, FILE)
