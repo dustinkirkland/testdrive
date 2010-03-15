@@ -1,9 +1,9 @@
-testdrive (1.30) unreleased; urgency=low
+testdrive (1.30-0ubuntu1) lucid; urgency=low
 
   [ Carlos de-Avillez ]
   * testdrive: LP: #538238, allow for multiple, different, user config files
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 11 Mar 2010 15:36:43 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 15 Mar 2010 16:26:20 -0500
 
 testdrive (1.29-0ubuntu1) lucid; urgency=low
 
