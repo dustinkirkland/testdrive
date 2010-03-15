@@ -36,6 +36,7 @@ DISK_FILE = os.getenv("DISK_FILE", "")
 DISK_SIZE = os.getenv("DISK_SIZE", "")
 KVM_ARGS = os.getenv("KVM_ARGS", "")
 VBOX_NAME = os.getenv("VBOX_NAME", "")
+hasOptions = False
 
 def select_iso():
 	global ISO
