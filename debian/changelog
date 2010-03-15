@@ -1,6 +1,7 @@
 testdrive (1.30) unreleased; urgency=low
 
-  * UNRELEASED
+  [ Carlos de-Avillez ]
+  * testdrive: LP: #538238, allow for multiple, different, user config files
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 11 Mar 2010 15:36:43 -0600
 
