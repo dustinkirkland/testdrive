@@ -30,7 +30,10 @@ HOME = os.getenv("HOME", "")
 ISO_URL = os.getenv("ISO_URL", "")
 DESKTOP = os.getenv("DESKTOP", "")
 VIRT = os.getenv("VIRT", "")
-CACHE = os.getenv("CACHE", "")
+CACHE = os.getenv("CACHE", None)
+CACHE_ISO = os.getenv("CACHE_ISO", None)
+CACHE_IMG = os.getenv("CACHE_IMG", None)
+CLEAN_IMG = os.getenv("CLEAN_IMG", None)
 MEM = os.getenv("MEM", "")
 DISK_FILE = os.getenv("DISK_FILE", "")
 DISK_SIZE = os.getenv("DISK_SIZE", "")
@@ -203,6 +206,7 @@ for i in config_files:
 if opt.url:
 	hasOptions = True
 	ISO_URL = is_iso(opt.url)
+
 if opt.desktop:
 	hasOptions = True
 	DESKTOP = 1
@@ -222,15 +226,29 @@ if len(VIRT) == 0:
 
 # Set defaults where undefined
 
-if len(CACHE) == 0:
+if CACHE is None:
 	CACHE = "%s/.cache/%s" % (HOME, PKG)
-for i in ("iso", "img"):
-	if not os.path.exists("%s/%s" % (CACHE, i)):
-		os.makedirs("%s/%s" % (CACHE, i), 0700)
+
+if CACHE_IMG is None:
+	CACHE_IMG = '%s/img' % CACHE
+if not os.path.exists(CACHE_IMG):
+	os.makedirs(CACHE_IMG, 0700)
+# if running the image from /dev/shm, remove the image when done
+# (unless CLEAN_IMG is set)
+if CLEAN_IMG is None:
+	if CACHE_IMG == '/dev/shm':
+		CLEAN_IMG = True
+	else:
+		CLEAN_IMG = False
+
+if CACHE_ISO is None:
+	CACHE_ISO = '%s/iso' % CACHE
+if not os.path.exists(CACHE_ISO):
+	os.makedirs(CACHE_ISO, 0700)
 
 ISO_NAME = os.path.basename(ISO_URL)
 PROTO = ISO_URL.partition(":")[0]
-PATH_TO_ISO = "%s/iso/%s" % (CACHE, ISO_NAME)
+PATH_TO_ISO = "%s/%s" % (CACHE_ISO, ISO_NAME)
 
 if len(MEM) == 0:
 	total = commands.getoutput("grep ^MemTotal /proc/meminfo | awk '{print $2}'")
@@ -242,8 +260,7 @@ if len(MEM) == 0:
 		MEM = 256
 
 if len(DISK_FILE) == 0:
-	DISK_FILE = tempfile.mkstemp(".img", "testdrive-disk-", "%s/img" % CACHE)[1]
-	info('disk file=%s' % DISK_FILE)
+	DISK_FILE = tempfile.mkstemp(".img", "testdrive-disk-", "%s" % CACHE_IMG)[1]
 
 if len(DISK_SIZE) == 0:
 	DISK_SIZE = "6G"
@@ -266,7 +283,7 @@ elif PROTO == "http" or PROTO == "ftp":
 		error("ISO not found at [%s]" % ISO_URL)
 	ZSYNC_WORKED = 0
 	if commands.getstatusoutput("which zsync")[0] == 0:
-		if run("cd %s/iso && zsync %s.zsync" % (CACHE, ISO_URL)) != 0:
+		if run("cd %s && zsync %s.zsync" % (CACHE_ISO, ISO_URL)) != 0:
 			# If the zsync failed, use wget
 			run_or_die("wget %s -O %s" % (ISO_URL, PATH_TO_ISO))
 	else:
@@ -367,28 +384,33 @@ elif VIRT == "parallels":
 else:
 	error("Unsupported virtualization method [%s]" % VIRT)
 
+# if requested to clean out the image mark it to be done
+if CLEAN_IMG:
+	rm_disk = True
+else:
+	rm_disk = False
+
 # If disk image is stock (e.g., you just ran a LiveCD, no installation),
 # purge it automatically.
-rm_disk = 0
 if os.path.exists(DISK_FILE):
 	if os.path.getsize(DISK_FILE) == 262144 and md5sum(DISK_FILE) == "1da7553f642332ec9fb58a6094d2c8ef":
 		# Clean up kvm qcow2 image
-		rm_disk = 1
+		rm_disk = True
 	if os.path.getsize(DISK_FILE) == 24576:
 		# Clean up vbox image
-		rm_disk = 1
+		rm_disk = True
 	elif os.path.getsize(DISK_FILE) == 0:
 		# Clean up empty file
-		rm_disk = 1
-	if rm_disk == 1:
-		info("Cleaning up empty disk image [%s]..." % DISK_FILE)
+		rm_disk = True
+	if rm_disk:
+		info("Cleaning up disk image [%s]..." % DISK_FILE)
 		os.unlink(DISK_FILE)
 
 # Remind about cache cleanup
 info("You may wish to clean up the cache directory...")
-print("      %s" % CACHE)
-#run("ls -HhalF %s/iso %s/img" % (CACHE, CACHE))
-#run("du -sh --apparent-size %s 2>/dev/null || du -sh %s" % (CACHE, CACHE))
+print("      %s and %s" % (CACHE_ISO, CACHE_IMG))
+#run("ls -HhalF %s %s" % (CACHE_ISO, CACHE_IMG))
+#run("du -sh --apparent-size %s %s 2>/dev/null || du -sh %s %s" % (CACHE_ISO, CACHE_IMG))
 
 if DESKTOP == 1:
 	if os.path.exists("/usr/bin/usb-creator-gtk"):
