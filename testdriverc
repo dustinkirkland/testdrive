@@ -5,6 +5,18 @@
 # Default: $HOME/.cache/testdrive
 #CACHE = "/path/to/your/cache"
 
+# CACHE_IMG and CACHE_ISO will default to $CACHE/img and $CACHE/iso, respectively.
+# You can set them explicitly if you want (specially interesting if you are
+# trying to run the image off /dev/shm.
+#CACHE_IMG = "/dev/shm"
+
+# CLEAN_IMG will remove the just-generated image at the end of run. By default the image
+# is kept, unless nothing was changed (i.e., the disk image was created, but no installation
+# was actually tried.
+# If running the image off /dev/shm, then *by default* the image will be removed (memory is a
+# restricted resource, and we should not over-allocate it)
+#CLEAN_IMG = True
+
 # ISO_URL is the complete path to the ISO
 # Default: $PROTO://$MIRROR/$DIR/$CODENAME-$TYPE-$ARCH.iso
 #ISO_URL = "http://cdimage.ubuntu.com/ubuntu-netbook/daily-live/current/lucid-netbook-i386.iso"
