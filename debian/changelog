@@ -1,10 +1,10 @@
-testdrive (1.31) unreleased; urgency=low
+testdrive (1.31-0ubuntu1) lucid; urgency=low
 
   [ Carlos de-Avillez ]
   * testdrive, testdriverc: add two new configurate variables for
     changing the iso and img cache directories, LP: #539892
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 15 Mar 2010 16:26:26 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 17 Mar 2010 14:37:19 -0500
 
 testdrive (1.30-0ubuntu1) lucid; urgency=low
 
