@@ -1,4 +1,4 @@
-testdrive (1.32) unreleased; urgency=low
+testdrive (1.32-0ubuntu1) lucid; urgency=low
 
   * testdriverc: uncomment defaults in testdriverc
   * testdrive-kvm: provide a way to run an existing disk image generated
@@ -6,7 +6,7 @@ testdrive (1.32) unreleased; urgency=low
   * testdrive: improve the kvm/vbox determination logic to handle a few
     cornercase bugs, LP: #543329, #542753
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 17 Mar 2010 14:37:33 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 21 Mar 2010 09:37:31 -0700
 
 testdrive (1.31-0ubuntu1) lucid; urgency=low
 
