@@ -3,6 +3,8 @@ testdrive (1.32) unreleased; urgency=low
   * testdriverc: uncomment defaults in testdriverc
   * testdrive-kvm: provide a way to run an existing disk image generated
     by testdrive, after the fact
+  * testdrive: improve the kvm/vbox determination logic to handle a few
+    cornercase bugs, LP: #543329, #542753
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 17 Mar 2010 14:37:33 -0500
 

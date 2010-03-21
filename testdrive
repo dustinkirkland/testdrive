@@ -55,7 +55,7 @@ def select_iso():
 			i=i+1
 		print("  %d. Other (prompt for ISO URL)" % i)
 		try:
-			input = raw_input("\nSelect an ISO to testdrive [1]: ")
+			input = raw_input("\nSelect an image to testdrive [1]: ")
 			if len(input) == 0:
 				choice = 1
 			else:
@@ -115,17 +115,20 @@ def run_or_die(cmd):
 		error("Command failed\n    `%s`" % cmd)
 
 def get_virt():
+	acceleration = 0
 	# Check if KVM acceleration can be used
 	if commands.getstatusoutput("which kvm-ok")[0] == 0:
 		# If we have kvm-ok, let's use it...
 		if commands.getstatusoutput("kvm-ok")[0] == 0:
-			info("Using KVM for virtual machine hosting...");
-			return "kvm"
+			acceleration = 1
 	else:
 		# Okay, we don't have kvm-ok, so let's hack it...
 		if commands.getstatusoutput("egrep \"^flags.*:.*(svm|vmx)\" /proc/cpuinfo")[0] == 0:
-			info("Using KVM for virtual machine hosting...");
-			return "kvm"
+			acceleration = 1
+	# Prefer KVM if acceleration available and installed
+	if acceleration == 1 and commands.getstatusoutput("which kvm"):
+		info("Using KVM for virtual machine hosting...")
+		return "kvm"
 	# Okay, no KVM, VirtualBox maybe?
 	if commands.getstatusoutput("which VBoxManage")[0] == 0:
 		info("Using VirtualBox for virtual machine hosting...")
@@ -134,11 +137,14 @@ def get_virt():
 	if commands.getstatusoutput("which prlctl")[0] == 0:
 		info("Using Parallels Desktop for virtual machine hosting...")
 		return "parallels"
-	error("You must have either /usr/bin/kvm or /usr/bin/VBoxManage installed.\n\
-HINT: Consider installing kvm if your CPU supports VT, or virtualbox-ose...\n\
- egrep \"flags.*:.*(svm|vmx)\" /proc/cpuinfo && \\ \n\
-   sudo apt-get install kvm || \\ \n\
-   sudo apt-get install virtualbox-ose")
+	# No hypervisor found; error out with advice
+	if acceleration == 1:
+		error("Your CPU supports KVM acceleration; please install KVM:\n\
+    sudo apt-get install qemu-kvm")
+	else:
+		error("Your CPU does not support acceleration; run kvm-ok for more information; then please install VirtualBox:\n\
+    kvm-ok\n\
+    sudo apt-get install virtualbox-ose")
 
 ########
 # Main #
