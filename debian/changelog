@@ -1,3 +1,9 @@
+testdrive (1.33) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 21 Mar 2010 09:37:46 -0700
+
 testdrive (1.32-0ubuntu1) lucid; urgency=low
 
   * testdriverc: uncomment defaults in testdriverc
