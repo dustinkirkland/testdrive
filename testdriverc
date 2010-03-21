@@ -60,7 +60,10 @@ KVM_ARGS = "-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es13
 r = "lucid"
 m = ["i386"]
 u = "rsync://cdimage.ubuntu.com/cdimage"
-import platform
+import platform, commands
+(status, output) = commands.getstatusoutput('wget -q -O- http://cdimage.ubuntu.com/daily/current/MD5SUMS | head -n1 | sed "s/^.*\*//" | sed "s/\-.*$//"')
+if output:
+   r = output
 if platform.machine() == "x86_64":
 	m = ["amd64", "i386"]
 ISO = []
