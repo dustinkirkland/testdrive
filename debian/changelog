@@ -1,6 +1,8 @@
 testdrive (1.32) unreleased; urgency=low
 
   * testdriverc: uncomment defaults in testdriverc
+  * testdrive-kvm: provide a way to run an existing disk image generated
+    by testdrive, after the fact
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 17 Mar 2010 14:37:33 -0500
 
