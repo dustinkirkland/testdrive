@@ -1,6 +1,6 @@
 testdrive (1.32) unreleased; urgency=low
 
-  * UNRELEASED
+  * testdriverc: uncomment defaults in testdriverc
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 17 Mar 2010 14:37:33 -0500
 

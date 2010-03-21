@@ -29,8 +29,8 @@
 #VIRT = "virtualbox"
 
 # MEM is the amount of memory in MB to give to the VM guest
-# Default: 512
-#MEM = "384"
+# Default: 384
+MEM = "384"
 #MEM = "512"
 #MEM = "1024"
 
@@ -43,13 +43,13 @@
 # take that much space on the filesystem.
 # Default: 6G
 #DISK_SIZE = "4G"
-#DISK_SIZE = "6G"
+DISK_SIZE = "6G"
 #DISK_SIZE = "10G"
 
 # KVM_ARGS is a string of arbitrary KVM_ARGS to use when launching the VM
 # Default: "-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370"
 # See kvm(1) for a comprehensive list of arguments
-#KVM_ARGS = "-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370"
+KVM_ARGS = "-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370"
 
 # ISO is a list of ISO name/url associations to seed the default menu
 # The code below will build a list of Ubuntu [desktop,server,alternate,dvd,netbook] ISO
