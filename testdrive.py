@@ -1,4 +1,4 @@
-import os, platform, commands, tempfile, hashlib
+import os, platform, commands, tempfile, hashlib, ConfigParser
 class Testdrive:
     def __init__(self):
 	self.HOME = os.getenv("HOME", "")
@@ -17,20 +17,56 @@ class Testdrive:
 #	self.hasOptions = False
 	self.PKG = "testdrive"
 	self.PKGRC = "%src" % self.PKG
+        self.config_files = ["/etc/%s" % self.PKGRC, "%s/.%s" % (self.HOME, self.PKGRC), "%s/.config/%s/%s" % (self.HOME, self.PKG, self.PKGRC) ]
         (status, output) = commands.getstatusoutput('wget -q -O- http://cdimage.ubuntu.com/daily/current/MD5SUMS | head -n1 | sed "s/^.*\*//" | sed "s/\-.*$//"')
-	self.r = output
-	self.m = ["i386"]
-	self.u = "rsync://cdimage.ubuntu.com/cdimage"
+	#self.r = output
+	#self.m = ["i386"]
+	#self.u = "rsync://cdimage.ubuntu.com/cdimage"
 	self.DESKTOP = 0 #Probably not here
 	self.ISO_URL = 0 #Probably not here
 	self.VIRT = None
 	self.PROTO = None
+    
+    def set_values(self, var, value):
+        if var == 'kvm_args':
+		self.KVM_ARGS = value
+        if var == 'mem':
+		self.MEM = value
+        if var == 'disk_size':
+		self.DISK_SIZE = value
+	if var == 'cache':
+		self.CACHE = value
+	if var == 'cache_img':
+		self.CACHE_IMG = value
+	if var == 'clean_img':
+		self.CLEAN_IMG = value
+	if var == 'iso_url':
+		self.ISO_URL = value
+	if var == 'virt':
+		self.VIRT = value
+	if var == 'disk_file':
+		self.VIRT = value
+        if var == 'r':
+		self.r = value
+        if var == 'u':
+		self.u = value
+        if var == 'm':
+		self.m = [value]
+   
+    def load_config_file(self, config_file):
+	cfg = ConfigParser.ConfigParser()
+	cfg.read(config_file)
+	configitems = cfg.items(self.PKG)
+	print configitems
+	for items in configitems:
+		print items
+		self.set_values(items[0], items[1])
 
     def list_isos(self):
 	if platform.machine() == "x86_64":
-	        m = ["amd64", "i386"]
+	        self.m = ["amd64", "i386"]
 	ISO = []
-	for a in m:
+	for a in self.m:
 		ISO.append({"name":"Ubuntu Desktop (%s-%s)"%(self.r,a), "url":"%s/daily-live/current/%s-desktop-%s.iso"%(self.u,self.r,a)})
 		ISO.append({"name":"Ubuntu Server (%s-%s)"%(self.r,a), "url":"%s/ubuntu-server/daily/current/%s-server-%s.iso"%(self.u,self.r,a)})
 		ISO.append({"name":"Ubuntu Alternate (%s-%s)"%(self.r,a), "url":"%s/daily/current/%s-alternate-%s.iso"%(self.u,self.r,a)})

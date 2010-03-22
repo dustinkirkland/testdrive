@@ -40,7 +40,7 @@ def select_iso(td, ISO):
 
 def error(str):
 	print("\nERROR: %s\n" % str)
-	#TODO: Related to DESKTOP variable problem in MAIN
+	#TODO: Related to DESKTOP variable problem in MAIN - Recommend kirkland to drop this due to it should always ask if burn or not.
 	if DESKTOP == 1:
 		raw_input("Press <enter> to exit...")
 	sys.exit(1)	
@@ -198,6 +198,30 @@ def main():
     	hasOptions = True
     	td.ISO_URL = td.is_iso(opt.url)
     
+    ###########################################
+    #TODO: Add Config File Loading around here?
+    ###########################################
+    # prime configuration with defaults
+    config_files = ["/etc/%s" % td.PKGRC, "%s/.%s" % (td.HOME, td.PKGRC), "%s/.config/%s/%s" % (td.HOME, td.PKG, td.PKGRC) ]
+    info("config passed: %s" %opt.config)
+    if opt.config:
+    	hasOptions = True
+    	if opt.config[0] != '/':
+    		opt.config = '%s/.config/%s/%s' % (td.HOME, td.PKG, opt.config)
+    	config_files += [opt.config]
+    
+    # try to load configuration files; on error exit
+    # Let the user know which config files were used
+    for i in config_files:
+    	info('Trying config in %s' % i)
+    	if os.path.exists(i):
+    		try:
+    			td.load_config_file(i)
+    			info("Using configuration in %s" % i)
+    		except:
+    			error("Invalid configuration [%s]" % i)
+    ###########################################
+    
     if opt.desktop:
     	hasOptions = True
 	#TODO: Determine if this is only needed for the command line or if this is gonna be needed for GTK too
@@ -238,7 +262,8 @@ def main():
     if td.VIRT == "paralels":
 	info("Using Parallels Desktop for virtual machine hosting...")
 
-    #TODO: In the future this must get the variables in init because this have to come from the config file
+    #TODO: Decide if this goes in init or not, to set the defaults before loading the config files
+    # set defaults were undefined
     td.set_defaults()
 
     # BUG: should check disk space availability in CACHE dir
