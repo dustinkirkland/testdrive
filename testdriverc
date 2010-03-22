@@ -1,3 +1,4 @@
+[testdrive]
 # This is the global configuration file for the testdrive(1) utility.
 # This file is python-syntax, sourced by testdrive
 
@@ -60,16 +61,16 @@ KVM_ARGS = "-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es13
 r = "lucid"
 m = ["i386"]
 u = "rsync://cdimage.ubuntu.com/cdimage"
-import platform, commands
-(status, output) = commands.getstatusoutput('wget -q -O- http://cdimage.ubuntu.com/daily/current/MD5SUMS | head -n1 | sed "s/^.*\*//" | sed "s/\-.*$//"')
-if output:
-   r = output
-if platform.machine() == "x86_64":
-	m = ["amd64", "i386"]
-ISO = []
-for a in m:
-	ISO.append({"name":"Ubuntu Desktop (%s-%s)"%(r,a), "url":"%s/daily-live/current/%s-desktop-%s.iso"%(u,r,a)})
-	ISO.append({"name":"Ubuntu Server (%s-%s)"%(r,a), "url":"%s/ubuntu-server/daily/current/%s-server-%s.iso"%(u,r,a)})
-	ISO.append({"name":"Ubuntu Alternate (%s-%s)"%(r,a), "url":"%s/daily/current/%s-alternate-%s.iso"%(u,r,a)})
-	ISO.append({"name":"Ubuntu DVD (%s-%s)"%(r,a), "url":"%s/dvd/current/%s-dvd-%s.iso"%(u,r,a)})
-ISO.append({"name":"Ubuntu Netbook (%s-%s)"%(r,a), "url":"%s/ubuntu-netbook/daily-live/current/%s-netbook-%s.iso"%(u,r,a)})
+#import platform, commands
+#(status, output) = commands.getstatusoutput('wget -q -O- http://cdimage.ubuntu.com/daily/current/MD5SUMS | head -n1 | sed "s/^.*\*//" | sed "s/\-.*$//"')
+#if output:
+#   r = output
+#if platform.machine() == "x86_64":
+#	m = ["amd64", "i386"]
+#ISO = []
+#for a in m:
+#	ISO.append({"name":"Ubuntu Desktop (%s-%s)"%(r,a), "url":"%s/daily-live/current/%s-desktop-%s.iso"%(u,r,a)})
+#	ISO.append({"name":"Ubuntu Server (%s-%s)"%(r,a), "url":"%s/ubuntu-server/daily/current/%s-server-%s.iso"%(u,r,a)})
+#	ISO.append({"name":"Ubuntu Alternate (%s-%s)"%(r,a), "url":"%s/daily/current/%s-alternate-%s.iso"%(u,r,a)})
+#	ISO.append({"name":"Ubuntu DVD (%s-%s)"%(r,a), "url":"%s/dvd/current/%s-dvd-%s.iso"%(u,r,a)})
+#ISO.append({"name":"Ubuntu Netbook (%s-%s)"%(r,a), "url":"%s/ubuntu-netbook/daily-live/current/%s-netbook-%s.iso"%(u,r,a)})
