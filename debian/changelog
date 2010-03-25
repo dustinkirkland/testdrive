@@ -1,10 +1,10 @@
-testdrive (1.33) unreleased; urgency=low
+testdrive (1.33-0ubuntu1) lucid; urgency=low
 
   * debian/control: recommend kvm-pxe to get rid of warnings now that
     pxe roms have moved
   * debian/install: install testdrive-kvm binary
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 21 Mar 2010 09:37:46 -0700
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 24 Mar 2010 19:39:17 -0700
 
 testdrive (1.32-0ubuntu1) lucid; urgency=low
 
