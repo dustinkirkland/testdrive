@@ -225,7 +225,8 @@ def main():
 	if opt.desktop:
 		hasOptions = True
 		#TODO: Determine if this is only needed for the command line or if this is gonna be needed for GTK too
-		td.DESKTOP = 1
+		#td.DESKTOP = 1
+		DESKTOP = 1
 
 	# Handle single positional parameter
 	if not hasOptions:
@@ -300,7 +301,8 @@ def main():
 
 	# Launch Desktop
 	# TODO: Determine if DESKTOP variable should be handled locally or not. See error function too.
-	if td.DESKTOP == 1:
+	#if td.DESKTOP == 1:
+	if DESKTOP == 1:
 		if os.path.exists("/usr/bin/usb-creator-gtk"):
 			input = raw_input("\nLaunch USB Startup Disk Creator for further testing of this ISO? [y/N] ")
 			if input == "y" or input == "Y":

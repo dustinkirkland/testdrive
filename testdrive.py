@@ -23,7 +23,7 @@ class Testdrive:
 		self.r = output
 		#self.m = ["i386"]
 		#self.u = "rsync://cdimage.ubuntu.com/cdimage"
-		self.DESKTOP = 0 #Probably not here
+		#self.DESKTOP = 0 #Probably not here
 		self.ISO_URL = 0 #Probably not here
 		self.VIRT = None
 		self.PROTO = None
