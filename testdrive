@@ -70,245 +70,246 @@ def run_or_die(cmd):
 		error("Command failed\n    `%s`" % cmd)
 
 def launch_kvm(td):
-    (status, output) = commands.getstatusoutput("kvm-ok")
-    if status != 0:
-	print(output)
-    info("Creating disk image [%s]..." % td.DISK_FILE)
-    run_or_die("kvm-img create -f qcow2 %s %s" % (td.DISK_FILE, td.DISK_SIZE))
-    info("Running the Virtual Machine...")
-    os.system("kvm -m %s -cdrom %s -drive file=%s,if=virtio,index=0,boot=on %s" % (td.MEM, td.PATH_TO_ISO, td.DISK_FILE, td.KVM_ARGS))
+	(status, output) = commands.getstatusoutput("kvm-ok")
+	if status != 0:
+		print(output)
+	info("Creating disk image [%s]..." % td.DISK_FILE)
+	run_or_die("kvm-img create -f qcow2 %s %s" % (td.DISK_FILE, td.DISK_SIZE))
+	info("Running the Virtual Machine...")
+	os.system("kvm -m %s -cdrom %s -drive file=%s,if=virtio,index=0,boot=on %s" % (td.MEM, td.PATH_TO_ISO, td.DISK_FILE, td.KVM_ARGS))
 
 def launch_virtualbox(td):
-    # Determine which version of VirtualBox we have installed.  What is returned is
-    # typically a string such as '3.1.0r55467', lets assume that the command line
-    # is consistent within 3.0.x versions and 3.1.x version so extract this part of the
-    # version string for comparison later
-    vboxversion = commands.getoutput("VBoxManage --version")
-    vboxversion = "%s.%s" % (vboxversion.split(".")[0], vboxversion.split(".")[1])
-    if vboxversion == "3.0" or vboxversion == "3.1":
-	info("VirtualBox %s detected." % vboxversion)
-    else:
-	error("Unsupported version (%s) of VirtualBox; please install v3.0 or v3.1." % vboxversion)
+	# Determine which version of VirtualBox we have installed.  What is returned is
+	# typically a string such as '3.1.0r55467', lets assume that the command line
+	# is consistent within 3.0.x versions and 3.1.x version so extract this part of the
+	# version string for comparison later
+	vboxversion = commands.getoutput("VBoxManage --version")
+	vboxversion = "%s.%s" % (vboxversion.split(".")[0], vboxversion.split(".")[1])
+	if vboxversion == "3.0" or vboxversion == "3.1":
+		info("VirtualBox %s detected." % vboxversion)
+    	else:
+		error("Unsupported version (%s) of VirtualBox; please install v3.0 or v3.1." % vboxversion)
 
-    td.DISK_SIZE = td.DISK_SIZE.replace("G", "000")
-    if os.path.exists(td.DISK_FILE):
-	os.unlink(td.DISK_FILE)
-    run("sed -i \":HardDisk.*%s:d\" %s/.VirtualBox/VirtualBox.xml" % (td.DISK_FILE, td.HOME))
-    info("Creating disk image...")
-    run_or_die("VBoxManage createhd --filename %s --size %s" % (td.DISK_FILE, td.DISK_SIZE))
-    if vboxversion == "3.0":
- 	run("VBoxManage modifyvm %s --hda none" % td.VBOX_NAME)
-    elif vboxversion == "3.1":
-	run("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 0 --type hdd --medium none" % td.VBOX_NAME)
-	run("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 1 --type dvddrive --medium none" % td.VBOX_NAME)
-    info("Creating the Virtual Machine...")
-    if os.path.exists("%s/.VirtualBox/Machines/%s/%s.xml" % (td.HOME, td.VBOX_NAME, td.VBOX_NAME)):
-	os.unlink("%s/.VirtualBox/Machines/%s/%s.xml" % (td.HOME, td.VBOX_NAME, td.VBOX_NAME))
-    run("VBoxManage unregistervm %s --delete" % td.VBOX_NAME)
-    run_or_die("VBoxManage createvm --register --name %s" % td.VBOX_NAME)
-    run_or_die("VBoxManage modifyvm %s --memory %s" % (td.VBOX_NAME, td.MEM))
-    # This should probably support more than just Ubuntu...
-    if td.ISO_URL.find("amd64") >= 0:
-	platform = "Ubuntu_64"
-    else:
-	platform = "Ubuntu"
-    run_or_die("VBoxManage modifyvm %s --ostype %s" % (td.VBOX_NAME, platform))
-    run_or_die("VBoxManage modifyvm %s --vram 128" % td.VBOX_NAME)
-    run_or_die("VBoxManage modifyvm %s --boot1 disk" % td.VBOX_NAME)
-    run_or_die("VBoxManage modifyvm %s --boot2 dvd" % td.VBOX_NAME)
-    run_or_die("VBoxManage modifyvm %s --nic1 nat" % td.VBOX_NAME)
-    info("Running the Virtual Machine...")
-    if vboxversion == "3.0":
-	run_or_die("VBoxManage modifyvm %s --hda %s" % (td.VBOX_NAME, td.DISK_FILE))
-	run_or_die("VBoxManage startvm %s" % td.VBOX_NAME)
-	print(">>> %s <<<\n" % (td.PATH_TO_ISO))
-	run_or_die("VBoxManage controlvm %s dvdattach %s" % (td.VBOX_NAME, td.PATH_TO_ISO))
-    elif vboxversion == "3.1":
-	run_or_die("VBoxManage storagectl %s --name \"IDE Controller\" --add ide" % td.VBOX_NAME)
-	run_or_die("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 0 --type hdd --medium %s" % (td.VBOX_NAME, td.DISK_FILE))
-	run_or_die("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 1 --type dvddrive --medium %s" % (td.VBOX_NAME, td.PATH_TO_ISO))
-	run_or_die("VBoxManage startvm %s" % td.VBOX_NAME)
+	td.DISK_SIZE = td.DISK_SIZE.replace("G", "000")
+	if os.path.exists(td.DISK_FILE):
+		os.unlink(td.DISK_FILE)
+	run("sed -i \":HardDisk.*%s:d\" %s/.VirtualBox/VirtualBox.xml" % (td.DISK_FILE, td.HOME))
+	info("Creating disk image...")
+	run_or_die("VBoxManage createhd --filename %s --size %s" % (td.DISK_FILE, td.DISK_SIZE))
+	if vboxversion == "3.0":
+		run("VBoxManage modifyvm %s --hda none" % td.VBOX_NAME)
+	elif vboxversion == "3.1":
+		run("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 0 --type hdd --medium none" % td.VBOX_NAME)
+		run("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 1 --type dvddrive --medium none" % td.VBOX_NAME)
+	info("Creating the Virtual Machine...")
+	if os.path.exists("%s/.VirtualBox/Machines/%s/%s.xml" % (td.HOME, td.VBOX_NAME, td.VBOX_NAME)):
+		os.unlink("%s/.VirtualBox/Machines/%s/%s.xml" % (td.HOME, td.VBOX_NAME, td.VBOX_NAME))
+	run("VBoxManage unregistervm %s --delete" % td.VBOX_NAME)
+	run_or_die("VBoxManage createvm --register --name %s" % td.VBOX_NAME)
+	run_or_die("VBoxManage modifyvm %s --memory %s" % (td.VBOX_NAME, td.MEM))
+	# This should probably support more than just Ubuntu...
+	if td.ISO_URL.find("amd64") >= 0:
+		platform = "Ubuntu_64"
+	else:
+		platform = "Ubuntu"
+	run_or_die("VBoxManage modifyvm %s --ostype %s" % (td.VBOX_NAME, platform))
+	run_or_die("VBoxManage modifyvm %s --vram 128" % td.VBOX_NAME)
+	run_or_die("VBoxManage modifyvm %s --boot1 disk" % td.VBOX_NAME)
+	run_or_die("VBoxManage modifyvm %s --boot2 dvd" % td.VBOX_NAME)
+	run_or_die("VBoxManage modifyvm %s --nic1 nat" % td.VBOX_NAME)
+	info("Running the Virtual Machine...")
+	if vboxversion == "3.0":
+		run_or_die("VBoxManage modifyvm %s --hda %s" % (td.VBOX_NAME, td.DISK_FILE))
+		run_or_die("VBoxManage startvm %s" % td.VBOX_NAME)
+		print(">>> %s <<<\n" % (td.PATH_TO_ISO))
+		run_or_die("VBoxManage controlvm %s dvdattach %s" % (td.VBOX_NAME, td.PATH_TO_ISO))
+	elif vboxversion == "3.1":
+		run_or_die("VBoxManage storagectl %s --name \"IDE Controller\" --add ide" % td.VBOX_NAME)
+		run_or_die("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 0 --type hdd --medium %s" % (td.VBOX_NAME, td.DISK_FILE))
+		run_or_die("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 1 --type dvddrive --medium %s" % (td.VBOX_NAME, td.PATH_TO_ISO))
+		run_or_die("VBoxManage startvm %s" % td.VBOX_NAME)
 
-    # Give this VM a few seconds to start up
-    time.sleep(5)
-    # Loop as long as this VM is running
-    while commands.getstatusoutput("VBoxManage list runningvms | grep -qs %s" % VBOX_NAME)[0] == 0:
-	time.sleep(2)
+	# Give this VM a few seconds to start up
+	time.sleep(5)
+	# Loop as long as this VM is running
+	while commands.getstatusoutput("VBoxManage list runningvms | grep -qs %s" % VBOX_NAME)[0] == 0:
+		time.sleep(2)
 
 def launch_parallels(td):
-    print("\n")
-    if commands.getstatusoutput("prlctl list %s | grep -qsv \"UUID\"" % td.VBOX_NAME)[0] == 0:
-	run_or_die("prlctl delete %s" % td.VBOX_NAME)
-    td.DISK_SIZE = td.DISK_SIZE.replace("G", "000")
-    info("Creating VM...")
-    run_or_die("prlctl create %s --ostype linux --distribution ubuntu" % td.VBOX_NAME)
-    run_or_die("prlctl set %s --memsize %s" % (td.VBOX_NAME, td.MEM))
-    run_or_die("prlctl set %s --device-del hdd0" % td.VBOX_NAME)
-    run_or_die("prlctl set %s --device-add hdd --type expand --size %s --iface scsi --position 0:0" % (td.VBOX_NAME, td.DISK_SIZE))
-    run_or_die("prlctl set %s --device-set cdrom0 --image %s" % (td.VBOX_NAME, td.PATH_TO_ISO))
-    run_or_die("prlctl start %s" % td.VBOX_NAME)
-    # Loop as long as this VM is running
-    while commands.getstatusoutput("prlctl list %s | grep -qs stopped" % td.VBOX_NAME)[0] != 0:
-	time.sleep(2)
+	print("\n")
+	if commands.getstatusoutput("prlctl list %s | grep -qsv \"UUID\"" % td.VBOX_NAME)[0] == 0:
+		run_or_die("prlctl delete %s" % td.VBOX_NAME)
+	td.DISK_SIZE = td.DISK_SIZE.replace("G", "000")
+	info("Creating VM...")
+	run_or_die("prlctl create %s --ostype linux --distribution ubuntu" % td.VBOX_NAME)
+	run_or_die("prlctl set %s --memsize %s" % (td.VBOX_NAME, td.MEM))
+	run_or_die("prlctl set %s --device-del hdd0" % td.VBOX_NAME)
+	run_or_die("prlctl set %s --device-add hdd --type expand --size %s --iface scsi --position 0:0" % (td.VBOX_NAME, td.DISK_SIZE))
+	run_or_die("prlctl set %s --device-set cdrom0 --image %s" % (td.VBOX_NAME, td.PATH_TO_ISO))
+	run_or_die("prlctl start %s" % td.VBOX_NAME)
+	# Loop as long as this VM is running
+	while commands.getstatusoutput("prlctl list %s | grep -qs stopped" % td.VBOX_NAME)[0] != 0:
+		time.sleep(2)
 
 def main():
-    # Initialize Testdrive Class
-    td = testdrive.Testdrive()
+	# Initialize Testdrive Class
+	td = testdrive.Testdrive()
 
-    # Local UI
-    hasOptions = False
+	# Local UI
+	hasOptions = False
 
-    # Option Parser
-    usage = "usage: %prog <parameters>\n\
-    \n\
-      %prog is a utility that allows you to easily download the latest Ubuntu\n\
-      development release and run it in a KVM virtual machine.\n\
-    \n\
-      All options to this program are handled through the global configuration\n\
-      file, /etc/%progrc, and then the user's local configuration file,\n\
-      ~/.%progrc, then the configuration stored in\n\
-      ~/.config/%prog/%progrc\n\
-    \n\
-      Users wanting to change the behavior default configuration can make a\n\
-      copy of /etc/%s, and pass this as a parameter to %prog.\n"
+	# Option Parser
+	usage = "usage: %prog <parameters>\n\
+		\n\
+		%prog is a utility that allows you to easily download the latest Ubuntu\n\
+		development release and run it in a KVM virtual machine.\n\
+		\n\
+		All options to this program are handled through the global configuration\n\
+		file, /etc/%progrc, and then the user's local configuration file,\n\
+		~/.%progrc, then the configuration stored in\n\
+		~/.config/%prog/%progrc\n\
+		\n\
+		Users wanting to change the behavior default configuration can make a\n\
+		copy of /etc/%s, and pass this as a parameter to %prog.\n"
 
 
-    parser = OptionParser(usage)
-    parser.add_option('-f', '--config', action='store', type='string', dest='config',
-    		help='user configuration file (overriding default values')
-    parser.add_option('-v', '--version', action='store_true', dest='version', default=False,
-    		help='print version and system data, and exit')
-    parser.add_option('-u', '--url', action='store', type='string', dest='url', 
-    		help='get ISO image from this URL location')
-    parser.add_option('-d', '--desktop', action='store_true', dest='desktop', default=False,
-    		help='try to launch usb-creator for further testing')
+	parser = OptionParser(usage)
+	parser.add_option('-f', '--config', action='store', type='string', dest='config',
+		help='user configuration file (overriding default values')
+	parser.add_option('-v', '--version', action='store_true', dest='version', default=False,
+		help='print version and system data, and exit')
+	parser.add_option('-u', '--url', action='store', type='string', dest='url', 
+		help='get ISO image from this URL location')
+	parser.add_option('-d', '--desktop', action='store_true', dest='desktop', default=False,
+		help='try to launch usb-creator for further testing')
     
-    (opt, args) = parser.parse_args()
-    info("version passed: %s" % opt.version)
-    if opt.version:
-    	hasOptions = True
-    	version = commands.getstatusoutput("dpkg -l testdrive | tail -n1 | awk '{print $3}'")
-    	info("testdrive %s" % version[1])
-    	get_virt()
-    	sys.exit(0)
+	(opt, args) = parser.parse_args()
+	info("version passed: %s" % opt.version)
+	if opt.version:
+		hasOptions = True
+		version = commands.getstatusoutput("dpkg -l testdrive | tail -n1 | awk '{print $3}'")
+		info("testdrive %s" % version[1])
+		get_virt()
+		sys.exit(0)
 
-    # TODO: Ask kirkland if function is_iso is only used given the commands of the parser
-    # Process the rest of the options
-    if opt.url:
-    	hasOptions = True
-    	td.ISO_URL = td.is_iso(opt.url)
+	# TODO: Ask kirkland if function is_iso is only used given the commands of the parser
+	# Process the rest of the options
+	if opt.url:
+		hasOptions = True
+		td.ISO_URL = td.is_iso(opt.url)
     
-    ###########################################
-    #TODO: Add Config File Loading around here?
-    ###########################################
-    # prime configuration with defaults
-    config_files = ["/etc/%s" % td.PKGRC, "%s/.%s" % (td.HOME, td.PKGRC), "%s/.config/%s/%s" % (td.HOME, td.PKG, td.PKGRC) ]
-    info("config passed: %s" %opt.config)
-    if opt.config:
-    	hasOptions = True
-    	if opt.config[0] != '/':
-    		opt.config = '%s/.config/%s/%s' % (td.HOME, td.PKG, opt.config)
-    	config_files += [opt.config]
+	###########################################
+	#TODO: Add Config File Loading around here?
+	###########################################
+	# prime configuration with defaults
+	config_files = ["/etc/%s" % td.PKGRC, "%s/.%s" % (td.HOME, td.PKGRC), "%s/.config/%s/%s" % (td.HOME, td.PKG, td.PKGRC) ]
+	info("config passed: %s" %opt.config)
+	if opt.config:
+		hasOptions = True
+		if opt.config[0] != '/':
+			opt.config = '%s/.config/%s/%s' % (td.HOME, td.PKG, opt.config)
+		config_files += [opt.config]
     
-    # try to load configuration files; on error exit
-    # Let the user know which config files were used
-    for i in config_files:
-    	info('Trying config in %s' % i)
-    	if os.path.exists(i):
-    		try:
-    			td.load_config_file(i)
-    			info("Using configuration in %s" % i)
-    		except:
-    			error("Invalid configuration [%s]" % i)
-    ###########################################
+	# try to load configuration files; on error exit
+	# Let the user know which config files were used
+	for i in config_files:
+		info('Trying config in %s' % i)
+		if os.path.exists(i):
+			try:
+				td.load_config_file(i)
+				info("Using configuration in %s" % i)
+			except:
+				error("Invalid configuration [%s]" % i)
+	###########################################
     
-    if opt.desktop:
-    	hasOptions = True
-	#TODO: Determine if this is only needed for the command line or if this is gonna be needed for GTK too
-    	td.DESKTOP = 1
+	if opt.desktop:
+		hasOptions = True
+		#TODO: Determine if this is only needed for the command line or if this is gonna be needed for GTK too
+		td.DESKTOP = 1
 
-    # Handle single positional parameter
-    if not hasOptions:
-    	if args:
-		td.ISO_URL = is_iso(args)
+	# Handle single positional parameter
+	if not hasOptions:
+		if args:
+			td.ISO_URL = is_iso(args)
 
-    # Select all ISO's
-    ISO = td.list_isos()
+	# Select all ISO's
+	ISO = td.list_isos()
    
-    #TODO: Determine if ISO_URL is only needed in the command line app
-    # Show the Command Line MENU and OBTAIN URL
-    #TODO: NOTICE: Changed from original.
-    #if len(ISO_URL) == 0:
-    if not td.ISO_URL:
-       td.ISO_URL = select_iso(td, ISO)
+	#TODO: Determine if ISO_URL is only needed in the command line app
+	# Show the Command Line MENU and OBTAIN URL
+	#TODO: NOTICE: Changed from original.
+	#TODO-IMPORTANT: Probably the ISO list should be created before instancing the class due to in PyGTK might be needed before instancing.
+	#if len(ISO_URL) == 0:
+	if not td.ISO_URL:
+		td.ISO_URL = select_iso(td, ISO)
 
-    # Choose the virtualization engine
-    #TODO: NOTICE: Changed from original
-    #if len(td.VIRT) == 0:
-    if not td.VIRT:
-    	td.VIRT = td.get_virt()   
-    #TODO: NOTICE: Removed from get_virt() and placed here
-    if td.VIRT == 1:
-	error("Your CPU supports KVM acceleration; please install KVM:\n\
-		sudo apt-get install qemu-kvm")
-    if td.VIRT == 0:
-        error("Your CPU does not support acceleration; run kvm-ok for more information; then please install VirtualBox:\n\
-		kvm-ok\n\
-		sudo apt-get install virtualbox-ose")
-    if td.VIRT == "kvm":
-	info("Using KVM for virtual machine hosting...");
-    if td.VIRT == "virtualbox":
-	info("Using VirtualBox for virtual machine hosting...")
-    if td.VIRT == "paralels":
-	info("Using Parallels Desktop for virtual machine hosting...")
+	# Choose the virtualization engine
+	#TODO: NOTICE: Changed from original
+	#if len(td.VIRT) == 0:
+	if not td.VIRT:
+		td.VIRT = td.get_virt()   
+	#TODO: NOTICE: Removed from get_virt() and placed here
+	if td.VIRT == 1:
+		error("Your CPU supports KVM acceleration; please install KVM:\n\
+			sudo apt-get install qemu-kvm")
+	if td.VIRT == 0:
+		error("Your CPU does not support acceleration; run kvm-ok for more information; then please install VirtualBox:\n\
+			kvm-ok\n\
+			sudo apt-get install virtualbox-ose")
+	if td.VIRT == "kvm":
+		info("Using KVM for virtual machine hosting...");
+	if td.VIRT == "virtualbox":
+		info("Using VirtualBox for virtual machine hosting...")
+	if td.VIRT == "paralels":
+		info("Using Parallels Desktop for virtual machine hosting...")
 
-    #TODO: Decide if this goes in init or not, to set the defaults before loading the config files
-    # set defaults were undefined
-    td.set_defaults()
+	#TODO: Decide if this goes in init or not, to set the defaults before loading the config files
+	# set defaults were undefined
+	td.set_defaults()
 
-    # BUG: should check disk space availability in CACHE dir
-    # Update the cache
-    info("Syncing the specified ISO...")
-    print("      %s\n" % td.ISO_URL)
-    cmd = td.get_proto()
-    if cmd == 0:
-	error("ISO not found at [%s]" % td.ISO_URL)
-    elif cmd == 1:
-        error("Unsupported protocol [%s]" % td.PROTO)
-    run_or_die(cmd)
+	# BUG: should check disk space availability in CACHE dir
+	# Update the cache
+	info("Syncing the specified ISO...")
+	print("      %s\n" % td.ISO_URL)
+	cmd = td.get_proto()
+	if cmd == 0:
+		error("ISO not found at [%s]" % td.ISO_URL)
+	elif cmd == 1:
+		error("Unsupported protocol [%s]" % td.PROTO)
+	run_or_die(cmd)
 
-    # Launch the VM
-    if td.VIRT == "kvm":
-	launch_kvm(td)
-    elif td.VIRT == "virtualbox":
-	launch_virtualbox(td)
-    elif td.VIRT == "parallels":
-	launch_parallels(td)
-    else:
-	error("Unsupported virtualization method [%s]" % td.VIRT)
-
-    rm_disk = td.delete_image()
-    if rm_disk:
-	info("Cleaning up disk image [%s]..." % td.DISK_FILE)
-
-    # Remind about cache cleanup
-    info("You may wish to clean up the cache directory...")
-    print("      %s and %s" % (td.CACHE_ISO, td.CACHE_IMG))
-    #run("ls -HhalF %s %s" % (CACHE_ISO, CACHE_IMG))
-    #run("du -sh --apparent-size %s %s 2>/dev/null || du -sh %s %s" % (CACHE_ISO, CACHE_IMG))
-
-    # Launch Desktop
-    # TODO: Determine if DESKTOP variable should be handled locally or not. See error function too.
-    if td.DESKTOP == 1:
-	if os.path.exists("/usr/bin/usb-creator-gtk"):
-		input = raw_input("\nLaunch USB Startup Disk Creator for further testing of this ISO? [y/N] ")
-		if input == "y" or input == "Y":
-			#os.execv("/usr/bin/usb-creator-gtk", ["usb-creator-gtk", "-i", PATH_TO_ISO])
-			td.launch_desktop()
+	# Launch the VM
+	if td.VIRT == "kvm":
+		launch_kvm(td)
+	elif td.VIRT == "virtualbox":
+		launch_virtualbox(td)
+	elif td.VIRT == "parallels":
+		launch_parallels(td)
 	else:
-		raw_input("\nPress <enter> to exit...")
+		error("Unsupported virtualization method [%s]" % td.VIRT)
 
-    sys.exit(0)
+	rm_disk = td.delete_image()
+	if rm_disk:
+		info("Cleaning up disk image [%s]..." % td.DISK_FILE)
+
+	# Remind about cache cleanup
+	info("You may wish to clean up the cache directory...")
+	print("      %s and %s" % (td.CACHE_ISO, td.CACHE_IMG))
+	#run("ls -HhalF %s %s" % (CACHE_ISO, CACHE_IMG))
+	#run("du -sh --apparent-size %s %s 2>/dev/null || du -sh %s %s" % (CACHE_ISO, CACHE_IMG))
+
+	# Launch Desktop
+	# TODO: Determine if DESKTOP variable should be handled locally or not. See error function too.
+    	if td.DESKTOP == 1:
+		if os.path.exists("/usr/bin/usb-creator-gtk"):
+			input = raw_input("\nLaunch USB Startup Disk Creator for further testing of this ISO? [y/N] ")
+			if input == "y" or input == "Y":
+				#os.execv("/usr/bin/usb-creator-gtk", ["usb-creator-gtk", "-i", PATH_TO_ISO])
+				td.launch_desktop()
+		else:
+			raw_input("\nPress <enter> to exit...")
+
+	sys.exit(0)
 
 if __name__ == '__main__':
-    main()
+	main()

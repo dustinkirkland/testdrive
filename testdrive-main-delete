@@ -207,29 +207,29 @@ def main():
     	info("testdrive %s" % version[1])							#
     	get_virt()										#
     	sys.exit(0)										#
-#################################### COPIED ENDS ################################################
-    
-    # prime configuration with defaults
+												#
+    												#
+    # prime configuration with defaults								#
     config_files = ["/etc/%s" % PKGRC, "%s/.%s" % (HOME, PKGRC), "%s/.config/%s/%s" % (HOME, PKG, PKGRC) ]
-    info("config passed: %s" %opt.config)
-    if opt.config:
-    	hasOptions = True
-    	if opt.config[0] != '/':
-    		opt.config = '%s/.config/%s/%s' % (HOME, PKG, opt.config)
-    	config_files += [opt.config]
-    
-    # try to load configuration files; on error exit
-    # Let the user know which config files were used
-    for i in config_files:
-    	info('Trying config in %s' % i)
-    	if os.path.exists(i):
-    		try:
-    			execfile(i)
-    			info("Using configuration in %s" % i)
-    		except:
-    			error("Invalid configuration [%s]" % i)
-
-#################################### COPIED STARTS ##############################################
+    info("config passed: %s" %opt.config)							#
+    if opt.config:										#
+    	hasOptions = True									#
+    	if opt.config[0] != '/':								#
+    		opt.config = '%s/.config/%s/%s' % (HOME, PKG, opt.config)			#
+    	config_files += [opt.config]								#
+    												#
+    # try to load configuration files; on error exit						#
+    # Let the user know which config files were used						#
+    for i in config_files:									#
+    	info('Trying config in %s' % i)								#
+    	if os.path.exists(i):									#
+    		try:										#
+    			execfile(i)								#
+    			info("Using configuration in %s" % i)					#
+    		except:										#
+    			error("Invalid configuration [%s]" % i)					#
+												#
+#												#
     # now process the rest of the options (if any)						#
     if opt.url:											#
     	hasOptions = True									#
