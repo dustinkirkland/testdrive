@@ -1,6 +1,7 @@
 testdrive (1.33) unreleased; urgency=low
 
-  * UNRELEASED
+  * debian/control: recommend kvm-pxe to get rid of warnings now that
+    pxe roms have moved
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 21 Mar 2010 09:37:46 -0700
 
