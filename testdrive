@@ -3,9 +3,6 @@
 import commands, hashlib, os, string, sys, tempfile, time, platform, testdrive
 from optparse import OptionParser
 
-global DESKTOP
-DESKTOP = 0
-
 # Creates the UI list
 def select_iso(td, ISO):
 	while 1:
@@ -44,8 +41,8 @@ def select_iso(td, ISO):
 def error(str):
 	print("\nERROR: %s\n" % str)
 	#TODO: Related to DESKTOP variable problem in MAIN - Recommend kirkland to drop this due to it should always ask if burn or not.
-	if DESKTOP == 1:
-		raw_input("Press <enter> to exit...")
+	#if DESKTOP == 1:
+	#	raw_input("Press <enter> to exit...")
 	sys.exit(1)	
 
 def info(str):
