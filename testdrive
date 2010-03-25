@@ -3,6 +3,9 @@
 import commands, hashlib, os, string, sys, tempfile, time, platform, testdrive
 from optparse import OptionParser
 
+global DESKTOP
+DESKTOP = 0
+
 # Creates the UI list
 def select_iso(td, ISO):
 	while 1:
@@ -87,7 +90,7 @@ def launch_virtualbox(td):
 	vboxversion = "%s.%s" % (vboxversion.split(".")[0], vboxversion.split(".")[1])
 	if vboxversion == "3.0" or vboxversion == "3.1":
 		info("VirtualBox %s detected." % vboxversion)
-    	else:
+	else:
 		error("Unsupported version (%s) of VirtualBox; please install v3.0 or v3.1." % vboxversion)
 
 	td.DISK_SIZE = td.DISK_SIZE.replace("G", "000")
@@ -182,7 +185,7 @@ def main():
 		help='get ISO image from this URL location')
 	parser.add_option('-d', '--desktop', action='store_true', dest='desktop', default=False,
 		help='try to launch usb-creator for further testing')
-    
+
 	(opt, args) = parser.parse_args()
 	info("version passed: %s" % opt.version)
 	if opt.version:
@@ -196,8 +199,8 @@ def main():
 	# Process the rest of the options
 	if opt.url:
 		hasOptions = True
-		td.ISO_URL = td.is_iso(opt.url)
-    
+		td.ISO_URL = is_iso(opt.url)
+
 	###########################################
 	#TODO: Add Config File Loading around here?
 	###########################################
@@ -209,7 +212,7 @@ def main():
 		if opt.config[0] != '/':
 			opt.config = '%s/.config/%s/%s' % (td.HOME, td.PKG, opt.config)
 		config_files += [opt.config]
-    
+
 	# try to load configuration files; on error exit
 	# Let the user know which config files were used
 	for i in config_files:
@@ -221,7 +224,7 @@ def main():
 			except:
 				error("Invalid configuration [%s]" % i)
 	###########################################
-    
+
 	if opt.desktop:
 		hasOptions = True
 		#TODO: Determine if this is only needed for the command line or if this is gonna be needed for GTK too
@@ -234,7 +237,7 @@ def main():
 
 	# Select all ISO's
 	ISO = td.list_isos()
-   
+
 	#TODO: Determine if ISO_URL is only needed in the command line app
 	# Show the Command Line MENU and OBTAIN URL
 	#TODO: NOTICE: Changed from original.
@@ -300,7 +303,7 @@ def main():
 
 	# Launch Desktop
 	# TODO: Determine if DESKTOP variable should be handled locally or not. See error function too.
-    	if td.DESKTOP == 1:
+	if td.DESKTOP == 1:
 		if os.path.exists("/usr/bin/usb-creator-gtk"):
 			input = raw_input("\nLaunch USB Startup Disk Creator for further testing of this ISO? [y/N] ")
 			if input == "y" or input == "Y":

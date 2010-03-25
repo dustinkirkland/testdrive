@@ -27,7 +27,7 @@ class Testdrive:
 		self.ISO_URL = 0 #Probably not here
 		self.VIRT = None
 		self.PROTO = None
-    
+
 	def set_values(self, var, value):
 		if var == 'kvm_args':
 			self.KVM_ARGS = value
@@ -53,14 +53,12 @@ class Testdrive:
 			self.u = value
 		if var == 'm':
 			self.m = [value]
-   
+
 	def load_config_file(self, config_file):
 		cfg = ConfigParser.ConfigParser()
 		cfg.read(config_file)
 		configitems = cfg.items(self.PKG)
-		print configitems
 		for items in configitems:
-			print items
 			self.set_values(items[0], items[1])
 
 	## TODO: This possible needs to go outside the class due to in PyGTK front end we might need the list of ISO's before even instancing an object
