@@ -1,6 +1,6 @@
 testdrive (1.35) unreleased; urgency=low
 
-  * UNRELEASED
+  * testdrive: need to move the CACHE logic down a few lines
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 02 Apr 2010 15:56:16 -0500
 

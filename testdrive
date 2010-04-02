@@ -217,15 +217,6 @@ if opt.desktop:
 	hasOptions = True
 	DESKTOP = 1
 
-# Handle single positional parameter
-if not hasOptions:
-	if args:
-		ISO_URL = is_iso(args)
-
-# If the ISO URL is undefined, make a selection
-if len(ISO_URL) == 0:
-	ISO_URL = select_iso()
-
 # Choose the virtualization engine
 if len(VIRT) == 0:
 	VIRT = get_virt()
@@ -251,6 +242,15 @@ if CACHE_ISO is None:
 	CACHE_ISO = '%s/iso' % CACHE
 if not os.path.exists(CACHE_ISO):
 	os.makedirs(CACHE_ISO, 0700)
+
+# Handle single positional parameter
+if not hasOptions:
+	if args:
+		ISO_URL = is_iso(args)
+
+# If the ISO URL is undefined, make a selection
+if len(ISO_URL) == 0:
+	ISO_URL = select_iso()
 
 ISO_NAME = os.path.basename(ISO_URL)
 PROTO = ISO_URL.partition(":")[0]
