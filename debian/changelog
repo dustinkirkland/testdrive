@@ -1,8 +1,8 @@
-testdrive (1.34) unreleased; urgency=low
+testdrive (1.34-0ubuntu1) lucid; urgency=low
 
   * testdrive: update .cache reference to CACHE_ISO variable, LP: #554227
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 24 Mar 2010 19:39:24 -0700
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 02 Apr 2010 15:56:10 -0500
 
 testdrive (1.33-0ubuntu1) lucid; urgency=low
 
