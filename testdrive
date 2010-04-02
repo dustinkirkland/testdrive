@@ -42,14 +42,14 @@ VBOX_NAME = os.getenv("VBOX_NAME", "")
 hasOptions = False
 
 def select_iso():
-	global ISO
+	global ISO, CACHE_ISO
 	while 1:
 		i = 1
 		print("\nWelcome to Testdrive!\n")
 		for iso in ISO:
 			print("  %d. %s" % (i, iso["name"]))
 			filename = os.path.basename(iso["url"])
-			path = "%s/.cache/%s/iso/%s" % (os.environ["HOME"], PKG, filename)
+			path = "%s/%s" % (CACHE_ISO, filename)
 			if os.path.exists(path):
 				print("     +-cache--> [%s] %s" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path))), filename))
 			i=i+1

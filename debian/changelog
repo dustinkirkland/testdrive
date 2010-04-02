@@ -1,6 +1,6 @@
 testdrive (1.34) unreleased; urgency=low
 
-  * UNRELEASED
+  * testdrive: update .cache reference to CACHE_ISO variable, LP: #554227
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 24 Mar 2010 19:39:24 -0700
 
