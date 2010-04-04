@@ -124,10 +124,6 @@ class Testdrive:
 		if not os.path.exists(self.CACHE_ISO):
 			os.makedirs(self.CACHE_ISO, 0700)
 
-		ISO_NAME = os.path.basename(self.ISO_URL)
-		self.PROTO = self.ISO_URL.partition(":")[0]
-		self.PATH_TO_ISO = "%s/%s" % (self.CACHE_ISO, ISO_NAME)
-
 		if len(self.MEM) == 0:
 			total = commands.getoutput("grep ^MemTotal /proc/meminfo | awk '{print $2}'")
 			if total > 1000000:
@@ -213,6 +209,12 @@ class Testdrive:
 				os.unlink(self.DISK_FILE)
 				return True
 		return False
+
+	def set_launch_path(self):
+		# Move from set_defaults, due to merge of upstream rev 189
+		ISO_NAME = os.path.basename(self.ISO_URL)
+		self.PROTO = self.ISO_URL.partition(":")[0]
+		self.PATH_TO_ISO = "%s/%s" % (self.CACHE_ISO, ISO_NAME)
 
 	def launch_desktop(self):
 		os.execv("/usr/bin/usb-creator-gtk", ["usb-creator-gtk", "-i", self.PATH_TO_ISO])

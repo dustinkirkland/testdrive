@@ -11,7 +11,8 @@ def select_iso(td, ISO):
 		for iso in ISO:
 			print("  %d. %s" % (i, iso["name"]))
 			filename = os.path.basename(iso["url"])
-			path = "%s/.cache/%s/iso/%s" % (os.environ["HOME"], td.PKG, filename)
+			#path = "%s/.cache/%s/iso/%s" % (os.environ["HOME"], td.PKG, filename)
+			path = "%s/%s" % (td.CACHE_ISO, filename)
 			if os.path.exists(path):
 				print("     +-cache--> [%s] %s" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path))), filename))
 			i=i+1
@@ -227,6 +228,8 @@ def main():
 		#TODO: Determine if this is only needed for the command line or if this is gonna be needed for GTK too
 		#td.DESKTOP = 1
 		DESKTOP = 1
+	else:
+		DESKTOP = 0
 
 	# Handle single positional parameter
 	if not hasOptions:
@@ -236,6 +239,10 @@ def main():
 	# Select all ISO's
 	ISO = td.list_isos()
 
+	#TODO: Decide if this goes in init or not, to set the defaults before loading the config files
+	# set defaults were undefined
+	td.set_defaults()
+
 	#TODO: Determine if ISO_URL is only needed in the command line app
 	# Show the Command Line MENU and OBTAIN URL
 	#TODO: NOTICE: Changed from original.
@@ -243,6 +250,9 @@ def main():
 	#if len(ISO_URL) == 0:
 	if not td.ISO_URL:
 		td.ISO_URL = select_iso(td, ISO)
+	
+	# Setting launch path. Comes from merging rev 189
+	td.set_launch_path()
 
 	# Choose the virtualization engine
 	#TODO: NOTICE: Changed from original
@@ -263,10 +273,6 @@ def main():
 		info("Using VirtualBox for virtual machine hosting...")
 	if td.VIRT == "paralels":
 		info("Using Parallels Desktop for virtual machine hosting...")
-
-	#TODO: Decide if this goes in init or not, to set the defaults before loading the config files
-	# set defaults were undefined
-	td.set_defaults()
 
 	# BUG: should check disk space availability in CACHE dir
 	# Update the cache
