@@ -1,5 +1,6 @@
 testdrive (1.36) unreleased; urgency=low
 
+  [ Vish <drkvi-a@yahoo.com> ]
   * img/*: LP: #538299, better icons
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 02 Apr 2010 16:36:46 -0500
