@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Obtain the current Ubuntu code name
+wget -q -O- http://cdimage.ubuntu.com/daily/current/source/MD5SUMS  | awk -F"[^0-9a-zA-Z ]" '{print $2}' | tee /var/cache/testdrive/ubuntu-dev

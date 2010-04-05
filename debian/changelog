@@ -1,6 +1,12 @@
 testdrive (1.37) unreleased; urgency=low
 
-  * UNRELEASED
+  * debian/cron.weekly, debian/dirs, debian/postinst, testdriverc:
+    - support a basic method for keeping Ubuntu's development codename
+      up-to-date
+    - add a weekly cronjob to look for a new release on cdimage
+    - create a /var/cache/testdrive dir
+    - run the cronjob on package installation
+    - update config file to use cache of codename
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 04 Apr 2010 19:16:23 -0500
 

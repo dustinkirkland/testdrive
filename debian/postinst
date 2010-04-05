@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+/etc/cron.weekly/testdrive 2>/dev/null && true
+
+#DEBHELPER#
