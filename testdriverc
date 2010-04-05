@@ -59,7 +59,7 @@ KVM_ARGS = "-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es13
 # file at some point in the future upon upgrade.
 try:
 	f = open("/var/cache/testdrive/ubuntu-dev")
-	r = f.read(1024)
+	r = f.readline().rstrip()
 	f.close()
 except:
 	r = "lucid"
