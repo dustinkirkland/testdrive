@@ -216,5 +216,5 @@ class Testdrive:
 		self.PROTO = self.ISO_URL.partition(":")[0]
 		self.PATH_TO_ISO = "%s/%s" % (self.CACHE_ISO, ISO_NAME)
 
-	def launch_desktop(self):
+	def launch_usb_creator(self):
 		os.execv("/usr/bin/usb-creator-gtk", ["usb-creator-gtk", "-i", self.PATH_TO_ISO])

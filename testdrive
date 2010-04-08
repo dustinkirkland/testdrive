@@ -3,6 +3,19 @@
 import commands, hashlib, os, string, sys, tempfile, time, platform, testdrive
 from optparse import OptionParser
 
+### IMPORTANT NOTES ###
+## BUGS ##
+# BUG: Before launching the interface it needs to determine the virt
+
+
+## Creating ISO list
+#
+ 
+## Obtaining Release Codename
+#
+
+
+
 # Creates the UI list
 def select_iso(td, ISO):
 	while 1:
@@ -255,7 +268,7 @@ def main():
 	td.set_launch_path()
 
 	# Choose the virtualization engine
-	#TODO: NOTICE: Changed from original
+	#TODO: NOTICE: Changed from original. SHOULD BE PLACE BEFORE LAUNCHING MENU
 	#if len(td.VIRT) == 0:
 	if not td.VIRT:
 		td.VIRT = td.get_virt()   
@@ -313,7 +326,7 @@ def main():
 			input = raw_input("\nLaunch USB Startup Disk Creator for further testing of this ISO? [y/N] ")
 			if input == "y" or input == "Y":
 				#os.execv("/usr/bin/usb-creator-gtk", ["usb-creator-gtk", "-i", PATH_TO_ISO])
-				td.launch_desktop()
+				td.launch_usb_creator()
 		else:
 			raw_input("\nPress <enter> to exit...")
 
