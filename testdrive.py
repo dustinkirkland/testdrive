@@ -1,10 +1,13 @@
 import os, platform, commands, tempfile, hashlib, ConfigParser
+from launchpadlib.launchpad import Launchpad
+from launchpadlib.errors import HTTPError
+from httplib2 import ServerNotFoundError
+
 class Testdrive:
 	def __init__(self):
 		self.HOME = os.getenv("HOME", "")
-		#self.ISO_URL = os.getenv("ISO_URL", "")
-		#self.DESKTOP = os.getenv("DESKTOP", "")
-		#self.VIRT = os.getenv("VIRT", "")
+		self.ISO_URL = os.getenv("ISO_URL", "")
+		self.VIRT = os.getenv("VIRT", "")
 		self.CACHE = os.getenv("CACHE", None)
 		self.CACHE_ISO = os.getenv("CACHE_ISO", None)
 		self.CACHE_IMG = os.getenv("CACHE_IMG", None)
@@ -14,19 +17,14 @@ class Testdrive:
 		self.DISK_SIZE = os.getenv("DISK_SIZE", "")
 		self.KVM_ARGS = os.getenv("KVM_ARGS", "")
 		self.VBOX_NAME = os.getenv("VBOX_NAME", "")
-		#self.hasOptions = False
 		self.PKG = "testdrive"
 		self.PKGRC = "%src" % self.PKG
 		#self.config_files = ["/etc/%s" % self.PKGRC, "%s/.%s" % (self.HOME, self.PKGRC), "%s/.config/%s/%s" % (self.HOME, self.PKG, self.PKGRC) ]
 		# TODO: Change 'r' to another side, beacuse after loading config files this will be replaced.
 		(status, output) = commands.getstatusoutput('wget -q -O- http://cdimage.ubuntu.com/daily/current/MD5SUMS | head -n1 | sed "s/^.*\*//" | sed "s/\-.*$//"')
 		self.r = output
-		#self.m = ["i386"]
-		#self.u = "rsync://cdimage.ubuntu.com/cdimage"
-		#self.DESKTOP = 0 #Probably not here
-		self.ISO_URL = 0 #Probably not here
-		self.VIRT = None
 		self.PROTO = None
+		self.CACHE_LP = self.HOME+"./launchpadlib/cache"
 
 	def set_values(self, var, value):
 		if var == 'kvm_args':
@@ -46,7 +44,7 @@ class Testdrive:
 		if var == 'virt':
 			self.VIRT = value
 		if var == 'disk_file':
-			self.VIRT = value
+			self.DISK_FILE = value
 		if var == 'r':
 			self.r = value
 		if var == 'u':
@@ -218,3 +216,42 @@ class Testdrive:
 
 	def launch_usb_creator(self):
 		os.execv("/usr/bin/usb-creator-gtk", ["usb-creator-gtk", "-i", self.PATH_TO_ISO])
+
+	def lp_obtain_release_codename(self):
+		try:
+			launchpad = Launchpad.login_anonymously('testdrive', 'production', CACHE_LP)
+		except ServerNotFoundError as error:
+			print "WARNING: %s\n" % error
+			return False
+		except HTTPError as error:
+			print "ERROR: %s has occurred\n" % error
+			return False
+		return launchpad.distributions['ubuntu'].current_series.name
+
+	def obtain_release_codename(self):
+		path = "%s/.cache/%s/current" % (HOME, PKG)
+
+		# Create release codename cache
+		if not os.path.exists(path):
+			print "INFO: Trying to cache current Ubuntu development release Codename in %s\n" % (path)
+			current_release = self.lp_obtain_release_codename()
+			if not current_release:
+				print "ERROR: Unable to cache Codename. Please create file %s containing the Codename\n" % (path)
+				return True
+			os.system("mkdir -p %s/.cache/%s" % (HOME, PKG))
+			os.system("echo %s > %s" % (current_release, path))
+			return
+
+		# Obtaining cache creation date and comparing with local time to obtain the time difference in minutes
+		cache_time = time.localtime(os.path.getmtime(path))
+		local_time = time.localtime()
+		time_difference = time.mktime(local_time) - time.mktime(cache_time)
+
+		# Update release codename cache
+		if time_difference >= 604800:
+			print "INFO: Updating current Ubuntu development release Codename cache in %s\n" % (path) 
+			current_release = self.lp_obtain_release_codename()
+			if not current_release:
+				print "WARNING: Cannot update the current Ubuntu development release Codename. Using expired cache in %s\n" % (path)
+				return
+			os.system("echo %s > %s" % (current_release, path))

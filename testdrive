@@ -3,19 +3,6 @@
 import commands, hashlib, os, string, sys, tempfile, time, platform, testdrive
 from optparse import OptionParser
 
-### IMPORTANT NOTES ###
-## BUGS ##
-# BUG: Before launching the interface it needs to determine the virt
-
-
-## Creating ISO list
-#
- 
-## Obtaining Release Codename
-#
-
-
-
 # Creates the UI list
 def select_iso(td, ISO):
 	while 1:
@@ -24,7 +11,6 @@ def select_iso(td, ISO):
 		for iso in ISO:
 			print("  %d. %s" % (i, iso["name"]))
 			filename = os.path.basename(iso["url"])
-			#path = "%s/.cache/%s/iso/%s" % (os.environ["HOME"], td.PKG, filename)
 			path = "%s/%s" % (td.CACHE_ISO, filename)
 			if os.path.exists(path):
 				print("     +-cache--> [%s] %s" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path))), filename))
@@ -54,9 +40,6 @@ def select_iso(td, ISO):
 
 def error(str):
 	print("\nERROR: %s\n" % str)
-	#TODO: Related to DESKTOP variable problem in MAIN - Recommend kirkland to drop this due to it should always ask if burn or not.
-	#if DESKTOP == 1:
-	#	raw_input("Press <enter> to exit...")
 	sys.exit(1)	
 
 def info(str):
@@ -212,9 +195,6 @@ def main():
 		hasOptions = True
 		td.ISO_URL = is_iso(opt.url)
 
-	###########################################
-	#TODO: Add Config File Loading around here?
-	###########################################
 	# prime configuration with defaults
 	config_files = ["/etc/%s" % td.PKGRC, "%s/.%s" % (td.HOME, td.PKGRC), "%s/.config/%s/%s" % (td.HOME, td.PKG, td.PKGRC) ]
 	info("config passed: %s" %opt.config)
@@ -234,12 +214,10 @@ def main():
 				info("Using configuration in %s" % i)
 			except:
 				error("Invalid configuration [%s]" % i)
-	###########################################
 
+	# Launch usb-creator
 	if opt.desktop:
 		hasOptions = True
-		#TODO: Determine if this is only needed for the command line or if this is gonna be needed for GTK too
-		#td.DESKTOP = 1
 		DESKTOP = 1
 	else:
 		DESKTOP = 0
@@ -249,30 +227,17 @@ def main():
 		if args:
 			td.ISO_URL = is_iso(args)
 
+	#TODO-IMPORTANT: Probably the ISO list should be created before instancing the class due to in PyGTK might be needed before instancing.
 	# Select all ISO's
 	ISO = td.list_isos()
 
-	#TODO: Decide if this goes in init or not, to set the defaults before loading the config files
-	# set defaults were undefined
-	td.set_defaults()
-
-	#TODO: Determine if ISO_URL is only needed in the command line app
-	# Show the Command Line MENU and OBTAIN URL
-	#TODO: NOTICE: Changed from original.
-	#TODO-IMPORTANT: Probably the ISO list should be created before instancing the class due to in PyGTK might be needed before instancing.
-	#if len(ISO_URL) == 0:
-	if not td.ISO_URL:
-		td.ISO_URL = select_iso(td, ISO)
-	
-	# Setting launch path. Comes from merging rev 189
-	td.set_launch_path()
-
 	# Choose the virtualization engine
-	#TODO: NOTICE: Changed from original. SHOULD BE PLACE BEFORE LAUNCHING MENU
+	#TODO: Determine if VIRT should be local only or should stay in the class
+	#NOTICE: Changed from original.
 	#if len(td.VIRT) == 0:
 	if not td.VIRT:
 		td.VIRT = td.get_virt()   
-	#TODO: NOTICE: Removed from get_virt() and placed here
+	#NOTICE: Removed from get_virt() and placed here
 	if td.VIRT == 1:
 		error("Your CPU supports KVM acceleration; please install KVM:\n\
 			sudo apt-get install qemu-kvm")
@@ -286,6 +251,19 @@ def main():
 		info("Using VirtualBox for virtual machine hosting...")
 	if td.VIRT == "paralels":
 		info("Using Parallels Desktop for virtual machine hosting...")
+
+	#TODO: Decide if this goes in init or not, to set the defaults before loading the config files
+	# set defaults were undefined
+	td.set_defaults()
+
+	#TODO: Determine if ISO_URL is only needed in the command line app
+	# Show the Command Line MENU and OBTAIN URL
+	#if len(ISO_URL) == 0:
+	if not td.ISO_URL:
+		td.ISO_URL = select_iso(td, ISO)
+	
+	# Setting launch path. Comes from merging rev 189
+	td.set_launch_path()
 
 	# BUG: should check disk space availability in CACHE dir
 	# Update the cache
@@ -319,8 +297,6 @@ def main():
 	#run("du -sh --apparent-size %s %s 2>/dev/null || du -sh %s %s" % (CACHE_ISO, CACHE_IMG))
 
 	# Launch Desktop
-	# TODO: Determine if DESKTOP variable should be handled locally or not. See error function too.
-	#if td.DESKTOP == 1:
 	if DESKTOP == 1:
 		if os.path.exists("/usr/bin/usb-creator-gtk"):
 			input = raw_input("\nLaunch USB Startup Disk Creator for further testing of this ISO? [y/N] ")
