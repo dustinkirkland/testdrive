@@ -14,7 +14,8 @@ Depends: ${misc:Depends},
  python,
  qemu-kvm | kvm ( >= 1:84+dfsg-0ubuntu12.4 ) | virtualbox-ose ( >= 3.0.8) | virtualbox-3.0 | virtualbox-3.1,
  rsync,
- wget
+ wget,
+ python-launchpadlib
 Recommends: zsync, usb-creator-gtk, cpu-checker, kvm-pxe
 Description: run the daily Ubuntu ISO in a virtual machine
  Testdrive helps you download and run the daily Ubuntu development ISO
