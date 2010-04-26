@@ -149,8 +149,6 @@ def get_virt():
     kvm-ok\n\
     sudo apt-get install virtualbox-ose")
 
-# * Make sure you add the necessary launchpad libs package to the depends in debian/control
-
 def lp_obtain_release_codename():
 	launchpad = Launchpad.login_anonymously('testdrive', 'production', CACHE)
 	return launchpad.distributions['ubuntu'].current_series.name
