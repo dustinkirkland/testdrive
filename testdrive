@@ -21,6 +21,7 @@
 import commands, hashlib, os, string, sys, tempfile, time
 #import optparse
 from optparse import OptionParser
+from launchpadlib.launchpad import Launchpad
 
 PKG = "testdrive"
 PKGRC = "%src" % PKG
@@ -40,6 +41,8 @@ DISK_SIZE = os.getenv("DISK_SIZE", "")
 KVM_ARGS = os.getenv("KVM_ARGS", "")
 VBOX_NAME = os.getenv("VBOX_NAME", "")
 hasOptions = False
+update_cache = None
+codename = None
 
 def select_iso():
 	global ISO, CACHE_ISO
@@ -146,6 +149,44 @@ def get_virt():
     kvm-ok\n\
     sudo apt-get install virtualbox-ose")
 
+def lp_obtain_release_codename():
+	launchpad = Launchpad.login_anonymously('testdrive', 'production', CACHE)
+	return launchpad.distributions['ubuntu'].current_series.name
+
+def is_codename_cached():
+	if not os.path.exists(CACHE):
+		os.makedirs(CACHE, 0700)
+	if not os.path.exists("%s/current" % CACHE):
+		return False
+	return True
+
+def is_cache_expired():
+	cache_time = time.localtime(os.path.getmtime("%s/current" % CACHE))
+	local_time = time.localtime()
+	time_difference = time.mktime(local_time) - time.mktime(cache_time)
+	# Check for new release at most once-per-week (60*60*24*7 = 604800)
+	if time_difference >= 604800:
+		return True
+
+	return False
+
+def update_ubuntu_codename_cache(str):
+	try:
+		f = open("%s/current" % CACHE,'w')
+		f.write(str)
+		f.close
+	except IOError:
+		pass
+
+def get_ubuntu_codename():
+	try:
+		f = open("%s/current" % CACHE,'r')
+		codename = f.read()
+		f.close
+	except IOError:
+		pass
+	return codename
+
 ########
 # Main #
 ########
@@ -187,6 +228,39 @@ if opt.version:
 	get_virt()
 	sys.exit(0)
 
+if CACHE is None:
+	CACHE = "%s/.cache/%s" % (HOME, PKG)
+
+## Obtain Ubuntu Devel Release Codename ##
+#Verify if the codename is cached, if not, set variable to update/create it
+if is_codename_cached() is False:
+	update_cache = 1
+# If codename cached, verify if it is expired. If it is, set variable to update it.
+elif is_cache_expired() is True:
+	update_cache = 1
+
+# If variable set to update, obtain release from launchpad
+if update_cache == 1:
+	info("Obtaining Ubuntu Development Release codename from Launchpad...")
+	try:
+		codename = lp_obtain_release_codename()
+	except:
+		print "ERROR: Could not obtain the Ubuntu Development Release codename from Launchpad...\n"
+
+# If release was obtained, update the cache file
+if codename:
+	try:
+		update_ubuntu_codename_cache(codename)
+	except:
+		error("Unable to update Ubuntu Development Release codename cache.")
+
+# Try to retrieve Ubuntu Devel codename from cache
+info("Retrieving Ubuntu Development Release codename from cache...")
+try:
+	r = get_ubuntu_codename()
+except:
+	error("Unable to retrieve Ubuntu Development Release codename from cache...")
+
 # prime configuration with defaults
 
 config_files = ["/etc/%s" % PKGRC, "%s/.%s" % (HOME, PKGRC), "%s/.config/%s/%s" % (HOME, PKG, PKGRC) ]
@@ -223,8 +297,8 @@ if len(VIRT) == 0:
 
 # Set defaults where undefined
 
-if CACHE is None:
-	CACHE = "%s/.cache/%s" % (HOME, PKG)
+#if CACHE is None:
+#	CACHE = "%s/.cache/%s" % (HOME, PKG)
 
 if CACHE_IMG is None:
 	CACHE_IMG = '%s/img' % CACHE

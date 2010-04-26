@@ -57,12 +57,9 @@ KVM_ARGS = "-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es13
 # using rsync.
 # You can mangle or add to this list here (but you will get conffile conflicts on this
 # file at some point in the future upon upgrade.
-try:
-	f = open("/var/cache/testdrive/ubuntu-dev")
-	r = f.readline().rstrip()
-	f.close()
-except:
-	r = "lucid"
+# Uncomment the following line if you want to hardcode the Ubuntu release; otherwise,
+# TestDrive will try to determine it dynamically.
+#r = "lucid"
 m = ["i386"]
 u = "rsync://cdimage.ubuntu.com/cdimage"
 import platform
