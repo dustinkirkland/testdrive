@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-# Try to update cache now
-/etc/cron.weekly/testdrive >/dev/null 2>&1 || true
-
-#DEBHELPER#

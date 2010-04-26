@@ -34,8 +34,6 @@ binary-indep: build install
 	dh_installdocs -X.bzr -i
 	dh_installman -i doc/testdrive.1
 	dh_installchangelogs -i
-	dh_installdirs -i
-	dh_installcron -i
 	dh_compress -i
 	dh_fixperms -i
 	dh_installdeb -i
