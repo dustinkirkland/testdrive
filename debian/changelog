@@ -5,6 +5,9 @@ testdrive (1.37-0ubuntu1) lucid; urgency=low
     at most once per week on launch, dynamically determine Ubuntu
     development release and cache it, LP: #570485, #553616
 
+  [ Dustin Kirkland ]
+  * debian/control: recommend usb-creator for gtk or kde
+
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 26 Apr 2010 20:27:54 -0500
 
 testdrive (1.36-0ubuntu1) lucid; urgency=low
