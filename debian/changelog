@@ -18,7 +18,7 @@ testdrive (1.36-0ubuntu1) lucid; urgency=low
   [ Dustin Kirkland ]
   * Close LP: #554227, in previous upload
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 04 Apr 2010 19:16:16 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 02 Apr 2010 16:36:46 -0500
 
 testdrive (1.35-0ubuntu1) lucid; urgency=low
 
