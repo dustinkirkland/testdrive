@@ -1,11 +1,11 @@
-testdrive (1.37) unreleased; urgency=low
+testdrive (1.37-0ubuntu1) maverick; urgency=low
 
   [ Andres Rodriguez ]
   * debian/control, testdrive, testdriverc: update the testdrive cache
     at most once per week on launch, dynamically determine Ubuntu
-    development release and cache it
+    development release and cache it, LP: #570485, #553616
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 04 Apr 2010 19:16:23 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 26 Apr 2010 20:27:54 -0500
 
 testdrive (1.36-0ubuntu1) lucid; urgency=low
 
