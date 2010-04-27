@@ -493,10 +493,13 @@ print("      %s and %s" % (CACHE_ISO, CACHE_IMG))
 #run("du -sh --apparent-size %s %s 2>/dev/null || du -sh %s %s" % (CACHE_ISO, CACHE_IMG))
 
 if DESKTOP == 1:
-	if os.path.exists("/usr/bin/usb-creator-gtk"):
+	if os.path.exists("/usr/bin/usb-creator-gtk") or os.path.exists("/usr/bin/usb-creator-kde"):
 		input = raw_input("\nLaunch USB Startup Disk Creator for further testing of this ISO? [y/N] ")
 		if input == "y" or input == "Y":
-			os.execv("/usr/bin/usb-creator-gtk", ["usb-creator-gtk", "-i", PATH_TO_ISO])
+			if os.path.exists("/usr/bin/usb-creator-gtk"):
+				os.execv("/usr/bin/usb-creator-gtk", ["usb-creator-gtk", "-i", PATH_TO_ISO])
+			else:
+				os.execv("/usr/bin/usb-creator-kde", ["usb-creator-kde", "-i", PATH_TO_ISO])
 	else:
 		raw_input("\nPress <enter> to exit...")
 

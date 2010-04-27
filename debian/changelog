@@ -1,6 +1,6 @@
 testdrive (1.38) UNRELEASED; urgency=low
 
-  * 
+  * testdrive: support usb-creator-kde, LP: #570509
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 26 Apr 2010 21:04:57 -0500
 
