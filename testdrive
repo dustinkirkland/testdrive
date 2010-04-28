@@ -21,7 +21,6 @@
 
 import commands, hashlib, os, string, sys, tempfile, time, platform, testdrive
 from optparse import OptionParser
-from launchpadlib.launchpad import Launchpad
 
 # Creates the UI list
 def select_iso(td, ISO):
