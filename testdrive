@@ -3,8 +3,6 @@
 import commands, hashlib, os, string, sys, tempfile, time, platform, testdrive
 from optparse import OptionParser
 from launchpadlib.launchpad import Launchpad
-from launchpadlib.errors import HTTPError
-from httplib2 import ServerNotFoundError
 
 # Creates the UI list
 def select_iso(td, ISO):
@@ -169,6 +167,10 @@ def main():
 
 	# Local UI
 	hasOptions = False
+	
+	#Codename cache variables
+	update_cache = None
+	codename = None
 
 	# Option Parser
 	usage = "usage: %prog <parameters>\n\
@@ -265,33 +267,36 @@ def main():
 
 	# set defaults were undefined
 	td.set_defaults()
-	
-	# Obtain Ubuntu Devel Release Codename
-	cache = td.verify_ubuntu_codename_cache()
-	if cache is False:
-		# Feth Ubuntu Devel codename from Launchpad
+
+	## Obtain Ubuntu Devel Release Codename ##
+	#Verify if the codename is cached, if not, set variable to update/create it
+	if td.is_codename_cached() is False:
+		update_cache = 1
+	# If codename cached, verify if it is expired. If it is, set variable to update it.
+	elif td.is_cache_expired() is True:
+		update_cache = 1
+
+	# If variable set to update, obtain release from launchpad
+	if update_cache == 1:
 		info("Obtaining Ubuntu Development Release codename from Launchpad...")
 		try:
-			codename = lp_obtain_release_codename(td.CACHE)
+			codename = td.lp_obtain_release_codename()
 		except:
-			print "Could not obtain from launchpad"
-			pass
-		# Try to update Ubuntu Devel codename cache
-		info("Updating Ubuntu Developement Release codename...")
+			print "ERROR: Could not obtain the Ubuntu Development Release codename from Launchpad...\n"
+
+	# If release was obtained, update the cache file
+	if codename:
 		try:
-			td.update_ubuntu_devel_codename(codename)
+			td.update_ubuntu_codename_cache(codename)
 		except:
 			error("Unable to update Ubuntu Development Release codename cache.")
-	elif cache is True:
-		# Try to retrieve Ubuntu Devel codename from cache
-		info("Retrieving Ubuntu Development Release codename from cache...")
-		try:
-			codename = td.get_ubuntu_devel_codename()
-		except:
-			error("Unable to retrieve Ubuntu Development Release codename from cache...")
-	else:
-		error("Could not verify Ubuntu Development Release codename cache.")
-	td.r = codename
+
+	# Try to retrieve Ubuntu Devel codename from cache
+	info("Retrieving Ubuntu Development Release codename from cache...")
+	try:
+		td.r = td.get_ubuntu_codename()
+	except:
+		error("Unable to retrieve Ubuntu Development Release codename from cache...")
 
 	#TODO-IMPORTANT: Probably the ISO list should be created before instancing the class due to in PyGTK might be needed before instancing.
 	# Select all ISO's
@@ -339,7 +344,7 @@ def main():
 
 	# Launch Desktop
 	if DESKTOP == 1:
-		if os.path.exists("/usr/bin/usb-creator-gtk"):
+		if os.path.exists("/usr/bin/usb-creator-gtk") or os.path.exists("/usr/bin/usb-creator-kde"):
 			input = raw_input("\nLaunch USB Startup Disk Creator for further testing of this ISO? [y/N] ")
 			if input == "y" or input == "Y":
 				#os.execv("/usr/bin/usb-creator-gtk", ["usb-creator-gtk", "-i", PATH_TO_ISO])

@@ -1,7 +1,5 @@
 import os, platform, commands, tempfile, hashlib, ConfigParser, time
 from launchpadlib.launchpad import Launchpad
-from launchpadlib.errors import HTTPError
-from httplib2 import ServerNotFoundError
 
 class Testdrive:
 	def __init__(self):
@@ -217,43 +215,42 @@ class Testdrive:
 		self.PATH_TO_ISO = "%s/%s" % (self.CACHE_ISO, ISO_NAME)
 
 	def launch_usb_creator(self):
-		os.execv("/usr/bin/usb-creator-gtk", ["usb-creator-gtk", "-i", self.PATH_TO_ISO])
+		if os.path.exists("/usr/bin/usb-creator-gtk"):
+			os.execv("/usr/bin/usb-creator-gtk", ["usb-creator-gtk", "-i", self.PATH_TO_ISO])
+		else:
+			os.execv("/usr/bin/usb-creator-kde", ["usb-creator-kde", "-i", self.PATH_TO_ISO])
 
-# * In lp_obtain_release(), shouldn't you catch any other errors that might be thrown?
-# * Rename obtain_devel_release() to ubuntu_devel_release()
-# * Have ubuntu_devel_release() return the release name from the cache
-# * In testdriverc, I don't really like commands.getstatusoutput() ...  should find a cleaner way to do that
-# * Make sure you add the necessary launchpad libs package to the depends in debian/control
+	def lp_obtain_release_codename(self):
+		launchpad = Launchpad.login_anonymously('testdrive', 'production', self.CACHE)
+		return launchpad.distributions['ubuntu'].current_series.name
 
-	def verify_ubuntu_codename_cache(self):
-		#path = "%s/current" % self.CACHE
-
+	def is_codename_cached(self):
 		if not os.path.exists(self.CACHE):
 			os.makedirs(self.CACHE, 0700)
-		if not os.path.exists(self.CACHE_CODENAME):
+		if not os.path.exists("%s/current" % self.CACHE):
 			return False
-
-		cache_time = time.localtime(os.path.getmtime(self.CACHE_CODENAME))
-		local_time = time.localtime()
-		time_difference = time.mktime(local_time) - time.mktime(cache_time)
-
-		#if time_difference >= 604800:
-		if time_difference >= 30:
-			return False
-
 		return True
 
-	def update_ubuntu_devel_codename(self, str):
+	def is_cache_expired(self):
+		cache_time = time.localtime(os.path.getmtime("%s/current" % self.CACHE))
+		local_time = time.localtime()
+		time_difference = time.mktime(local_time) - time.mktime(cache_time)
+		# Check for new release at most once-per-week (60*60*24*7 = 604800)
+		if time_difference >= 604800:
+			return True
+		return False
+
+	def update_ubuntu_codename_cache(self, str):
 		try:
-			f = open(self.CACHE_CODENAME,'w')
+			f = open("%s/current" % self.CACHE,'w')
 			f.write(str)
 			f.close
 		except IOError:
 			pass
-	
-	def get_ubuntu_devel_codename(self):
+
+	def get_ubuntu_codename(self):
 		try:
-			f = open(self.CACHE_CODENAME,'r')
+			f = open("%s/current" % self.CACHE,'r')
 			codename = f.read()
 			f.close
 		except IOError:

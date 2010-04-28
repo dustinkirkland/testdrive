@@ -1,8 +1,48 @@
-testdrive (1.34) unreleased; urgency=low
+testdrive (1.39) unreleased; urgency=low
 
   * UNRELEASED
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 24 Mar 2010 19:39:24 -0700
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 26 Apr 2010 21:14:34 -0500
+
+testdrive (1.38-0ubuntu1) lucid; urgency=low
+
+  * testdrive: support usb-creator-kde, LP: #570509
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 26 Apr 2010 21:14:21 -0500
+
+testdrive (1.37-0ubuntu1) lucid; urgency=low
+
+  [ Andres Rodriguez ]
+  * debian/control, testdrive, testdriverc: update the testdrive cache
+    at most once per week on launch, dynamically determine Ubuntu
+    development release and cache it, LP: #570485, #553616
+
+  [ Dustin Kirkland ]
+  * debian/control: recommend usb-creator for gtk or kde
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 26 Apr 2010 20:27:54 -0500
+
+testdrive (1.36-0ubuntu1) lucid; urgency=low
+
+  [ Vish <drkvi-a@yahoo.com> ]
+  * img/*: LP: #538299, better icons
+
+  [ Dustin Kirkland ]
+  * Close LP: #554227, in previous upload
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 02 Apr 2010 16:36:46 -0500
+
+testdrive (1.35-0ubuntu1) lucid; urgency=low
+
+  * testdrive: need to move the CACHE logic down a few lines
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 02 Apr 2010 16:36:40 -0500
+
+testdrive (1.34-0ubuntu1) lucid; urgency=low
+
+  * testdrive: update .cache reference to CACHE_ISO variable, LP: #554227
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 02 Apr 2010 15:56:10 -0500
 
 testdrive (1.33-0ubuntu1) lucid; urgency=low
 
