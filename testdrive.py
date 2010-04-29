@@ -30,7 +30,6 @@ class Testdrive:
 		self.CACHE = os.getenv("CACHE", None)
 		self.CACHE_ISO = os.getenv("CACHE_ISO", None)
 		self.CACHE_IMG = os.getenv("CACHE_IMG", None)
-		self.CACHE_CODENAME = os.getenv("CACHE_CODENAME", None)
 		self.CLEAN_IMG = os.getenv("CLEAN_IMG", None)
 		self.MEM = os.getenv("MEM", "")
 		self.DISK_FILE = os.getenv("DISK_FILE", "")
@@ -39,10 +38,8 @@ class Testdrive:
 		self.VBOX_NAME = os.getenv("VBOX_NAME", "")
 		self.PKG = "testdrive"
 		self.PKGRC = "%src" % self.PKG
-		#self.config_files = ["/etc/%s" % self.PKGRC, "%s/.%s" % (self.HOME, self.PKGRC), "%s/.config/%s/%s" % (self.HOME, self.PKG, self.PKGRC) ]
 		self.r = None
 		self.PROTO = None
-		self.CACHE_LP = self.HOME+"./launchpadlib/cache"
 
 	def set_values(self, var, value):
 		if var == 'kvm_args':
@@ -106,11 +103,9 @@ class Testdrive:
 			return "kvm"
 		# Okay, no KVM, VirtualBox maybe?
 		if commands.getstatusoutput("which VBoxManage")[0] == 0:
-			#info("Using VirtualBox for virtual machine hosting...")
 			return "virtualbox"
 		# No VirtualBox, how about Parallels?
 		if commands.getstatusoutput("which prlctl")[0] == 0:
-			#info("Using Parallels Desktop for virtual machine hosting...")
 			return "parallels"
 		# No hypervisor found; error out with advice
 		if acceleration == 1:
@@ -122,9 +117,6 @@ class Testdrive:
 		# Set defaults where undefined
 		if self.CACHE is None:
 			self.CACHE = "%s/.cache/%s" % (self.HOME, self.PKG)
-
-		if self.CACHE_CODENAME is None:
-			self.CACHE_CODENAME = '%s/current' % self.CACHE
 
 		if self.CACHE_IMG is None:
 			self.CACHE_IMG = '%s/img' % self.CACHE
