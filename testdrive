@@ -263,12 +263,12 @@ def main():
 		error("Your CPU does not support acceleration; run kvm-ok for more information; then please install VirtualBox:\n\
 			kvm-ok\n\
 			sudo apt-get install virtualbox-ose")
-	if td.VIRT == "kvm":
-		info("Using KVM for virtual machine hosting...");
-	if td.VIRT == "virtualbox":
-		info("Using VirtualBox for virtual machine hosting...")
-	if td.VIRT == "paralels":
-		info("Using Parallels Desktop for virtual machine hosting...")
+	#if td.VIRT == "kvm":
+	#	info("Using KVM for virtual machine hosting...");
+	#if td.VIRT == "virtualbox":
+	#	info("Using VirtualBox for virtual machine hosting...")
+	#if td.VIRT == "paralels":
+	#	info("Using Parallels Desktop for virtual machine hosting...")
 
 	# set defaults were undefined
 	td.set_defaults()
@@ -328,10 +328,13 @@ def main():
 
 	# Launch the VM
 	if td.VIRT == "kvm":
+		info("Using KVM for virtual machine hosting...");
 		launch_kvm(td)
 	elif td.VIRT == "virtualbox":
+		info("Using VirtualBox for virtual machine hosting...")
 		launch_virtualbox(td)
 	elif td.VIRT == "parallels":
+		info("Using Parallels Desktop for virtual machine hosting...")
 		launch_parallels(td)
 	else:
 		error("Unsupported virtualization method [%s]" % td.VIRT)
