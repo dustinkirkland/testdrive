@@ -167,18 +167,6 @@ def launch_parallels(td):
 	while commands.getstatusoutput("prlctl list %s | grep -qs stopped" % td.VBOX_NAME)[0] != 0:
 		time.sleep(2)
 
-def lp_obtain_release_codename(CACHE):
-	#try:
-	launchpad = Launchpad.login_anonymously('testdrive', 'production', CACHE)
-	release = launchpad.distributions['ubuntu'].current_series.name
-	#except ServerNotFoundError as error:
-	#	error("%s" % error)
-	#	return False
-	#except HTTPError as error:
-	#	error("%s has ocurred" % error)
-	#	return False
-	return release
-
 def main():
 	# Initialize Testdrive Class
 	td = testdrive.Testdrive()
@@ -186,7 +174,7 @@ def main():
 	# Local UI
 	hasOptions = False
 	
-	#Codename cache variables
+	# Codename cache variables
 	update_cache = None
 	codename = None
 
@@ -264,7 +252,6 @@ def main():
 	
 	# Choose the virtualization engine
 	#TODO: Determine if VIRT should be local only or should stay in the class
-	#NOTICE: Changed from original.
 	#if len(td.VIRT) == 0:
 	if not td.VIRT:
 		td.VIRT = td.get_virt()   
@@ -287,7 +274,7 @@ def main():
 	td.set_defaults()
 
 	## Obtain Ubuntu Devel Release Codename ##
-	#Verify if the codename is cached, if not, set variable to update/create it
+	# Verify if the codename is cached, if not, set variable to update/create it
 	if td.is_codename_cached() is False:
 		update_cache = 1
 	# If codename cached, verify if it is expired. If it is, set variable to update it.
@@ -320,7 +307,6 @@ def main():
 	# Select all ISO's
 	ISO = td.list_isos()
 
-	#TODO: Determine if ISO_URL is only needed in the command line app
 	# Show the Command Line MENU and OBTAIN URL
 	#if len(ISO_URL) == 0:
 	if not td.ISO_URL:
@@ -365,7 +351,6 @@ def main():
 		if os.path.exists("/usr/bin/usb-creator-gtk") or os.path.exists("/usr/bin/usb-creator-kde"):
 			input = raw_input("\nLaunch USB Startup Disk Creator for further testing of this ISO? [y/N] ")
 			if input == "y" or input == "Y":
-				#os.execv("/usr/bin/usb-creator-gtk", ["usb-creator-gtk", "-i", PATH_TO_ISO])
 				td.launch_usb_creator()
 		else:
 			raw_input("\nPress <enter> to exit...")
