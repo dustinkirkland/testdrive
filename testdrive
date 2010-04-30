@@ -212,7 +212,7 @@ def main():
 		get_virt()
 		sys.exit(0)
 
-	# TODO: Ask kirkland if function is_iso is only used given the commands of the parser
+	# TODO: is_iso function is locally used to see if the url is indeed one or not. Could be used by the front-end
 	# Process the rest of the options
 	if opt.url:
 		hasOptions = True
@@ -251,7 +251,6 @@ def main():
 			td.ISO_URL = is_iso(args)
 	
 	# Choose the virtualization engine
-	#if len(td.VIRT) == 0:
 	if not td.VIRT:
 		td.VIRT = td.get_virt()
 	#NOTICE: Removed from get_virt() and placed here
