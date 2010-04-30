@@ -251,10 +251,9 @@ def main():
 			td.ISO_URL = is_iso(args)
 	
 	# Choose the virtualization engine
-	#TODO: Determine if VIRT should be local only or should stay in the class
 	#if len(td.VIRT) == 0:
 	if not td.VIRT:
-		td.VIRT = td.get_virt()   
+		td.VIRT = td.get_virt()
 	#NOTICE: Removed from get_virt() and placed here
 	if td.VIRT == 1:
 		error("Your CPU supports KVM acceleration; please install KVM:\n\
@@ -263,12 +262,12 @@ def main():
 		error("Your CPU does not support acceleration; run kvm-ok for more information; then please install VirtualBox:\n\
 			kvm-ok\n\
 			sudo apt-get install virtualbox-ose")
-	#if td.VIRT == "kvm":
-	#	info("Using KVM for virtual machine hosting...");
-	#if td.VIRT == "virtualbox":
-	#	info("Using VirtualBox for virtual machine hosting...")
-	#if td.VIRT == "paralels":
-	#	info("Using Parallels Desktop for virtual machine hosting...")
+	if td.VIRT == "kvm":
+		info("Using KVM for virtual machine hosting...");
+	if td.VIRT == "virtualbox":
+		info("Using VirtualBox for virtual machine hosting...")
+	if td.VIRT == "paralels":
+		info("Using Parallels Desktop for virtual machine hosting...")
 
 	# set defaults were undefined
 	td.set_defaults()
@@ -303,7 +302,6 @@ def main():
 	except:
 		error("Unable to retrieve Ubuntu Development Release codename from cache...")
 
-	#TODO-IMPORTANT: Probably the ISO list should be created before instancing the class due to in PyGTK might be needed before instancing.
 	# Select all ISO's
 	ISO = td.list_isos()
 
@@ -328,13 +326,10 @@ def main():
 
 	# Launch the VM
 	if td.VIRT == "kvm":
-		info("Using KVM for virtual machine hosting...");
 		launch_kvm(td)
 	elif td.VIRT == "virtualbox":
-		info("Using VirtualBox for virtual machine hosting...")
 		launch_virtualbox(td)
 	elif td.VIRT == "parallels":
-		info("Using Parallels Desktop for virtual machine hosting...")
 		launch_parallels(td)
 	else:
 		error("Unsupported virtualization method [%s]" % td.VIRT)
