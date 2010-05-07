@@ -209,7 +209,9 @@ def main():
 		hasOptions = True
 		version = commands.getstatusoutput("dpkg -l testdrive | tail -n1 | awk '{print $3}'")
 		info("testdrive %s" % version[1])
-		get_virt()
+		#TODO: Why is get_virt() here? Disable until is determined if we really need it or not. If yes, we'll have to add same code as below,
+		# for same function
+		td.get_virt()
 		sys.exit(0)
 
 	# TODO: is_iso function is locally used to see if the url is indeed one or not. Could be used by the front-end
