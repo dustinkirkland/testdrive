@@ -274,6 +274,7 @@ def main():
 	td.set_defaults()
 
 	## Obtain Ubuntu Devel Release Codename ##
+	#TODO: BUG: Verify if we are harcoding the codename in /etc/testdriverc. If not, update. If we are, don't update.
 	# Verify if the codename is cached, if not, set variable to update/create it
 	if td.is_codename_cached() is False:
 		update_cache = 1
