@@ -148,7 +148,7 @@ def launch_virtualbox(td):
 	# Give this VM a few seconds to start up
 	time.sleep(5)
 	# Loop as long as this VM is running
-	while commands.getstatusoutput("VBoxManage list runningvms | grep -qs %s" % VBOX_NAME)[0] == 0:
+	while commands.getstatusoutput("VBoxManage list runningvms | grep -qs %s" % td.VBOX_NAME)[0] == 0:
 		time.sleep(2)
 
 def launch_parallels(td):
@@ -274,7 +274,10 @@ def main():
 	td.set_defaults()
 
 	## Obtain Ubuntu Devel Release Codename ##
-	#TODO: BUG: Verify if we are harcoding the codename in /etc/testdriverc. If not, update. If we are, don't update.
+	#TODO: BUG: Verify if we are harcoding the codename in /etc/testdriverc. 
+	# If not, update. If we are, don't update.
+	# Also provide and option --release i.e. testdrive --release lucid to hardcore in another way
+
 	# Verify if the codename is cached, if not, set variable to update/create it
 	if td.is_codename_cached() is False:
 		update_cache = 1
