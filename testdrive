@@ -202,6 +202,8 @@ def main():
 		help='get ISO image from this URL location')
 	parser.add_option('-d', '--desktop', action='store_true', dest='desktop', default=False,
 		help='try to launch usb-creator for further testing')
+	parser.add_option('-r', '--release', action='store', type='string', dest='release',
+		help='hardcode Ubuntu RELEASE codename')
 
 	(opt, args) = parser.parse_args()
 	info("version passed: %s" % opt.version)
@@ -246,6 +248,10 @@ def main():
 		DESKTOP = 1
 	else:
 		DESKTOP = 0
+	
+	# Harcoded release codename from executable. Overrides value in config file
+	if opt.release:
+		td.r = opt.release
 
 	# Handle single positional parameter
 	if not hasOptions:
@@ -274,38 +280,35 @@ def main():
 	td.set_defaults()
 
 	## Obtain Ubuntu Devel Release Codename ##
-	#TODO: BUG: Verify if we are harcoding the codename in /etc/testdriverc. 
-	# If not, update. If we are, don't update.
-	# Also provide and option --release i.e. testdrive --release lucid to hardcore in another way
+	if not td.r:
+		# Verify if the codename is cached, if not, set variable to update/create it
+		if td.is_codename_cached() is False:
+			update_cache = 1
+		# If codename cached, verify if it is expired. If it is, set variable to update it.
+		elif td.is_cache_expired() is True:
+			update_cache = 1
 
-	# Verify if the codename is cached, if not, set variable to update/create it
-	if td.is_codename_cached() is False:
-		update_cache = 1
-	# If codename cached, verify if it is expired. If it is, set variable to update it.
-	elif td.is_cache_expired() is True:
-		update_cache = 1
+		# If variable set to update, obtain release from launchpad
+		if update_cache == 1:
+			info("Obtaining Ubuntu Development Release codename from Launchpad...")
+			try:
+				codename = td.lp_obtain_release_codename()
+			except:
+				print "ERROR: Could not obtain the Ubuntu Development Release codename from Launchpad...\n"
 
-	# If variable set to update, obtain release from launchpad
-	if update_cache == 1:
-		info("Obtaining Ubuntu Development Release codename from Launchpad...")
+		# If release was obtained, update the cache file
+		if codename:
+			try:
+				td.update_ubuntu_codename_cache(codename)
+			except:
+				error("Unable to update Ubuntu Development Release codename cache.")
+
+		# Try to retrieve Ubuntu Devel codename from cache
+		info("Retrieving Ubuntu Development Release codename from cache...")
 		try:
-			codename = td.lp_obtain_release_codename()
+			td.r = td.get_ubuntu_codename()
 		except:
-			print "ERROR: Could not obtain the Ubuntu Development Release codename from Launchpad...\n"
-
-	# If release was obtained, update the cache file
-	if codename:
-		try:
-			td.update_ubuntu_codename_cache(codename)
-		except:
-			error("Unable to update Ubuntu Development Release codename cache.")
-
-	# Try to retrieve Ubuntu Devel codename from cache
-	info("Retrieving Ubuntu Development Release codename from cache...")
-	try:
-		td.r = td.get_ubuntu_codename()
-	except:
-		error("Unable to retrieve Ubuntu Development Release codename from cache...")
+			error("Unable to retrieve Ubuntu Development Release codename from cache...")
 
 	# Select all ISO's
 	ISO = td.list_isos()
