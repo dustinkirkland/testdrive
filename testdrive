@@ -251,6 +251,7 @@ def main():
 	
 	# Harcoded release codename from executable. Overrides value in config file
 	if opt.release:
+		hasOptions = True
 		td.r = opt.release
 
 	# Handle single positional parameter
