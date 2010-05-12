@@ -59,7 +59,7 @@ def select_iso(td, ISO):
 
 def error(str):
 	print("\nERROR: %s\n" % str)
-	sys.exit(1)	
+	sys.exit(1)
 
 def info(str):
 	print("INFO: %s\n" % str)
@@ -173,7 +173,7 @@ def main():
 
 	# Local UI
 	hasOptions = False
-	
+
 	# Codename cache variables
 	update_cache = None
 	codename = None
@@ -248,7 +248,7 @@ def main():
 		DESKTOP = 1
 	else:
 		DESKTOP = 0
-	
+
 	# Harcoded release codename from executable. Overrides value in config file
 	if opt.release:
 		hasOptions = True
@@ -258,7 +258,7 @@ def main():
 	if not hasOptions:
 		if args:
 			td.ISO_URL = is_iso(args)
-	
+
 	# Choose the virtualization engine
 	if not td.VIRT:
 		td.VIRT = td.get_virt()
@@ -318,7 +318,7 @@ def main():
 	#if len(ISO_URL) == 0:
 	if not td.ISO_URL:
 		td.ISO_URL = select_iso(td, ISO)
-	
+
 	# Setting launch path. Comes from merging rev 189
 	td.set_launch_path()
 
