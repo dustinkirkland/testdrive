@@ -1,14 +1,15 @@
+[testdrive]
 # This is the global configuration file for the testdrive(1) utility.
 # This file is python-syntax, sourced by testdrive
 
 # CACHE is the directory to cache the ISOs and disk images
 # Default: $HOME/.cache/testdrive
-#CACHE = "/path/to/your/cache"
+#CACHE = /path/to/your/cache
 
 # CACHE_IMG and CACHE_ISO will default to $CACHE/img and $CACHE/iso, respectively.
 # You can set them explicitly if you want (specially interesting if you are
 # trying to run the image off /dev/shm.
-#CACHE_IMG = "/dev/shm"
+#CACHE_IMG = /dev/shm
 
 # CLEAN_IMG will remove the just-generated image at the end of run. By default the image
 # is kept, unless nothing was changed (i.e., the disk image was created, but no installation
@@ -19,37 +20,37 @@
 
 # ISO_URL is the complete path to the ISO
 # Default: $PROTO://$MIRROR/$DIR/$CODENAME-$TYPE-$ARCH.iso
-#ISO_URL = "http://cdimage.ubuntu.com/ubuntu-netbook/daily-live/current/lucid-netbook-i386.iso"
-#ISO_URL = "rsync://cdimage.ubuntu.com/cdimage/ubuntu-server/daily/current/lucid-server-amd64.iso"
-#ISO_URL = "ftp://mirrors.kernel.org/ubuntu-releases/lucid/ubuntu-9.10-desktop-amd64.iso"
+#ISO_URL = http://cdimage.ubuntu.com/ubuntu-netbook/daily-live/current/lucid-netbook-i386.iso
+#ISO_URL = rsync://cdimage.ubuntu.com/cdimage/ubuntu-server/daily/current/lucid-server-amd64.iso
+#ISO_URL = ftp://mirrors.kernel.org/ubuntu-releases/lucid/ubuntu-9.10-desktop-amd64.iso
 
 # VIRT is the type of hypervisor to use
 # VIRT can be either 'kvm', 'virtualbox', or 'parallels'
-#VIRT = "kvm"
-#VIRT = "virtualbox"
+#VIRT = kvm
+#VIRT = virtualbox
 
 # MEM is the amount of memory in MB to give to the VM guest
 # Default: 384
-MEM = "384"
-#MEM = "512"
-#MEM = "1024"
+MEM = 384
+#MEM = 512
+#MEM = 1024
 
 # DISK_FILE is the full path to the disk image
 # Default: $CACHE/$ISO.img
-#DISK_FILE = "/path/to/foo.img"
+#DISK_FILE = /path/to/foo.img
 
 # DISK_SIZE is the size of the disk image
 # Note that this will be a sparse, qcow2 file, so it should not actually
 # take that much space on the filesystem.
 # Default: 6G
-#DISK_SIZE = "4G"
-DISK_SIZE = "6G"
-#DISK_SIZE = "10G"
+#DISK_SIZE = 4G
+DISK_SIZE = 6G
+#DISK_SIZE = 10G
 
 # KVM_ARGS is a string of arbitrary KVM_ARGS to use when launching the VM
 # Default: "-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370"
 # See kvm(1) for a comprehensive list of arguments
-KVM_ARGS = "-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370"
+KVM_ARGS = -usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370
 
 # ISO is a list of ISO name/url associations to seed the default menu
 # The code below will build a list of Ubuntu [desktop,server,alternate,dvd,netbook] ISO
@@ -59,16 +60,6 @@ KVM_ARGS = "-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es13
 # file at some point in the future upon upgrade.
 # Uncomment the following line if you want to hardcode the Ubuntu release; otherwise,
 # TestDrive will try to determine it dynamically.
-#r = "lucid"
-m = ["i386"]
-u = "rsync://cdimage.ubuntu.com/cdimage"
-import platform
-if platform.machine() == "x86_64":
-	m = ["amd64", "i386"]
-ISO = []
-for a in m:
-	ISO.append({"name":"Ubuntu Desktop (%s-%s)"%(r,a), "url":"%s/daily-live/current/%s-desktop-%s.iso"%(u,r,a)})
-	ISO.append({"name":"Ubuntu Server (%s-%s)"%(r,a), "url":"%s/ubuntu-server/daily/current/%s-server-%s.iso"%(u,r,a)})
-	ISO.append({"name":"Ubuntu Alternate (%s-%s)"%(r,a), "url":"%s/daily/current/%s-alternate-%s.iso"%(u,r,a)})
-	ISO.append({"name":"Ubuntu DVD (%s-%s)"%(r,a), "url":"%s/dvd/current/%s-dvd-%s.iso"%(u,r,a)})
-ISO.append({"name":"Ubuntu Netbook (%s-%s)"%(r,a), "url":"%s/ubuntu-netbook/daily-live/current/%s-netbook-%s.iso"%(u,r,a)})
+#r = maverick
+m = i386
+u = rsync://cdimage.ubuntu.com/cdimage

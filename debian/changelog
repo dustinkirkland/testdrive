@@ -1,6 +1,9 @@
 testdrive (1.39) unreleased; urgency=low
 
-  * UNRELEASED
+  [ Andres Rodriguez ]
+  * testdrive, testdrive-gtk, testdrive.py, testdriverc: completely
+    overhaul organization of the code, making it more modular, in
+    prep for a GTK front end
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 26 Apr 2010 21:14:34 -0500
 
