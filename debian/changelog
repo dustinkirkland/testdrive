@@ -4,8 +4,18 @@ testdrive (1.39) unreleased; urgency=low
   * testdrive, testdrive-gtk, testdrive.py, testdriverc: completely
     overhaul organization of the code, making it more modular, in
     prep for a GTK front end
+  * Actually remove testdrive-gtk because is was a testing script.
+  * Add testdrive-common package:
+    - debian/install: Moved to debian/testdrive.install.
+    - debian/control:
+      + Add python related fields, Build-Depends-Indep and Depends.
+      + Add testdrive-common binary package.
+      + Move python-launchpadlib Depends to testdrive-common, and
+        add as a Depend to testdrive binary package.
+    - debian/rules: Add pycentral rule.
+    - debian/testdrive-common.install: Added to install shared file.
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 26 Apr 2010 21:14:34 -0500
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 14 May 2010 15:52:31 +0200
 
 testdrive (1.38-0ubuntu1) lucid; urgency=low
 
