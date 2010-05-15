@@ -62,10 +62,10 @@ def error(str):
 	sys.exit(1)
 
 def info(str):
-	print("INFO: %s\n" % str)
+	print("INFO: %s" % str)
 
 def warning(str):
-	print("WARNING: %s\n" % str)
+	print("WARNING: %s" % str)
 
 def is_iso(file):
 	# If it's a URL, assume it's good
@@ -152,7 +152,6 @@ def launch_virtualbox(td):
 		time.sleep(2)
 
 def launch_parallels(td):
-	print("\n")
 	if commands.getstatusoutput("prlctl list %s | grep -qsv \"UUID\"" % td.VBOX_NAME)[0] == 0:
 		run_or_die("prlctl delete %s" % td.VBOX_NAME)
 	td.DISK_SIZE = td.DISK_SIZE.replace("G", "000")
@@ -295,7 +294,7 @@ def main():
 			try:
 				codename = td.lp_obtain_release_codename()
 			except:
-				print "ERROR: Could not obtain the Ubuntu Development Release codename from Launchpad...\n"
+				print "ERROR: Could not obtain the Ubuntu Development Release codename from Launchpad..."
 
 		# If release was obtained, update the cache file
 		if codename:
@@ -325,7 +324,7 @@ def main():
 	# BUG: should check disk space availability in CACHE dir
 	# Update the cache
 	info("Syncing the specified ISO...")
-	print("      %s\n" % td.ISO_URL)
+	print("      %s" % td.ISO_URL)
 	cmd = td.get_proto()
 	if cmd == 0:
 		error("ISO not found at [%s]" % td.ISO_URL)

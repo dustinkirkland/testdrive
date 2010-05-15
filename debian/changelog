@@ -15,6 +15,9 @@ testdrive (1.39) unreleased; urgency=low
     - debian/rules: Add pycentral rule.
     - debian/testdrive-common.install: Added to install shared file.
 
+  [ Dustin Kirkland ]
+  * testdrive: clean up some unneeded trailing newlines
+
  -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 14 May 2010 15:52:31 +0200
 
 testdrive (1.38-0ubuntu1) lucid; urgency=low
