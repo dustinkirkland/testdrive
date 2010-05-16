@@ -166,7 +166,7 @@ class Testdrive:
 		elif self.PROTO == "http" or self.PROTO == "ftp":
 			if self.run("wget --spider -S %s 2>&1 | grep 'HTTP/1.. 200 OK'" % self.ISO_URL) != 0:
 				#error("ISO not found at [%s]" % self.ISO_URL)
-				return 0
+				return 1
 			ZSYNC_WORKED = 0
 			if commands.getstatusoutput("which zsync")[0] == 0:
 				if self.run("cd %s && zsync %s.zsync" % (self.CACHE_ISO, self.ISO_URL)) != 0:
@@ -184,9 +184,10 @@ class Testdrive:
 			DIR = commands.getoutput("cd `dirname '%s'` && pwd" % self.PATH_TO_ISO)
 			FILE = os.path.basename("%s" % self.PATH_TO_ISO)
 			self.PATH_TO_ISO = "%s/%s" % (DIR, FILE)
+			return 0
 		else:
 			#error("Unsupported protocol [%s]" % self.PROTO)
-			return 1
+			return 2
 
 	def md5sum(self, file):
 		fh = open(file, 'rb')

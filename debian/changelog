@@ -14,8 +14,9 @@ testdrive (1.39) unreleased; urgency=low
         add as a Depend to testdrive binary package.
     - debian/rules: Add pycentral rule.
     - debian/testdrive-common.install: Added to install shared file.
+  * Fix the failure of launching the local ISO. (LP: #581067)
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 14 May 2010 15:52:31 +0200
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Sun, 16 May 2010 18:36:25 -0400
 
 testdrive (1.38-0ubuntu1) lucid; urgency=low
 

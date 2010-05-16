@@ -327,11 +327,12 @@ def main():
 	info("Syncing the specified ISO...")
 	print("      %s\n" % td.ISO_URL)
 	cmd = td.get_proto()
-	if cmd == 0:
+	if cmd == 1:
 		error("ISO not found at [%s]" % td.ISO_URL)
-	elif cmd == 1:
+	elif cmd == 2:
 		error("Unsupported protocol [%s]" % td.PROTO)
-	run_or_die(cmd)
+	if cmd != 0:
+		run_or_die(cmd)
 
 	# Launch the VM
 	if td.VIRT == "kvm":
