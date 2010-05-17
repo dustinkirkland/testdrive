@@ -114,11 +114,10 @@ def launch_virtualbox(td):
 		error("Unsupported version (%s) of VirtualBox; please install v3.0 or v3.1." % vboxversion)
 
 	td.DISK_SIZE = td.DISK_SIZE.replace("G", "000")
-	if os.path.exists(td.DISK_FILE):
-		os.unlink(td.DISK_FILE)
 	run("sed -i \":HardDisk.*%s:d\" %s/.VirtualBox/VirtualBox.xml" % (td.DISK_FILE, td.HOME))
-	info("Creating disk image...")
-	run_or_die("VBoxManage createhd --filename %s --size %s" % (td.DISK_FILE, td.DISK_SIZE))
+	if not os.path.exists(td.DISK_FILE):
+		info("Creating disk image...")
+		run_or_die("VBoxManage createhd --filename %s --size %s" % (td.DISK_FILE, td.DISK_SIZE))
 	if vboxversion == "3.0":
 		run("VBoxManage modifyvm %s --hda none" % td.VBOX_NAME)
 	elif vboxversion == "3.1":

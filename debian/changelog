@@ -21,7 +21,7 @@ testdrive (2.0) unreleased; urgency=low
     - clean up some unneeded trailing newlines,
     - fix unexpanded %s in the help text, LP: #575326
     - support running testdrive -u foo.img, against some existing
-      kvm qcow2 image
+      kvm qcow2 image (drop testdrive-kvm)
   * testdriverc: update header info, clean up config file
   * testdrive.install, testdrive.postinst, testdrive.preinst: handle
     the conffile syntax change on upgrades
