@@ -7,26 +7,21 @@
 
 # CACHE_IMG and CACHE_ISO will default to $CACHE/img and $CACHE/iso, respectively.
 # You can set them explicitly if you want (specially interesting if you are
-# trying to run the image off /dev/shm.
+# trying to run the image off /dev/shm.  Make sure you have enough space there!!!
 #CACHE_IMG = /dev/shm
 
 # CLEAN_IMG will remove the just-generated image at the end of run. By default the image
 # is kept, unless nothing was changed (i.e., the disk image was created, but no installation
-# was actually tried.
+# was actually tried).
 # If running the image off /dev/shm, then *by default* the image will be removed (memory is a
 # restricted resource, and we should not over-allocate it)
 #CLEAN_IMG = True
-
-# ISO_URL is the complete path to the ISO
-# Default: $PROTO://$MIRROR/$DIR/$CODENAME-$TYPE-$ARCH.iso
-#ISO_URL = http://cdimage.ubuntu.com/ubuntu-netbook/daily-live/current/lucid-netbook-i386.iso
-#ISO_URL = rsync://cdimage.ubuntu.com/cdimage/ubuntu-server/daily/current/lucid-server-amd64.iso
-#ISO_URL = ftp://mirrors.kernel.org/ubuntu-releases/lucid/ubuntu-9.10-desktop-amd64.iso
 
 # VIRT is the type of hypervisor to use
 # VIRT can be either 'kvm', 'virtualbox', or 'parallels'
 #VIRT = kvm
 #VIRT = virtualbox
+#VIRT = parallels
 
 # MEM is the amount of memory in MB to give to the VM guest
 # Default: 384
@@ -42,7 +37,6 @@ MEM = 384
 # Note that this will be a sparse, qcow2 file, so it should not actually
 # take that much space on the filesystem.
 # Default: 6G
-#DISK_SIZE = 4G
 DISK_SIZE = 6G
 #DISK_SIZE = 10G
 
