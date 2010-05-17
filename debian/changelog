@@ -19,6 +19,8 @@ testdrive (2.0) unreleased; urgency=low
   [ Dustin Kirkland ]
   * testdrive: clean up some unneeded trailing newlines
   * testdriverc: update header info
+  * testdrive.install, testdrive.postinst, testdrive.preinst: handle
+    the conffile syntax change on upgrades
 
  -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 14 May 2010 15:52:31 +0200
 

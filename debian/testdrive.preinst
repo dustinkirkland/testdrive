@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -e
+
+# Backup old confile
+if [ -n "$2" ] && dpkg --compare-versions "$2" lt 2.0; then
+	if [ -f /etc/testdriverc ]; then
+		if md5sum /etc/testdriverc | grep -qs e76ef0100e1314c1094e8677755c63df; then
+			true
+		else
+			mv -f /etc/testdriverc /etc/testdriverc.old
+			echo "TestDrive: The configuration format has changed"
+			echo "TestDrive: Moved /etc/testdriverc to /etc/testdriverc.old"
+			echo "TestDrive: You may need to merge your customizations into /etc/testdriverc"
+		fi
+	fi
+fi
+
+#DEBHELPER#
+
+exit 0
