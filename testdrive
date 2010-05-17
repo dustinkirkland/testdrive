@@ -95,7 +95,7 @@ def launch_kvm(td):
 	(status, output) = commands.getstatusoutput("kvm-ok")
 	if status != 0:
 		print(output)
-	if ! os.path.exists(td.DISK_FILE):
+	if not os.path.exists(td.DISK_FILE):
 		info("Creating disk image [%s]..." % td.DISK_FILE)
 		run_or_die("kvm-img create -f qcow2 %s %s" % (td.DISK_FILE, td.DISK_SIZE))
 	info("Running the Virtual Machine...")
@@ -229,7 +229,7 @@ def main():
 		if is_qcow2(opt.url):
 			# Argument is an existing qcow2 image
 			td.DISK_FILE = opt.url
-			td.PATH_TO_ISO = "/dev/null"
+			td.ISO_URL = "/dev/null"
 		else:
 			td.ISO_URL = is_iso(opt.url)
 
