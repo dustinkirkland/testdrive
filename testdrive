@@ -78,6 +78,12 @@ def is_iso(file):
 	else:
 		error("Invalid ISO URL [%s]" % file)
 
+def is_qcow2(file):
+	(status, output) = commands.getstatusoutput("file %s | grep -qs 'Qemu Image'" % file)
+	if status == 0:
+		return True
+	return False
+
 def run(cmd):
 	return(os.system(cmd))
 
@@ -89,10 +95,11 @@ def launch_kvm(td):
 	(status, output) = commands.getstatusoutput("kvm-ok")
 	if status != 0:
 		print(output)
-	info("Creating disk image [%s]..." % td.DISK_FILE)
-	run_or_die("kvm-img create -f qcow2 %s %s" % (td.DISK_FILE, td.DISK_SIZE))
+	if ! os.path.exists(td.DISK_FILE):
+		info("Creating disk image [%s]..." % td.DISK_FILE)
+		run_or_die("kvm-img create -f qcow2 %s %s" % (td.DISK_FILE, td.DISK_SIZE))
 	info("Running the Virtual Machine...")
-	os.system("kvm -m %s -smp %s -cdrom %s -drive file=%s,if=virtio,index=0,boot=on %s" % (td.MEM, td.SMP, td.PATH_TO_ISO, td.DISK_FILE, td.KVM_ARGS))
+	os.system("kvm -m %s -smp %s -cdrom %s -drive file=%s,if=virtio,cache=writeback,index=0,boot=on %s" % (td.MEM, td.SMP, td.PATH_TO_ISO, td.DISK_FILE, td.KVM_ARGS))
 
 def launch_virtualbox(td):
 	# Determine which version of VirtualBox we have installed.  What is returned is
@@ -197,7 +204,7 @@ def main():
 		help='user configuration file (overriding default values')
 	parser.add_option('-v', '--version', action='store_true', dest='version', default=False,
 		help='print version and system data, and exit')
-	parser.add_option('-u', '--url', action='store', type='string', dest='url', 
+	parser.add_option('-u', '--url', action='store', type='string', dest='url',
 		help='get ISO image from this URL location')
 	parser.add_option('-d', '--desktop', action='store_true', dest='desktop', default=False,
 		help='try to launch usb-creator for further testing')
@@ -219,7 +226,12 @@ def main():
 	# Process the rest of the options
 	if opt.url:
 		hasOptions = True
-		td.ISO_URL = is_iso(opt.url)
+		if is_qcow2(opt.url):
+			# Argument is an existing qcow2 image
+			td.DISK_FILE = opt.url
+			td.PATH_TO_ISO = "/dev/null"
+		else:
+			td.ISO_URL = is_iso(opt.url)
 
 	# prime configuration with defaults
 	config_files = ["/etc/%s" % td.PKGRC, "%s/.%s" % (td.HOME, td.PKGRC), "%s/.config/%s/%s" % (td.HOME, td.PKG, td.PKGRC) ]
@@ -248,15 +260,10 @@ def main():
 	else:
 		DESKTOP = 0
 
-	# Harcoded release codename from executable. Overrides value in config file
+	# Hardcoded release codename from executable. Overrides value in config file
 	if opt.release:
 		hasOptions = True
 		td.r = opt.release
-
-	# Handle single positional parameter
-	if not hasOptions:
-		if args:
-			td.ISO_URL = is_iso(args)
 
 	# Choose the virtualization engine
 	if not td.VIRT:
