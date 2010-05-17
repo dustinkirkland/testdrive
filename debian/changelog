@@ -17,7 +17,8 @@ testdrive (2.0) unreleased; urgency=low
   * Fix the failure of launching the local ISO. (LP: #581067)
 
   [ Dustin Kirkland ]
-  * testdrive: clean up some unneeded trailing newlines
+  * testdrive: clean up some unneeded trailing newlines, fix unexpanded
+    %s in the help text, LP: #575326
   * testdriverc: update header info, clean up config file
   * testdrive.install, testdrive.postinst, testdrive.preinst: handle
     the conffile syntax change on upgrades

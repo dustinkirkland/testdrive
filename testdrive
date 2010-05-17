@@ -189,7 +189,7 @@ def main():
 		~/.config/%prog/%progrc\n\
 		\n\
 		Users wanting to change the behavior default configuration can make a\n\
-		copy of /etc/%s, and pass this as a parameter to %prog.\n"
+		copy of /etc/%progrc, and pass this as a parameter to %prog.\n"
 
 
 	parser = OptionParser(usage)
