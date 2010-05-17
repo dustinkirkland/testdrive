@@ -180,16 +180,16 @@ def main():
 	# Option Parser
 	usage = "usage: %prog <parameters>\n\
 		\n\
-		%prog is a utility that allows you to easily download the latest Ubuntu\n\
-		development release and run it in a KVM virtual machine.\n\
-		\n\
-		All options to this program are handled through the global configuration\n\
-		file, /etc/%progrc, and then the user's local configuration file,\n\
-		~/.%progrc, then the configuration stored in\n\
-		~/.config/%prog/%progrc\n\
-		\n\
-		Users wanting to change the behavior default configuration can make a\n\
-		copy of /etc/%progrc, and pass this as a parameter to %prog.\n"
+	%prog is a utility that allows you to easily download the latest Ubuntu\n\
+	development release and run it in a virtual machine.\n\
+	\n\
+	All options to this program are handled through the global configuration\n\
+	file, /etc/%progrc, and then the user's local configuration file,\n\
+	~/.%progrc, then the configuration stored in\n\
+	~/.config/%prog/%progrc\n\
+	\n\
+	Users wanting to change the behavior default configuration can make a\n\
+	copy of /etc/%progrc, and pass this as a parameter to %prog.\n"
 
 
 	parser = OptionParser(usage)
