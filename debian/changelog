@@ -14,6 +14,7 @@ testdrive (1.39) unreleased; urgency=low
         add as a Depend to testdrive binary package.
     - debian/rules: Add pycentral rule.
     - debian/testdrive-common.install: Added to install shared file.
+  * Fix the failure of launching the local ISO. (LP: #581067)
 
   [ Dustin Kirkland ]
   * testdrive: clean up some unneeded trailing newlines
