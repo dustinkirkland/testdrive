@@ -113,9 +113,9 @@ def launch_virtualbox(td):
 	else:
 		error("Unsupported version (%s) of VirtualBox; please install v3.0 or v3.1." % vboxversion)
 
-	td.DISK_SIZE = td.DISK_SIZE.replace("G", "000")
-	run("sed -i \":HardDisk.*%s:d\" %s/.VirtualBox/VirtualBox.xml" % (td.DISK_FILE, td.HOME))
 	if not os.path.exists(td.DISK_FILE):
+		td.DISK_SIZE = td.DISK_SIZE.replace("G", "000")
+		run("sed -i \":HardDisk.*%s:d\" %s/.VirtualBox/VirtualBox.xml" % (td.DISK_FILE, td.HOME))
 		info("Creating disk image...")
 		run_or_die("VBoxManage createhd --filename %s --size %s" % (td.DISK_FILE, td.DISK_SIZE))
 	if vboxversion == "3.0":
@@ -143,12 +143,14 @@ def launch_virtualbox(td):
 	if vboxversion == "3.0":
 		run_or_die("VBoxManage modifyvm %s --hda %s" % (td.VBOX_NAME, td.DISK_FILE))
 		run_or_die("VBoxManage startvm %s" % td.VBOX_NAME)
-		print(">>> %s <<<\n" % (td.PATH_TO_ISO))
-		run_or_die("VBoxManage controlvm %s dvdattach %s" % (td.VBOX_NAME, td.PATH_TO_ISO))
+		if td.PATH_TO_ISO != "/dev/null":
+			print(">>> %s <<<\n" % (td.PATH_TO_ISO))
+			run_or_die("VBoxManage controlvm %s dvdattach %s" % (td.VBOX_NAME, td.PATH_TO_ISO))
 	elif vboxversion == "3.1":
 		run_or_die("VBoxManage storagectl %s --name \"IDE Controller\" --add ide" % td.VBOX_NAME)
 		run_or_die("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 0 --type hdd --medium %s" % (td.VBOX_NAME, td.DISK_FILE))
-		run_or_die("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 1 --type dvddrive --medium %s" % (td.VBOX_NAME, td.PATH_TO_ISO))
+		if td.PATH_TO_ISO != "/dev/null":
+			run_or_die("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 1 --type dvddrive --medium %s" % (td.VBOX_NAME, td.PATH_TO_ISO))
 		run_or_die("VBoxManage startvm %s" % td.VBOX_NAME)
 
 	# Give this VM a few seconds to start up
@@ -228,7 +230,7 @@ def main():
 		if is_qcow2(opt.url):
 			# Argument is an existing qcow2 image
 			td.DISK_FILE = opt.url
-			td.ISO_URL = "/dev/null"
+			td.ISO_URL = "file:///dev/null"
 		else:
 			td.ISO_URL = is_iso(opt.url)
 
