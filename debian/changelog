@@ -18,6 +18,7 @@ testdrive (1.39) unreleased; urgency=low
 
   [ Dustin Kirkland ]
   * testdrive: clean up some unneeded trailing newlines
+  * testdriverc: update header info
 
  -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 14 May 2010 15:52:31 +0200
 

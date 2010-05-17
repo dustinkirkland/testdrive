@@ -1,6 +1,5 @@
 [testdrive]
 # This is the global configuration file for the testdrive(1) utility.
-# This file is python-syntax, sourced by testdrive
 
 # CACHE is the directory to cache the ISOs and disk images
 # Default: $HOME/.cache/testdrive
