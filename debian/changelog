@@ -1,4 +1,4 @@
-testdrive (1.39) unreleased; urgency=low
+testdrive (2.0) unreleased; urgency=low
 
   [ Andres Rodriguez ]
   * testdrive, testdrive-gtk, testdrive.py, testdriverc: completely
