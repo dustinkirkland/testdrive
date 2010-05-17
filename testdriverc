@@ -50,14 +50,8 @@ DISK_SIZE = 6G
 # See kvm(1) for a comprehensive list of arguments
 KVM_ARGS = -usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370
 
-# ISO is a list of ISO name/url associations to seed the default menu
-# The code below will build a list of Ubuntu [desktop,server,alternate,dvd,netbook] ISO
-# url's for i386 (and amd64 if your OS allows), from the Ubuntu daily build service,
-# using rsync.
-# You can mangle or add to this list here (but you will get conffile conflicts on this
-# file at some point in the future upon upgrade.
-# Uncomment the following line if you want to hardcode the Ubuntu release; otherwise,
-# TestDrive will try to determine it dynamically.
+# Uncomment the following line if you want to hardcode the Ubuntu release
+# and arch; otherwise, TestDrive will try to determine it dynamically.
 #r = maverick
-m = i386
+#m = i386
 u = rsync://cdimage.ubuntu.com/cdimage
