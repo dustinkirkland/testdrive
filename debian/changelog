@@ -18,9 +18,11 @@ testdrive (2.0) unreleased; urgency=low
 
   [ Dustin Kirkland ]
   * testdrive: clean up some unneeded trailing newlines
-  * testdriverc: update header info
+  * testdriverc: update header info, clean up config file
   * testdrive.install, testdrive.postinst, testdrive.preinst: handle
     the conffile syntax change on upgrades
+  * testdrive, testdrive-kvm, testdrive.py, testdriverc: add -smp
+    support for kvm runs, LP: #570750
 
  -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 14 May 2010 15:52:31 +0200
 

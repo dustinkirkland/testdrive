@@ -29,6 +29,11 @@ MEM = 384
 #MEM = 512
 #MEM = 1024
 
+# SMP is the number of processors to give to the VM guest if
+# running in KVM.
+# Default is the number of CPUs in the host
+#SMP = 1
+
 # DISK_FILE is the full path to the disk image
 # Default: $CACHE/$ISO.img
 #DISK_FILE = /path/to/foo.img

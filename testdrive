@@ -92,7 +92,7 @@ def launch_kvm(td):
 	info("Creating disk image [%s]..." % td.DISK_FILE)
 	run_or_die("kvm-img create -f qcow2 %s %s" % (td.DISK_FILE, td.DISK_SIZE))
 	info("Running the Virtual Machine...")
-	os.system("kvm -m %s -cdrom %s -drive file=%s,if=virtio,index=0,boot=on %s" % (td.MEM, td.PATH_TO_ISO, td.DISK_FILE, td.KVM_ARGS))
+	os.system("kvm -m %s -smp %s -cdrom %s -drive file=%s,if=virtio,index=0,boot=on %s" % (td.MEM, td.SMP, td.PATH_TO_ISO, td.DISK_FILE, td.KVM_ARGS))
 
 def launch_virtualbox(td):
 	# Determine which version of VirtualBox we have installed.  What is returned is

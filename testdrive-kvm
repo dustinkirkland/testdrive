@@ -26,6 +26,7 @@ import commands, os, sys
 # Intialize vars from environment
 HOME = os.getenv("HOME", "")
 MEM = os.getenv("MEM", "")
+SMP = os.getenv("SMP", "")
 CDROM = os.getenv("CDROM", "")
 DISK = os.getenv("DISK", "")
 KVM_ARGS = os.getenv("KVM_ARGS", "")
@@ -64,5 +65,5 @@ while i < len(sys.argv):
 if len(CDROM) == 0 and len(DISK) ==0:
 	error("You must provide a path to either an ISO or a disk image")
 
-print("kvm -m %s %s %s %s" % (MEM, CDROM, DISK, KVM_ARGS))
-os.system("kvm -m %s %s %s %s" % (MEM, CDROM, DISK, KVM_ARGS))
+print("kvm -m %s %s %s %s" % (MEM, SMP, CDROM, DISK, KVM_ARGS))
+os.system("kvm -m %s %s %s %s" % (MEM, SMP, CDROM, DISK, KVM_ARGS))

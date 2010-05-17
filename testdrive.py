@@ -32,6 +32,7 @@ class Testdrive:
 		self.CACHE_IMG = os.getenv("CACHE_IMG", None)
 		self.CLEAN_IMG = os.getenv("CLEAN_IMG", None)
 		self.MEM = os.getenv("MEM", "")
+		self.SMP = os.getenv("SMP", "")
 		self.DISK_FILE = os.getenv("DISK_FILE", "")
 		self.DISK_SIZE = os.getenv("DISK_SIZE", "")
 		self.KVM_ARGS = os.getenv("KVM_ARGS", "")
@@ -46,6 +47,8 @@ class Testdrive:
 			self.KVM_ARGS = value
 		if var == 'mem':
 			self.MEM = value
+		if var == 'smp':
+			self.SMP = value
 		if var == 'disk_size':
 			self.DISK_SIZE = value
 		if var == 'cache':
@@ -135,14 +138,8 @@ class Testdrive:
 		if not os.path.exists(self.CACHE_ISO):
 			os.makedirs(self.CACHE_ISO, 0700)
 
-		if len(self.MEM) == 0:
-			total = commands.getoutput("grep ^MemTotal /proc/meminfo | awk '{print $2}'")
-			if total > 1000000:
-				self.MEM = 512
-			elif total > 750000:
-				self.MEM = 384
-			else:
-				self.MEM = 256
+		if len(self.SMP) == 0:
+			self.SMP = commands.getoutput("grep -c ^processor /proc/cpuinfo")
 
 		if len(self.DISK_FILE) == 0:
 			self.DISK_FILE = tempfile.mkstemp(".img", "testdrive-disk-", "%s" % self.CACHE_IMG)[1]
