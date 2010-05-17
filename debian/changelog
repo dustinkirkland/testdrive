@@ -24,6 +24,7 @@ testdrive (2.0) unreleased; urgency=low
     the conffile syntax change on upgrades
   * testdrive, testdrive-kvm, testdrive.py, testdriverc: add -smp
     support for kvm runs, LP: #570750
+  * doc/testdrive.1: add zync to the supported protocols list, LP: #577900
 
  -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 14 May 2010 15:52:31 +0200
 
