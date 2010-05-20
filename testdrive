@@ -95,7 +95,7 @@ def launch_kvm(td):
 	(status, output) = commands.getstatusoutput("kvm-ok")
 	if status != 0:
 		print(output)
-	if not os.path.exists(td.DISK_FILE):
+	if not os.path.exists(td.DISK_FILE) or td.is_disk_empty():
 		info("Creating disk image [%s]..." % td.DISK_FILE)
 		run_or_die("kvm-img create -f qcow2 %s %s" % (td.DISK_FILE, td.DISK_SIZE))
 	info("Running the Virtual Machine...")
@@ -113,6 +113,8 @@ def launch_virtualbox(td):
 	else:
 		error("Unsupported version (%s) of VirtualBox; please install v3.0 or v3.1." % vboxversion)
 
+	if os.path.exists(td.DISK_FILE) or td.is_disk_empty():
+		os.unlink(td.DISK_FILE)
 	if not os.path.exists(td.DISK_FILE):
 		td.DISK_SIZE = td.DISK_SIZE.replace("G", "000")
 		run("sed -i \":HardDisk.*%s:d\" %s/.VirtualBox/VirtualBox.xml" % (td.DISK_FILE, td.HOME))

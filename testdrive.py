@@ -267,3 +267,9 @@ class Testdrive:
 		except IOError:
 			pass
 		return codename
+
+	def is_disk_empty(self):
+		(status, output) = commands.getstatusoutput("file %s | grep -qs 'empty'" % self.DISK_FILE)
+		if status == 0:
+			return True
+		return False
