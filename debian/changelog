@@ -14,7 +14,7 @@ testdrive (2.1) unreleased; urgency=low
   [ Dustin Kirkland ]
   * testdriverc:
     - default of CLEAN_IMG is False, reflect that
-    - use -vga std in KVM by default (to work with UNR, and give
+    - use -vga vmware in KVM by default (to work with UNR, and give
       other useful resolutions)
 
  -- Andres Rodriguez <andreserl@ubuntu.com>  Thu, 20 May 2010 16:44:54 -0400
