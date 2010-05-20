@@ -81,9 +81,14 @@ def is_iso(file):
 	else:
 		error("Invalid ISO URL [%s]" % file)
 
-def is_qcow2(file):
+def is_disk_img(file):
 	(status, output) = commands.getstatusoutput("file %s | grep -qs 'Qemu Image'" % file)
 	if status == 0:
+		# qemu/kvm qcow2 image
+		return True
+	(status, output) = commands.getstatusoutput("file %s | grep -qs '.img: data$'" % file)
+	if status == 0:
+		# probably a virtual box image
 		return True
 	return False
 
@@ -147,7 +152,7 @@ def main():
 	# Process the rest of the options
 	if opt.url:
 		hasOptions = True
-		if is_qcow2(opt.url):
+		if is_disk_img(opt.url):
 			# Argument is an existing qcow2 image
 			td.DISK_FILE = opt.url
 			td.ISO_URL = "file:///dev/null"
