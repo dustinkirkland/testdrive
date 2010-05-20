@@ -1,4 +1,4 @@
-testdrive (2.1) unreleased; urgency=low
+testdrive (2.1-0ubuntu1) maverick; urgency=low
 
   [ Andres Rodriguez ]
   * Fix broken VM launching:
@@ -19,7 +19,7 @@ testdrive (2.1) unreleased; urgency=low
   * testdrive: try to support running vbox images too (not quite working
     all the way yet, but on its way)
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Thu, 20 May 2010 16:44:54 -0400
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 20 May 2010 18:18:16 -0500
 
 testdrive (2.0-0ubuntu1) maverick; urgency=low
 
