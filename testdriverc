@@ -15,7 +15,7 @@
 # was actually tried).
 # If running the image off /dev/shm, then *by default* the image will be removed (memory is a
 # restricted resource, and we should not over-allocate it)
-#CLEAN_IMG = True
+#CLEAN_IMG = False
 
 # VIRT is the type of hypervisor to use
 # VIRT can be either 'kvm', 'virtualbox', or 'parallels'

@@ -11,6 +11,10 @@ testdrive (2.1) unreleased; urgency=low
     - virt/{__init__.py,kvm.py,virtualbox.py,parallels.py}: Added.
     - debian/testdrive-common.install: Install virt methods.
 
+  [ Dustin Kirkland ]
+  * testdriverc:
+    - default of CLEAN_IMG is False, reflect that
+
  -- Andres Rodriguez <andreserl@ubuntu.com>  Thu, 20 May 2010 16:44:54 -0400
 
 testdrive (2.0-0ubuntu1) maverick; urgency=low
