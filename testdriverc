@@ -48,7 +48,7 @@ DISK_SIZE = 6G
 # KVM_ARGS is a string of arbitrary KVM_ARGS to use when launching the VM
 # Default: "-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370"
 # See kvm(1) for a comprehensive list of arguments
-KVM_ARGS = -usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370
+KVM_ARGS = -usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370 -vga std
 
 # Uncomment the following line if you want to hardcode the Ubuntu release
 # and arch; otherwise, TestDrive will try to determine it dynamically.
