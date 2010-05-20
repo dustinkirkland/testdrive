@@ -44,11 +44,11 @@ class VBox:
 
 	# Code to setup virtual machine
 	def setup_virt(self):
-		if os.path.exists(self.td.DISK_FILE) or self.td.is_disk_empty():
+		self.run("sed -i \":HardDisk.*%s:d\" %s/.VirtualBox/VirtualBox.xml" % (self.td.DISK_FILE, self.td.HOME))
+		if self.td.is_disk_empty():
 			os.unlink(self.td.DISK_FILE)
 		if not os.path.exists(self.td.DISK_FILE):
 			self.td.DISK_SIZE = self.td.DISK_SIZE.replace("G", "000")
-			self.run("sed -i \":HardDisk.*%s:d\" %s/.VirtualBox/VirtualBox.xml" % (self.td.DISK_FILE, self.td.HOME))
 			#info("Creating disk image...")
 			print "INFO: Creating disk image..."
 			self.run_or_die("VBoxManage createhd --filename %s --size %s" % (self.td.DISK_FILE, self.td.DISK_SIZE))
@@ -56,7 +56,8 @@ class VBox:
 			self.run("VBoxManage modifyvm %s --hda none" % self.td.VBOX_NAME)
 		elif self.vboxversion == "3.1":
 			self.run("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 0 --type hdd --medium none" % self.td.VBOX_NAME)
-			self.run("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 1 --type dvddrive --medium none" % self.td.VBOX_NAME)
+			if self.td.PATH_TO_ISO != "/dev/null":
+				self.run("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 1 --type dvddrive --medium none" % self.td.VBOX_NAME)
 		#info("Creating the Virtual Machine...")
 		print "INFO: Creating the Virtual Machine..."
 		if os.path.exists("%s/.VirtualBox/Machines/%s/%s.xml" % (self.td.HOME, self.td.VBOX_NAME, self.td.VBOX_NAME)):
