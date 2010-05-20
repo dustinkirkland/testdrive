@@ -1,1 +1,3 @@
-testdrive.py usr/share/pyshared
+__init__.py usr/share/pyshared/testdrive
+testdrive.py usr/share/pyshared/testdrive
+virt/*.py usr/share/pyshared/testdrive/virt

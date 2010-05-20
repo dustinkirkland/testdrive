@@ -19,8 +19,11 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import commands, hashlib, os, string, sys, tempfile, time, platform, testdrive
+import commands, hashlib, os, string, sys, tempfile, time, platform
 from optparse import OptionParser
+
+from testdrive import testdrive
+from testdrive.virt import kvm, virtualbox, parallels
 
 # Creates the UI list
 def select_iso(td, ISO):
@@ -90,91 +93,6 @@ def run(cmd):
 def run_or_die(cmd):
 	if run(cmd) != 0:
 		error("Command failed\n    `%s`" % cmd)
-
-def launch_kvm(td):
-	(status, output) = commands.getstatusoutput("kvm-ok")
-	if status != 0:
-		print(output)
-	if not os.path.exists(td.DISK_FILE) or td.is_disk_empty():
-		info("Creating disk image [%s]..." % td.DISK_FILE)
-		run_or_die("kvm-img create -f qcow2 %s %s" % (td.DISK_FILE, td.DISK_SIZE))
-	info("Running the Virtual Machine...")
-	os.system("kvm -m %s -smp %s -cdrom %s -drive file=%s,if=virtio,cache=writeback,index=0,boot=on %s" % (td.MEM, td.SMP, td.PATH_TO_ISO, td.DISK_FILE, td.KVM_ARGS))
-
-def launch_virtualbox(td):
-	# Determine which version of VirtualBox we have installed.  What is returned is
-	# typically a string such as '3.1.0r55467', lets assume that the command line
-	# is consistent within 3.0.x versions and 3.1.x version so extract this part of the
-	# version string for comparison later
-	vboxversion = commands.getoutput("VBoxManage --version")
-	vboxversion = "%s.%s" % (vboxversion.split(".")[0], vboxversion.split(".")[1])
-	if vboxversion == "3.0" or vboxversion == "3.1":
-		info("VirtualBox %s detected." % vboxversion)
-	else:
-		error("Unsupported version (%s) of VirtualBox; please install v3.0 or v3.1." % vboxversion)
-
-	if os.path.exists(td.DISK_FILE) or td.is_disk_empty():
-		os.unlink(td.DISK_FILE)
-	if not os.path.exists(td.DISK_FILE):
-		td.DISK_SIZE = td.DISK_SIZE.replace("G", "000")
-		run("sed -i \":HardDisk.*%s:d\" %s/.VirtualBox/VirtualBox.xml" % (td.DISK_FILE, td.HOME))
-		info("Creating disk image...")
-		run_or_die("VBoxManage createhd --filename %s --size %s" % (td.DISK_FILE, td.DISK_SIZE))
-	if vboxversion == "3.0":
-		run("VBoxManage modifyvm %s --hda none" % td.VBOX_NAME)
-	elif vboxversion == "3.1":
-		run("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 0 --type hdd --medium none" % td.VBOX_NAME)
-		run("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 1 --type dvddrive --medium none" % td.VBOX_NAME)
-	info("Creating the Virtual Machine...")
-	if os.path.exists("%s/.VirtualBox/Machines/%s/%s.xml" % (td.HOME, td.VBOX_NAME, td.VBOX_NAME)):
-		os.unlink("%s/.VirtualBox/Machines/%s/%s.xml" % (td.HOME, td.VBOX_NAME, td.VBOX_NAME))
-	run("VBoxManage unregistervm %s --delete" % td.VBOX_NAME)
-	run_or_die("VBoxManage createvm --register --name %s" % td.VBOX_NAME)
-	run_or_die("VBoxManage modifyvm %s --memory %s" % (td.VBOX_NAME, td.MEM))
-	# This should probably support more than just Ubuntu...
-	if td.ISO_URL.find("amd64") >= 0:
-		platform = "Ubuntu_64"
-	else:
-		platform = "Ubuntu"
-	run_or_die("VBoxManage modifyvm %s --ostype %s" % (td.VBOX_NAME, platform))
-	run_or_die("VBoxManage modifyvm %s --vram 128" % td.VBOX_NAME)
-	run_or_die("VBoxManage modifyvm %s --boot1 disk" % td.VBOX_NAME)
-	run_or_die("VBoxManage modifyvm %s --boot2 dvd" % td.VBOX_NAME)
-	run_or_die("VBoxManage modifyvm %s --nic1 nat" % td.VBOX_NAME)
-	info("Running the Virtual Machine...")
-	if vboxversion == "3.0":
-		run_or_die("VBoxManage modifyvm %s --hda %s" % (td.VBOX_NAME, td.DISK_FILE))
-		run_or_die("VBoxManage startvm %s" % td.VBOX_NAME)
-		if td.PATH_TO_ISO != "/dev/null":
-			print(">>> %s <<<\n" % (td.PATH_TO_ISO))
-			run_or_die("VBoxManage controlvm %s dvdattach %s" % (td.VBOX_NAME, td.PATH_TO_ISO))
-	elif vboxversion == "3.1":
-		run_or_die("VBoxManage storagectl %s --name \"IDE Controller\" --add ide" % td.VBOX_NAME)
-		run_or_die("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 0 --type hdd --medium %s" % (td.VBOX_NAME, td.DISK_FILE))
-		if td.PATH_TO_ISO != "/dev/null":
-			run_or_die("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 1 --type dvddrive --medium %s" % (td.VBOX_NAME, td.PATH_TO_ISO))
-		run_or_die("VBoxManage startvm %s" % td.VBOX_NAME)
-
-	# Give this VM a few seconds to start up
-	time.sleep(5)
-	# Loop as long as this VM is running
-	while commands.getstatusoutput("VBoxManage list runningvms | grep -qs %s" % td.VBOX_NAME)[0] == 0:
-		time.sleep(2)
-
-def launch_parallels(td):
-	if commands.getstatusoutput("prlctl list %s | grep -qsv \"UUID\"" % td.VBOX_NAME)[0] == 0:
-		run_or_die("prlctl delete %s" % td.VBOX_NAME)
-	td.DISK_SIZE = td.DISK_SIZE.replace("G", "000")
-	info("Creating VM...")
-	run_or_die("prlctl create %s --ostype linux --distribution ubuntu" % td.VBOX_NAME)
-	run_or_die("prlctl set %s --memsize %s" % (td.VBOX_NAME, td.MEM))
-	run_or_die("prlctl set %s --device-del hdd0" % td.VBOX_NAME)
-	run_or_die("prlctl set %s --device-add hdd --type expand --size %s --iface scsi --position 0:0" % (td.VBOX_NAME, td.DISK_SIZE))
-	run_or_die("prlctl set %s --device-set cdrom0 --image %s" % (td.VBOX_NAME, td.PATH_TO_ISO))
-	run_or_die("prlctl start %s" % td.VBOX_NAME)
-	# Loop as long as this VM is running
-	while commands.getstatusoutput("prlctl list %s | grep -qs stopped" % td.VBOX_NAME)[0] != 0:
-		time.sleep(2)
 
 def main():
 	# Initialize Testdrive Class
@@ -281,10 +199,13 @@ def main():
 			sudo apt-get install virtualbox-ose")
 	if td.VIRT == "kvm":
 		info("Using KVM for virtual machine hosting...");
+		virt = kvm.KVM(td)
 	if td.VIRT == "virtualbox":
 		info("Using VirtualBox for virtual machine hosting...")
+		virt = virtualbox.VBox(td)
 	if td.VIRT == "paralels":
 		info("Using Parallels Desktop for virtual machine hosting...")
+		virt = parallels.Parallels(td)
 
 	# set defaults were undefined
 	td.set_defaults()
@@ -344,14 +265,23 @@ def main():
 		run_or_die(cmd)
 
 	# Launch the VM
-	if td.VIRT == "kvm":
-		launch_kvm(td)
-	elif td.VIRT == "virtualbox":
-		launch_virtualbox(td)
-	elif td.VIRT == "parallels":
-		launch_parallels(td)
-	else:
-		error("Unsupported virtualization method [%s]" % td.VIRT)
+	info("Validating Virtualization Method....")
+	try:
+		virt.validate_virt()
+	except:
+		error("Unable to validate Virtualization Method [%s]" % td.VIRT)
+
+	info("Setting up Virtual Machine...")
+	try:
+		virt.setup_virt()
+	except:
+		error("Unable to setup Virtual Machine")
+
+	info("Launching Virtual Machine...")
+	try:
+		virt.launch_virt()
+	except:
+		error("Unable to launch Virtual Machine")
 
 	rm_disk = td.delete_image()
 	if rm_disk:
