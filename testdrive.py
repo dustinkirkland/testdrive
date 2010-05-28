@@ -41,6 +41,7 @@ class Testdrive:
 		self.PKGRC = "%src" % self.PKG
 		self.r = None
 		self.PROTO = None
+		self.m = None
 
 	def set_values(self, var, value):
 		if var == 'kvm_args':
@@ -79,8 +80,12 @@ class Testdrive:
 
 	## TODO: This possible needs to go outside the class due to in PyGTK front end we might need the list of ISO's before even instancing an object
 	def list_isos(self):
-		if platform.machine() == "x86_64":
-			self.m = ["amd64", "i386"]
+		if self.m is None:
+			# Set defaults here due to the ISO list is generated before loading defaults.
+			if platform.machine() == "x86_64":
+				self.m = ["amd64", "i386"]
+			else:
+				self.m = ["i386"]
 		ISO = []
 		for a in self.m:
 			ISO.append({"name":"Ubuntu Desktop (%s-%s)"%(self.r,a), "url":"%s/daily-live/current/%s-desktop-%s.iso"%(self.u,self.r,a)})
