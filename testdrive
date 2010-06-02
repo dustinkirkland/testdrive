@@ -30,13 +30,16 @@ def select_iso(td, ISO):
 	while 1:
 		i = 1
 		print("\nWelcome to Testdrive!\n")
+		menu = []
 		for iso in ISO:
-			print("  %d. %s" % (i, iso["name"]))
-			filename = os.path.basename(iso["url"])
-			path = "%s/%s" % (td.CACHE_ISO, filename)
-			if os.path.exists(path):
-				print("     +-cache--> [%s] %s" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path))), filename))
-			i=i+1
+			if iso["category"] == td.f:
+				print("  %d. %s (%s-%s)" % (i, iso["name"], td.r, iso["arch"]))
+				filename = os.path.basename(iso["url"])
+				path = "%s/%s_%s" % (td.CACHE_ISO, iso["category"], filename)
+				if os.path.exists(path):
+					print("     +-cache--> [%s] %s" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path))), filename))
+				i=i+1
+				menu.append({"id":i, "url":iso["url"], "cat": iso["category"]})
 		print("  %d. Other (prompt for ISO URL)" % i)
 		try:
 			input = raw_input("\nSelect an image to testdrive [1]: ")
@@ -54,7 +57,8 @@ def select_iso(td, ISO):
 			url = raw_input("\nEnter an ISO URL to testdrive: ")
 			break
 		elif choice in range(1, i):
-			url = ISO[choice-1]["url"]
+			url = menu[choice-1]["url"]
+			td.ISO_PATH_HEADER = menu[choice-1]["cat"]
 			break
 		else:
 			print("\nERROR: Invalid selection\n")
@@ -109,6 +113,7 @@ def main():
 	# Codename cache variables
 	update_cache = None
 	codename = None
+	cdimage = None
 
 	# Option Parser
 	usage = "usage: %prog <parameters>\n\
@@ -136,6 +141,9 @@ def main():
 		help='try to launch usb-creator for further testing')
 	parser.add_option('-r', '--release', action='store', type='string', dest='release',
 		help='hardcode Ubuntu RELEASE codename')
+	parser.add_option('-l', '--flavor', action='store', type='string', dest='flavor',
+		help='hardcode Ubuntu flavor. Available Flavors:\n\
+		     ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio')
 
 	(opt, args) = parser.parse_args()
 	info("version passed: %s" % opt.version)
@@ -159,6 +167,10 @@ def main():
 		else:
 			td.ISO_URL = is_iso(opt.url)
 
+	##############################
+	## Configuration Files Code ##
+	##############################
+
 	# prime configuration with defaults
 	config_files = ["/etc/%s" % td.PKGRC, "%s/.%s" % (td.HOME, td.PKGRC), "%s/.config/%s/%s" % (td.HOME, td.PKG, td.PKGRC) ]
 	info("config passed: %s" %opt.config)
@@ -179,6 +191,10 @@ def main():
 			except:
 				error("Invalid configuration [%s]" % i)
 
+	##########################################
+	## UI Options needed after config files ##
+	##########################################
+
 	# Launch usb-creator
 	if opt.desktop:
 		hasOptions = True
@@ -191,10 +207,17 @@ def main():
 		hasOptions = True
 		td.r = opt.release
 
-	# Choose the virtualization engine
+	# Hardcode Ubuntu Flavor. Overrides value in config file
+	if opt.flavor:
+		hasOptions = True
+		#TODO: Add validate to see if option passed is valid
+		td.f = opt.flavor
+
+	######################################
+	## Choose the virtualization engine ##
+	######################################
 	if not td.VIRT:
 		td.VIRT = td.get_virt()
-	#NOTICE: Removed from get_virt() and placed here
 	if td.VIRT == 1:
 		error("Your CPU supports KVM acceleration; please install KVM:\n\
 			sudo apt-get install qemu-kvm")
@@ -212,45 +235,53 @@ def main():
 		info("Using Parallels Desktop for virtual machine hosting...")
 		virt = parallels.Parallels(td)
 
-	# set defaults were undefined
+	#################################
+	## set defaults were undefined ##
+	#################################
 	td.set_defaults()
 
-	## Obtain Ubuntu Devel Release Codename ##
-	if not td.r:
-		# Verify if the codename is cached, if not, set variable to update/create it
-		if td.is_codename_cached() is False:
-			update_cache = 1
-		# If codename cached, verify if it is expired. If it is, set variable to update it.
-		elif td.is_cache_expired() is True:
-			update_cache = 1
+	#################################################
+	## Obtain the Ubuntu ISO List from the cdimage ##
+	## Obtain Release Codename from ISO cache      ##
+	#################################################
 
-		# If variable set to update, obtain release from launchpad
-		if update_cache == 1:
-			info("Obtaining Ubuntu Development Release codename from Launchpad...")
-			try:
-				codename = td.lp_obtain_release_codename()
-			except:
-				print "ERROR: Could not obtain the Ubuntu Development Release codename from Launchpad..."
+	# Verify if the ISO list is cached, if not, set variable to update/create it.
+	if td.is_iso_list_cached() is False:
+		update_cache = 1
+	# If ISO list is cached, verify if it is expired. If it is, set variable to update it.
+	elif td.is_iso_list_cache_expired() is True:
+		update_cache = 1
 
-		# If release was obtained, update the cache file
-		if codename:
-			try:
-				td.update_ubuntu_codename_cache(codename)
-			except:
-				error("Unable to update Ubuntu Development Release codename cache.")
-
-		# Try to retrieve Ubuntu Devel codename from cache
-		info("Retrieving Ubuntu Development Release codename from cache...")
+	# If variable set to update, obtain the ISO list from the Ubuntu CD Image repository.
+	if update_cache == 1:
+		info("Obtaining Ubuntu ISO list from %s..." % td.u)
 		try:
-			td.r = td.get_ubuntu_codename()
+			cdimage = td.cdimage_obtain_ubuntu_iso_list()
 		except:
-			error("Unable to retrieve Ubuntu Development Release codename from cache...")
+			print "ERROR: Could not obtain the Ubuntu ISO list from %s..." % td.u
+	# If the ISO List was obtained, update the cache fle
+	if cdimage:
+		try:
+			td.update_ubuntu_iso_list_cache(cdimage)
+		except:
+			error("Unable to update the Ubuntu ISO list cache...")
 
-	# Select all ISO's
-	ISO = td.list_isos()
+	# Try to retrieve the ISO list from the cache
+	info("Retrieving the Ubuntu ISO list from cache...")
+	try:
+		isos = td.get_ubuntu_iso_list()
+	except:
+		error("Unable to retrieve the Ubuntu ISO list from cache...")
+	# Obtain Ubuntu Release Codename from ISO cache
+	if not td.r:
+		td.set_ubuntu_release_codename(isos)
+	# Obtain ISO list for Menu
+	ISO = td.list_isos(isos)
 
+	####################################################
+	## Obtaining ISO/Setting Launch Path/Get Protocol ##
+	####################################################
 	# Show the Command Line MENU and OBTAIN URL
-	#if len(ISO_URL) == 0:
 	if not td.ISO_URL:
 		td.ISO_URL = select_iso(td, ISO)
 
@@ -269,7 +300,9 @@ def main():
 	if cmd != 0:
 		run_or_die(cmd)
 
-	# Launch the VM
+	###################
+	## Launch the VM ##
+	###################
 	info("Validating Virtualization Method....")
 	try:
 		virt.validate_virt()

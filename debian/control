@@ -33,7 +33,7 @@ Description: run the daily Ubuntu ISO in a virtual machine
 Package: testdrive-common
 Architecture: all
 XB-Python-Version: ${python:Versions}
-Depends: ${python:Depends}, ${misc:Depends}, python-launchpadlib
+Depends: ${python:Depends}, ${misc:Depends}
 Description: run the daily Ubuntu ISO in a virtual machine (common files)
  Testdrive helps you download and run the daily Ubuntu development ISO
  in a virtual machine on your local hardware.

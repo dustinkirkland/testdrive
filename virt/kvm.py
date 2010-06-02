@@ -52,4 +52,3 @@ class KVM:
 		if self.run(cmd) != 0:
 			#error("Command failed\n    `%s`" % cmd)
 			print "Command failed\n    `%s`" % cmd
-		

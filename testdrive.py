@@ -40,8 +40,10 @@ class Testdrive:
 		self.PKG = "testdrive"
 		self.PKGRC = "%src" % self.PKG
 		self.r = None
-		self.PROTO = None
 		self.m = None
+		self.f = None
+		self.PROTO = None
+		self.ISO_PATH_HEADER = None
 
 	def set_values(self, var, value):
 		if var == 'kvm_args':
@@ -70,6 +72,8 @@ class Testdrive:
 			self.u = value
 		if var == 'm':
 			self.m = [value]
+		if var == 'f':
+			self.f = value
 
 	def load_config_file(self, config_file):
 		cfg = ConfigParser.ConfigParser()
@@ -79,7 +83,7 @@ class Testdrive:
 			self.set_values(items[0], items[1])
 
 	## TODO: This possible needs to go outside the class due to in PyGTK front end we might need the list of ISO's before even instancing an object
-	def list_isos(self):
+	def list_isos(self, ISOS):
 		if self.m is None:
 			# Set defaults here due to the ISO list is generated before loading defaults.
 			if platform.machine() == "x86_64":
@@ -87,12 +91,38 @@ class Testdrive:
 			else:
 				self.m = ["i386"]
 		ISO = []
-		for a in self.m:
-			ISO.append({"name":"Ubuntu Desktop (%s-%s)"%(self.r,a), "url":"%s/daily-live/current/%s-desktop-%s.iso"%(self.u,self.r,a)})
-			ISO.append({"name":"Ubuntu Server (%s-%s)"%(self.r,a), "url":"%s/ubuntu-server/daily/current/%s-server-%s.iso"%(self.u,self.r,a)})
-			ISO.append({"name":"Ubuntu Alternate (%s-%s)"%(self.r,a), "url":"%s/daily/current/%s-alternate-%s.iso"%(self.u,self.r,a)})
-			ISO.append({"name":"Ubuntu DVD (%s-%s)"%(self.r,a), "url":"%s/dvd/current/%s-dvd-%s.iso"%(self.u,self.r,a)})
-		ISO.append({"name":"Ubuntu Netbook (%s-%s)"%(self.r,a), "url":"%s/ubuntu-netbook/daily-live/current/%s-netbook-%s.iso"%(self.u,self.r,a)})
+		for iso in ISOS:
+			if iso.split()[1] == self.r:
+				# TODO: Add support for UEC
+				category = iso.split()[0]
+				if category == 'ubuntu-netbook':
+					category = 'ubuntu'
+				elif category == 'ubuntu-server':
+					category = 'ubuntu'
+				elif category == 'kubuntu-netbook':
+					category = 'kubuntu'
+				flavor = iso.split()[0].capitalize()
+				if flavor == 'Ubuntu-netbook':
+					flavor = 'Ubuntu'
+				elif flavor == 'Kubuntu-netbook':
+					flavor = 'Kubuntu'
+				elif flavor == 'Ubuntustudio':
+					flavor = 'Ubuntu Studio'
+				elif flavor == 'Ubuntu-server':
+					flavor = 'Ubuntu'
+				release = iso.split()[1]
+				url = iso.split()[2]
+				arch = url.split(".iso")[0].split("-")[-1]
+				image = url.split("-%s.iso" % arch)[0].split("-")[-1].capitalize()
+				if image == 'Dvd':
+					image = url.split("-%s.iso" % arch)[0].split("-")[-1].swapcase()
+				name = "%s %s" % (flavor, image)
+				# Name: Shows a description
+				# URL: Shows the URL from where it downloads the ISO
+				# Arch: Shows the architecture (amd64|i386)
+				# Category: The header used to save the ISO, i.e.: ubuntu_lucid-desktop-i386.iso kubuntu_lucid-desktop-i386.iso
+				#ISO.append({"name":name, "url":"%s%s" % (self.u, url), "arch":arch, "flavor":flavor, "header":header})
+				ISO.append({"name":name, "url":"%s%s" % (self.u, url), "arch":arch, "category":category})
 		return ISO
 
 	def get_virt(self):
@@ -157,6 +187,12 @@ class Testdrive:
 
 		if len(self.VBOX_NAME) == 0:
 			self.VBOX_NAME = self.PKG
+
+		if self.ISO_PATH_HEADER == None:
+			self.ISO_PATH_HEADER = 'other'
+
+		if self.f == None:
+			self.f = 'ubuntu'
 
 	def run(self, cmd):
 		return(os.system(cmd))
@@ -226,7 +262,7 @@ class Testdrive:
 
 	def set_launch_path(self):
 		# Move from set_defaults, due to merge of upstream rev 189
-		ISO_NAME = os.path.basename(self.ISO_URL)
+		ISO_NAME = "%s_%s" % (self.ISO_PATH_HEADER, os.path.basename(self.ISO_URL))
 		self.PROTO = self.ISO_URL.partition(":")[0]
 		self.PATH_TO_ISO = "%s/%s" % (self.CACHE_ISO, ISO_NAME)
 
@@ -236,45 +272,53 @@ class Testdrive:
 		else:
 			os.execv("/usr/bin/usb-creator-kde", ["usb-creator-kde", "-i", self.PATH_TO_ISO])
 
-	def lp_obtain_release_codename(self):
-		launchpad = Launchpad.login_anonymously('testdrive', 'production', self.CACHE)
-		return launchpad.distributions['ubuntu'].current_series.name
-
-	def is_codename_cached(self):
-		if not os.path.exists(self.CACHE):
-			os.makedirs(self.CACHE, 0700)
-		if not os.path.exists("%s/current" % self.CACHE):
-			return False
-		return True
-
-	def is_cache_expired(self):
-		cache_time = time.localtime(os.path.getmtime("%s/current" % self.CACHE))
-		local_time = time.localtime()
-		time_difference = time.mktime(local_time) - time.mktime(cache_time)
-		# Check for new release at most once-per-week (60*60*24*7 = 604800)
-		if time_difference >= 604800:
-			return True
-		return False
-
-	def update_ubuntu_codename_cache(self, str):
-		try:
-			f = open("%s/current" % self.CACHE,'w')
-			f.write(str)
-			f.close
-		except IOError:
-			pass
-
-	def get_ubuntu_codename(self):
-		try:
-			f = open("%s/current" % self.CACHE,'r')
-			codename = f.read()
-			f.close
-		except IOError:
-			pass
-		return codename
-
 	def is_disk_empty(self):
 		(status, output) = commands.getstatusoutput("file %s | grep -qs 'empty'" % self.DISK_FILE)
 		if status == 0:
 			return True
 		return False
+
+	# Obtain available ISO's from Ubuntu cdimage.
+	def is_iso_list_cached(self):
+		if not os.path.exists(self.CACHE):
+			os.makedirs(self.CACHE, 0700)
+		if not os.path.exists("%s/isos" % self.CACHE):
+			return False
+		return True
+
+	def is_iso_list_cache_expired(self):
+		cache_time = time.localtime(os.path.getmtime("%s/isos" % self.CACHE))
+		local_time = time.localtime()
+		time_difference = time.mktime(local_time) - time.mktime(cache_time)
+		# Check for new release at most once-per-week (60*60*24 = 86400)
+		if time_difference >= 86400:
+			return True
+		return False
+
+	def cdimage_obtain_ubuntu_iso_list(self):
+		(status, output) = commands.getstatusoutput("wget -q -O- http://cdimage.ubuntu.com/.manifest-daily | egrep '(amd64|i386)'")
+		return output
+
+	def update_ubuntu_iso_list_cache(self, str):
+		try:
+			f = open("%s/isos" % self.CACHE,'w')
+			f.write(str)
+			f.close
+		except IOError:
+			pass
+
+	def get_ubuntu_iso_list(self):
+		try:
+			f = open("%s/isos" % self.CACHE, 'r')
+			ISO = f.readlines()
+			f.close
+		except IOError:
+			pass
+		return ISO
+
+	def set_ubuntu_release_codename(self, isos):
+		codename = []
+		for iso in isos:
+			codename.append(iso.split()[1])
+		codename.sort()
+		self.r = codename[-1]

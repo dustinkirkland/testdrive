@@ -55,3 +55,7 @@ KVM_ARGS = -usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es137
 #r = maverick
 #m = i386
 u = rsync://cdimage.ubuntu.com/cdimage
+
+# The following line determines the default Ubuntu Flavor used by TestDrive.
+# Possible flavors are: ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio
+f = ubuntu

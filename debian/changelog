@@ -1,8 +1,19 @@
 testdrive (2.2) unreleased; urgency=low
 
   * Fix launching fail when attribute m is not set. (LP: #585792)
+  * Obtain ISO list from Ubuntu cdimage for UI generation.
+    - Cache filtered manifest in $CACHE/isos.
+    - testdrive, testdrive.py: Drop hardcoding of the UI's available ISO
+      list and generate it from cached manifest.
+  * Change method to obtain Ubuntu Release Codename. Fixes (LP: #586685)
+    - testdrive.py: Obtain release codename from iso cached manifest
+      instead of launchpad for compatibility issues.
+    - debian/control: Drop Depends on python-launchpadlib.
+  * Add support for different Ubuntu Flavors.
+    - testdriverc: Add variable for default Ubuntu Flavor.
+    - testdrive, testdrive.py: Do necessary changes for this to work.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Thu, 27 May 2010 15:14:04 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Wed, 02 Jun 2010 16:39:49 -0400
 
 testdrive (2.1-0ubuntu1) maverick; urgency=low
 
