@@ -3,10 +3,16 @@
 testdrive \- Test Drive the current Ubuntu Development Snapshot in a VM
 
 .SH SYNOPSIS
-testdrive [\-f FILE] [\-u URL] [\-v|\-\-version]
+testdrive [\-d] [\-f FILE] [\-l FLAVOR] [\-r RELEASE] [\-u URL] [\-v|\-\-version]
 
 .SH OPTIONS
+\fB\-d\fP - launch usb-creator after testdriving ISO
+
 \fB\-f FILE\fP - path to a configuration file to read
+
+\fB\-l FLAVOR\fP - hardcode Ubuntu flavor to testdrive; can be [ubuntu|kubuntu|xubuntu|edubuntu|myhbuntu|ubuntustudio]
+
+\fB\-r RELEASE\fP - hardcode Ubuntu release codename to testdrive
 
 \fB\-u URL\fP - url to an ISO image to download and use; can be [rsync|zsync|http|ftp|file] protocol
 
