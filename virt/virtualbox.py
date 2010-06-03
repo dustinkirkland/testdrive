@@ -35,12 +35,13 @@ class VBox:
 		# version string for comparison later
 		self.vboxversion = commands.getoutput("VBoxManage --version")
 		self.vboxversion = "%s.%s" % (self.vboxversion.split(".")[0], self.vboxversion.split(".")[1])
-		if self.vboxversion == "3.0" or self.vboxversion == "3.1":
+		if self.vboxversion == "3.0" or self.vboxversion == "3.1" or self.vboxversion == "3.2":
 			#info("VirtualBox %s detected." % self.vboxversion)
 			print "INFO: VirtualBox %s detected." % self.vboxversion
 		else:
 			#error("Unsupported version (%s) of VirtualBox; please install v3.0 or v3.1." % self.vboxversion)
-			print "ERROR: Unsupported version (%s) of VirtualBox; please install v3.0 or v3.1." % self.vboxversion
+			print "ERROR: Unsupported version (%s) of VirtualBox; please install v3.0, v3.1 or v3.2." % self.vboxversion
+			exit(0)
 
 	# Code to setup virtual machine
 	def setup_virt(self):
@@ -54,7 +55,7 @@ class VBox:
 			self.run_or_die("VBoxManage createhd --filename %s --size %s" % (self.td.DISK_FILE, self.td.DISK_SIZE))
 		if self.vboxversion == "3.0":
 			self.run("VBoxManage modifyvm %s --hda none" % self.td.VBOX_NAME)
-		elif self.vboxversion == "3.1":
+		elif self.vboxversion == "3.1" or self.vboxversion == "3.2":
 			self.run("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 0 --type hdd --medium none" % self.td.VBOX_NAME)
 			if self.td.PATH_TO_ISO != "/dev/null":
 				self.run("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 1 --type dvddrive --medium none" % self.td.VBOX_NAME)
@@ -86,7 +87,7 @@ class VBox:
 			if self.td.PATH_TO_ISO != "/dev/null":
 				print(">>> %s <<<\n" % (self.td.PATH_TO_ISO))
 				self.run_or_die("VBoxManage controlvm %s dvdattach %s" % (self.td.VBOX_NAME, self.td.PATH_TO_ISO))
-		elif self.vboxversion == "3.1":
+		elif self.vboxversion == "3.1" or self.vboxversion == "3.2":
 			self.run_or_die("VBoxManage storagectl %s --name \"IDE Controller\" --add ide" % self.td.VBOX_NAME)
 			self.run_or_die("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 0 --type hdd --medium %s" % (self.td.VBOX_NAME, self.td.DISK_FILE))
 			if self.td.PATH_TO_ISO != "/dev/null":

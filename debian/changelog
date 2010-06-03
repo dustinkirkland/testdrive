@@ -13,8 +13,9 @@ testdrive (2.2) unreleased; urgency=low
     - testdriverc: Add variable for default Ubuntu Flavor.
     - testdrive, testdrive.py: Do necessary changes for this to work.
   * doc/testdrive.1: Update manpage for newly added options.
+  * Add support for VirtualBox version 3.2. (LP: #589419)
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Thu, 03 Jun 2010 16:31:10 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Thu, 03 Jun 2010 18:12:51 -0400
 
 testdrive (2.1-0ubuntu1) maverick; urgency=low
 
