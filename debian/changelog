@@ -1,3 +1,9 @@
+testdrive (2.3) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Thu, 03 Jun 2010 18:36:26 -0400
+
 testdrive (2.2-0ubuntu1) maverick; urgency=low
 
   * Fix launching fail when attribute m is not set. (LP: #585792)
