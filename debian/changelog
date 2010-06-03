@@ -1,4 +1,4 @@
-testdrive (2.2) unreleased; urgency=low
+testdrive (2.2-0ubuntu1) maverick; urgency=low
 
   * Fix launching fail when attribute m is not set. (LP: #585792)
   * Obtain ISO list from Ubuntu cdimage for UI generation.
