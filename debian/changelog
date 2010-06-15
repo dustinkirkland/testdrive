@@ -1,8 +1,10 @@
 testdrive (2.3) unreleased; urgency=low
 
-  * UNRELEASED
+  [ Dustin Kirkland ]
+  * testdriverc: add -redir to the KVM_ARGS, forward port 22 in the guest
+    to 22222 in the host, allowing the user to easily ssh into guests
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Thu, 03 Jun 2010 18:36:26 -0400
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 15 Jun 2010 16:00:22 -0500
 
 testdrive (2.2-0ubuntu1) maverick; urgency=low
 
