@@ -1,8 +1,9 @@
 testdrive (2.3) unreleased; urgency=low
 
- *
+  * debian/control: Depends on virtualbox-3.2 for testdrive.
+  * testdrive.py: Fix arch filtering when creating ISO list.
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 15 Jun 2010 16:00:22 -0500
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 18 Jun 2010 13:44:04 -0400
 
 testdrive (2.2-0ubuntu1) maverick; urgency=low
 

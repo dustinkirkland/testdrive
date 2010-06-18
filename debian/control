@@ -16,7 +16,7 @@ Depends: ${misc:Depends},
  ${python:Depends},
  debconf (>= 0.5) | debconf-2.0,
  testdrive-common,
- qemu-kvm | kvm ( >= 1:84+dfsg-0ubuntu12.4 ) | virtualbox-ose ( >= 3.0.8) | virtualbox-3.0 | virtualbox-3.1,
+ qemu-kvm | kvm ( >= 1:84+dfsg-0ubuntu12.4 ) | virtualbox-ose ( >= 3.0.8) | virtualbox-3.0 | virtualbox-3.1 | virtualbox-3.2,
  rsync,
  wget
 Recommends: zsync, usb-creator-gtk | usb-creator-kde, cpu-checker, kvm-pxe

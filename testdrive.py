@@ -121,8 +121,8 @@ class Testdrive:
 				# URL: Shows the URL from where it downloads the ISO
 				# Arch: Shows the architecture (amd64|i386)
 				# Category: The header used to save the ISO, i.e.: ubuntu_lucid-desktop-i386.iso kubuntu_lucid-desktop-i386.iso
-				#ISO.append({"name":name, "url":"%s%s" % (self.u, url), "arch":arch, "flavor":flavor, "header":header})
-				ISO.append({"name":name, "url":"%s%s" % (self.u, url), "arch":arch, "category":category})
+				if arch in self.m:
+					ISO.append({"name":name, "url":"%s%s" % (self.u, url), "arch":arch, "category":category})
 		return ISO
 
 	def get_virt(self):
