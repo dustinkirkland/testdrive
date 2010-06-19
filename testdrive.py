@@ -84,12 +84,6 @@ class Testdrive:
 
 	## TODO: This possible needs to go outside the class due to in PyGTK front end we might need the list of ISO's before even instancing an object
 	def list_isos(self, ISOS):
-		if self.m is None:
-			# Set defaults here due to the ISO list is generated before loading defaults.
-			if platform.machine() == "x86_64":
-				self.m = ["amd64", "i386"]
-			else:
-				self.m = ["i386"]
 		ISO = []
 		for iso in ISOS:
 			if iso.split()[1] == self.r:
@@ -193,6 +187,12 @@ class Testdrive:
 
 		if self.f == None:
 			self.f = 'ubuntu'
+
+		if self.m is None:
+			if platform.machine() == "x86_64":
+				self.m = ["amd64", "i386"]
+			else:
+				self.m = ["i386"]
 
 	def run(self, cmd):
 		return(os.system(cmd))
