@@ -1,3 +1,9 @@
+testdrive (2.4) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Mon, 21 Jun 2010 18:42:04 -0400
+
 testdrive (2.3-0ubuntu1) maverick; urgency=low
 
   * debian/control: Depends on virtualbox-3.2 for testdrive;
