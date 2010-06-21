@@ -1,11 +1,11 @@
-testdrive (2.3) unreleased; urgency=low
+testdrive (2.3-0ubuntu1) maverick; urgency=low
 
   * debian/control: Depends on virtualbox-3.2 for testdrive;
     add ${source:Version} to Depends on testdrive-common.
   * testdrive.py: Fix arch filtering when creating ISO list.
   * testdrive: Moved arch defaults from list_isos to set_defaults.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Mon, 21 Jun 2010 18:06:57 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Mon, 21 Jun 2010 18:41:48 -0400
 
 testdrive (2.2-0ubuntu1) maverick; urgency=low
 
