@@ -1,8 +1,17 @@
 testdrive (2.4) unreleased; urgency=low
 
-  * UNRELEASED
+  * Improved settings file handling to support sections for different
+    frontends:
+    - testdrive, testdrive.py: Changes to support sections on settings file.
+    - testdriverc: Reorganized in different sections.
+    - Install testdriverc in testdrive-common instead of testdrive:
+      + debian/testdrive.install: Installation of testdriverc moved to
+        testdrive-common.install.
+      + debian/testdrive.{postinst,preinst}: Moved to
+        debian/testdrive-common.{postinst,preinst}.
+  * Respect XDG BaseDirectory settings for TestDrive's cache. (LP: #592079)
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Mon, 21 Jun 2010 18:42:04 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Sat, 26 Jun 2010 17:15:51 -0400
 
 testdrive (2.3-0ubuntu1) maverick; urgency=low
 

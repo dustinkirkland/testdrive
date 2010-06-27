@@ -20,10 +20,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os, platform, commands, tempfile, hashlib, ConfigParser, time
-from launchpadlib.launchpad import Launchpad
+import xdg.BaseDirectory
 
 class Testdrive:
-	def __init__(self):
+	def __init__(self, pkg_section):
 		self.HOME = os.getenv("HOME", "")
 		self.ISO_URL = os.getenv("ISO_URL", "")
 		self.VIRT = os.getenv("VIRT", "")
@@ -44,6 +44,7 @@ class Testdrive:
 		self.f = None
 		self.PROTO = None
 		self.ISO_PATH_HEADER = None
+		self.PKG_SECTION = pkg_section
 
 	def set_values(self, var, value):
 		if var == 'kvm_args':
@@ -78,9 +79,18 @@ class Testdrive:
 	def load_config_file(self, config_file):
 		cfg = ConfigParser.ConfigParser()
 		cfg.read(config_file)
-		configitems = cfg.items(self.PKG)
-		for items in configitems:
-			self.set_values(items[0], items[1])
+		try:
+			defaults = cfg.items('testdrive-common')
+			for items in defaults:
+				self.set_values(items[0], items[1])
+		except:
+			pass
+		try:
+			configitems = cfg.items(self.PKG_SECTION)
+			for items in configitems:
+				self.set_values(items[0], items[1])
+		except:
+			pass
 
 	## TODO: This possible needs to go outside the class due to in PyGTK front end we might need the list of ISO's before even instancing an object
 	def list_isos(self, ISOS):
@@ -148,7 +158,10 @@ class Testdrive:
 	def set_defaults(self):
 		# Set defaults where undefined
 		if self.CACHE is None:
-			self.CACHE = "%s/.cache/%s" % (self.HOME, self.PKG)
+			if xdg.BaseDirectory.xdg_cache_home:
+				self.CACHE = "%s/%s" % (xdg.BaseDirectory.xdg_cache_home, self.PKG)
+			else:
+				self.CACHE = "%s/.cache/%s" % (self.HOME, self.PKG)
 
 		if self.CACHE_IMG is None:
 			self.CACHE_IMG = '%s/img' % self.CACHE

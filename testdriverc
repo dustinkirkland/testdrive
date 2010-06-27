@@ -1,5 +1,5 @@
-[testdrive]
 # This is the global configuration file for the testdrive(1) utility.
+[testdrive-common]
 
 # CACHE is the directory to cache the ISOs and disk images
 # Default: $HOME/.cache/testdrive
@@ -19,7 +19,7 @@
 
 # VIRT is the type of hypervisor to use
 # VIRT can be either 'kvm', 'virtualbox', or 'parallels'
-#VIRT = kvm
+VIRT = kvm
 #VIRT = virtualbox
 #VIRT = parallels
 
@@ -33,10 +33,6 @@ MEM = 384
 # running in KVM.
 # Default is the number of CPUs in the host
 #SMP = 1
-
-# DISK_FILE is the full path to the disk image
-# Default: $CACHE/$ISO.img
-#DISK_FILE = /path/to/foo.img
 
 # DISK_SIZE is the size of the disk image
 # Note that this will be a sparse, qcow2 file, so it should not actually
@@ -55,6 +51,20 @@ KVM_ARGS = -usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es137
 #m = i386
 u = rsync://cdimage.ubuntu.com/cdimage
 
+# Section for TestDrive (Command-line) specific variables.
+[testdrive]
+
+# DISK_FILE is the full path to the disk image
+# Default: $CACHE/$ISO.img
+#DISK_FILE = /path/to/foo.img
+
 # The following line determines the default Ubuntu Flavor used by TestDrive.
 # Possible flavors are: ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio
 f = ubuntu
+
+# Section for TestDrive GTK specific variables.
+[testdrive-gtk]
+
+# The following line determines the default Ubuntu Flavors used by TestDrive GTK.
+# Possible flavors are: ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio
+f = ubuntu, kubuntu, xubuntu

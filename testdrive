@@ -104,8 +104,8 @@ def run_or_die(cmd):
 		error("Command failed\n    `%s`" % cmd)
 
 def main():
-	# Initialize Testdrive Class
-	td = testdrive.Testdrive()
+	# Initialize Testdrive Class, sending section used to retrieve settings from config file
+	td = testdrive.Testdrive('testdrive')
 
 	# Local UI
 	hasOptions = False
