@@ -19,7 +19,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import commands, hashlib, os, string, sys, tempfile, time, platform
+import commands, hashlib, os, string, sys, tempfile, time, platform, subprocess
 from optparse import OptionParser
 
 from testdrive import testdrive
@@ -102,6 +102,19 @@ def run(cmd):
 def run_or_die(cmd):
 	if run(cmd) != 0:
 		error("Command failed\n    `%s`" % cmd)
+
+def run_vm(command):
+	i = 0
+	cmd = []
+	while(i != -1):
+		try:
+			cmd.append(command.split()[i])
+		except:
+			i = -1
+			break
+		i = i + 1
+	p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+	p.wait()
 
 def main():
 	# Initialize Testdrive Class, sending section used to retrieve settings from config file
@@ -311,13 +324,20 @@ def main():
 
 	info("Setting up Virtual Machine...")
 	try:
+		# Only create DISK_FILE after validating VM, not on defaults.
+		if len(td.DISK_FILE) == 0:
+			td.DISK_FILE = td.create_disk_file()
 		virt.setup_virt()
 	except:
 		error("Unable to setup Virtual Machine")
 
 	info("Launching Virtual Machine...")
 	try:
-		virt.launch_virt()
+		if td.VIRT == 'kvm':
+			cmd = virt.launch_virt()
+			run_vm(cmd)
+		else:
+			virt.launch_virt()
 	except:
 		error("Unable to launch Virtual Machine")
 

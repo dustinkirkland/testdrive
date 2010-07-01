@@ -43,7 +43,9 @@ class KVM:
 	def launch_virt(self):
 		#info("Running the Virtual Machine...")
 		print "Running the Virtual Machine..."
-		os.system("kvm -m %s -smp %s -cdrom %s -drive file=%s,if=virtio,cache=writeback,index=0,boot=on %s" % (self.td.MEM, self.td.SMP, self.td.PATH_TO_ISO, self.td.DISK_FILE, self.td.KVM_ARGS))
+		#os.system("kvm -m %s -smp %s -cdrom %s -drive file=%s,if=virtio,cache=writeback,index=0,boot=on %s" % (self.td.MEM, self.td.SMP, self.td.PATH_TO_ISO, self.td.DISK_FILE, self.td.KVM_ARGS))
+		cmd = "kvm -m %s -smp %s -cdrom %s -drive file=%s,if=virtio,cache=writeback,index=0,boot=on %s" % (self.td.MEM, self.td.SMP, self.td.PATH_TO_ISO, self.td.DISK_FILE, self.td.KVM_ARGS)
+		return cmd
 
 	def run(self, cmd):
 		return(os.system(cmd))

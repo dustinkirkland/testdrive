@@ -183,9 +183,6 @@ class Testdrive:
 		if len(self.SMP) == 0:
 			self.SMP = commands.getoutput("grep -c ^processor /proc/cpuinfo")
 
-		if len(self.DISK_FILE) == 0:
-			self.DISK_FILE = tempfile.mkstemp(".img", "testdrive-disk-", "%s" % self.CACHE_IMG)[1]
-
 		if len(self.DISK_SIZE) == 0:
 			self.DISK_SIZE = "6G"
 
@@ -335,3 +332,6 @@ class Testdrive:
 			codename.append(iso.split()[1])
 		codename.sort()
 		self.r = codename[-1]
+
+	def create_disk_file(self):
+		return tempfile.mkstemp(".img", "testdrive-disk-", "%s" % self.CACHE_IMG)[1]
