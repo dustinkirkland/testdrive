@@ -1,4 +1,4 @@
-testdrive (2.4) unreleased; urgency=low
+testdrive (2.4-0ubuntu1) maverick; urgency=low
 
   * Improved settings file handling to support sections for different
     frontends:
@@ -19,7 +19,7 @@ testdrive (2.4) unreleased; urgency=low
     - virt/kvm.py: Return the cmd needed to launch the VM in 'testdrive'.
     - testdrive: If KVM is in use, launch the VM from here.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Wed, 30 Jun 2010 20:15:51 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Wed, 30 Jun 2010 20:59:33 -0400
 
 testdrive (2.3-0ubuntu1) maverick; urgency=low
 
