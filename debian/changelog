@@ -1,3 +1,9 @@
+testdrive (2.5) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Wed, 30 Jun 2010 20:59:37 -0400
+
 testdrive (2.4-0ubuntu1) maverick; urgency=low
 
   * Improved settings file handling to support sections for different
