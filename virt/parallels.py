@@ -44,10 +44,11 @@ class Parallels:
 
 	# Code launch virtual machine
 	def launch_virt(self):
-		self.run_or_die("prlctl start %s" % self.td.VBOX_NAME)
+		#self.run_or_die("prlctl start %s" % self.td.VBOX_NAME)
+		return "prlctl start %s" % self.td.VBOX_NAME
 		# Loop as long as this VM is running
-		while commands.getstatusoutput("prlctl list %s | grep -qs stopped" % self.td.VBOX_NAME)[0] != 0:
-			time.sleep(2)
+		#while commands.getstatusoutput("prlctl list %s | grep -qs stopped" % self.td.VBOX_NAME)[0] != 0:
+		#	time.sleep(2)
 
 	def run(self, cmd):
 		return(os.system(cmd))

@@ -103,7 +103,7 @@ def run_or_die(cmd):
 	if run(cmd) != 0:
 		error("Command failed\n    `%s`" % cmd)
 
-def run_vm(command):
+def run_vm(command, td):
 	i = 0
 	cmd = []
 	while(i != -1):
@@ -114,7 +114,18 @@ def run_vm(command):
 			break
 		i = i + 1
 	p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-	p.wait()
+	if td.VIRT == 'kvm':
+		p.wait()
+	elif td.VIRT == 'virtualbox':
+		# Give this VM a few seconds to start up
+		time.sleep(5)
+		# Loop as long as this VM is running
+		while commands.getstatusoutput("VBoxManage list runningvms | grep -qs %s" % td.VBOX_NAME)[0] == 0:
+			time.sleep(2)
+	elif td.VIRT == 'parallels':
+		# Loop as long as this VM is running
+		while commands.getstatusoutput("prlctl list %s | grep -qs stopped" % td.VBOX_NAME)[0] != 0:
+			time.sleep(2)
 
 def main():
 	# Initialize Testdrive Class, sending section used to retrieve settings from config file
@@ -333,11 +344,8 @@ def main():
 
 	info("Launching Virtual Machine...")
 	try:
-		if td.VIRT == 'kvm':
-			cmd = virt.launch_virt()
-			run_vm(cmd)
-		else:
-			virt.launch_virt()
+		cmd = virt.launch_virt()
+		run_vm(cmd, td)
 	except:
 		error("Unable to launch Virtual Machine")
 

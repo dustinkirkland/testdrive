@@ -300,8 +300,8 @@ class Testdrive:
 		cache_time = time.localtime(os.path.getmtime("%s/isos" % self.CACHE))
 		local_time = time.localtime()
 		time_difference = time.mktime(local_time) - time.mktime(cache_time)
-		# Check for new release at most once-per-week (60*60*24 = 86400)
-		if time_difference >= 86400:
+		# Check for new release at most every 12hrs (60*60*12 = 43200)
+		if time_difference >= 43200:
 			return True
 		return False
 

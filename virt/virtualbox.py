@@ -92,13 +92,14 @@ class VBox:
 			self.run_or_die("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 0 --type hdd --medium %s" % (self.td.VBOX_NAME, self.td.DISK_FILE))
 			if self.td.PATH_TO_ISO != "/dev/null":
 				self.run_or_die("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 1 --type dvddrive --medium %s" % (self.td.VBOX_NAME, self.td.PATH_TO_ISO))
-			self.run_or_die("VBoxManage startvm %s" % self.td.VBOX_NAME)
+			#self.run_or_die("VBoxManage startvm %s" % self.td.VBOX_NAME)
+			return "VBoxManage startvm %s" % self.td.VBOX_NAME
 
 		# Give this VM a few seconds to start up
-		time.sleep(5)
+		#time.sleep(5)
 		# Loop as long as this VM is running
-		while commands.getstatusoutput("VBoxManage list runningvms | grep -qs %s" % self.td.VBOX_NAME)[0] == 0:
-			time.sleep(2)
+		#while commands.getstatusoutput("VBoxManage list runningvms | grep -qs %s" % self.td.VBOX_NAME)[0] == 0:
+		#	time.sleep(2)
 
 	def run(self, cmd):
 		return(os.system(cmd))
