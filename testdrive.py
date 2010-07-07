@@ -217,10 +217,13 @@ class Testdrive:
 				return 1
 			ZSYNC_WORKED = 0
 			if commands.getstatusoutput("which zsync")[0] == 0:
-				if self.run("cd %s && zsync %s.zsync" % (self.CACHE_ISO, self.ISO_URL)) != 0:
+				#if self.run("cd %s && zsync %s.zsync" % (self.CACHE_ISO, self.ISO_URL)) != 0:
+				if self.run("zsync %s.zsync -o %s" % (self.ISO_URL, self.PATH_TO_ISO)) != 0:
 					# If the zsync failed, use wget
 					cmd = "wget %s -O %s" % (self.ISO_URL, self.PATH_TO_ISO)
 					return cmd
+				else:
+					return 0
 			else:
 				# Fall back to wget
 				cmd = "wget %s -O %s" % (self.ISO_URL, self.PATH_TO_ISO)

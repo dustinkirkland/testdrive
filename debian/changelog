@@ -3,8 +3,9 @@ testdrive (2.5) unreleased; urgency=low
   * testdrive.py: Update ISO manifest every 12hrs instead of every 24hrs.
   * virt/{virtualbox,parallels}.py, testdrive: Changes to support
     threading in GTK Frontend for VirtualBox and Parallels.
+  * Fix launch error when downloading with zsync. (LP: #602585)
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Mon, 05 Jul 2010 22:32:01 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Wed, 07 Jul 2010 15:32:28 -0400
 
 testdrive (2.4-0ubuntu1) maverick; urgency=low
 
