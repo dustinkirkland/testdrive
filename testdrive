@@ -76,7 +76,7 @@ def warning(str):
 
 def is_iso(file):
 	# If it's a URL, assume it's good
-	for i in ("http", "ftp", "rsync", "file"):
+	for i in ("http", "ftp", "rsync", "file", "zsync"):
 		if string.find(file, "%s://" % i) == 0:
 			return(file)
 	# If it's a local path, test it for viability
@@ -318,9 +318,10 @@ def main():
 	print("      %s" % td.ISO_URL)
 	cmd = td.get_proto()
 	if cmd == 1:
-		error("ISO not found at [%s]" % td.ISO_URL)
-	elif cmd == 2:
 		error("Unsupported protocol [%s]" % td.PROTO)
+	#TODO: verify if the ISO exists if using wget/zsync
+	#elif run("wget --spider -S %s 2>&1 | grep 'HTTP/1.. 200 OK'" % self.td.ISO_URL) != 0:
+	#	error("ISO not found at [%s]" % td.ISO_URL)
 	if cmd != 0:
 		run_or_die(cmd)
 

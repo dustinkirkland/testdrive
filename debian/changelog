@@ -4,8 +4,9 @@ testdrive (2.5) unreleased; urgency=low
   * virt/{virtualbox,parallels}.py, testdrive: Changes to support
     threading in GTK Frontend for VirtualBox and Parallels.
   * Fix launch error when downloading with zsync. (LP: #602585)
+  * Changed the way to obtain the protocol for synchronization.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Wed, 07 Jul 2010 15:32:28 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Wed, 07 Jul 2010 20:57:13 -0400
 
 testdrive (2.4-0ubuntu1) maverick; urgency=low
 

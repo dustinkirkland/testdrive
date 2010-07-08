@@ -211,23 +211,15 @@ class Testdrive:
 		if self.PROTO == "rsync":
 			cmd = "rsync -azP %s %s" % (self.ISO_URL, self.PATH_TO_ISO)
 			return cmd
-		elif self.PROTO == "http" or self.PROTO == "ftp":
-			if self.run("wget --spider -S %s 2>&1 | grep 'HTTP/1.. 200 OK'" % self.ISO_URL) != 0:
-				#error("ISO not found at [%s]" % self.ISO_URL)
-				return 1
-			ZSYNC_WORKED = 0
+		elif self.PROTO == "zsync":
 			if commands.getstatusoutput("which zsync")[0] == 0:
-				#if self.run("cd %s && zsync %s.zsync" % (self.CACHE_ISO, self.ISO_URL)) != 0:
-				if self.run("zsync %s.zsync -o %s" % (self.ISO_URL, self.PATH_TO_ISO)) != 0:
-					# If the zsync failed, use wget
-					cmd = "wget %s -O %s" % (self.ISO_URL, self.PATH_TO_ISO)
-					return cmd
-				else:
-					return 0
-			else:
-				# Fall back to wget
-				cmd = "wget %s -O %s" % (self.ISO_URL, self.PATH_TO_ISO)
+				self.run("cd %s" % self.CACHE_ISO)
+				self.ISO_URL = self.ISO_URL.replace('zsync', 'http')
+				cmd = "zsync %s.zsync -o %s" % (self.ISO_URL, self.PATH_TO_ISO)
 				return cmd
+		elif self.PROTO == "http" or self.PROTO == "ftp":
+			cmd = "wget %s -O %s" % (self.ISO_URL, self.PATH_TO_ISO)
+			return cmd
 		elif self.PROTO == "file":
 			# If the iso is on file:///, use the ISO in place
 			self.PATH_TO_ISO = self.ISO_URL.partition("://")[2]
@@ -238,7 +230,7 @@ class Testdrive:
 			return 0
 		else:
 			#error("Unsupported protocol [%s]" % self.PROTO)
-			return 2
+			return 1
 
 	def md5sum(self, file):
 		fh = open(file, 'rb')
