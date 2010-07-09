@@ -1,10 +1,16 @@
 testdrive (2.5) unreleased; urgency=low
 
+  [ Andres Rodriguez ]
   * testdrive.py: Update ISO manifest every 12hrs instead of every 24hrs.
   * virt/{virtualbox,parallels}.py, testdrive: Changes to support
     threading in GTK Frontend for VirtualBox and Parallels.
   * Fix launch error when downloading with zsync. (LP: #602585)
   * Changed the way to obtain the protocol for synchronization.
+
+  [ Dustin Kirkland ]
+  * testdriverc: change kvm default video mode from vmware back to cirrus;
+    need to document that vmware video mode will provide more resolutions,
+    but cirrus is faster and more responsive
 
  -- Andres Rodriguez <andreserl@ubuntu.com>  Wed, 07 Jul 2010 20:57:13 -0400
 
