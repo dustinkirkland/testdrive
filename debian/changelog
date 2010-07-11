@@ -1,4 +1,4 @@
-testdrive (2.5) unreleased; urgency=low
+testdrive (2.5-0ubuntu1) maverick; urgency=low
 
   [ Andres Rodriguez ]
   * testdrive.py: Update ISO manifest every 12hrs instead of every 24hrs.
@@ -13,7 +13,7 @@ testdrive (2.5) unreleased; urgency=low
     need to document that vmware video mode will provide more resolutions,
     but cirrus is faster and more responsive
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Sun, 11 Jul 2010 16:24:04 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Sun, 11 Jul 2010 16:43:18 -0400
 
 testdrive (2.4-0ubuntu1) maverick; urgency=low
 
