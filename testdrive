@@ -319,9 +319,9 @@ def main():
 	cmd = td.get_proto()
 	if cmd == 1:
 		error("Unsupported protocol [%s]" % td.PROTO)
-	#TODO: verify if the ISO exists if using wget/zsync
-	#elif run("wget --spider -S %s 2>&1 | grep 'HTTP/1.. 200 OK'" % self.td.ISO_URL) != 0:
-	#	error("ISO not found at [%s]" % td.ISO_URL)
+	if td.PROTO != 'file' and td.PROTO != 'rsync':
+		if run("wget --spider -S %s 2>&1 | grep 'HTTP/1.. 200 OK'" % td.ISO_URL) != 0:
+			error("ISO not found at [%s]" % td.ISO_URL)
 	if cmd != 0:
 		run_or_die(cmd)
 
