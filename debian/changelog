@@ -1,8 +1,9 @@
 testdrive (2.6) unreleased; urgency=low
 
-  * UNRELEASED
+  * testdrive.py: Fix failure to auto-detect/use VirtualBox when KVM
+    is not installed. (LP: #602987)
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Sun, 11 Jul 2010 16:43:25 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Sun, 25 Jul 2010 17:08:53 -0400
 
 testdrive (2.5-0ubuntu1) maverick; urgency=low
 

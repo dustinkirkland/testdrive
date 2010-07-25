@@ -141,7 +141,7 @@ class Testdrive:
 			if commands.getstatusoutput("egrep \"^flags.*:.*(svm|vmx)\" /proc/cpuinfo")[0] == 0:
 				acceleration = 1
 		# Prefer KVM if acceleration available and installed
-		if acceleration == 1 and commands.getstatusoutput("which kvm"):
+		if acceleration == 1 and commands.getstatusoutput("which kvm")[0] == 0:
 			return "kvm"
 		# Okay, no KVM, VirtualBox maybe?
 		if commands.getstatusoutput("which VBoxManage")[0] == 0:
