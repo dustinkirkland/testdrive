@@ -45,11 +45,18 @@ DISK_SIZE = 6G
 # See kvm(1) for a comprehensive list of arguments
 KVM_ARGS = -usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370 -vga cirrus
 
-# Uncomment the following line if you want to hardcode the Ubuntu release
+# Uncomment the following line if you want to hardcode the Ubuntu Repository
+# from where the ISO's are going to be retrieved; otherwise, they will be
+# Downloaded from the Ubuntu 'cdimage' repository. Possible values are:
+# cdimage: Will download ISO's from rsync://cdimage.ubuntu.com/cdimage
+# releases: Will download ISO's from rsync://rsync.releases.ubuntu.com/releases
+p = cdimage
+#p = releases
+
+# Uncomment the following lines if you want to hardcode the Ubuntu release
 # and arch; otherwise, TestDrive will try to determine it dynamically.
 #r = maverick
 #m = i386
-u = rsync://cdimage.ubuntu.com/cdimage
 
 # Section for TestDrive (Command-line) specific variables.
 [testdrive]

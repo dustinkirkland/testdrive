@@ -39,12 +39,13 @@ class Testdrive:
 		self.VBOX_NAME = os.getenv("VBOX_NAME", "")
 		self.PKG = "testdrive"
 		self.PKGRC = "%src" % self.PKG
-		self.r = None
-		self.m = None
-		self.f = None
 		self.PROTO = None
 		self.ISO_PATH_HEADER = None
 		self.PKG_SECTION = pkg_section
+		self.r = None #Release (maverick, lucid, etc)
+		self.m = None #Arch (amd64, i386)
+		self.f = None #Flavor (ubuntu, kubuntu, etc)
+		self.p = None # Ubuntu ISO Repository (cdimage, releases)
 
 	def set_values(self, var, value):
 		if var == 'kvm_args':
@@ -69,12 +70,12 @@ class Testdrive:
 			self.DISK_FILE = value
 		if var == 'r':
 			self.r = value
-		if var == 'u':
-			self.u = value
 		if var == 'm':
 			self.m = [value]
 		if var == 'f':
 			self.f = value
+		if var == 'p':
+			self.p = value
 
 	def load_config_file(self, config_file):
 		cfg = ConfigParser.ConfigParser()
@@ -204,12 +205,21 @@ class Testdrive:
 			else:
 				self.m = ["i386"]
 
+		if self.p == None:
+			self.p = 'cdimage'
+
+		if self.p == 'cdimage':
+			self.u = 'rsync://cdimage.ubuntu.com/cdimage'
+
+		if self.p == 'releases':
+			self.u = 'rsync://us.rsync.releases.ubuntu.com/releases'
+
 	def run(self, cmd):
 		return(os.system(cmd))
 
 	def get_proto(self):
 		if self.PROTO == "rsync":
-			cmd = "rsync -azP %s %s" % (self.ISO_URL, self.PATH_TO_ISO)
+			cmd = "rsync -azPL %s %s" % (self.ISO_URL, self.PATH_TO_ISO)
 			return cmd
 		elif self.PROTO == "zsync" or self.PROTO == "http" or self.PROTO == "ftp":
 			if commands.getstatusoutput("which zsync")[0] == 0:
@@ -288,12 +298,12 @@ class Testdrive:
 	def is_iso_list_cached(self):
 		if not os.path.exists(self.CACHE):
 			os.makedirs(self.CACHE, 0700)
-		if not os.path.exists("%s/isos" % self.CACHE):
+		if not os.path.exists("%s/%s.isos" % (self.CACHE, self.p)):
 			return False
 		return True
 
 	def is_iso_list_cache_expired(self):
-		cache_time = time.localtime(os.path.getmtime("%s/isos" % self.CACHE))
+		cache_time = time.localtime(os.path.getmtime("%s/%s.isos" % (self.CACHE, self.p)))
 		local_time = time.localtime()
 		time_difference = time.mktime(local_time) - time.mktime(cache_time)
 		# Check for new release at most every 12hrs (60*60*12 = 43200)
@@ -301,13 +311,16 @@ class Testdrive:
 			return True
 		return False
 
-	def cdimage_obtain_ubuntu_iso_list(self):
-		(status, output) = commands.getstatusoutput("wget -q -O- http://cdimage.ubuntu.com/.manifest-daily | egrep '(amd64|i386)'")
+	def obtain_ubuntu_iso_list_from_repo(self):
+		if self.p == 'cdimage':
+			(status, output) = commands.getstatusoutput("wget -q -O- http://cdimage.ubuntu.com/.manifest-daily | egrep '(amd64|i386)'")
+		elif self.p == 'releases':
+			(status, output) = commands.getstatusoutput("wget -q -O- http://releases.ubuntu.com/.manifest | egrep '(amd64|i386)'")
 		return output
 
 	def update_ubuntu_iso_list_cache(self, str):
 		try:
-			f = open("%s/isos" % self.CACHE,'w')
+			f = open("%s/%s.isos" % (self.CACHE, self.p),'w')
 			f.write(str)
 			f.close
 		except IOError:
@@ -315,7 +328,7 @@ class Testdrive:
 
 	def get_ubuntu_iso_list(self):
 		try:
-			f = open("%s/isos" % self.CACHE, 'r')
+			f = open("%s/%s.isos" % (self.CACHE, self.p), 'r')
 			ISO = f.readlines()
 			f.close
 		except IOError:

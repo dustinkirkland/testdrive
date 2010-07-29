@@ -2,8 +2,12 @@ testdrive (2.6) unreleased; urgency=low
 
   * testdrive.py: Fix failure to auto-detect/use VirtualBox when KVM
     is not installed. (LP: #602987)
+  * Add support to testdrive isos from http://releases.ubuntu.com
+    - testdriverc: Changes to support repositories instead of harcoding url.
+    - testdrive.py: Add 'L' option to rsync; create different cache file for
+      each repository; obtain isos from manifest; set url accordingly.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Sun, 25 Jul 2010 17:08:53 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Wed, 28 Jul 2010 20:02:04 -0400
 
 testdrive (2.5-0ubuntu1) maverick; urgency=low
 

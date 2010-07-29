@@ -280,7 +280,7 @@ def main():
 	if update_cache == 1:
 		info("Obtaining Ubuntu ISO list from %s..." % td.u)
 		try:
-			cdimage = td.cdimage_obtain_ubuntu_iso_list()
+			cdimage = td.obtain_ubuntu_iso_list_from_repo()
 		except:
 			print "ERROR: Could not obtain the Ubuntu ISO list from %s..." % td.u
 	# If the ISO List was obtained, update the cache fle
