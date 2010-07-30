@@ -1,0 +1,229 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-07-30 14:34-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../data/ui/TestdrivegtkWindow.ui.h:1
+msgid "ISO Repository"
+msgstr ""
+
+#: ../data/ui/TestdrivegtkWindow.ui.h:2
+msgid "TestDrive Front-end"
+msgstr ""
+
+#: ../data/ui/TestdrivegtkWindow.ui.h:3
+msgid "Ubuntu Release"
+msgstr ""
+
+#: ../data/ui/TestdrivegtkWindow.ui.h:4
+msgid "_Edit"
+msgstr ""
+
+#: ../data/ui/TestdrivegtkWindow.ui.h:5
+msgid "_File"
+msgstr ""
+
+#: ../data/ui/TestdrivegtkWindow.ui.h:6
+msgid "_Help"
+msgstr ""
+
+#: ../data/ui/TestdrivegtkWindow.ui.h:7
+msgid "_View"
+msgstr ""
+
+#: ../testdrive-gtk.desktop.in.h:1
+msgid "Download and run an Ubuntu ISO in a Virtual Machine"
+msgstr ""
+
+#: ../testdrive-gtk.desktop.in.h:2
+msgid "Test Drive an Ubuntu ISO"
+msgstr ""
+
+#: ../bin/testdrive-gtk.py:849
+msgid "Show debug messages"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:1
+msgid "<b>Architectures:</b>"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:2
+msgid "<b>Cache:</b>"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:3
+msgid "<b>Data Paths</b>"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:4
+msgid "<b>Disk Size:</b>"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:5
+msgid "<b>GB</b>"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:6
+msgid "<b>Hypervisor</b>"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:7
+msgid "<b>ISO Cache:</b>"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:8
+msgid "<b>ISO List Cache:</b>"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:9
+msgid "<b>Image Cache:</b>"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:10
+msgid "<b>KVM Args:</b>"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:11
+msgid "<b>MB</b>"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:12
+msgid "<b>Memory:</b>"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:13
+msgid "<b>Processors:</b>"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:14
+msgid "<b>Release:</b>"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:15
+msgid "<b>Repository:</b>"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:16
+msgid "<b>Ubuntu Flavors</b>"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:17
+msgid "<b>Ubuntu Releases</b>"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:18
+msgid "<b>Virtual Machine Options</b>"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:19
+msgid "Clean"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:20
+msgid "Distributions"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:21
+msgid "Edubuntu"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:22
+msgid "General"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:23
+msgid "KVM"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:24
+msgid "Kubuntu"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:25
+msgid "Mythbuntu"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:26
+msgid "Other"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:27
+msgid "Other..."
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:28
+msgid "Parallels"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:29
+msgid "Ubuntu"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:30
+msgid "Ubuntu Studio"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:31
+msgid "VirtualBox"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:32
+msgid "Virtualization"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:33
+msgid "Xubuntu"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:34
+msgid "amd64"
+msgstr ""
+
+#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:35
+msgid "i386"
+msgstr ""
+
+#: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:1
+msgid "<b>Description:</b>"
+msgstr ""
+
+#: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:2
+msgid "<b>Sync Protocol:</b>"
+msgstr ""
+
+#: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:3
+msgid "<b>URL:</b>"
+msgstr ""
+
+#: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:4
+msgid "Add"
+msgstr ""
+
+#: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:5
+msgid "Cancel"
+msgstr ""
+
+#: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:6
+msgid "Delete"
+msgstr ""
+
+#: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:7
+msgid "Edit"
+msgstr ""
+
+#: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:8
+msgid "Other ISO List:"
+msgstr ""

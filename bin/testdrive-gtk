@@ -1,0 +1,861 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+### BEGIN LICENSE
+# Copyright (C) 2010 Canonical Ltd.
+# 
+# Authors:
+# 	Andres Rodriguez <andreserl@ubuntu.com>
+# 
+# This program is free software: you can redistribute it and/or modify it 
+# under the terms of the GNU General Public License version 3, as published 
+# by the Free Software Foundation.
+# 
+# This program is distributed in the hope that it will be useful, but 
+# WITHOUT ANY WARRANTY; without even the implied warranties of 
+# MERCHANTABILITY, SATISFACTORY QUALITY, or FITNESS FOR A PARTICULAR 
+# PURPOSE.  See the GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along 
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
+### END LICENSE
+
+import sys
+import os
+import gtk
+import time
+
+import gettext
+from gettext import gettext as _
+gettext.textdomain('testdrivegtk')
+
+from testdrive import testdrive
+from testdrive.virt import kvm, parallels, virtualbox
+import threading, subprocess, commands
+import random
+
+gtk.gdk.threads_init()
+
+TAB_LABLE = []
+TAB_LABLE.append({"dist":"ubuntu", "label":"Ubuntu"})
+TAB_LABLE.append({"dist":"kubuntu", "label":"Kubuntu"})
+TAB_LABLE.append({"dist":"xubuntu", "label":"Xubuntu"})
+TAB_LABLE.append({"dist":"ubuntu-server", "label":"Server"})
+TAB_LABLE.append({"dist":"edubuntu", "label":"Edubuntu"})
+TAB_LABLE.append({"dist":"mythbuntu", "label":"Mythbuntu"})
+TAB_LABLE.append({"dist":"ubuntustudio", "label":"Ubuntu Studio"})
+TAB_LABLE.append({"dist":"other", "label":"Other"})
+
+# optional Launchpad integration
+# this shouldn't crash if not found as it is simply used for bug reporting
+try:
+	import LaunchpadIntegration
+	launchpad_available = True
+except:
+	launchpad_available = False
+
+# Add project root directory (enable symlink, and trunk execution).
+PROJECT_ROOT_DIRECTORY = os.path.abspath(
+	os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0]))))
+
+if (os.path.exists(os.path.join(PROJECT_ROOT_DIRECTORY, 'testdrivegtk'))
+	and PROJECT_ROOT_DIRECTORY not in sys.path):
+	sys.path.insert(0, PROJECT_ROOT_DIRECTORY)
+	os.putenv('PYTHONPATH', PROJECT_ROOT_DIRECTORY) # for subprocesses
+
+from testdrivegtk import (
+	AboutTestdrivegtkDialog, PreferencesTestdrivegtkDialog, AddOtherTestdrivegtkDialog)
+from testdrivegtk.helpers import get_builder
+
+
+class TestdrivegtkWindow(gtk.Window):
+	__gtype_name__ = "TestdrivegtkWindow"
+
+	# To construct a new instance of this method, the following notable 
+	# methods are called in this order:
+	# __new__(cls)
+	# __init__(self)
+	# finish_initializing(self, builder)
+	# __init__(self)
+	#
+	# For this reason, it's recommended you leave __init__ empty and put
+	# your inialization code in finish_intializing
+
+	def __new__(cls):
+		"""Special static method that's automatically called by Python when 
+		constructing a new instance of this class.
+
+		Returns a fully instantiated TestdrivegtkWindow object.
+		"""
+		builder = get_builder('TestdrivegtkWindow')
+		new_object = builder.get_object("testdrivegtk_window")
+		new_object.finish_initializing(builder)
+		return new_object
+
+	def finish_initializing(self, builder):
+		"""Called while initializing this instance in __new__
+
+		finish_initalizing should be called after parsing the UI definition
+		and creating a TestdrivegtkWindow object with it in order to finish
+		initializing the start of the new TestdrivegtkWindow instance.
+
+		Put your initilization code in here and leave __init__ undefined.
+		"""
+		# Get a reference to the builder and set up the signals.
+		self.builder = builder
+		self.builder.connect_signals(self)
+		#self.td = td
+		self.virt = None
+		self.sync_threads = []
+		self.launch_threads = []
+		self.isos_to_run = []
+
+		global launchpad_available
+		if launchpad_available:
+			# see https://wiki.ubuntu.com/UbuntuDevelopment/Internationalisation/Coding for more information
+			# about LaunchpadIntegration
+			helpmenu = self.builder.get_object('helpMenu')
+			if helpmenu:
+				LaunchpadIntegration.set_sourcepackagename('testdrivegtk')
+				LaunchpadIntegration.add_items(helpmenu, 0, False, True)
+			else:
+				launchpad_available = False
+
+		###################################################################
+		######## Obtaining the settings from the Preferences Class ########
+		###################################################################
+
+		logging.debug('Instancing Preferences...')
+		dlg = PreferencesTestdrivegtkDialog.PreferencesTestdrivegtkDialog()
+		self.td = dlg.get_preferences()
+
+		self.status_bar_release = builder.get_object("status_bar_release")
+		self.status_bar_repo = builder.get_object("status_bar_repo")
+		###################################################################
+		######### Functions to create the UI (ISOs and Buttons) ###########
+		###################################################################
+
+		self.create_launch_buttons()
+		self.create_isos_interface()
+
+	def update_status_bar(self):
+		data1 = "<b>Release:</b> %s" % self.td.r
+		data2 = "<b>ISO Repository:</b> http://%s.ubuntu.com/" % self.td.p
+		self.status_bar_release.set_markup(data2)
+		self.status_bar_repo.set_markup(data1)
+
+	def about(self, widget, data=None):
+		"""Display the about box for testdrivegtk."""
+		about = AboutTestdrivegtkDialog.AboutTestdrivegtkDialog()
+		response = about.run()
+		about.destroy()
+
+	def preferences(self, widget, data=None):
+		"""Display the preferences window for testdrivegtk."""
+		prefs = PreferencesTestdrivegtkDialog.PreferencesTestdrivegtkDialog()
+		response = prefs.run()
+		if response == gtk.RESPONSE_OK:
+			# Make any updates based on changed preferences here.
+			self.td = prefs.get_preferences()
+			self.notebook.destroy()
+			self.td.set_defaults()
+			self.create_isos_interface()
+			pass
+		prefs.destroy()
+
+	def new_other_iso(self, widget, data=None):
+		"""Display Add Other ISO dialog"""
+		other = AddOtherTestdrivegtkDialog.AddOtherTestdrivegtkDialog(self.td.CACHE)
+		other.set_title("Add an ISO to TestDrive")
+		response = other.run()
+		if response == gtk.RESPONSE_OK:
+			# Recreate the UI for Other ISOs if saved has been clicked
+			self.notebook.destroy()
+			self.create_isos_interface()
+			self.notebook.set_current_page(-1)
+			pass
+		other.destroy()
+
+	def open_file(self, widget, data=None):
+		###################################################################
+		######### Opens an ISO or IMG to run it with testdrive -u #########
+		###################################################################
+
+		if commands.getstatusoutput("which testdrive")[0] != 0:
+			self.on_error_dialog(	"Unable to open because 'testdrive' is not installed.\n"
+						"Please install testdrive: \n\n"
+						"sudo apt-get install testdrive-cli")
+			return
+		title = 'TestDrive an ISO or Disk Image'
+		filename = None
+		testdrives = gtk.FileFilter()
+		testdrives.add_pattern("*.iso")
+		testdrives.add_pattern("*.img")
+
+		chooser = gtk.FileChooserDialog(title,action=gtk.FILE_CHOOSER_ACTION_SAVE,
+		buttons=(gtk.STOCK_CANCEL,gtk.RESPONSE_CANCEL,gtk.STOCK_OPEN,gtk.RESPONSE_OK))
+		chooser.add_filter(testdrives)
+		# Run Chooser Dialog
+		response = chooser.run()
+
+		if response == gtk.RESPONSE_OK:
+			filename = chooser.get_filename()
+			subprocess.Popen(['testdrive', '-u', filename], stdout=subprocess.PIPE)
+			pass
+		chooser.destroy()
+
+	def quit(self, widget, data=None):
+		"""Signal handler for closing the TestdrivegtkWindow."""
+		self.destroy()
+
+	def on_destroy(self, widget, data=None):
+		"""Called when the TestdrivegtkWindow is closed."""
+		# Clean up code for saving application state should be added here.
+		# Stop all the syncs and launched ISOs
+		for t in self.isos_to_run:
+			if t[0] != None:
+				t[0].stop()
+			if t[1] != None:
+				t[1].stop()
+		# Class function to cleanup the IMG Cache
+		self.cleanup_img_cache()
+		gtk.main_quit()
+
+	def on_warn_dialog(self, data=None):
+		warnbox = gtk.MessageDialog(self, 
+			gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_WARNING, 
+			gtk.BUTTONS_CLOSE, data)
+		warnbox.run()
+		warnbox.destroy()
+
+	def on_error_dialog(self, data=None):
+		errorbox = gtk.MessageDialog(self, 
+			gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, 
+			gtk.BUTTONS_CLOSE, data)
+		errorbox.run()
+		errorbox.destroy()
+
+	def on_info_dialog(self, data=None):
+		infobox = gtk.MessageDialog(self, 
+			gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO, 
+			gtk.BUTTONS_CLOSE, data)
+		infobox.run()
+		infobox.destroy()
+
+	def cleanup_img_cache(self):
+		###################################################################
+		#### Cleans up all the Disk Files that are empty from IMG Cache ###
+		###################################################################
+
+		imagelist = os.listdir(self.td.CACHE_IMG)
+		for disk in imagelist:
+			path = "%s/%s" % (self.td.CACHE_IMG, disk)
+		        (status, output) = commands.getstatusoutput("file %s | grep -qs 'empty'" % path)
+		        if status == 0:
+                		os.unlink(path)
+		for disk in self.isos_to_run:
+			self.td.DISK_FILE = disk[2]
+			self.td.delete_image()
+
+	def obtain_sync_protocol_cmd(self):
+		###################################################################
+		### Obtains the command for the Sync process based on Protocol ####
+		###################################################################
+		logging.info('Obtaining the sync protocol for the specified ISO...')
+		#print("      %s" % self.td.ISO_URL)
+		cmd = self.td.get_proto()
+		if cmd == 1:
+			self.on_error_dialog("Unsupported protocol [%s]" % self.td.PROTO)
+		if cmd != 0:
+			return cmd
+		return False
+
+	def obtain_virt_method(self):
+		###################################################################
+		##### Obtains the Virtualization Method, if not shows warnings ####
+		###################################################################
+
+		# Choose the virtualization engine
+		logging.info('Obtaining the virtualization method...')
+		if not self.td.VIRT:
+			self.td.VIRT = self.td.get_virt()
+		if self.td.VIRT == 1:
+			logging.error('Your CPU supports KVM acceleration; please install KVM')
+			self.on_warn_dialog(	"Your CPU supports KVM acceleration; please install KVM:"
+						"\n\n"
+						"sudo apt-get install qemu-kvm")
+		if self.td.VIRT == 0:
+			logging.error('Your CPU does not support acceleration; run kvm-ok for more information; then install VBox')
+			self.on_warn_dialog(	"Your CPU does not support acceleration; run kvm-ok for more information;\n"
+						"then please install VirtualBox"
+						"\n\n"
+						"kvm-ok"
+						"\n"
+						"sudo apt-get install virtualbox-ose")
+		if self.td.VIRT == "kvm":
+			logging.info('Using KVM for virtual machine hosting...')
+			self.virt = kvm.KVM(self.td)
+		if self.td.VIRT == "virtualbox":
+			logging.info('Using VirtualBox for virtual machine hosting...')
+			self.virt = virtualbox.VBox(self.td)
+		if self.td.VIRT == "paralels":
+			logging.info('Using Parallels Desktop for virtual machine hosting...')
+			self.virt = parallels.Parallels(self.td)
+
+	def obtain_isos_list(self):
+		###################################################################
+		#### Obtains the list of ISO available from the iso list cache ####
+		###################################################################
+
+		# Try to retrieve the ISO list from the cache
+		logging.info('Retrieving the Ubuntu ISO list from cache...')
+		try:
+			isos = self.td.get_ubuntu_iso_list()
+		except:
+			logging.error('Unable to retrieve the Ubuntu ISO list from cache...')
+			self.on_error_dialog("Unable to retrieve the Ubuntu ISO list from cache...")
+			return []
+		return isos
+
+	def obtain_other_isos_list(self, ISO):
+		###################################################################
+		######## Obtains all the Other ISO's that have been added #########
+		###################################################################
+		if os.path.exists("%s/other.isos" % self.td.CACHE):
+			try:
+				f = open("%s/other.isos" % self.td.CACHE, 'r')
+				ISOS = f.readlines()
+				f.close
+			except IOError:
+				pass
+		else:
+			return ISO
+
+		# Processing ISOS from file into ISO list
+		for iso in ISOS:
+			category = iso.split()[0]
+			distro = iso.split()[1] #This will be the distro showed instead of arch
+			url = iso.split()[2]
+			name = iso.split()[3]
+			ISO.append({"name":name, "url":url, "arch":distro, "category":category})
+		return ISO
+
+	def on_distro_tab_change(self, widget, none=None, current_page=None):
+		###################################################################
+		##### Shows the "Add Other ISOs" if "Other" has been selected #####
+		###################################################################			
+		label = widget.get_tab_label(widget.get_nth_page(current_page))
+		text = label.get_text()
+		if text == 'Other':
+			self.btn_add_iso.show()
+		else:
+			self.btn_add_iso.hide()
+
+	def create_isos_interface(self):
+		###################################################################
+		### Does everything necessary to create the ISOs Part of the UI ###
+		###################################################################
+		self.obtain_virt_method()
+		isos = self.obtain_isos_list()
+		# if no isos exists, program will still create the UI
+		if isos and not self.td.r:
+				self.td.set_ubuntu_release_codename(isos)
+		ISO = self.td.list_isos(isos)
+		ISO = self.obtain_other_isos_list(ISO)
+		self.create_iso_menu(ISO)
+		self.update_status_bar()
+
+	def create_iso_menu(self, iso_list = None):
+		###################################################################
+		############ Creates all the Distro Tabs and the ISO's ############
+		###################################################################
+		vm_id = 0
+		ISO = iso_list
+		# Create TABS
+		vbox_tabs = self.builder.get_object("flavor-tabs")
+		self.notebook = gtk.Notebook()
+		self.notebook.set_scrollable(True)
+		self.notebook.set_tab_pos(gtk.POS_TOP)
+		self.notebook.set_border_width(10)
+		self.notebook.connect("switch-page", self.on_distro_tab_change)
+		vbox_tabs.add(self.notebook)
+        	self.show_tabs = True
+        	self.show_border = True
+
+		## DETERMINE WHICH ISO's to Show in TABS ##
+		i = 0
+		distros = []
+		while(i != -1):
+			try:
+				distros.append(self.td.f.split()[i].replace(',', ''))
+			except:
+				i = -1
+				break
+			i = i + 1
+
+		#sorting arch list
+		#list.reverse(self.td.m)
+
+		#TODO: Only create the i386/amd64 frame in case there are isos, if not dont create them (or in such case display them)
+		# Scroll
+		#	vbox
+		#		frame-i386
+		#			vbox2
+		#				table per ISO (with labels, checkbox)
+		#		frame-amd64
+		#			vbox2
+		#				table per ISO (with labels, checkbox)
+		for dist in distros:
+			scroll = gtk.ScrolledWindow(None)
+			scroll.set_name(dist)
+			vbox = gtk.VBox()
+			scroll.add_with_viewport(vbox)
+			scroll.set_policy(gtk.POLICY_NEVER,gtk.POLICY_AUTOMATIC)
+			scroll.show()
+			for arch in self.td.m:
+				c = 0
+				fr_arch = gtk.Frame(arch)
+				fr_arch.set_border_width(10)
+				vbox2 = gtk.VBox()
+				vbox2.set_border_width(10)
+				for iso in ISO:
+					if iso['category'] == dist and iso['arch'] == arch:
+						c = c + 1
+						table = gtk.Table(2, 1, False)
+						lb_iso_name = gtk.CheckButton("%s - (%s)" % (iso["name"], self.td.r))
+						lb_iso_name.show()
+						filename = os.path.basename(iso["url"])
+						path = "%s/%s_%s" % (self.td.CACHE_ISO, iso["category"], filename)
+						if os.path.exists(path):
+							#lb_cache = gtk.Label("CACHE: [%s] %s" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path))), filename))
+							lb_cache = gtk.Label("<i>     CACHE: [%s]</i>" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path)))))
+						else:
+							lb_cache = gtk.Label("<i>     CACHE: [empty]</i>")
+						lb_cache.set_use_markup(True)
+						# To align to righ otherwise it is centered
+						lb_cache.set_alignment(0,0)
+						lb_cache.show()
+						# Adding the Spiiner
+						spin = gtk.Spinner()
+						spin.set_size_request(25, -1);
+						spin.hide()
+						lb_iso_name.connect("clicked", self.on_select_iso_clicked, spin, lb_cache, iso["url"], iso["category"], vm_id)
+						vm_id += 1
+						table.attach(spin, 0, 1, 0, 2, gtk.FILL, gtk.FILL | gtk.EXPAND)
+						table.attach(lb_iso_name, 1, 2, 0, 1, gtk.FILL | gtk.EXPAND, gtk.FILL)
+						table.attach(lb_cache, 1, 2, 1, 2, gtk.FILL, gtk.FILL, 0, 5)
+						table.show()
+						viewport = gtk.Viewport()
+						viewport.add(table)
+						viewport.set_border_width(2)
+						viewport.set_shadow_type(gtk.SHADOW_ETCHED_IN)
+						viewport.show()
+						vbox2.add(viewport)
+
+					if iso['category'] == dist and iso['category'] == 'other':
+						c = c + 1
+						table = gtk.Table(2, 1, False)
+						lb_iso_name = gtk.CheckButton("%s" % iso["name"])
+						lb_iso_name.show()
+						filename = os.path.basename(iso["url"])
+						path = "%s/%s_%s" % (self.td.CACHE_ISO, iso["category"], filename)
+						if os.path.exists(path):
+							lb_cache = gtk.Label("<i>     CACHE: [%s]</i>" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path)))))
+						else:
+							lb_cache = gtk.Label("<i>     CACHE: [empty]</i>")
+						lb_cache.set_use_markup(True)
+						# To align to righ otherwise it is centered
+						lb_cache.set_alignment(0,0)
+						lb_cache.show()
+						# Adding the Spiiner
+						spin = gtk.Spinner()
+						spin.set_size_request(25, -1);
+						spin.hide()
+						lb_iso_name.connect("clicked", self.on_select_iso_clicked, spin, lb_cache, iso["url"], iso["category"], vm_id)
+						vm_id += 1
+						table.attach(spin, 0, 1, 0, 2, gtk.FILL, gtk.FILL | gtk.EXPAND)
+						table.attach(lb_iso_name, 1, 2, 0, 1, gtk.FILL | gtk.EXPAND, gtk.FILL)
+						table.attach(lb_cache, 1, 2, 1, 2, gtk.FILL, gtk.FILL, 0, 5)
+						table.show()
+						viewport = gtk.Viewport()
+						viewport.add(table)
+						viewport.set_border_width(2)
+						viewport.set_shadow_type(gtk.SHADOW_ETCHED_IN)
+						viewport.show()
+						vbox2.add(viewport)
+
+				if c == 0:
+					if dist == 'other':
+						no_isos_label = gtk.Label()
+						no_isos_label.set_markup("<b><i>There are no Other ISOs yet...</i></b>")
+					else:
+						no_isos_label = gtk.Label()
+						no_isos_label.set_markup("<b><i>There are no ISOs for this architecture yet...</i></b>")
+					no_isos_label.show()
+					vbox2.add(no_isos_label)
+
+				vbox2.show()
+					
+				if dist != 'other':
+					fr_arch.add(vbox2)
+					fr_arch.show()
+					vbox.pack_start(fr_arch, expand=False, fill=False, padding=0)
+					vbox.show()
+				else:
+					vbox.pack_start(vbox2, expand=False, fill=False, padding=0)
+					vbox.show()
+					break
+
+			# Create Tabs
+			for lb_iso_name in TAB_LABLE:
+				if dist == lb_iso_name["dist"]:
+					self.notebook.append_page(scroll, gtk.Label(lb_iso_name["label"]))
+					break
+		self.notebook.show()
+
+	def create_launch_buttons(self):
+		###########################################################
+		########## Create CD and Launch Buttons Handling ##########
+		###########################################################
+		# obtain vbox from glade
+		vbox = self.builder.get_object("vbox2")
+
+		hbox1 = gtk.HBox()
+		#bbox = gtk.HButtonBox()
+
+		valign = gtk.Alignment(0, 1, 0, 0)
+		vbox.pack_start(valign)
+
+		# Add Button
+		self.btn_add_iso = gtk.Button("Add ISO")
+		self.btn_add_iso.set_size_request(100,30)
+		self.btn_add_iso.connect("clicked", self.new_other_iso)
+		#self.btn_add_iso.show()
+		#bbox.add(button)
+		hbox1.add(self.btn_add_iso)
+
+		# Create Buttons
+		button = gtk.Button("Create USB Disk")
+		button.set_size_request(120,30)
+	        button.connect("clicked", self.on_create_iso_disk_clicked, 'Create Disk')
+		button.show()
+		hbox1.add(button)
+		#bbox.add(button)
+
+		button = gtk.Button("Sync")
+		button.set_size_request(90,30)
+	        button.connect("clicked", self.on_sync_iso_clicked, 'Sync')
+		button.show()
+		hbox1.add(button)
+		#bbox.add(button)
+
+		button = gtk.Button("Launch")
+		button.set_size_request(90,30)
+		button.connect("clicked", self.on_launch_button_clicked, 'Launch')
+		button.show()
+		hbox1.add(button)
+		hbox1.show()
+		#bbox.add(button)
+		#bbox.show()
+
+		halign = gtk.Alignment(1, 0, 0, 0)
+		halign.add(hbox1)
+		#halign.add(bbox)
+		halign.show()
+		vbox.pack_start(halign, False, False, 3)
+
+	def on_select_iso_clicked(self, widget, spin, status_label, url=None, iso_path_header=None, vm_id=None):
+		###################################################################
+		# When ISO is clicked, does the setup to be ready to launch/sync ##
+		###################################################################
+		# This will set the ISO_URL to be able to launch
+		launch_cmd = None
+		sync_cmd = None
+
+		self.td.ISO_URL = url
+		self.td.ISO_PATH_HEADER = iso_path_header
+		self.td.set_launch_path()
+		launch_thread = None
+		status = None
+		sync_cmd = self.obtain_sync_protocol_cmd()
+		if widget.get_active() == True:
+			self.td.DISK_FILE = self.td.create_disk_file()
+			# Only for vbox and parallels
+			self.td.VBOX_NAME = "%s-%s" % (self.td.PKG, vm_id)
+			launch_cmd = self.prepare_to_launch_vm()
+			if sync_cmd:
+				url = self.td.PATH_TO_ISO
+				sync_thread = SyncThread(status_label, spin, sync_cmd, url)
+			if launch_cmd:
+				launch_thread = LaunchThread(status_label, launch_cmd, self.td.VIRT)
+			self.isos_to_run.append([sync_thread, launch_thread, self.td.DISK_FILE, status])
+
+		if widget.get_active() == False:
+			for t in self.isos_to_run:
+				#if t[0].command == sync_cmd or t[1].command == launch_cmd:
+				if t[0].command == sync_cmd:
+					t[0].stop()
+					t[1].stop()
+					self.td.DISK_FILE = t[2]
+					self.td.delete_image()
+					self.isos_to_run.remove(t)
+
+	def on_sync_iso_clicked(self, widget, data=None):
+		###################################################################
+		#################### Launches the ISOs to Sync ####################
+		###################################################################
+		if not self.isos_to_run:
+			"""
+			self.on_error_dialog(	"No ISOs have been selected.\n"
+						"\n"
+						"Please select an ISO to start syncing...")
+			"""
+			return
+		for t in self.isos_to_run:
+			#if t[3] == None or t[3] != "launch":
+			if t[0].p is None and t[1].p is None:
+				t[3] = "sync"
+				#t[1] = None
+				try:
+					print t
+					t[0].start()
+				except:
+					pass
+			else:
+				logging.debug('sync_iso: Thread is executing...')
+
+	def on_launch_button_clicked(self, widget, data=None):
+		###################################################################
+		################# Launches the ISOs to Run in VM ##################
+		###################################################################
+		if not self.isos_to_run:
+			"""
+			self.on_error_dialog(	"No ISOs have been selected.\n"
+						"\n"
+						"Please select an ISO or ISOs to TestDrive!")
+			"""
+			return
+		for t in self.isos_to_run:
+			#if t[3] == None or t[3] != "sync":
+			if t[0].p is None and t[1].p is None:
+				t[3] = "launch"
+				#t[0] = None
+				try:
+					t[1].start()
+				except:
+					pass
+			else:
+				logging.debug('launch_iso: Thread is executing or syncing...')
+		
+	def on_create_iso_disk_clicked(self, widget, data=None):
+		###################################################################
+		############ Launches USB Creator for the selected ISO ############
+		###################################################################
+		if not self.isos_to_run:
+			self.on_error_dialog(	"No ISO has been selected."
+						"\n\n"
+						"Please select an ISO to create an USB Startup Disk.")
+			return
+		if len(self.isos_to_run) > 1:
+			self.on_error_dialog(	"More than 1 ISO has been selected."
+						"\n\n"
+						"Please select only 1 ISO to continue!")
+			return
+		if not os.path.exists(self.td.PATH_TO_ISO):
+			self.on_error_dialog(	"The specified ISO does not exist!"
+						"\n\n"
+						"Please, synchronize the ISO to continue.")
+			return
+		try:
+			self.p = subprocess.Popen(["usb-creator-gtk", "-i", self.td.PATH_TO_ISO])
+		except:
+			self.on_error_dialog(	"Unable to launch USB Creator!")
+			return
+
+	def prepare_to_launch_vm(self):
+		###################################################################
+		######## Prepare the VM to launch and return launch command #######
+		###################################################################
+		#self.on_info_dialog("Validating Virtualization Method....")
+		logging.info("Validating Virtualization Method...")
+		try:
+			self.virt.validate_virt()
+		except:
+			logging.error("Unable to validate Virtualization Method [%s]" % self.td.VIRT)
+			self.on_error_dialog("Unable to validate Virtualization Method [%s]" % self.td.VIRT)
+
+		#self.on_info_dialog("Setting up Virtual Machine...")
+		logging.info("Setting up Virtual Machine...")
+		try:
+			self.virt.setup_virt()
+		except:
+			logging.error("Unable to setup Virtual Machine")
+			self.on_error_dialog("Unable to setup Virtual Machine")
+
+		#self.on_info_dialog("Launching Virtual Machine...")
+		logging.info("Obtaining Virtual Machine launch command...")
+		#try:
+		return self.virt.launch_virt()
+		#except:
+		#	self.on_error_dialog("Unable to launch Virtual Machine")
+		#return
+
+###################################################################
+########## Class that support threading for ISO Syncing ###########
+###################################################################
+class SyncThread(threading.Thread):
+	def __init__(self, label, spinner, cmd, url):
+		threading.Thread.__init__ (self)
+		self.spin = spinner
+		self.status_label = label
+		self.previous_text = label.get_text()
+		self.command = cmd
+		self.stopthread = threading.Event()
+		self.url = url
+		self.p = None
+
+	def run(self):
+		i = 0
+		cmd = []
+		while(i != -1):
+			try:
+				cmd.append(self.command.split()[i])
+			except:
+				i = -1
+				break
+			i = i + 1
+		self.p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+		self.status_label.show()
+		self.spin.show()
+		self.spin.start()
+		text = "Downloading %s..." % os.path.basename(self.url).partition("_")[2]
+		self.status_label.set_markup("<b><i>%s</i></b>" % text)
+		while not self.stopthread.isSet():
+			if self.p.poll() != None:
+				self.update_status_label()
+				self.p = None
+				self.spin.stop()
+				self.spin.hide()
+				break
+
+			#gtk.gdk.threads_enter()
+			#self.status_label.set_markup("<b><i>%s</i></b>" % text)
+			#gtk.gdk.threads_leave()
+			time.sleep(0.1)
+
+	def stop(self):
+		try:
+			if self.p.poll() is None:
+				self.p.terminate()
+				self.update_status_label()
+		except:
+			pass
+		self.spin.stop()
+		self.spin.hide()
+		self.p = None
+		self.stopthread.set()
+
+	def update_status_label(self):
+		if os.path.exists(self.url):
+			self.status_label.set_markup("<i>     CACHE: [%s]</i>" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(self.url)))))
+		else:
+			self.status_label.set_markup("<i>     CACHE: [empty]</i>")
+
+###################################################################
+########## Class that supports threading for VM Running ###########
+###################################################################
+class LaunchThread(threading.Thread):
+	####def __init__(self, label, cmd):
+	def __init__(self, label, cmd, virt):
+		threading.Thread.__init__ (self)
+		self.status_label = label
+		self.previous_text = label.get_text()
+		self.command = cmd
+		self.stopthread = threading.Event()
+		self.p = None
+		self.virt = virt
+		self.VBOX_NAME = self.command.split()[2]
+
+	def run(self):
+		i = 0
+		cmd = []
+		while(i != -1):
+			try:
+				cmd.append(self.command.split()[i])
+			except:
+				i = -1
+				break
+			i = i + 1
+
+		self.p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+		#self.pbar.show()
+		self.status_label.show()
+		text = "     Running VM..."
+
+		if self.virt == 'kvm':
+			while not self.stopthread.isSet():
+				if self.p.poll() != None:
+					self.status_label.set_markup("<i>%s</i>" % self.previous_text)
+					self.p = None
+					break
+				gtk.gdk.threads_enter()
+				# Update label
+				self.status_label.set_markup("<b><i>%s</i></b>" % text)
+				gtk.gdk.threads_leave()
+				time.sleep(0.1)
+
+		elif self.virt == 'virtualbox':
+			time.sleep(5)
+			while not self.stopthread.isSet():
+				if commands.getstatusoutput("VBoxManage list runningvms | grep -qs %s" % self.VBOX_NAME)[0] != 0:
+					self.status_label.set_markup("<i>%s</i>" % self.previous_text)
+					self.p = None
+					break
+				gtk.gdk.threads_enter()
+				# Update label
+				self.status_label.set_markup("<b><i>%s</i></b>" % text)
+				gtk.gdk.threads_leave()
+				time.sleep(2)
+
+		elif self.virt == 'parallels':
+			while not self.stopthread.isSet():
+				if commands.getstatusoutput("prlctl list %s | grep -qs stopped" % td.VBOX_NAME)[0] == 0:
+					self.status_label.set_markup("<i>%s</i>" % self.previous_text)
+					self.p = None
+					break
+				text = "     Running VM..."
+				gtk.gdk.threads_enter()
+				# Update label
+				self.status_label.set_markup("<b><i>%s</i></b>" % text)
+				gtk.gdk.threads_leave()
+				time.sleep(2)
+
+	def stop(self):
+		try:
+			if self.p.poll() is None:
+				self.p.terminate()
+				self.status_label.set_markup("<i>%s</i>" % self.previous_text)
+		except:
+			pass
+		self.p = None
+		self.stopthread.set()
+
+if __name__ == "__main__":
+	# Support for command line options.
+	import logging
+	import optparse
+	parser = optparse.OptionParser(version="%prog %ver")
+	parser.add_option(
+		"-v", "--verbose", action="store_true", dest="verbose",
+		help=_("Show debug messages"))
+	(options, args) = parser.parse_args()
+
+	# Set the logging level to show debug messages.
+	if options.verbose:
+		logging.basicConfig(level=logging.DEBUG)
+		logging = logging.getLogger('testdrivegtk')
+		logging.debug('logging enabled')
+
+	# Run the application.
+	window = TestdrivegtkWindow()
+	window.show()
+	gtk.main()
