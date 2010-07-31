@@ -2,8 +2,17 @@ testdrive (2.7) unreleased; urgency=low
 
   * Reorganize the source in preparation to merge testdrive-gtk with it.
   * Merge testdrive-gtk source into testdrive's source.
+  * Packaging changes to install testdrive-gtk:
+    - debian/control:
+      + testdrive package now only recommends testdrive-{gtk,cli}.
+      + Add testdrive-cli package, comes from previous testdrive package.
+      + Add testdrive-gtk binary package.
+      + testdrive-{gtk,cli} common dependencies moved to testdrive-common.
+    - debian/testdrive-{gtk,cli}.install: Added.
+    - debian/rules: Switch to dh 7.
+    - debian/copyright: Add myself to Authors.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 30 Jul 2010 14:41:53 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 30 Jul 2010 15:18:17 -0400
 
 testdrive (2.6-0ubuntu1) maverick; urgency=low
 
