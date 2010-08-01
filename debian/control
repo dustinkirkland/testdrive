@@ -13,7 +13,7 @@ Package: testdrive
 Architecture: all
 Depends: ${misc:Depends}
 Recommends: testdrive-gtk, testdrive-cli
-Description: run the daily Ubuntu ISO in a virtual machine
+Description: run the daily Ubuntu ISO in a virtual machine (meta-package)
  Testdrive helps you download and run the daily Ubuntu development ISO
  in a virtual machine on your local hardware.
  .
@@ -48,7 +48,7 @@ XB-Python-Version: ${python:Versions}
 Depends: ${misc:Depends},
  ${python:Depends},
  testdrive-common (= ${source:Version})
-Description: run the daily Ubuntu ISO in a virtual machine
+Description: run the daily Ubuntu ISO in a virtual machine (command line)
  Testdrive helps you download and run the daily Ubuntu development ISO
  in a virtual machine on your local hardware.
  .
@@ -57,6 +57,8 @@ Description: run the daily Ubuntu ISO in a virtual machine
  will use KVM to host your virtual machines.
  .
  Alternatively, you can use VirtualBox.
+ .
+ This package contains the command line Front-end for TestDrive.
 
 Package: testdrive-gtk
 Architecture: all

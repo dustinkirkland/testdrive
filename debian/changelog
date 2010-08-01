@@ -15,8 +15,10 @@ testdrive (2.7) unreleased; urgency=low
   * testdrive-gtk:
     - Add support for Notifications, however not displaying any yet.
     - Update the ISO cache of each Repository at launch.
+  * debian/testdrive-{common,gtk}.install: Install missing files.
+  * debian/control: Improve descriptions.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Sun, 01 Aug 2010 17:53:14 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Sun, 01 Aug 2010 18:54:48 -0400
 
 testdrive (2.6-0ubuntu1) maverick; urgency=low
 
