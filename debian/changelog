@@ -11,8 +11,9 @@ testdrive (2.7) unreleased; urgency=low
     - debian/testdrive-{gtk,cli}.install: Added.
     - debian/rules: Switch to dh 7.
     - debian/copyright: Add myself to Authors.
+  * data/media/icon.png: Override with one with better quality.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 30 Jul 2010 15:18:17 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Sat, 31 Jul 2010 20:02:35 -0400
 
 testdrive (2.6-0ubuntu1) maverick; urgency=low
 
