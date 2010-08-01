@@ -1,3 +1,9 @@
+testdrive (2.8) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Sun, 01 Aug 2010 19:01:34 -0400
+
 testdrive (2.7-0ubuntu1) maverick; urgency=low
 
   * Reorganize the source in preparation to merge testdrive-gtk with it.
