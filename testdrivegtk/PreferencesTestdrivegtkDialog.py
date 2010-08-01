@@ -32,6 +32,8 @@ import gettext
 from gettext import gettext as _
 gettext.textdomain('testdrivegtk')
 
+ISO_REPOSITORY = ['cdimage', 'releases']
+
 class PreferencesTestdrivegtkDialog(gtk.Dialog):
 	__gtype_name__ = "PreferencesTestdrivegtkDialog"
 	preferences = {}
@@ -65,7 +67,7 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		# Get a reference to the builder and set up the signals.
 		self.builder = builder
 		self.builder.connect_signals(self)
-		self.set_title("Preferences")
+		self.set_title("TestDrive Front-end Preferences")
 		self.logger = logger1
 
 		##################################################################
@@ -74,10 +76,18 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		self.td = testdrive.Testdrive('testdrive-gtk')
 
 		self.initialize_variables()
-		# TODO: code for other initialization actions should be added here
 		self.initialize_config_files()
 		self.td.set_defaults()
-		self.update_iso_cache()
+
+		# Grab the selected repo and store it temporarly.
+		# Then, use the hardcoded repos to update the cache.
+		# Finally, default the initially selected repo.
+		selected_repo = self.td.p
+		for repo in ISO_REPOSITORY:
+			self.td.p = repo
+			self.update_iso_cache()
+		self.td.p = selected_repo
+
 		self.initialize_widgets()
 		self.initialize_widgets_values()
 		self.logger.debug('finish_initialization()')
@@ -247,7 +257,8 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 			self.repo = model[index][0]
 			self.td.p = self.repo		
 
-			self.update_iso_cache()
+			# Update cache commented given the hack to sync every repo on initialization
+			#self.update_iso_cache()
 			# Populate the releases combobox
 			self.cb_ubuntu_release.get_model().clear()
 			self.cb_ubuntu_release.append_text('Select Release:')
@@ -302,8 +313,8 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		self.tb_ubuntu_release_prefs = self.builder.get_object("tb_ubuntu_release_prefs")
 		self.cb_ubuntu_repo = gtk.combo_box_new_text()
 		self.cb_ubuntu_repo.append_text('Select Repository:')
-		self.cb_ubuntu_repo.append_text("cdimage")
-		self.cb_ubuntu_repo.append_text("releases")
+		for repo in ISO_REPOSITORY:		
+			self.cb_ubuntu_repo.append_text(repo)
 		self.cb_ubuntu_repo.connect('changed', self.on_select_iso_image_repo)
 		self.cb_ubuntu_repo.set_active(0)
 		self.cb_ubuntu_repo.show()
