@@ -1,4 +1,4 @@
-testdrive (2.7) unreleased; urgency=low
+testdrive (2.7-0ubuntu1) maverick; urgency=low
 
   * Reorganize the source in preparation to merge testdrive-gtk with it.
   * Merge testdrive-gtk source into testdrive's source.
@@ -18,7 +18,7 @@ testdrive (2.7) unreleased; urgency=low
   * debian/testdrive-{common,gtk}.install: Install missing files.
   * debian/control: Improve descriptions.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Sun, 01 Aug 2010 18:54:48 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Sun, 01 Aug 2010 19:01:30 -0400
 
 testdrive (2.6-0ubuntu1) maverick; urgency=low
 
