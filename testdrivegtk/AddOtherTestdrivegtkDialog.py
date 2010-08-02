@@ -49,64 +49,12 @@ class AddOtherTestdrivegtkDialog(gtk.Dialog):
 		if isos is True:
 			self.initialize_isos_list()
 
-	def initialize_widgets(self):
-		self.txt_other_desc = self.builder.get_object("txt_other_desc")
-		self.txt_other_url = self.builder.get_object("txt_other_url")
-
-		self.liststore = gtk.ListStore(str, str, str)
-		self.treeview = self.builder.get_object("tv_other_isos_list")
-		self.treeview.columns = [None]*3
-		self.treeview.columns[0] = gtk.TreeViewColumn('No.')
-		self.treeview.columns[1] = gtk.TreeViewColumn('Description')
-		self.treeview.columns[2] = gtk.TreeViewColumn('URL')
-
-		self.treeview.set_model(self.liststore)
-		for n in range(3):
-			# add columns to treeview
-			self.treeview.append_column(self.treeview.columns[n])
-			# create a CellRenderers to render the data
-			self.treeview.columns[n].cell = gtk.CellRendererText()
-			if n >= 1:
-				self.treeview.columns[n].cell.set_property('editable', True)
-			# add the cells to the columns
-			self.treeview.columns[n].pack_start(self.treeview.columns[n].cell, True)
-			# set the cell attributes to the appropriate liststore column
-			self.treeview.columns[n].set_attributes(self.treeview.columns[n].cell, text=n)
-
-		###################################################################
-		##### New ISO Dialog ##############
-		###################################################################
-
-		self.btn_add_other = self.builder.get_object("btn_add_iso")
-		self.btn_add_other.connect("clicked", self.on_btn_add_iso_clicked)
-
-		self.btn_del_iso = self.builder.get_object("btn_del_iso")
-		self.btn_del_iso.connect("clicked", self.on_btn_del_iso_clicked)
-
-		# Expander
-		self.ex_other_iso_list = self.builder.get_object("ex_other_iso_list")
-		self.ex_other_iso_list.connect('notify::expanded', self.on_iso_list_expanded)
-		self.scroll_iso_list = self.builder.get_object("scrolledwindow1")
-		self.ex_other_iso_list.remove(self.ex_other_iso_list.child)
-
-		self.layout_table = self.builder.get_object("tb_other_iso")
-		#Sync Protocol Combo Box
-		self.cb_sync_proto = gtk.combo_box_new_text()
-		self.cb_sync_proto.append_text('Select Protocol:')
-		self.cb_sync_proto.append_text("rsync")
-		self.cb_sync_proto.append_text("zsync")
-		self.cb_sync_proto.append_text("wget")
-		self.cb_sync_proto.append_text("file")
-		self.cb_sync_proto.connect('changed', self.on_select_sync_proto)
-		self.cb_sync_proto.set_active(0)
-		self.cb_sync_proto.show()
-		self.layout_table.attach(self.cb_sync_proto, 1,3,2,3, gtk.FILL | gtk.EXPAND, gtk.SHRINK)
-
 	def ok(self, widget, data=None):
 		"""The user has elected to save the changes.
 
 		Called before the dialog returns gtk.RESONSE_OK from run().
 		"""
+		# Saving changes in the isos file
 		path = "%s/other.isos" % self.CACHE
 		try:
 			f = open(path,'w')
@@ -149,6 +97,9 @@ class AddOtherTestdrivegtkDialog(gtk.Dialog):
 		errorbox.destroy()
 
 	def on_btn_add_iso_clicked(self, widget):
+		##################################################################
+		######### Adding new ISO's, however not yet saving them ##########
+		##################################################################
 		add = self.on_validate_iso_url()
 		if add is False:
 			return
@@ -165,6 +116,8 @@ class AddOtherTestdrivegtkDialog(gtk.Dialog):
 		self.cb_sync_proto.set_active(0)
 
 	def on_btn_del_iso_clicked(self, widget):
+		# When Delete button is clicked, deletes it from the list store, 
+		# but changes are not saved
 		selection = self.treeview.get_selection()
 		model, iter = selection.get_selected()
 		if iter:
@@ -172,6 +125,9 @@ class AddOtherTestdrivegtkDialog(gtk.Dialog):
 		return
 
 	def on_validate_iso_url(self):
+		##################################################################
+		###### Validating that the input URL si correct and exists #######
+		##################################################################
 		file = self.txt_other_url.get_text().strip()
 		desc = self.txt_other_desc.get_text().replace(' ','-')
 
@@ -213,19 +169,75 @@ class AddOtherTestdrivegtkDialog(gtk.Dialog):
 
 		if self.PROTO is None:
 			self.on_error_dlg("No sync protocol has been selected, please select one.")
-			#self.set_focus(self.cb_sync_proto)
 			return False
 		else:
 			return True
 
 	def on_iso_list_expanded(self, expander, params):
+		# When expander is clicked
 		if expander.get_expanded():
 			expander.add(self.scroll_iso_list)
 		else:
 			expander.remove(expander.child)
 			self.resize(1, 1)
 
+	def initialize_widgets(self):
+		##################################################################
+		############## Initializing Widget into variables ################
+		##################################################################
+		self.txt_other_desc = self.builder.get_object("txt_other_desc")
+		self.txt_other_url = self.builder.get_object("txt_other_url")
+
+		# Initializing TreeView that will list the other ISO's
+		self.liststore = gtk.ListStore(str, str, str)
+		self.treeview = self.builder.get_object("tv_other_isos_list")
+		self.treeview.columns = [None]*3
+		self.treeview.columns[0] = gtk.TreeViewColumn('No.')
+		self.treeview.columns[1] = gtk.TreeViewColumn('Description')
+		self.treeview.columns[2] = gtk.TreeViewColumn('URL')
+
+		self.treeview.set_model(self.liststore)
+		for n in range(3):
+			# add columns to treeview
+			self.treeview.append_column(self.treeview.columns[n])
+			# create a CellRenderers to render the data
+			self.treeview.columns[n].cell = gtk.CellRendererText()
+			if n >= 1:
+				self.treeview.columns[n].cell.set_property('editable', True)
+			# add the cells to the columns
+			self.treeview.columns[n].pack_start(self.treeview.columns[n].cell, True)
+			# set the cell attributes to the appropriate liststore column
+			self.treeview.columns[n].set_attributes(self.treeview.columns[n].cell, text=n)
+
+		self.btn_add_other = self.builder.get_object("btn_add_iso")
+		self.btn_add_other.connect("clicked", self.on_btn_add_iso_clicked)
+
+		self.btn_del_iso = self.builder.get_object("btn_del_iso")
+		self.btn_del_iso.connect("clicked", self.on_btn_del_iso_clicked)
+
+		# Expander
+		self.ex_other_iso_list = self.builder.get_object("ex_other_iso_list")
+		self.ex_other_iso_list.connect('notify::expanded', self.on_iso_list_expanded)
+		self.scroll_iso_list = self.builder.get_object("scrolledwindow1")
+		self.ex_other_iso_list.remove(self.ex_other_iso_list.child)
+
+		self.layout_table = self.builder.get_object("tb_other_iso")
+		#Sync Protocol Combo Box
+		self.cb_sync_proto = gtk.combo_box_new_text()
+		self.cb_sync_proto.append_text('Select Protocol:')
+		self.cb_sync_proto.append_text("rsync")
+		self.cb_sync_proto.append_text("zsync")
+		self.cb_sync_proto.append_text("wget")
+		self.cb_sync_proto.append_text("file")
+		self.cb_sync_proto.connect('changed', self.on_select_sync_proto)
+		self.cb_sync_proto.set_active(0)
+		self.cb_sync_proto.show()
+		self.layout_table.attach(self.cb_sync_proto, 1,3,2,3, gtk.FILL | gtk.EXPAND, gtk.SHRINK)
+
 	def get_other_isos_list_from_cache(self):
+		##################################################################
+		########### Obtaining the other ISO's from the CACHE #############
+		##################################################################
 		if os.path.exists("%s/other.isos" % self.CACHE):
 			try:
 				f = open("%s/other.isos" % self.CACHE, 'r')
@@ -238,6 +250,9 @@ class AddOtherTestdrivegtkDialog(gtk.Dialog):
 		return True
 
 	def initialize_isos_list(self):
+		##################################################################
+		###### Populating the TreeView with the ISOs from the CACHE ######
+		##################################################################
 		for iso in self.ISOS:
 			self.liststore.append([self.i, iso.split()[3], iso.split()[2]])
 			self.i += 1

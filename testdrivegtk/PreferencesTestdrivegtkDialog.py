@@ -73,8 +73,10 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		##################################################################
 		###### Starting code of instancing TestDrive in Prefereces #######
 		##################################################################
+		# Instancing a testdrive object.
 		self.td = testdrive.Testdrive('testdrive-gtk')
 
+		# Initializing local variables, loading config files, setting defaults.
 		self.initialize_variables()
 		self.initialize_config_files()
 		self.td.set_defaults()
@@ -88,11 +90,15 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 			self.update_iso_cache()
 		self.td.p = selected_repo
 
+		# Initialize widgets and its values
 		self.initialize_widgets()
 		self.initialize_widgets_values()
 		self.logger.debug('finish_initialization()')
 
 	def update_iso_cache(self):
+		##################################################################
+		###### Code to update the ISO list from the repository Cache #####
+		##################################################################
 		update_cache = None
 		cdimage = False
 		""" Verify if the ISO list is cached, if not, set variable to update/create it. """
@@ -129,6 +135,9 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		pass
 
 	def _save_preferences(self):
+		##################################################################
+		########### Saving the preferences to the config file ############
+		##################################################################
 		if self.preferences:
 			config = ConfigParser.RawConfigParser()
 			config.add_section(self.td.PKG_SECTION)
@@ -146,7 +155,6 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		"""
 
 		# Make any updates to self._preferences here. e.g.
-		#self._preferences["preference1"] = "value2"
 		self.update_preferences()
 		self._save_preferences()
 
@@ -175,7 +183,9 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		self.r = None
 
 	def on_select_virt_method(self, widget, virt=None):
+		# On selecting the viratualization method
 		self.virt_method = virt
+		# If Virtualization method is KVM, display related options.
 		if virt == 'kvm':
 			self.lb_kvm_args.show()
 			self.txt_kvm_args.show()
@@ -188,9 +198,9 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 			self.lb_smp_nbr.hide()
 			self.txt_smp_nbr.hide()
 			self.lb_smp_available.hide()
-		#print "%s was toggled %s" % (data, ("OFF", "ON")[widget.get_active()])
 
 	def on_select_mem(self, entry):
+		# On selecting RAM memory.
 		if entry.child.get_text() == 'Other...':
 			entry.child.set_editable(True)
 			self.mem = 'other'
@@ -199,6 +209,7 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 			self.mem = entry.child.get_text()
 
 	def on_select_disk_size(self, entry):
+		# On selecting disk size
 		if entry.child.get_text() == 'Other...':
 			entry.child.set_editable(True)
 			self.disk_size = 'other'
@@ -207,6 +218,7 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 			self.disk_size = entry.child.get_text()
 
 	def on_select_flavors(self, widget):
+		# On selecting Ubuntu Flavors
 		self.flavors = ""
 		if self.chk_flavor_ubuntu.get_active():
 			self.flavors = self.flavors + "ubuntu, "
@@ -224,19 +236,20 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 			self.flavors = self.flavors + "other, "
 
 	def on_select_arch(self, widget, arch):
+		# On selecting the architecture
 		if widget.get_active() == True:
 			self.arch.append(arch)
 		if widget.get_active() == False:
 			self.arch.remove(arch)
 
 	def on_txt_gral_cache_focus_out_event(self, widget, data=None):
+		# When the CACHE text is changed, update related cache paths.
 		txt_cache = self.txt_gral_cache.get_text()
-		#if self.txt_iso_cache.get_text() == self.td.CACHE_ISO:
 		self.txt_iso_cache.set_text("%s/iso" % txt_cache)
-		#if self.txt_img_cache.get_text() == self.td.CACHE_IMG:
 		self.txt_img_cache.set_text("%s/img" % txt_cache)
 
 	def on_cache_cleanup_clicked(self, widget, cache_path):
+		# Method to cleanup cache
 		filelist = os.listdir(cache_path)
 
 		if not filelist:
@@ -250,6 +263,9 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 			on_error_dlg("Unable to clean up files from [%s]" % cache_path)
 	
 	def on_select_iso_image_repo(self, widget):
+		##################################################################
+		#### Select image repo, populate Release combobox accordingly ####
+		##################################################################
 		model = widget.get_model()
 		index = widget.get_active()
 		if index:
@@ -292,6 +308,9 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 			self.r = None
 
 	def initialize_widgets(self):
+		##################################################################
+		########### Initializing all the widgets in variables ############
+		##################################################################
 		# Initialize Data Paths
 		self.txt_gral_cache = self.builder.get_object("txt_gral_cache")
 		self.txt_img_cache = self.builder.get_object("txt_img_cache")
@@ -379,7 +398,9 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		self.chk_flavor_other.connect("clicked", self.on_select_flavors)
 
 	def initialize_config_files(self):
-		# prime configuration with defaults
+		##################################################################
+		########### Read the configuration file for settings #############
+		##################################################################
 		config_files = ["/etc/%s" % self.td.PKGRC, "%s/.%s" % (self.td.HOME, self.td.PKGRC), "%s/.config/%s/%s" % (self.td.HOME, self.td.PKG, self.td.PKGRC) ]
 		for file in config_files:
 			if os.path.exists(file):
@@ -395,7 +416,9 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 			#return True
 
 	def initialize_widgets_values(self):
-
+		##################################################################
+		###### Initialize the widget values - Displayes information ######
+		##################################################################
 		# CACHE Variables
 		self.txt_gral_cache.set_text(self.td.CACHE)
 		self.txt_img_cache.set_text(self.td.CACHE_IMG)
@@ -480,6 +503,9 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 				self.chk_arch_amd64.set_active(True)
 
 	def update_preferences(self):
+		##################################################################
+		###### Prepare the preferences to be saved in the config fiel ####
+		##################################################################
 		self.preferences = []
 		# CACHE Variables
 		if self.td.CACHE != self.txt_gral_cache.get_text():

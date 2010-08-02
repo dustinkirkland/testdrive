@@ -269,7 +269,6 @@ class TestdrivegtkWindow(gtk.Window):
 		### Obtains the command for the Sync process based on Protocol ####
 		###################################################################
 		logging.info('Obtaining the sync protocol for the specified ISO...')
-		#print("      %s" % self.td.ISO_URL)
 		cmd = self.td.get_proto()
 		if cmd == 1:
 			self.on_error_dialog("Unsupported protocol [%s]" % self.td.PROTO)
@@ -400,18 +399,19 @@ class TestdrivegtkWindow(gtk.Window):
 				break
 			i = i + 1
 
-		#sorting arch list
 		#list.reverse(self.td.m)
 
-		#TODO: Only create the i386/amd64 frame in case there are isos, if not dont create them (or in such case display them)
+		#############################################
+		######## Layout of the UI Creation ##########
+		#############################################
 		# Scroll
-		#	vbox
-		#		frame-i386
-		#			vbox2
-		#				table per ISO (with labels, checkbox)
-		#		frame-amd64
-		#			vbox2
-		#				table per ISO (with labels, checkbox)
+		#       vbox
+		#               frame-i386
+		#                       vbox2
+		#                               table per ISO (with labels, checkbox)
+		#               frame-amd64
+		#                       vbox2
+		#                               table per ISO (with labels, checkbox)
 		for dist in distros:
 			scroll = gtk.ScrolledWindow(None)
 			scroll.set_name(dist)
@@ -641,7 +641,6 @@ class TestdrivegtkWindow(gtk.Window):
 			"""
 			return
 		for t in self.isos_to_run:
-			#if t[3] == None or t[3] != "sync":
 			if t[0].p is None and t[1].p is None:
 				t[3] = "launch"
 				#t[0] = None
@@ -699,11 +698,7 @@ class TestdrivegtkWindow(gtk.Window):
 
 		#self.on_info_dialog("Launching Virtual Machine...")
 		logging.info("Obtaining Virtual Machine launch command...")
-		#try:
 		return self.virt.launch_virt()
-		#except:
-		#	self.on_error_dialog("Unable to launch Virtual Machine")
-		#return
 
 ###################################################################
 ########## Class that support threading for ISO Syncing ###########
@@ -793,7 +788,6 @@ class LaunchThread(threading.Thread):
 			i = i + 1
 
 		self.p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-		#self.pbar.show()
 		self.status_label.show()
 		text = "     Running VM..."
 
