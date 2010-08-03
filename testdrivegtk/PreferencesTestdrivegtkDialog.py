@@ -187,17 +187,11 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		self.virt_method = virt
 		# If Virtualization method is KVM, display related options.
 		if virt == 'kvm':
-			self.lb_kvm_args.show()
-			self.txt_kvm_args.show()
-			self.lb_smp_nbr.show()
-			self.txt_smp_nbr.show()
-			self.lb_smp_available.show()
+			self.txt_kvm_args.set_sensitive(True)
+			self.txt_smp_nbr.set_sensitive(True)
 		else:
-			self.txt_kvm_args.hide()
-			self.lb_kvm_args.hide()
-			self.lb_smp_nbr.hide()
-			self.txt_smp_nbr.hide()
-			self.lb_smp_available.hide()
+			self.txt_kvm_args.set_sensitive(False)
+			self.txt_smp_nbr.set_sensitive(False)
 
 	def on_select_mem(self, entry):
 		# On selecting RAM memory.
@@ -215,7 +209,7 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 			self.disk_size = 'other'
 		elif entry.get_active() >= 0:
 			entry.child.set_editable(False)
-			self.disk_size = entry.child.get_text()
+			self.disk_size = "%sG" % entry.child.get_text()
 
 	def on_select_flavors(self, widget):
 		# On selecting Ubuntu Flavors
@@ -366,9 +360,9 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		# Initialize Disk Size Options
 		self.cbe_disk_size = self.builder.get_object("cbe_disk_size")
 		self.cbe_disk_size.remove_text(0)
-		self.cbe_disk_size.append_text('4G')
-		self.cbe_disk_size.append_text('6G')
-		self.cbe_disk_size.append_text('8G')
+		self.cbe_disk_size.append_text('4')
+		self.cbe_disk_size.append_text('6')
+		self.cbe_disk_size.append_text('8')
 		self.cbe_disk_size.append_text('Other...')
 		self.cbe_disk_size.connect('changed', self.on_select_disk_size)
 
@@ -466,8 +460,7 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		# SMP
 		if self.td.SMP:
 			self.txt_smp_nbr.set_text(self.td.SMP)
-			if self.td.VIRT == 'kvm':
-				self.lb_smp_available.set_text(" of %s available." % commands.getoutput("grep -c ^processor /proc/cpuinfo"))
+			self.lb_smp_available.set_text(" of %s available." % commands.getoutput("grep -c ^processor /proc/cpuinfo"))
 
 		# Flavors
 		i = 0
@@ -558,7 +551,7 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 
 		# Disk Size - TODO: Add validation of text
 		if self.disk_size == 'other':
-			self.disk_size = self.cbe_disk_size.child.get_text()
+			self.disk_size = "%sG" % self.cbe_disk_size.child.get_text()
 		if self.td.DISK_SIZE != self.disk_size:
 			self.td.DISK_SIZE = self.disk_size
 			self.preferences.append(['disk_size', self.td.DISK_SIZE])
