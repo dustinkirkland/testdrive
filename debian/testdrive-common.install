@@ -1,6 +1,6 @@
 debian/tmp/usr/lib/python*/*/testdrive/*.py
 debian/tmp/usr/lib/python*/*/testdrive/__init__.py
-debian/tmp/usr/lib/python*/*/testdrive/virt
+debian/tmp/usr/lib/python*/*/testdrive/virt/*.py
 debian/tmp/usr/lib/python*/*/testdrive/virt/__init__.py
 debian/tmp/usr/share/testdrive/testdriverc
 debian/tmp/etc/testdriverc

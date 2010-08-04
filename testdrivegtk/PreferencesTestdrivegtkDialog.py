@@ -97,84 +97,6 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		self.initialize_widgets_values()
 		self.logger.debug(_('finish_initialization()'))
 
-	def update_iso_cache(self):
-		##################################################################
-		###### Code to update the ISO list from the repository Cache #####
-		##################################################################
-		update_cache = None
-		cdimage = False
-		""" Verify if the ISO list is cached, if not, set variable to update/create it. """
-		if self.td.is_iso_list_cached() is False:
-			update_cache = 1
-		# If ISO list is cached, verify if it is expired. If it is, set variable to update it.
-		elif self.td.is_iso_list_cache_expired() is True:
-			update_cache = 1
-
-		""" If variable set to update, obtain the ISO list from the Ubuntu CD Image repository. """
-		if update_cache == 1:
-			self.logger.info(_("Obtaining Ubuntu ISO list from %s...") % self.td.u)
-			try:
-				cdimage = self.td.obtain_ubuntu_iso_list_from_repo()
-			except:
-				self.logger.error(_("Could not obtain the Ubuntu USO list from %s...") % self.td.u)
-
-		""" If the ISO List was obtained, update the cache file"""
-		if cdimage:
-			self.logger.info(_("Updating the Ubuntu ISO list cache..."))
-			try:
-				self.td.update_ubuntu_iso_list_cache(cdimage)
-			except:
-				self.logger.error(_("Unable to update the Ubuntu ISO list cache..."))
-
-	def get_preferences(self):
-		"""Returns preferences for testdrivegtk."""
-		self.logger.debug(_("get_preferences()"))
-		return self.td
-
-	def _load_preferences(self):
-		# TODO: add preferences to the self._preferences dict default
-		# preferences that will be overwritten if some are saved
-		pass
-
-	def _save_preferences(self):
-		##################################################################
-		########### Saving the preferences to the config file ############
-		##################################################################
-		if self.preferences:
-			config = ConfigParser.RawConfigParser()
-			config.add_section(self.td.PKG_SECTION)
-			for prefs in self.preferences:
-				config.set(self.td.PKG_SECTION, prefs[0], prefs[1])
-			# Writing our configuration file
-			path = "%s/.%s" % (self.td.HOME, self.td.PKGRC)
-			with open(path, 'wb') as configfile:
-				config.write(configfile)
-
-	def ok(self, widget, data=None):
-		"""The user has elected to save the changes.
-
-		Called before the dialog returns gtk.RESONSE_OK from run().
-		"""
-
-		# Make any updates to self._preferences here. e.g.
-		self.update_preferences()
-		self._save_preferences()
-
-	def cancel(self, widget, data=None):
-		"""The user has elected cancel changes.
-
-		Called before the dialog returns gtk.RESPONSE_CANCEL for run()
-		"""
-		# Restore any changes to self._preferences here.
-		pass
-
-	def on_error_dlg(self, data=None):
-		errorbox = gtk.MessageDialog(self, 
-			gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, 
-			gtk.BUTTONS_CLOSE, data)
-		response = errorbox.run()
-		errorbox.destroy()
-
 	def initialize_variables(self):
 		self.virt_method = None
 		self.mem = None
@@ -183,125 +105,6 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		self.arch = []
 		self.repo = None
 		self.r = None
-
-	def on_select_virt_method(self, widget, virt=None):
-		# On selecting the viratualization method
-		self.virt_method = virt
-		# If Virtualization method is KVM, display related options.
-		if virt == 'kvm':
-			self.txt_kvm_args.set_sensitive(True)
-			self.txt_smp_nbr.set_sensitive(True)
-		else:
-			self.txt_kvm_args.set_sensitive(False)
-			self.txt_smp_nbr.set_sensitive(False)
-
-	def on_select_mem(self, entry):
-		# On selecting RAM memory.
-		if entry.child.get_text() == MEM_SIZE_TAB[3]:
-			entry.child.set_editable(True)
-			self.mem = 'other'
-		elif entry.get_active() >= 0:
-			entry.child.set_editable(False)
-			self.mem = entry.child.get_text()
-
-	def on_select_disk_size(self, entry):
-		# On selecting disk size
-		if entry.child.get_text() == DISK_SIZE_TAB[3]:
-			entry.child.set_editable(True)
-			self.disk_size = 'other'
-		elif entry.get_active() >= 0:
-			entry.child.set_editable(False)
-			self.disk_size = entry.child.get_text()
-
-	def on_select_flavors(self, widget):
-		# On selecting Ubuntu Flavors
-		self.flavors = ""
-		if self.chk_flavor_ubuntu.get_active():
-			self.flavors = self.flavors + "ubuntu, "
-		if self.chk_flavor_kubuntu.get_active():
-			self.flavors = self.flavors + "kubuntu, "
-		if self.chk_flavor_xubuntu.get_active():
-			self.flavors = self.flavors + "xubuntu, "
-		if self.chk_flavor_edubuntu.get_active():
-			self.flavors = self.flavors + "edubuntu, "
-		if self.chk_flavor_mythbuntu.get_active():
-			self.flavors = self.flavors + "mythbuntu, "
-		if self.chk_flavor_ubuntustudio.get_active():
-			self.flavors = self.flavors + "ubuntustudio, "
-		if self.chk_flavor_other.get_active():
-			self.flavors = self.flavors + "other, "
-
-	def on_select_arch(self, widget, arch):
-		# On selecting the architecture
-		if widget.get_active() == True:
-			self.arch.append(arch)
-		if widget.get_active() == False:
-			self.arch.remove(arch)
-
-	def on_txt_gral_cache_focus_out_event(self, widget, data=None):
-		# When the CACHE text is changed, update related cache paths.
-		txt_cache = self.txt_gral_cache.get_text()
-		self.txt_iso_cache.set_text("%s/iso" % txt_cache)
-		self.txt_img_cache.set_text("%s/img" % txt_cache)
-
-	def on_cache_cleanup_clicked(self, widget, cache_path):
-		# Method to cleanup cache
-		filelist = os.listdir(cache_path)
-
-		if not filelist:
-			return
-
-		try:
-			for file in filelist:
-				path = "%s/%s" % (cache_path, file)
-				os.unlink(path)
-		except:
-			on_error_dlg(_("Unable to clean up files from [%s]") % cache_path)
-	
-	def on_select_iso_image_repo(self, widget):
-		##################################################################
-		#### Select image repo, populate Release combobox accordingly ####
-		##################################################################
-		model = widget.get_model()
-		index = widget.get_active()
-		if index:
-			old_repo = self.td.p
-			self.repo = model[index][0]
-			self.td.p = self.repo		
-
-			# Update cache commented given the hack to sync every repo on initialization
-			#self.update_iso_cache()
-			# Populate the releases combobox
-			self.cb_ubuntu_release.get_model().clear()
-			self.cb_ubuntu_release.append_text(_('Select Release:'))
-			self.cb_ubuntu_release.set_active(0)
-			isos = self.td.get_ubuntu_iso_list()
-			codenames = []
-			for iso in isos:
-				codenames.append(iso.split()[1])
-			codenames = list(set(codenames))
-			codenames.sort()
-			codenames.reverse()
-			c = i = 0
-			for release in codenames:
-				self.cb_ubuntu_release.append_text(release)
-				c += 1
-				if release == self.td.r and self.td.p == old_repo:
-					i = c
-			if self.td.r is None:
-				self.cb_ubuntu_release.set_active(1)
-			if i != 0:
-				self.cb_ubuntu_release.set_active(i)
-		else:
-			self.repo = None
-
-	def on_select_ubuntu_release(self, widget):
-		model = widget.get_model()
-		index = widget.get_active()
-		if index > 0:
-			self.r = model[index][0]
-		else:
-			self.r = None
 
 	def initialize_widgets(self):
 		##################################################################
@@ -317,6 +120,8 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		self.btn_iso_clean.connect("clicked", self.on_cache_cleanup_clicked, self.td.CACHE_ISO)
 		self.btn_img_clean = self.builder.get_object("btn_img_clean")
 		self.btn_img_clean.connect("clicked", self.on_cache_cleanup_clicked, self.td.CACHE_IMG)
+		self.btn_update_iso_list_cache = self.builder.get_object("btn_update_iso_list_cache")
+		self.btn_update_iso_list_cache.connect("clicked", self.on_force_iso_list_update)
 
 		# Ubuntu Releases
 		self.chk_arch_i386 = self.builder.get_object("chk_arch_i386")
@@ -327,20 +132,22 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		# Ubuntu Repositories Combo Box
 		self.tb_ubuntu_release_prefs = self.builder.get_object("tb_ubuntu_release_prefs")
 		self.cb_ubuntu_repo = gtk.combo_box_new_text()
+		self.cb_ubuntu_repo.set_size_request(260, -1)
 		self.cb_ubuntu_repo.append_text(_('Select Repository:'))
 		for repo in ISO_REPOSITORY:		
 			self.cb_ubuntu_repo.append_text(repo)
 		self.cb_ubuntu_repo.connect('changed', self.on_select_iso_image_repo)
 		self.cb_ubuntu_repo.set_active(0)
 		self.cb_ubuntu_repo.show()
-		self.tb_ubuntu_release_prefs.attach(self.cb_ubuntu_repo, 1,2,0,1)
+		self.tb_ubuntu_release_prefs.attach(self.cb_ubuntu_repo, 1,2,0,1, gtk.FILL)
 		# Ubuntu Releases Combo Box
 		self.cb_ubuntu_release = gtk.combo_box_new_text()
+		self.cb_ubuntu_release.set_size_request(260, -1)
 		self.cb_ubuntu_release.connect('changed', self.on_select_ubuntu_release)
 		self.cb_ubuntu_release.append_text(_('Select Release:'))
 		self.cb_ubuntu_release.set_active(0)
 		self.cb_ubuntu_release.show()
-		self.tb_ubuntu_release_prefs.attach(self.cb_ubuntu_release, 1,2,1,2)
+		self.tb_ubuntu_release_prefs.attach(self.cb_ubuntu_release, 1,2,1,2, gtk.FILL)
 		
 		# Initialize Virtualization Method Options
 		self.opt_virt_kvm = self.builder.get_object("opt_virt_kvm")
@@ -492,6 +299,214 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 				self.chk_arch_i386.set_active(True)
 			if arch == 'amd64':
 				self.chk_arch_amd64.set_active(True)
+
+	def update_iso_cache(self, force_update = False):
+		##################################################################
+		###### Code to update the ISO list from the repository Cache #####
+		##################################################################
+		update_cache = None
+		cdimage = False
+		""" Verify if the ISO list is cached, if not, set variable to update/create it. """
+		if force_update is True:
+			update_cache = 1
+			pass
+		elif self.td.is_iso_list_cached() is False:
+			update_cache = 1
+		# If ISO list is cached, verify if it is expired. If it is, set variable to update it.
+		elif self.td.is_iso_list_cache_expired() is True:
+			update_cache = 1
+
+		""" If variable set to update, obtain the ISO list from the Ubuntu CD Image repository. """
+		if update_cache == 1:
+			self.logger.info(_("Obtaining Ubuntu ISO list from %s...") % self.td.u)
+			try:
+				cdimage = self.td.obtain_ubuntu_iso_list_from_repo()
+			except:
+				self.logger.error(_("Could not obtain the Ubuntu USO list from %s...") % self.td.u)
+
+		""" If the ISO List was obtained, update the cache file"""
+		if cdimage:
+			self.logger.info(_("Updating the Ubuntu ISO list cache..."))
+			try:
+				self.td.update_ubuntu_iso_list_cache(cdimage)
+			except:
+				self.logger.error(_("Unable to update the Ubuntu ISO list cache..."))
+
+	def get_preferences(self):
+		"""Returns preferences for testdrivegtk."""
+		self.logger.debug(_("get_preferences()"))
+		return self.td
+
+	def _load_preferences(self):
+		# TODO: add preferences to the self._preferences dict default
+		# preferences that will be overwritten if some are saved
+		pass
+
+	def _save_preferences(self):
+		##################################################################
+		########### Saving the preferences to the config file ############
+		##################################################################
+		if self.preferences:
+			config = ConfigParser.RawConfigParser()
+			config.add_section(self.td.PKG_SECTION)
+			for prefs in self.preferences:
+				config.set(self.td.PKG_SECTION, prefs[0], prefs[1])
+			# Writing our configuration file
+			path = "%s/.%s" % (self.td.HOME, self.td.PKGRC)
+			with open(path, 'wb') as configfile:
+				config.write(configfile)
+
+	def ok(self, widget, data=None):
+		"""The user has elected to save the changes.
+
+		Called before the dialog returns gtk.RESONSE_OK from run().
+		"""
+
+		# Make any updates to self._preferences here. e.g.
+		self.update_preferences()
+		self._save_preferences()
+
+	def cancel(self, widget, data=None):
+		"""The user has elected cancel changes.
+
+		Called before the dialog returns gtk.RESPONSE_CANCEL for run()
+		"""
+		# Restore any changes to self._preferences here.
+		pass
+
+	def on_error_dlg(self, data=None):
+		errorbox = gtk.MessageDialog(self, 
+			gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, 
+			gtk.BUTTONS_CLOSE, data)
+		response = errorbox.run()
+		errorbox.destroy()
+
+	def on_select_virt_method(self, widget, virt=None):
+		# On selecting the viratualization method
+		self.virt_method = virt
+		# If Virtualization method is KVM, display related options.
+		if virt == 'kvm':
+			self.txt_kvm_args.set_sensitive(True)
+			self.txt_smp_nbr.set_sensitive(True)
+		else:
+			self.txt_kvm_args.set_sensitive(False)
+			self.txt_smp_nbr.set_sensitive(False)
+
+	def on_select_mem(self, entry):
+		# On selecting RAM memory.
+		if entry.child.get_text() == MEM_SIZE_TAB[3]:
+			entry.child.set_editable(True)
+			self.mem = 'other'
+		elif entry.get_active() >= 0:
+			entry.child.set_editable(False)
+			self.mem = entry.child.get_text()
+
+	def on_select_disk_size(self, entry):
+		# On selecting disk size
+		if entry.child.get_text() == DISK_SIZE_TAB[3]:
+			entry.child.set_editable(True)
+			self.disk_size = 'other'
+		elif entry.get_active() >= 0:
+			entry.child.set_editable(False)
+			self.disk_size = entry.child.get_text()
+
+	def on_select_flavors(self, widget):
+		# On selecting Ubuntu Flavors
+		self.flavors = ""
+		if self.chk_flavor_ubuntu.get_active():
+			self.flavors = self.flavors + "ubuntu, "
+		if self.chk_flavor_kubuntu.get_active():
+			self.flavors = self.flavors + "kubuntu, "
+		if self.chk_flavor_xubuntu.get_active():
+			self.flavors = self.flavors + "xubuntu, "
+		if self.chk_flavor_edubuntu.get_active():
+			self.flavors = self.flavors + "edubuntu, "
+		if self.chk_flavor_mythbuntu.get_active():
+			self.flavors = self.flavors + "mythbuntu, "
+		if self.chk_flavor_ubuntustudio.get_active():
+			self.flavors = self.flavors + "ubuntustudio, "
+		if self.chk_flavor_other.get_active():
+			self.flavors = self.flavors + "other, "
+
+	def on_select_arch(self, widget, arch):
+		# On selecting the architecture
+		if widget.get_active() == True:
+			self.arch.append(arch)
+		if widget.get_active() == False:
+			self.arch.remove(arch)
+
+	def on_txt_gral_cache_focus_out_event(self, widget, data=None):
+		# When the CACHE text is changed, update related cache paths.
+		txt_cache = self.txt_gral_cache.get_text()
+		self.txt_iso_cache.set_text("%s/iso" % txt_cache)
+		self.txt_img_cache.set_text("%s/img" % txt_cache)
+
+	def on_cache_cleanup_clicked(self, widget, cache_path):
+		# Method to cleanup cache
+		filelist = os.listdir(cache_path)
+
+		if not filelist:
+			return
+
+		try:
+			for file in filelist:
+				path = "%s/%s" % (cache_path, file)
+				os.unlink(path)
+		except:
+			on_error_dlg(_("Unable to clean up files from [%s]") % cache_path)
+	
+	def on_select_iso_image_repo(self, widget):
+		##################################################################
+		#### Select image repo, populate Release combobox accordingly ####
+		##################################################################
+		model = widget.get_model()
+		index = widget.get_active()
+		if index:
+			old_repo = self.td.p
+			self.repo = model[index][0]
+			self.td.p = self.repo
+			self.txt_iso_list_cache.set_text("%s/%s.isos" % (self.td.CACHE, self.td.p))
+
+			# Update cache commented given the hack to sync every repo on initialization
+			#self.update_iso_cache()
+			# Populate the releases combobox
+			self.cb_ubuntu_release.get_model().clear()
+			self.cb_ubuntu_release.append_text(_('Select Release:'))
+			self.cb_ubuntu_release.set_active(0)
+			isos = self.td.get_ubuntu_iso_list()
+			codenames = []
+			for iso in isos:
+				codenames.append(iso.split()[1])
+			codenames = list(set(codenames))
+			codenames.sort()
+			codenames.reverse()
+			c = i = 0
+			for release in codenames:
+				self.cb_ubuntu_release.append_text(release)
+				c += 1
+				if release == self.td.r and self.td.p == old_repo:
+					i = c
+			if self.td.r is None:
+				self.cb_ubuntu_release.set_active(1)
+			if i != 0:
+				self.cb_ubuntu_release.set_active(i)
+		else:
+			self.repo = None
+
+	def on_select_ubuntu_release(self, widget):
+		model = widget.get_model()
+		index = widget.get_active()
+		if index > 0:
+			self.r = model[index][0]
+		else:
+			self.r = None
+
+	def on_force_iso_list_update(self, widget):
+		selected_repo = self.td.p
+		for repo in ISO_REPOSITORY:
+			self.td.p = repo
+			self.update_iso_cache(True)
+		self.td.p = selected_repo
 
 	def update_preferences(self):
 		##################################################################
