@@ -3,8 +3,9 @@ testdrive (2.8) unreleased; urgency=low
   * testdrive-gtk:
     - Code cleanup in preparation to release it to maverick.
     - UI Improvements; and minor bugfixes.
+    - Add Internationalization to strings in the code.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 03 Aug 2010 00:41:27 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 03 Aug 2010 20:11:58 -0400
 
 testdrive (2.7-0ubuntu1) maverick; urgency=low
 

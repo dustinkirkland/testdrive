@@ -35,15 +35,15 @@ import random
 
 gtk.gdk.threads_init()
 
-TAB_LABLE = []
-TAB_LABLE.append({"dist":"ubuntu", "label":"Ubuntu"})
-TAB_LABLE.append({"dist":"kubuntu", "label":"Kubuntu"})
-TAB_LABLE.append({"dist":"xubuntu", "label":"Xubuntu"})
-TAB_LABLE.append({"dist":"ubuntu-server", "label":"Server"})
-TAB_LABLE.append({"dist":"edubuntu", "label":"Edubuntu"})
-TAB_LABLE.append({"dist":"mythbuntu", "label":"Mythbuntu"})
-TAB_LABLE.append({"dist":"ubuntustudio", "label":"Ubuntu Studio"})
-TAB_LABLE.append({"dist":"other", "label":"Other"})
+TAB_LABEL = []
+TAB_LABEL.append({"dist":"ubuntu", "label":"Ubuntu"})
+TAB_LABEL.append({"dist":"kubuntu", "label":"Kubuntu"})
+TAB_LABEL.append({"dist":"xubuntu", "label":"Xubuntu"})
+TAB_LABEL.append({"dist":"ubuntu-server", "label":"Server"})
+TAB_LABEL.append({"dist":"edubuntu", "label":"Edubuntu"})
+TAB_LABEL.append({"dist":"mythbuntu", "label":"Mythbuntu"})
+TAB_LABEL.append({"dist":"ubuntustudio", "label":"Ubuntu Studio"})
+TAB_LABEL.append({"dist":"other", "label":_("Other")})
 
 # optional Launchpad integration
 # this shouldn't crash if not found as it is simply used for bug reporting
@@ -123,7 +123,7 @@ class TestdrivegtkWindow(gtk.Window):
 			# about LaunchpadIntegration
 			helpmenu = self.builder.get_object('helpMenu')
 			if helpmenu:
-				LaunchpadIntegration.set_sourcepackagename('testdrivegtk')
+				LaunchpadIntegration.set_sourcepackagename('testdrive')
 				LaunchpadIntegration.add_items(helpmenu, 0, False, True)
 			else:
 				launchpad_available = False
@@ -132,7 +132,7 @@ class TestdrivegtkWindow(gtk.Window):
 		######## Obtaining the settings from the Preferences Class ########
 		###################################################################
 
-		logging.debug('Instancing Preferences...')
+		logging.debug(_("Instancing Preferences..."))
 		dlg = PreferencesTestdrivegtkDialog.PreferencesTestdrivegtkDialog()
 		self.td = dlg.get_preferences()
 
@@ -146,8 +146,8 @@ class TestdrivegtkWindow(gtk.Window):
 		self.create_isos_interface()
 
 	def update_status_bar(self):
-		data1 = "<b>Release:</b> %s" % self.td.r
-		data2 = "<b>ISO Repository:</b> http://%s.ubuntu.com/" % self.td.p
+		data1 = _("<b>Release:</b> %s") % self.td.r
+		data2 = _("<b>ISO Repository:</b> http://%s.ubuntu.com/") % self.td.p
 		self.status_bar_release.set_markup(data2)
 		self.status_bar_repo.set_markup(data1)
 
@@ -173,7 +173,7 @@ class TestdrivegtkWindow(gtk.Window):
 	def new_other_iso(self, widget, data=None):
 		"""Display Add Other ISO dialog"""
 		other = AddOtherTestdrivegtkDialog.AddOtherTestdrivegtkDialog(self.td.CACHE)
-		other.set_title("Add an ISO to TestDrive")
+		other.set_title(_("Add an ISO to TestDrive"))
 		response = other.run()
 		if response == gtk.RESPONSE_OK:
 			# Recreate the UI for Other ISOs if saved has been clicked
@@ -189,11 +189,11 @@ class TestdrivegtkWindow(gtk.Window):
 		###################################################################
 
 		if commands.getstatusoutput("which testdrive")[0] != 0:
-			self.on_error_dialog(	"Unable to open because 'testdrive' is not installed.\n"
+			self.on_error_dialog( _("Unable to open because 'testdrive' is not installed.\n"
 						"Please install testdrive: \n\n"
-						"sudo apt-get install testdrive-cli")
+						"sudo apt-get install testdrive-cli"))
 			return
-		title = 'TestDrive an ISO or Disk Image'
+		title = _("TestDrive an ISO or Disk Image")
 		filename = None
 		testdrives = gtk.FileFilter()
 		testdrives.add_pattern("*.iso")
@@ -268,10 +268,10 @@ class TestdrivegtkWindow(gtk.Window):
 		###################################################################
 		### Obtains the command for the Sync process based on Protocol ####
 		###################################################################
-		logging.info('Obtaining the sync protocol for the specified ISO...')
+		logging.info(_("Obtaining the sync protocol for the specified ISO..."))
 		cmd = self.td.get_proto()
 		if cmd == 1:
-			self.on_error_dialog("Unsupported protocol [%s]" % self.td.PROTO)
+			self.on_error_dialog(_("Unsupported protocol [%s]") % self.td.PROTO)
 		if cmd != 0:
 			return cmd
 		return False
@@ -282,30 +282,30 @@ class TestdrivegtkWindow(gtk.Window):
 		###################################################################
 
 		# Choose the virtualization engine
-		logging.info('Obtaining the virtualization method...')
+		logging.info(_("Obtaining the virtualization method..."))
 		if not self.td.VIRT:
 			self.td.VIRT = self.td.get_virt()
 		if self.td.VIRT == 1:
-			logging.error('Your CPU supports KVM acceleration; please install KVM')
-			self.on_warn_dialog(	"Your CPU supports KVM acceleration; please install KVM:"
+			logging.error(_("Your CPU supports KVM acceleration; please install KVM"))
+			self.on_warn_dialog(  _("Your CPU supports KVM acceleration; please install KVM:"
 						"\n\n"
-						"sudo apt-get install qemu-kvm")
+						"sudo apt-get install qemu-kvm"))
 		if self.td.VIRT == 0:
-			logging.error('Your CPU does not support acceleration; run kvm-ok for more information; then install VBox')
-			self.on_warn_dialog(	"Your CPU does not support acceleration; run kvm-ok for more information;\n"
+			logging.error(_("Your CPU does not support acceleration; run kvm-ok for more information; then install VBox"))
+			self.on_warn_dialog(  _("Your CPU does not support acceleration; run kvm-ok for more information;\n"
 						"then please install VirtualBox"
 						"\n\n"
 						"kvm-ok"
 						"\n"
-						"sudo apt-get install virtualbox-ose")
+						"sudo apt-get install virtualbox-ose"))
 		if self.td.VIRT == "kvm":
-			logging.info('Using KVM for virtual machine hosting...')
+			logging.info(_("Using KVM for virtual machine hosting..."))
 			self.virt = kvm.KVM(self.td)
 		if self.td.VIRT == "virtualbox":
-			logging.info('Using VirtualBox for virtual machine hosting...')
+			logging.info(_("Using VirtualBox for virtual machine hosting..."))
 			self.virt = virtualbox.VBox(self.td)
 		if self.td.VIRT == "paralels":
-			logging.info('Using Parallels Desktop for virtual machine hosting...')
+			logging.info(_("Using Parallels Desktop for virtual machine hosting..."))
 			self.virt = parallels.Parallels(self.td)
 
 	def obtain_isos_list(self):
@@ -314,12 +314,12 @@ class TestdrivegtkWindow(gtk.Window):
 		###################################################################
 
 		# Try to retrieve the ISO list from the cache
-		logging.info('Retrieving the Ubuntu ISO list from cache...')
+		logging.info(_("Retrieving the Ubuntu ISO list from cache..."))
 		try:
 			isos = self.td.get_ubuntu_iso_list()
 		except:
-			logging.error('Unable to retrieve the Ubuntu ISO list from cache...')
-			self.on_error_dialog("Unable to retrieve the Ubuntu ISO list from cache...")
+			logging.error(_("Unable to retrieve the Ubuntu ISO list from cache..."))
+			self.on_error_dialog(_("Unable to retrieve the Ubuntu ISO list from cache..."))
 			return []
 		return isos
 
@@ -352,7 +352,7 @@ class TestdrivegtkWindow(gtk.Window):
 		###################################################################			
 		label = widget.get_tab_label(widget.get_nth_page(current_page))
 		text = label.get_text()
-		if text == 'Other':
+		if text == TAB_LABEL[7]["label"]:
 			self.btn_add_iso.show()
 		else:
 			self.btn_add_iso.hide()
@@ -469,7 +469,7 @@ class TestdrivegtkWindow(gtk.Window):
 						if os.path.exists(path):
 							lb_cache = gtk.Label("<i>     CACHE: [%s]</i>" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path)))))
 						else:
-							lb_cache = gtk.Label("<i>     CACHE: [empty]</i>")
+							lb_cache = gtk.Label(_("<i>     CACHE: [empty]</i>"))
 						lb_cache.set_use_markup(True)
 						# To align to righ otherwise it is centered
 						lb_cache.set_alignment(0,0)
@@ -494,10 +494,10 @@ class TestdrivegtkWindow(gtk.Window):
 				if c == 0:
 					if dist == 'other':
 						no_isos_label = gtk.Label()
-						no_isos_label.set_markup("<b><i>There are no Other ISOs yet...</i></b>")
+						no_isos_label.set_markup(_("<b><i>There are no Other ISOs yet...</i></b>"))
 					else:
 						no_isos_label = gtk.Label()
-						no_isos_label.set_markup("<b><i>There are no ISOs for this architecture yet...</i></b>")
+						no_isos_label.set_markup(_("<b><i>There are no ISOs for this architecture yet...</i></b>"))
 					no_isos_label.show()
 					vbox2.add(no_isos_label)
 
@@ -514,7 +514,7 @@ class TestdrivegtkWindow(gtk.Window):
 					break
 
 			# Create Tabs
-			for lb_iso_name in TAB_LABLE:
+			for lb_iso_name in TAB_LABEL:
 				if dist == lb_iso_name["dist"]:
 					self.notebook.append_page(scroll, gtk.Label(lb_iso_name["label"]))
 					break
@@ -534,7 +534,7 @@ class TestdrivegtkWindow(gtk.Window):
 		vbox.pack_start(valign)
 
 		# Add Button
-		self.btn_add_iso = gtk.Button("Add ISO")
+		self.btn_add_iso = gtk.Button(_("Add ISO"))
 		self.btn_add_iso.set_size_request(100,30)
 		self.btn_add_iso.connect("clicked", self.new_other_iso)
 		#self.btn_add_iso.show()
@@ -542,21 +542,21 @@ class TestdrivegtkWindow(gtk.Window):
 		hbox1.add(self.btn_add_iso)
 
 		# Create Buttons
-		button = gtk.Button("Create USB Disk")
+		button = gtk.Button(_("Create USB Disk"))
 		button.set_size_request(120,30)
 	        button.connect("clicked", self.on_create_iso_disk_clicked, 'Create Disk')
 		button.show()
 		hbox1.add(button)
 		#bbox.add(button)
 
-		button = gtk.Button("Sync")
+		button = gtk.Button(_("Sync"))
 		button.set_size_request(90,30)
 	        button.connect("clicked", self.on_sync_iso_clicked, 'Sync')
 		button.show()
 		hbox1.add(button)
 		#bbox.add(button)
 
-		button = gtk.Button("Launch")
+		button = gtk.Button(_("Launch"))
 		button.set_size_request(90,30)
 		button.connect("clicked", self.on_launch_button_clicked, 'Launch')
 		button.show()
@@ -627,7 +627,7 @@ class TestdrivegtkWindow(gtk.Window):
 				except:
 					pass
 			else:
-				logging.debug('sync_iso: Thread is executing...')
+				logging.debug(_("sync_iso: Thread is executing..."))
 
 	def on_launch_button_clicked(self, widget, data=None):
 		###################################################################
@@ -649,55 +649,54 @@ class TestdrivegtkWindow(gtk.Window):
 				except:
 					pass
 			else:
-				logging.debug('launch_iso: Thread is executing or syncing...')
+				logging.debug(_("launch_iso: Thread is executing or syncing..."))
 		
 	def on_create_iso_disk_clicked(self, widget, data=None):
 		###################################################################
 		############ Launches USB Creator for the selected ISO ############
 		###################################################################
 		if not self.isos_to_run:
-			self.on_error_dialog(	"No ISO has been selected."
+			self.on_error_dialog( _("No ISO has been selected."
 						"\n\n"
-						"Please select an ISO to create an USB Startup Disk.")
+						"Please select an ISO to create an USB Startup Disk."))
 			return
 		if len(self.isos_to_run) > 1:
-			self.on_error_dialog(	"More than 1 ISO has been selected."
+			self.on_error_dialog( _("More than 1 ISO has been selected."
 						"\n\n"
-						"Please select only 1 ISO to continue!")
+						"Please select only 1 ISO to continue!"))
 			return
 		if not os.path.exists(self.td.PATH_TO_ISO):
-			self.on_error_dialog(	"The specified ISO does not exist!"
+			self.on_error_dialog( _("The specified ISO does not exist!"
 						"\n\n"
-						"Please, synchronize the ISO to continue.")
+						"Please, synchronize the ISO to continue."))
 			return
 		try:
 			self.p = subprocess.Popen(["usb-creator-gtk", "-i", self.td.PATH_TO_ISO])
 		except:
-			self.on_error_dialog(	"Unable to launch USB Creator!")
+			self.on_error_dialog(_("Unable to launch USB Creator!"))
 			return
 
 	def prepare_to_launch_vm(self):
 		###################################################################
 		######## Prepare the VM to launch and return launch command #######
 		###################################################################
-		#self.on_info_dialog("Validating Virtualization Method....")
-		logging.info("Validating Virtualization Method...")
+		logging.info(_("Validating Virtualization Method..."))
 		try:
 			self.virt.validate_virt()
 		except:
-			logging.error("Unable to validate Virtualization Method [%s]" % self.td.VIRT)
-			self.on_error_dialog("Unable to validate Virtualization Method [%s]" % self.td.VIRT)
+			logging.error(_('Unable to validate Virtualization Method [%s]') % self.td.VIRT)
+			self.on_error_dialog(_('Unable to validate Virtualization Method [%s]') % self.td.VIRT)
 
 		#self.on_info_dialog("Setting up Virtual Machine...")
-		logging.info("Setting up Virtual Machine...")
+		logging.info(_('Setting up Virtual Machine...'))
 		try:
 			self.virt.setup_virt()
 		except:
-			logging.error("Unable to setup Virtual Machine")
-			self.on_error_dialog("Unable to setup Virtual Machine")
+			logging.error(_('Unable to setup Virtual Machine'))
+			self.on_error_dialog(_('Unable to setup Virtual Machine'))
 
 		#self.on_info_dialog("Launching Virtual Machine...")
-		logging.info("Obtaining Virtual Machine launch command...")
+		logging.info(_('Obtaining Virtual Machine launch command...'))
 		return self.virt.launch_virt()
 
 ###################################################################
@@ -728,7 +727,7 @@ class SyncThread(threading.Thread):
 		self.status_label.show()
 		self.spin.show()
 		self.spin.start()
-		text = "Downloading %s..." % os.path.basename(self.url).partition("_")[2]
+		text = _("Downloading %s...") % os.path.basename(self.url).partition("_")[2]
 		self.status_label.set_markup("<b><i>%s</i></b>" % text)
 		while not self.stopthread.isSet():
 			if self.p.poll() != None:
@@ -759,7 +758,7 @@ class SyncThread(threading.Thread):
 		if os.path.exists(self.url):
 			self.status_label.set_markup("<i>     CACHE: [%s]</i>" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(self.url)))))
 		else:
-			self.status_label.set_markup("<i>     CACHE: [empty]</i>")
+			self.status_label.set_markup(_("<i>     CACHE: [empty]</i>"))
 
 ###################################################################
 ########## Class that supports threading for VM Running ###########
@@ -789,7 +788,7 @@ class LaunchThread(threading.Thread):
 
 		self.p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
 		self.status_label.show()
-		text = "     Running VM..."
+		text = _("     Running VM...")
 
 		if self.virt == 'kvm':
 			while not self.stopthread.isSet():
@@ -822,7 +821,6 @@ class LaunchThread(threading.Thread):
 					self.status_label.set_markup("<i>%s</i>" % self.previous_text)
 					self.p = None
 					break
-				text = "     Running VM..."
 				gtk.gdk.threads_enter()
 				# Update label
 				self.status_label.set_markup("<b><i>%s</i></b>" % text)

@@ -33,6 +33,8 @@ from gettext import gettext as _
 gettext.textdomain('testdrivegtk')
 
 ISO_REPOSITORY = ['cdimage', 'releases']
+MEM_SIZE_TAB = ['256', '384', '512', _('Other...')]
+DISK_SIZE_TAB = ['4', '6', '8', _('Other...')]
 
 class PreferencesTestdrivegtkDialog(gtk.Dialog):
 	__gtype_name__ = "PreferencesTestdrivegtkDialog"
@@ -67,7 +69,7 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		# Get a reference to the builder and set up the signals.
 		self.builder = builder
 		self.builder.connect_signals(self)
-		self.set_title("TestDrive Front-end Preferences")
+		self.set_title(_("TestDrive Preferences"))
 		self.logger = logger1
 
 		##################################################################
@@ -93,7 +95,7 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		# Initialize widgets and its values
 		self.initialize_widgets()
 		self.initialize_widgets_values()
-		self.logger.debug('finish_initialization()')
+		self.logger.debug(_('finish_initialization()'))
 
 	def update_iso_cache(self):
 		##################################################################
@@ -110,23 +112,23 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 
 		""" If variable set to update, obtain the ISO list from the Ubuntu CD Image repository. """
 		if update_cache == 1:
-			self.logger.info('Obtaining Ubuntu ISO list from %s...' % self.td.u)
+			self.logger.info(_("Obtaining Ubuntu ISO list from %s...") % self.td.u)
 			try:
 				cdimage = self.td.obtain_ubuntu_iso_list_from_repo()
 			except:
-				self.logger.error('Could not obtain the Ubuntu USO list from %s...' % self.td.u)
+				self.logger.error(_("Could not obtain the Ubuntu USO list from %s...") % self.td.u)
 
 		""" If the ISO List was obtained, update the cache file"""
 		if cdimage:
-			self.logger.info('Updating the Ubuntu ISO list cache...')
+			self.logger.info(_("Updating the Ubuntu ISO list cache..."))
 			try:
 				self.td.update_ubuntu_iso_list_cache(cdimage)
 			except:
-				self.logger.error('Unable to update the Ubuntu ISO list cache...')
+				self.logger.error(_("Unable to update the Ubuntu ISO list cache..."))
 
 	def get_preferences(self):
 		"""Returns preferences for testdrivegtk."""
-		self.logger.debug('get_preferences()')
+		self.logger.debug(_("get_preferences()"))
 		return self.td
 
 	def _load_preferences(self):
@@ -195,7 +197,7 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 
 	def on_select_mem(self, entry):
 		# On selecting RAM memory.
-		if entry.child.get_text() == 'Other...':
+		if entry.child.get_text() == MEM_SIZE_TAB[3]:
 			entry.child.set_editable(True)
 			self.mem = 'other'
 		elif entry.get_active() >= 0:
@@ -204,12 +206,12 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 
 	def on_select_disk_size(self, entry):
 		# On selecting disk size
-		if entry.child.get_text() == 'Other...':
+		if entry.child.get_text() == DISK_SIZE_TAB[3]:
 			entry.child.set_editable(True)
 			self.disk_size = 'other'
 		elif entry.get_active() >= 0:
 			entry.child.set_editable(False)
-			self.disk_size = "%sG" % entry.child.get_text()
+			self.disk_size = entry.child.get_text()
 
 	def on_select_flavors(self, widget):
 		# On selecting Ubuntu Flavors
@@ -254,7 +256,7 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 				path = "%s/%s" % (cache_path, file)
 				os.unlink(path)
 		except:
-			on_error_dlg("Unable to clean up files from [%s]" % cache_path)
+			on_error_dlg(_("Unable to clean up files from [%s]") % cache_path)
 	
 	def on_select_iso_image_repo(self, widget):
 		##################################################################
@@ -271,7 +273,7 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 			#self.update_iso_cache()
 			# Populate the releases combobox
 			self.cb_ubuntu_release.get_model().clear()
-			self.cb_ubuntu_release.append_text('Select Release:')
+			self.cb_ubuntu_release.append_text(_('Select Release:'))
 			self.cb_ubuntu_release.set_active(0)
 			isos = self.td.get_ubuntu_iso_list()
 			codenames = []
@@ -325,7 +327,7 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		# Ubuntu Repositories Combo Box
 		self.tb_ubuntu_release_prefs = self.builder.get_object("tb_ubuntu_release_prefs")
 		self.cb_ubuntu_repo = gtk.combo_box_new_text()
-		self.cb_ubuntu_repo.append_text('Select Repository:')
+		self.cb_ubuntu_repo.append_text(_('Select Repository:'))
 		for repo in ISO_REPOSITORY:		
 			self.cb_ubuntu_repo.append_text(repo)
 		self.cb_ubuntu_repo.connect('changed', self.on_select_iso_image_repo)
@@ -335,7 +337,7 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		# Ubuntu Releases Combo Box
 		self.cb_ubuntu_release = gtk.combo_box_new_text()
 		self.cb_ubuntu_release.connect('changed', self.on_select_ubuntu_release)
-		self.cb_ubuntu_release.append_text('Select Release:')
+		self.cb_ubuntu_release.append_text(_('Select Release:'))
 		self.cb_ubuntu_release.set_active(0)
 		self.cb_ubuntu_release.show()
 		self.tb_ubuntu_release_prefs.attach(self.cb_ubuntu_release, 1,2,1,2)
@@ -351,19 +353,15 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		# Initialize Memory Options
 		self.cbe_mem_size = self.builder.get_object("cbe_mem_size")
 		self.cbe_mem_size.remove_text(0)
-		self.cbe_mem_size.append_text('256')
-		self.cbe_mem_size.append_text('384')
-		self.cbe_mem_size.append_text('512')
-		self.cbe_mem_size.append_text('Other...')
+		for mem in MEM_SIZE_TAB:		
+			self.cbe_mem_size.append_text(mem)
 		self.cbe_mem_size.connect('changed', self.on_select_mem)
 
 		# Initialize Disk Size Options
 		self.cbe_disk_size = self.builder.get_object("cbe_disk_size")
 		self.cbe_disk_size.remove_text(0)
-		self.cbe_disk_size.append_text('4')
-		self.cbe_disk_size.append_text('6')
-		self.cbe_disk_size.append_text('8')
-		self.cbe_disk_size.append_text('Other...')
+		for disk in DISK_SIZE_TAB:
+			self.cbe_disk_size.append_text(disk)
 		self.cbe_disk_size.connect('changed', self.on_select_disk_size)
 
 		# KVM Args
@@ -403,9 +401,9 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 					self.td.load_config_file(file)
 					# Load config files for local variables
 					#self.load_config_files(file)
-					self.logger.debug("Reading config file: [%s]" % file)
+					self.logger.debug(_("Reading config file: [%s]") % file)
 				except:
-					self.logger.debug('Unable to load config file [%s]' % file)
+					self.logger.debug(_("Unable to load config file [%s]") % file)
 				#	return False
 			#return True
 
@@ -440,8 +438,8 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		elif self.td.MEM == '512':
 			self.cbe_mem_size.set_active(2)
 		else:
-			self.cbe_mem_size.set_active(3)
 			self.cbe_mem_size.append_text(self.td.MEM)
+			self.cbe_mem_size.set_active(4)
 
 		# Disk Size
 		if self.td.DISK_SIZE == '4G':
@@ -451,8 +449,8 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		elif self.td.DISK_SIZE == '8G':
 			self.cbe_disk_size.set_active(2)
 		else:
-			self.cbe_disk_size.set_active(3)
-			self.cbe_disk_size.append_text(self.td.DISK_SIZE)
+			self.cbe_disk_size.append_text(self.td.DISK_SIZE.replace('G', ''))
+			self.cbe_disk_size.set_active(4)
 
 		# KVM Args
 		self.txt_kvm_args.set_text(self.td.KVM_ARGS)
@@ -460,7 +458,7 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		# SMP
 		if self.td.SMP:
 			self.txt_smp_nbr.set_text(self.td.SMP)
-			self.lb_smp_available.set_text(" of %s available." % commands.getoutput("grep -c ^processor /proc/cpuinfo"))
+			self.lb_smp_available.set_text(_(" of %s available.") % commands.getoutput("grep -c ^processor /proc/cpuinfo"))
 
 		# Flavors
 		i = 0
@@ -545,15 +543,15 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		# Memory - TODO: Add validation of text
 		if self.mem == 'other':
 			self.mem = self.cbe_mem_size.child.get_text()
-		if self.td.MEM != self.mem:
+		if self.td.MEM != self.mem or self.mem not in MEM_SIZE_TAB:
 			self.td.MEM = self.mem
 			self.preferences.append(['mem', self.td.MEM])
 
 		# Disk Size - TODO: Add validation of text
 		if self.disk_size == 'other':
-			self.disk_size = "%sG" % self.cbe_disk_size.child.get_text()
-		if self.td.DISK_SIZE != self.disk_size:
-			self.td.DISK_SIZE = self.disk_size
+			self.disk_size = self.cbe_disk_size.child.get_text()
+		if self.td.DISK_SIZE.replace('G','') != self.disk_size or self.disk_size not in DISK_SIZE_TAB:
+			self.td.DISK_SIZE = "%sG" % self.disk_size
 			self.preferences.append(['disk_size', self.td.DISK_SIZE])
 
 		# Flavors

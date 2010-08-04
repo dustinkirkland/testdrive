@@ -132,12 +132,12 @@ class AddOtherTestdrivegtkDialog(gtk.Dialog):
 		desc = self.txt_other_desc.get_text().replace(' ','-')
 
 		if len(desc) == 0:
-			self.on_error_dlg("Please insert a Description")
+			self.on_error_dlg(_("Please insert a Description"))
 			self.set_focus(self.txt_other_desc)
 			return False
 
 		if len(file) == 0:
-			self.on_error_dlg("Please insert a URL")
+			self.on_error_dlg(_("Please insert a URL"))
 			self.set_focus(self.txt_other_url)
 			return False
 
@@ -152,7 +152,7 @@ class AddOtherTestdrivegtkDialog(gtk.Dialog):
 			self.url ="file://%s" % file
 
 		if self.url is None:
-			self.on_error_dlg("Invalid ISO URL [%s]" % file)
+			self.on_error_dlg(_("Invalid ISO URL [%s]") % file)
 			return False
 
 		# Validate if url exists
@@ -164,11 +164,11 @@ class AddOtherTestdrivegtkDialog(gtk.Dialog):
 		if proto == 'file':
 			pass
 		elif os.system("wget --spider -S %s 2>&1 | grep 'HTTP/1.. 200 OK'" % url) != 0:
-			self.on_error_dlg("ISO not found at [%s]" % url)
+			self.on_error_dlg(_("ISO not found at [%s]") % url)
 			return False	
 
 		if self.PROTO is None:
-			self.on_error_dlg("No sync protocol has been selected, please select one.")
+			self.on_error_dlg(_("No sync protocol has been selected, please select one."))
 			return False
 		else:
 			return True
@@ -193,7 +193,7 @@ class AddOtherTestdrivegtkDialog(gtk.Dialog):
 		self.treeview = self.builder.get_object("tv_other_isos_list")
 		self.treeview.columns = [None]*3
 		self.treeview.columns[0] = gtk.TreeViewColumn('No.')
-		self.treeview.columns[1] = gtk.TreeViewColumn('Description')
+		self.treeview.columns[1] = gtk.TreeViewColumn(_('Description'))
 		self.treeview.columns[2] = gtk.TreeViewColumn('URL')
 
 		self.treeview.set_model(self.liststore)
@@ -224,7 +224,7 @@ class AddOtherTestdrivegtkDialog(gtk.Dialog):
 		self.layout_table = self.builder.get_object("tb_other_iso")
 		#Sync Protocol Combo Box
 		self.cb_sync_proto = gtk.combo_box_new_text()
-		self.cb_sync_proto.append_text('Select Protocol:')
+		self.cb_sync_proto.append_text(_("Select Protocol:"))
 		self.cb_sync_proto.append_text("rsync")
 		self.cb_sync_proto.append_text("zsync")
 		self.cb_sync_proto.append_text("wget")
