@@ -322,7 +322,7 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 			try:
 				cdimage = self.td.obtain_ubuntu_iso_list_from_repo()
 			except:
-				self.logger.error(_("Could not obtain the Ubuntu USO list from %s...") % self.td.u)
+				self.logger.error(_("Could not obtain the Ubuntu ISO list from %s...") % self.td.u)
 
 		""" If the ISO List was obtained, update the cache file"""
 		if cdimage:
