@@ -714,15 +714,7 @@ class SyncThread(threading.Thread):
 		self.p = None
 
 	def run(self):
-		i = 0
-		cmd = []
-		while(i != -1):
-			try:
-				cmd.append(self.command.split()[i])
-			except:
-				i = -1
-				break
-			i = i + 1
+		cmd = self.command.split()
 		self.p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
 		self.status_label.show()
 		self.spin.show()
@@ -776,16 +768,7 @@ class LaunchThread(threading.Thread):
 		self.VBOX_NAME = self.command.split()[2]
 
 	def run(self):
-		i = 0
-		cmd = []
-		while(i != -1):
-			try:
-				cmd.append(self.command.split()[i])
-			except:
-				i = -1
-				break
-			i = i + 1
-
+		cmd = self.command.split()
 		self.p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
 		self.status_label.show()
 		text = _("     Running VM...")

@@ -8,9 +8,10 @@ testdrive (2.8) unreleased; urgency=low
     - Add Button to force update of the ISO list cache if required, plus
       related UI improvements.
     - Fix typo in preferences and update .pot file accordingly.
+    - Minor code improvements.
   * debian/testdrive-common.install: Install only *.py virt files.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Wed, 04 Aug 2010 15:48:41 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Thu, 05 Aug 2010 14:01:16 -0400
 
 testdrive (2.7-0ubuntu1) maverick; urgency=low
 
