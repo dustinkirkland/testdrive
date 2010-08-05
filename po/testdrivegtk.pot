@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-04 15:46-0400\n"
+"POT-Creation-Date: 2010-08-05 14:03-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -159,7 +159,15 @@ msgstr ""
 msgid "Unable to retrieve the Ubuntu ISO list from cache..."
 msgstr ""
 
-#: ../bin/testdrive-gtk.py:472 ../bin/testdrive-gtk.py:761
+#. lb_cache = gtk.Label("CACHE: [%s] %s" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path))), filename))
+#: ../bin/testdrive-gtk.py:438 ../bin/testdrive-gtk.py:470
+#: ../bin/testdrive-gtk.py:751
+#, python-format
+msgid "<i>     CACHE: [%s]</i>"
+msgstr ""
+
+#: ../bin/testdrive-gtk.py:440 ../bin/testdrive-gtk.py:472
+#: ../bin/testdrive-gtk.py:753
 msgid "<i>     CACHE: [empty]</i>"
 msgstr ""
 
@@ -250,16 +258,16 @@ msgstr ""
 msgid "Obtaining Virtual Machine launch command..."
 msgstr ""
 
-#: ../bin/testdrive-gtk.py:730
+#: ../bin/testdrive-gtk.py:722
 #, python-format
 msgid "Downloading %s..."
 msgstr ""
 
-#: ../bin/testdrive-gtk.py:791
+#: ../bin/testdrive-gtk.py:774
 msgid "     Running VM..."
 msgstr ""
 
-#: ../bin/testdrive-gtk.py:847
+#: ../bin/testdrive-gtk.py:830
 msgid "Show debug messages"
 msgstr ""
 

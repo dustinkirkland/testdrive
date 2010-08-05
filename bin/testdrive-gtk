@@ -435,9 +435,9 @@ class TestdrivegtkWindow(gtk.Window):
 						path = "%s/%s_%s" % (self.td.CACHE_ISO, iso["category"], filename)
 						if os.path.exists(path):
 							#lb_cache = gtk.Label("CACHE: [%s] %s" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path))), filename))
-							lb_cache = gtk.Label("<i>     CACHE: [%s]</i>" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path)))))
+							lb_cache = gtk.Label(_("<i>     CACHE: [%s]</i>") % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path)))))
 						else:
-							lb_cache = gtk.Label("<i>     CACHE: [empty]</i>")
+							lb_cache = gtk.Label(_("<i>     CACHE: [empty]</i>"))
 						lb_cache.set_use_markup(True)
 						# To align to righ otherwise it is centered
 						lb_cache.set_alignment(0,0)
@@ -467,7 +467,7 @@ class TestdrivegtkWindow(gtk.Window):
 						filename = os.path.basename(iso["url"])
 						path = "%s/%s_%s" % (self.td.CACHE_ISO, iso["category"], filename)
 						if os.path.exists(path):
-							lb_cache = gtk.Label("<i>     CACHE: [%s]</i>" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path)))))
+							lb_cache = gtk.Label(_("<i>     CACHE: [%s]</i>") % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path)))))
 						else:
 							lb_cache = gtk.Label(_("<i>     CACHE: [empty]</i>"))
 						lb_cache.set_use_markup(True)
@@ -748,7 +748,7 @@ class SyncThread(threading.Thread):
 
 	def update_status_label(self):
 		if os.path.exists(self.url):
-			self.status_label.set_markup("<i>     CACHE: [%s]</i>" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(self.url)))))
+			self.status_label.set_markup(_("<i>     CACHE: [%s]</i>") % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(self.url)))))
 		else:
 			self.status_label.set_markup(_("<i>     CACHE: [empty]</i>"))
 

@@ -9,9 +9,11 @@ testdrive (2.8) unreleased; urgency=low
       related UI improvements.
     - Fix typo in preferences and update .pot file accordingly.
     - Minor code improvements.
+    - Add internationalization support to some strings missing it; update
+      .pot file for such purpose. (LP: #613770)
   * debian/testdrive-common.install: Install only *.py virt files.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Thu, 05 Aug 2010 14:01:16 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Thu, 05 Aug 2010 14:09:37 -0400
 
 testdrive (2.7-0ubuntu1) maverick; urgency=low
 
