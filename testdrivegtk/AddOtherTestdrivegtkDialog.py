@@ -10,7 +10,7 @@ import os, string, commands
 
 import gettext
 from gettext import gettext as _
-gettext.textdomain('testdrivegtk')
+gettext.textdomain('testdrive')
 
 class AddOtherTestdrivegtkDialog(gtk.Dialog):
 	__gtype_name__ = "AddothertestdrivegtkDialog"

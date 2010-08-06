@@ -1,8 +1,12 @@
 testdrive (2.9) unreleased; urgency=low
 
-  * UNRELEASED
+  * testdrive-cli: Add internationalization support.
+  * testdrive-gtk: Change gettext textdomain to testdrive.
+  * Create single .pot file and drop unncessary files.
+    - po/{POTFILES.in,ca.po,testdrivegtk.pot}: Dropped.
+    - po/testdrive.pot: Updated with all translation strings.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 06 Aug 2010 15:15:49 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 06 Aug 2010 17:19:07 -0400
 
 testdrive (2.8-0ubuntu1) maverick; urgency=low
 

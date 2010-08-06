@@ -31,7 +31,7 @@ from testdrivegtk.testdrivegtkconfig import get_data_file
 
 import gettext
 from gettext import gettext as _
-gettext.textdomain('testdrivegtk')
+gettext.textdomain('testdrive')
 
 def get_builder(builder_file_name):
 	"""Return a fully-instantiated gtk.Builder instance from specified ui 

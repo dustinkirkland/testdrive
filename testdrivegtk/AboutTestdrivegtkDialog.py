@@ -24,7 +24,7 @@ from testdrivegtk.helpers import get_builder
 
 import gettext
 from gettext import gettext as _
-gettext.textdomain('testdrivegtk')
+gettext.textdomain('testdrive')
 
 __version__ = '2.7'
 __licensenotice__ = 'This program is free software: you can redistribute it and/or modify\n\

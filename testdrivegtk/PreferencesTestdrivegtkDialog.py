@@ -30,7 +30,7 @@ from testdrivegtk.helpers import get_builder
 
 import gettext
 from gettext import gettext as _
-gettext.textdomain('testdrivegtk')
+gettext.textdomain('testdrive')
 
 ISO_REPOSITORY = ['cdimage', 'releases']
 MEM_SIZE_TAB = ['256', '384', '512', _('Other...')]

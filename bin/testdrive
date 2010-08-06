@@ -22,6 +22,10 @@
 import commands, hashlib, os, string, sys, tempfile, time, platform, subprocess
 from optparse import OptionParser
 
+import gettext
+from gettext import gettext as _
+gettext.textdomain('testdrive')
+
 from testdrive import testdrive
 from testdrive.virt import kvm, virtualbox, parallels
 
@@ -29,7 +33,7 @@ from testdrive.virt import kvm, virtualbox, parallels
 def select_iso(td, ISO):
 	while 1:
 		i = 1
-		print("\nWelcome to Testdrive!\n")
+		print(_("\nWelcome to Testdrive!\n"))
 		menu = []
 		for iso in ISO:
 			if iso["category"] == td.f:
@@ -37,12 +41,12 @@ def select_iso(td, ISO):
 				filename = os.path.basename(iso["url"])
 				path = "%s/%s_%s" % (td.CACHE_ISO, iso["category"], filename)
 				if os.path.exists(path):
-					print("     +-cache--> [%s] %s" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path))), filename))
+					print(_("     +-cache--> [%s] %s") % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path))), filename))
 				i=i+1
 				menu.append({"id":i, "url":iso["url"], "cat": iso["category"]})
-		print("  %d. Other (prompt for ISO URL)" % i)
+		print(_("  %d. Other (prompt for ISO URL)") % i)
 		try:
-			input = raw_input("\nSelect an image to testdrive [1]: ")
+			input = raw_input(_("\nSelect an image to testdrive [1]: "))
 			if len(input) == 0:
 				choice = 1
 			else:
@@ -51,28 +55,28 @@ def select_iso(td, ISO):
 			print("\n")
 			exit(0)
 		except:
-			print("\nERROR: Invalid input\n")
+			print(_("\nERROR: Invalid input\n"))
 			continue
 		if choice == i:
-			url = raw_input("\nEnter an ISO URL to testdrive: ")
+			url = raw_input(_("\nEnter an ISO URL to testdrive: "))
 			break
 		elif choice in range(1, i):
 			url = menu[choice-1]["url"]
 			td.ISO_PATH_HEADER = menu[choice-1]["cat"]
 			break
 		else:
-			print("\nERROR: Invalid selection\n")
+			print(_("\nERROR: Invalid selection\n"))
 	return(url)
 
 def error(str):
-	print("\nERROR: %s\n" % str)
+	print(_("\nERROR: %s\n") % str)
 	sys.exit(1)
 
 def info(str):
-	print("INFO: %s" % str)
+	print(_("INFO: %s") % str)
 
 def warning(str):
-	print("WARNING: %s" % str)
+	print(_("WARNING: %s") % str)
 
 def is_iso(file):
 	# If it's a URL, assume it's good
@@ -83,7 +87,7 @@ def is_iso(file):
 	if commands.getstatusoutput("file \"%s\" | grep -qs \"ISO 9660\"" % file)[0] == 0:
 		return("file://%s" % file)
 	else:
-		error("Invalid ISO URL [%s]" % file)
+		error(_("Invalid ISO URL [%s]") % file)
 
 def is_disk_img(file):
 	(status, output) = commands.getstatusoutput("file %s | grep -qs 'Qemu Image'" % file)
@@ -101,7 +105,7 @@ def run(cmd):
 
 def run_or_die(cmd):
 	if run(cmd) != 0:
-		error("Command failed\n    `%s`" % cmd)
+		error(_("Command failed\n    `%s`") % cmd)
 
 def run_vm(command, td):
 	i = 0
@@ -156,25 +160,25 @@ def main():
 
 	parser = OptionParser(usage)
 	parser.add_option('-f', '--config', action='store', type='string', dest='config',
-		help='user configuration file (overriding default values')
+		help=_('user configuration file (overriding default values'))
 	parser.add_option('-v', '--version', action='store_true', dest='version', default=False,
-		help='print version and system data, and exit')
+		help=_('print version and system data, and exit'))
 	parser.add_option('-u', '--url', action='store', type='string', dest='url',
-		help='get ISO image from this URL location')
+		help=_('get ISO image from this URL location'))
 	parser.add_option('-d', '--desktop', action='store_true', dest='desktop', default=False,
-		help='try to launch usb-creator for further testing')
+		help=_('try to launch usb-creator for further testing'))
 	parser.add_option('-r', '--release', action='store', type='string', dest='release',
-		help='hardcode Ubuntu RELEASE codename')
+		help=_('hardcode Ubuntu RELEASE codename'))
 	parser.add_option('-l', '--flavor', action='store', type='string', dest='flavor',
-		help='hardcode Ubuntu flavor. Available Flavors:\n\
-		     ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio')
+		help=_('hardcode Ubuntu flavor. Available Flavors:\n\
+		     ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio'))
 
 	(opt, args) = parser.parse_args()
-	info("version passed: %s" % opt.version)
+	info(_("version passed: %s") % opt.version)
 	if opt.version:
 		hasOptions = True
 		version = commands.getstatusoutput("dpkg -l testdrive | tail -n1 | awk '{print $3}'")
-		info("testdrive %s" % version[1])
+		info(_("testdrive %s") % version[1])
 		#TODO: Why is get_virt() here? Disable until is determined if we really need it or not. If yes, we'll have to add same code as below,
 		# for same function
 		td.get_virt()
@@ -197,7 +201,7 @@ def main():
 
 	# prime configuration with defaults
 	config_files = ["/etc/%s" % td.PKGRC, "%s/.%s" % (td.HOME, td.PKGRC), "%s/.config/%s/%s" % (td.HOME, td.PKG, td.PKGRC) ]
-	info("config passed: %s" %opt.config)
+	info(_("config passed: %s") %opt.config)
 	if opt.config:
 		hasOptions = True
 		if opt.config[0] != '/':
@@ -207,13 +211,13 @@ def main():
 	# try to load configuration files; on error exit
 	# Let the user know which config files were used
 	for i in config_files:
-		info('Trying config in %s' % i)
+		info(_('Trying config in %s') % i)
 		if os.path.exists(i):
 			try:
 				td.load_config_file(i)
-				info("Using configuration in %s" % i)
+				info(_("Using configuration in %s") % i)
 			except:
-				error("Invalid configuration [%s]" % i)
+				error(_("Invalid configuration [%s]") % i)
 
 	##########################################
 	## UI Options needed after config files ##
@@ -243,20 +247,20 @@ def main():
 	if not td.VIRT:
 		td.VIRT = td.get_virt()
 	if td.VIRT == 1:
-		error("Your CPU supports KVM acceleration; please install KVM:\n\
-			sudo apt-get install qemu-kvm")
+		error(_("Your CPU supports KVM acceleration; please install KVM:\n\
+			sudo apt-get install qemu-kvm"))
 	if td.VIRT == 0:
-		error("Your CPU does not support acceleration; run kvm-ok for more information; then please install VirtualBox:\n\
+		error(_("Your CPU does not support acceleration; run kvm-ok for more information; then please install VirtualBox:\n\
 			kvm-ok\n\
-			sudo apt-get install virtualbox-ose")
+			sudo apt-get install virtualbox-ose"))
 	if td.VIRT == "kvm":
-		info("Using KVM for virtual machine hosting...");
+		info(_("Using KVM for virtual machine hosting..."));
 		virt = kvm.KVM(td)
 	if td.VIRT == "virtualbox":
-		info("Using VirtualBox for virtual machine hosting...")
+		info(_("Using VirtualBox for virtual machine hosting..."))
 		virt = virtualbox.VBox(td)
 	if td.VIRT == "paralels":
-		info("Using Parallels Desktop for virtual machine hosting...")
+		info(_("Using Parallels Desktop for virtual machine hosting..."))
 		virt = parallels.Parallels(td)
 
 	#################################
@@ -278,24 +282,24 @@ def main():
 
 	# If variable set to update, obtain the ISO list from the Ubuntu CD Image repository.
 	if update_cache == 1:
-		info("Obtaining Ubuntu ISO list from %s..." % td.u)
+		info(_("Obtaining Ubuntu ISO list from %s...") % td.u)
 		try:
 			cdimage = td.obtain_ubuntu_iso_list_from_repo()
 		except:
-			print "ERROR: Could not obtain the Ubuntu ISO list from %s..." % td.u
+			print _("ERROR: Could not obtain the Ubuntu ISO list from %s...") % td.u
 	# If the ISO List was obtained, update the cache fle
 	if cdimage:
 		try:
 			td.update_ubuntu_iso_list_cache(cdimage)
 		except:
-			error("Unable to update the Ubuntu ISO list cache...")
+			error(_("Unable to update the Ubuntu ISO list cache..."))
 
 	# Try to retrieve the ISO list from the cache
-	info("Retrieving the Ubuntu ISO list from cache...")
+	info(_("Retrieving the Ubuntu ISO list from cache..."))
 	try:
 		isos = td.get_ubuntu_iso_list()
 	except:
-		error("Unable to retrieve the Ubuntu ISO list from cache...")
+		error(_("Unable to retrieve the Ubuntu ISO list from cache..."))
 	# Obtain Ubuntu Release Codename from ISO cache
 	if not td.r:
 		td.set_ubuntu_release_codename(isos)
@@ -314,60 +318,60 @@ def main():
 
 	# BUG: should check disk space availability in CACHE dir
 	# Update the cache
-	info("Syncing the specified ISO...")
+	info(_("Syncing the specified ISO..."))
 	print("      %s" % td.ISO_URL)
 	cmd = td.get_proto()
 	if cmd == 1:
-		error("Unsupported protocol [%s]" % td.PROTO)
+		error(_("Unsupported protocol [%s]") % td.PROTO)
 	if td.PROTO != 'file' and td.PROTO != 'rsync':
 		if run("wget --spider -S %s 2>&1 | grep 'HTTP/1.. 200 OK'" % td.ISO_URL) != 0:
-			error("ISO not found at [%s]" % td.ISO_URL)
+			error(_("ISO not found at [%s]") % td.ISO_URL)
 	if cmd != 0:
 		run_or_die(cmd)
 
 	###################
 	## Launch the VM ##
 	###################
-	info("Validating Virtualization Method....")
+	info(_("Validating Virtualization Method...."))
 	try:
 		virt.validate_virt()
 	except:
-		error("Unable to validate Virtualization Method [%s]" % td.VIRT)
+		error(_("Unable to validate Virtualization Method [%s]") % td.VIRT)
 
-	info("Setting up Virtual Machine...")
+	info(_("Setting up Virtual Machine..."))
 	try:
 		# Only create DISK_FILE after validating VM, not on defaults.
 		if len(td.DISK_FILE) == 0:
 			td.DISK_FILE = td.create_disk_file()
 		virt.setup_virt()
 	except:
-		error("Unable to setup Virtual Machine")
+		error(_("Unable to setup Virtual Machine"))
 
-	info("Launching Virtual Machine...")
+	info(_("Launching Virtual Machine..."))
 	try:
 		cmd = virt.launch_virt()
 		run_vm(cmd, td)
 	except:
-		error("Unable to launch Virtual Machine")
+		error(_("Unable to launch Virtual Machine"))
 
 	rm_disk = td.delete_image()
 	if rm_disk:
-		info("Cleaning up disk image [%s]..." % td.DISK_FILE)
+		info(_("Cleaning up disk image [%s]...") % td.DISK_FILE)
 
 	# Remind about cache cleanup
-	info("You may wish to clean up the cache directory...")
-	print("      %s and %s" % (td.CACHE_ISO, td.CACHE_IMG))
+	info(_("You may wish to clean up the cache directory..."))
+	print(_("      %s and %s") % (td.CACHE_ISO, td.CACHE_IMG))
 	#run("ls -HhalF %s %s" % (CACHE_ISO, CACHE_IMG))
 	#run("du -sh --apparent-size %s %s 2>/dev/null || du -sh %s %s" % (CACHE_ISO, CACHE_IMG))
 
 	# Launch Desktop
 	if DESKTOP == 1:
 		if os.path.exists("/usr/bin/usb-creator-gtk") or os.path.exists("/usr/bin/usb-creator-kde"):
-			input = raw_input("\nLaunch USB Startup Disk Creator for further testing of this ISO? [y/N] ")
+			input = raw_input(_("\nLaunch USB Startup Disk Creator for further testing of this ISO? [y/N] "))
 			if input == "y" or input == "Y":
 				td.launch_usb_creator()
 		else:
-			raw_input("\nPress <enter> to exit...")
+			raw_input(_("\nPress <enter> to exit..."))
 
 	sys.exit(0)
 
