@@ -1,4 +1,4 @@
-testdrive (2.8) unreleased; urgency=low
+testdrive (2.8-0ubuntu1) maverick; urgency=low
 
   * testdrive-gtk:
     - Code cleanup in preparation to release it to maverick.
@@ -15,7 +15,7 @@ testdrive (2.8) unreleased; urgency=low
     - Display progress while downloading an ISO.
   * debian/testdrive-common.install: Install only *.py virt files.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 06 Aug 2010 14:34:35 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 06 Aug 2010 15:15:45 -0400
 
 testdrive (2.7-0ubuntu1) maverick; urgency=low
 
