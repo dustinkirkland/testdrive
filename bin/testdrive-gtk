@@ -32,6 +32,7 @@ from testdrive import testdrive
 from testdrive.virt import kvm, parallels, virtualbox
 import threading, subprocess, commands
 import random
+import re
 
 gtk.gdk.threads_init()
 
@@ -342,6 +343,8 @@ class TestdrivegtkWindow(gtk.Window):
 			category = iso.split()[0]
 			distro = iso.split()[1] #This will be the distro showed instead of arch
 			url = iso.split()[2]
+			if url.partition("://")[0] == "wget":
+                                        url = url.replace('wget', 'http')
 			name = iso.split()[3]
 			ISO.append({"name":name, "url":url, "arch":distro, "category":category})
 		return ISO
@@ -446,9 +449,12 @@ class TestdrivegtkWindow(gtk.Window):
 						spin = gtk.Spinner()
 						spin.set_size_request(25, -1);
 						spin.hide()
-						lb_iso_name.connect("clicked", self.on_select_iso_clicked, spin, lb_cache, iso["url"], iso["category"], vm_id)
+						lb_progress = gtk.Label()
+						lb_progress.hide()
+						lb_iso_name.connect("clicked", self.on_select_iso_clicked, spin, lb_progress, lb_cache, iso["url"], iso["category"], vm_id)
 						vm_id += 1
-						table.attach(spin, 0, 1, 0, 2, gtk.FILL, gtk.FILL | gtk.EXPAND)
+						table.attach(spin, 0, 1, 0, 1, gtk.FILL, gtk.FILL | gtk.EXPAND)
+						table.attach(lb_progress, 0, 1, 1, 2, gtk.FILL, gtk.FILL | gtk.EXPAND)
 						table.attach(lb_iso_name, 1, 2, 0, 1, gtk.FILL | gtk.EXPAND, gtk.FILL)
 						table.attach(lb_cache, 1, 2, 1, 2, gtk.FILL, gtk.FILL, 0, 5)
 						table.show()
@@ -478,9 +484,12 @@ class TestdrivegtkWindow(gtk.Window):
 						spin = gtk.Spinner()
 						spin.set_size_request(25, -1);
 						spin.hide()
-						lb_iso_name.connect("clicked", self.on_select_iso_clicked, spin, lb_cache, iso["url"], iso["category"], vm_id)
+						lb_progress = gtk.Label()
+						lb_progress.hide()
+						lb_iso_name.connect("clicked", self.on_select_iso_clicked, spin, lb_progress, lb_cache, iso["url"], iso["category"], vm_id)
 						vm_id += 1
-						table.attach(spin, 0, 1, 0, 2, gtk.FILL, gtk.FILL | gtk.EXPAND)
+						table.attach(spin, 0, 1, 0, 1, gtk.FILL, gtk.FILL | gtk.EXPAND)
+						table.attach(lb_progress, 0, 1, 1, 2, gtk.FILL, gtk.FILL | gtk.EXPAND)
 						table.attach(lb_iso_name, 1, 2, 0, 1, gtk.FILL | gtk.EXPAND, gtk.FILL)
 						table.attach(lb_cache, 1, 2, 1, 2, gtk.FILL, gtk.FILL, 0, 5)
 						table.show()
@@ -571,7 +580,7 @@ class TestdrivegtkWindow(gtk.Window):
 		halign.show()
 		vbox.pack_start(halign, False, False, 3)
 
-	def on_select_iso_clicked(self, widget, spin, status_label, url=None, iso_path_header=None, vm_id=None):
+	def on_select_iso_clicked(self, widget, spin, lb_progress, status_label, url=None, iso_path_header=None, vm_id=None):
 		###################################################################
 		# When ISO is clicked, does the setup to be ready to launch/sync ##
 		###################################################################
@@ -592,7 +601,7 @@ class TestdrivegtkWindow(gtk.Window):
 			launch_cmd = self.prepare_to_launch_vm()
 			if sync_cmd:
 				url = self.td.PATH_TO_ISO
-				sync_thread = SyncThread(status_label, spin, sync_cmd, url)
+				sync_thread = SyncThread(status_label, spin, lb_progress, sync_cmd, url)
 			if launch_cmd:
 				launch_thread = LaunchThread(status_label, launch_cmd, self.td.VIRT)
 			self.isos_to_run.append([sync_thread, launch_thread, self.td.DISK_FILE, status])
@@ -703,9 +712,10 @@ class TestdrivegtkWindow(gtk.Window):
 ########## Class that support threading for ISO Syncing ###########
 ###################################################################
 class SyncThread(threading.Thread):
-	def __init__(self, label, spinner, cmd, url):
+	def __init__(self, label, spinner, progress, cmd, url):
 		threading.Thread.__init__ (self)
 		self.spin = spinner
+		self.progress_label = progress
 		self.status_label = label
 		self.previous_text = label.get_text()
 		self.command = cmd
@@ -715,23 +725,35 @@ class SyncThread(threading.Thread):
 
 	def run(self):
 		cmd = self.command.split()
-		self.p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+		self.p = subprocess.Popen(cmd, stdout=subprocess.PIPE, universal_newlines = True)
+		percent = re.compile(r'(\d+)%')
+		self.progress_label.show()
+		self.progress_label.set_markup("<span size='10000'>0%</span>")
 		self.status_label.show()
 		self.spin.show()
 		self.spin.start()
 		text = _("Downloading %s...") % os.path.basename(self.url).partition("_")[2]
-		self.status_label.set_markup("<b><i>%s</i></b>" % text)
+		self.status_label.set_markup("<b><i><span size='10000'>    %s</span></i></b>" % text)
+		prev = None
 		while not self.stopthread.isSet():
 			if self.p.poll() != None:
 				self.update_status_label()
 				self.p = None
 				self.spin.stop()
 				self.spin.hide()
+				self.progress_label.hide()
 				break
 
 			#gtk.gdk.threads_enter()
 			#self.status_label.set_markup("<b><i>%s</i></b>" % text)
 			#gtk.gdk.threads_leave()
+			line = self.p.stdout.readline(1024).strip()
+			match = percent.search(line)
+			if match != None:
+				cur = match.group(1)
+				if prev != cur:
+					prev = match.group(1)
+					self.progress_label.set_markup("<span size='10000'>%s%%</span>" % prev)
 			time.sleep(0.1)
 
 	def stop(self):
@@ -743,6 +765,7 @@ class SyncThread(threading.Thread):
 			pass
 		self.spin.stop()
 		self.spin.hide()
+		self.progress_label.hide()
 		self.p = None
 		self.stopthread.set()
 

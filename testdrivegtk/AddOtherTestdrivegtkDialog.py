@@ -227,7 +227,7 @@ class AddOtherTestdrivegtkDialog(gtk.Dialog):
 		self.cb_sync_proto.append_text(_("Select Protocol:"))
 		self.cb_sync_proto.append_text("rsync")
 		self.cb_sync_proto.append_text("zsync")
-		self.cb_sync_proto.append_text("wget")
+		#self.cb_sync_proto.append_text("wget")
 		self.cb_sync_proto.append_text("file")
 		self.cb_sync_proto.connect('changed', self.on_select_sync_proto)
 		self.cb_sync_proto.set_active(0)
