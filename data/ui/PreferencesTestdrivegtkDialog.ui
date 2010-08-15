@@ -144,6 +144,7 @@
                                 </child>
                                 <child>
                                   <object class="GtkLabel" id="label8">
+                                    <property name="visible">True</property>
                                     <property name="xalign">1</property>
                                     <property name="label" translatable="yes">ISO List Cache:</property>
                                     <property name="use_markup">True</property>
@@ -172,6 +173,7 @@
                                 <child>
                                   <object class="GtkEntry" id="txt_iso_list_cache">
                                     <property name="width_request">250</property>
+                                    <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="invisible_char">&#x2022;</property>
                                   </object>
@@ -602,6 +604,7 @@
                                     <child>
                                       <object class="GtkLabel" id="label16">
                                         <property name="visible">True</property>
+                                        <property name="xalign">0</property>
                                         <property name="xpad">3</property>
                                         <property name="label" translatable="yes">MB</property>
                                         <property name="use_markup">True</property>
@@ -618,6 +621,7 @@
                                     <child>
                                       <object class="GtkLabel" id="label17">
                                         <property name="visible">True</property>
+                                        <property name="xalign">0</property>
                                         <property name="xpad">3</property>
                                         <property name="label" translatable="yes">GB</property>
                                         <property name="use_markup">True</property>

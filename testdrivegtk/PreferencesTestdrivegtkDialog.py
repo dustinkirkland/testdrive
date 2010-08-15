@@ -130,7 +130,7 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		self.chk_arch_amd64.connect("clicked", self.on_select_arch, "amd64")
 
 		# Ubuntu Repositories Combo Box
-		self.tb_ubuntu_release_prefs = self.builder.get_object("tb_ubuntu_release_prefs")
+		self.tb_general_prefs = self.builder.get_object("tb_general_prefs")
 		self.cb_ubuntu_repo = gtk.combo_box_new_text()
 		self.cb_ubuntu_repo.set_size_request(260, -1)
 		self.cb_ubuntu_repo.append_text(_('Select Repository:'))
@@ -139,7 +139,7 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		self.cb_ubuntu_repo.connect('changed', self.on_select_iso_image_repo)
 		self.cb_ubuntu_repo.set_active(0)
 		self.cb_ubuntu_repo.show()
-		self.tb_ubuntu_release_prefs.attach(self.cb_ubuntu_repo, 1,2,0,1, gtk.FILL)
+		self.tb_general_prefs.attach(self.cb_ubuntu_repo, 1,2,7,8)
 		# Ubuntu Releases Combo Box
 		self.cb_ubuntu_release = gtk.combo_box_new_text()
 		self.cb_ubuntu_release.set_size_request(260, -1)
@@ -147,7 +147,7 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		self.cb_ubuntu_release.append_text(_('Select Release:'))
 		self.cb_ubuntu_release.set_active(0)
 		self.cb_ubuntu_release.show()
-		self.tb_ubuntu_release_prefs.attach(self.cb_ubuntu_release, 1,2,1,2, gtk.FILL)
+		self.tb_general_prefs.attach(self.cb_ubuntu_release, 1,2,8,9)
 		
 		# Initialize Virtualization Method Options
 		self.opt_virt_kvm = self.builder.get_object("opt_virt_kvm")
