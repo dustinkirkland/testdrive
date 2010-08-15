@@ -249,14 +249,14 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 			self.cbe_mem_size.set_active(4)
 
 		# Disk Size
-		if self.td.DISK_SIZE == '4G':
+		if self.td.DISK_SIZE == '4':
 			self.cbe_disk_size.set_active(0)
-		elif self.td.DISK_SIZE == '6G':
+		elif self.td.DISK_SIZE == '6':
 			self.cbe_disk_size.set_active(1)
-		elif self.td.DISK_SIZE == '8G':
+		elif self.td.DISK_SIZE == '8':
 			self.cbe_disk_size.set_active(2)
 		else:
-			self.cbe_disk_size.append_text(self.td.DISK_SIZE.replace('G', ''))
+			self.cbe_disk_size.append_text(self.td.DISK_SIZE)
 			self.cbe_disk_size.set_active(4)
 
 		# KVM Args
