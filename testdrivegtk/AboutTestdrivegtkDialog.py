@@ -26,7 +26,7 @@ import gettext
 from gettext import gettext as _
 gettext.textdomain('testdrive')
 
-__version__ = '2.7'
+__version__ = '3.0'
 __licensenotice__ = 'This program is free software: you can redistribute it and/or modify\n\
 it under the terms of the GNU General Public License as published by\n\
 the Free Software Foundation, either version 3 of the License, or\n\

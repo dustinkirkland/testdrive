@@ -93,7 +93,7 @@ class InstallAndUpdateDataDirectory(DistUtilsExtra.auto.install_auto):
 
 DistUtilsExtra.auto.setup(
 	name='testdrive',
-	version='2.7',
+	version='3.0',
 	license='GPL-3',
 	author='Andres Rodriguez',
 	author_email='andreserl@ubuntu.com',

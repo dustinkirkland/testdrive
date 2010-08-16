@@ -1,3 +1,9 @@
+testdrive (3.0) unreleased; urgency=low
+
+  * Bump testdrive's version in preparation of -gtk release
+
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Mon, 16 Aug 2010 12:21:28 -0500
+
 testdrive (2.9) unreleased; urgency=low
 
   * testdrive-cli: Add internationalization support.
