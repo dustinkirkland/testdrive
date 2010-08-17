@@ -1,8 +1,8 @@
 testdrive (3.0) unreleased; urgency=low
 
-  * Bump testdrive's version in preparation of -gtk release
+  * New upstream release (LP: #619325)
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Mon, 16 Aug 2010 12:21:28 -0500
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 17 Aug 2010 11:28:36 -0500
 
 testdrive (2.9) unreleased; urgency=low
 
