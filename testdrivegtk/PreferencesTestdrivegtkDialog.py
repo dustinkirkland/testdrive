@@ -96,6 +96,8 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		self.initialize_widgets()
 		self.initialize_widgets_values()
 		self.logger.debug(_('finish_initialization()'))
+		
+		self.builder.get_object("txt_gral_cache")
 
 	def initialize_variables(self):
 		self.virt_method = None

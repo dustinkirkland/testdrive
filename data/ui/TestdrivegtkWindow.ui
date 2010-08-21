@@ -7,8 +7,7 @@
   <object class="TestdrivegtkWindow" id="testdrivegtk_window">
     <property name="title" translatable="yes">TestDrive</property>
     <property name="window_position">center</property>
-    <property name="default_width">450</property>
-    <property name="default_height">450</property>
+    <property name="default_height">500</property>
     <property name="icon">../media/icon.png</property>
     <signal name="destroy" handler="on_destroy"/>
     <child>
