@@ -355,10 +355,7 @@ class TestdrivegtkWindow(gtk.Window):
 		###################################################################			
 		label = widget.get_tab_label(widget.get_nth_page(current_page))
 		text = label.get_text()
-		if text == TAB_LABEL[7]["label"]:
-			self.btn_add_iso.show()
-		else:
-			self.btn_add_iso.hide()
+		self.btn_add_iso.set_sensitive(text == TAB_LABEL[7]["label"])
 
 	def create_isos_interface(self):
 		###################################################################
@@ -417,14 +414,17 @@ class TestdrivegtkWindow(gtk.Window):
 		#                               table per ISO (with labels, checkbox)
 		for dist in distros:
 			scroll = gtk.ScrolledWindow(None)
+			scroll.set_shadow_type(gtk.SHADOW_NONE)
 			scroll.set_name(dist)
 			vbox = gtk.VBox()
 			scroll.add_with_viewport(vbox)
+			scroll.get_children()[0].set_shadow_type(gtk.SHADOW_NONE)
 			scroll.set_policy(gtk.POLICY_NEVER,gtk.POLICY_AUTOMATIC)
 			scroll.show()
 			for arch in self.td.m:
 				c = 0
 				fr_arch = gtk.Frame(arch)
+				fr_arch.set_shadow_type(gtk.SHADOW_NONE)
 				fr_arch.set_border_width(10)
 				vbox2 = gtk.VBox()
 				vbox2.set_border_width(10)
@@ -535,50 +535,35 @@ class TestdrivegtkWindow(gtk.Window):
 		###########################################################
 		# obtain vbox from glade
 		vbox = self.builder.get_object("vbox2")
-
-		hbox1 = gtk.HBox()
-		#bbox = gtk.HButtonBox()
-
-		valign = gtk.Alignment(0, 1, 0, 0)
-		vbox.pack_start(valign)
-
+		# Create and setup buttonbox
+		bbox = gtk.HButtonBox()
+		bbox.set_spacing(5)
+		bbox.set_layout(gtk.BUTTONBOX_END)
 		# Add Button
 		self.btn_add_iso = gtk.Button(_("Add ISO"))
-		self.btn_add_iso.set_size_request(100,30)
 		self.btn_add_iso.connect("clicked", self.new_other_iso)
-		#self.btn_add_iso.show()
-		#bbox.add(button)
-		hbox1.add(self.btn_add_iso)
+		self.btn_add_iso.set_sensitive(False)
+		self.btn_add_iso.show()
+		bbox.pack_start(self.btn_add_iso)
 
 		# Create Buttons
 		button = gtk.Button(_("Create USB Disk"))
-		button.set_size_request(120,30)
-	        button.connect("clicked", self.on_create_iso_disk_clicked, 'Create Disk')
+		button.connect("clicked", self.on_create_iso_disk_clicked, 'Create Disk')
 		button.show()
-		hbox1.add(button)
-		#bbox.add(button)
+		bbox.pack_start(button)
 
 		button = gtk.Button(_("Sync"))
-		button.set_size_request(90,30)
-	        button.connect("clicked", self.on_sync_iso_clicked, 'Sync')
+		button.connect("clicked", self.on_sync_iso_clicked, 'Sync')
 		button.show()
-		hbox1.add(button)
-		#bbox.add(button)
+		bbox.pack_start(button)
 
 		button = gtk.Button(_("Launch"))
-		button.set_size_request(90,30)
 		button.connect("clicked", self.on_launch_button_clicked, 'Launch')
 		button.show()
-		hbox1.add(button)
-		hbox1.show()
-		#bbox.add(button)
-		#bbox.show()
+		bbox.pack_start(button)
+		bbox.show()
 
-		halign = gtk.Alignment(1, 0, 0, 0)
-		halign.add(hbox1)
-		#halign.add(bbox)
-		halign.show()
-		vbox.pack_start(halign, False, False, 3)
+		vbox.pack_start(bbox, True, True)
 
 	def on_select_iso_clicked(self, widget, spin, lb_progress, status_label, url=None, iso_path_header=None, vm_id=None):
 		###################################################################
