@@ -34,17 +34,23 @@ class KVM:
 
 	# Code to setup virtual machine
 	def setup_virt(self):
-		if not os.path.exists(self.td.DISK_FILE) or self.td.is_disk_empty():
-			#info("Creating disk image [%s]..." % self.td.DISK_FILE)
+		if self.td.p == 'uec-daily' or self.td.p == 'uec-releases':
+			path = "%s/%s" % (self.td.CACHE_ISO, self.td.PATH_TO_ISO.split(".tar.gz")[0].split("_")[-1])
+			self.ORIG_DISK = "%s.img" % path
+			self.FLOPPY_FILE = "%s-floppy" % path
+			self.run_or_die("kvm-img create -f qcow2 -b %s %s" % (self.ORIG_DISK, self.td.DISK_FILE))
+		elif not os.path.exists(self.td.DISK_FILE) or self.td.is_disk_empty():
 			print "Creating disk image [%s]..." % self.td.DISK_FILE
 			self.run_or_die("kvm-img create -f qcow2 %s %s" % (self.td.DISK_FILE, self.td.DISK_SIZE))
 
 	# Code launch virtual machine
 	def launch_virt(self):
-		#info("Running the Virtual Machine...")
 		print "Running the Virtual Machine..."
 		#os.system("kvm -m %s -smp %s -cdrom %s -drive file=%s,if=virtio,cache=writeback,index=0,boot=on %s" % (self.td.MEM, self.td.SMP, self.td.PATH_TO_ISO, self.td.DISK_FILE, self.td.KVM_ARGS))
-		cmd = "kvm -m %s -smp %s -cdrom %s -drive file=%s,if=virtio,cache=writeback,index=0,boot=on %s" % (self.td.MEM, self.td.SMP, self.td.PATH_TO_ISO, self.td.DISK_FILE, self.td.KVM_ARGS)
+		if self.td.p == 'uec-daily' or self.td.p == 'uec-releases':
+			cmd = "kvm -boot a -fda %s -drive file=%s,if=virtio" % (self.FLOPPY_FILE, self.td.DISK_FILE)
+		else:		
+			cmd = "kvm -m %s -smp %s -cdrom %s -drive file=%s,if=virtio,cache=writeback,index=0,boot=on %s" % (self.td.MEM, self.td.SMP, self.td.PATH_TO_ISO, self.td.DISK_FILE, self.td.KVM_ARGS)
 		return cmd
 
 	def run(self, cmd):
@@ -52,5 +58,4 @@ class KVM:
 
 	def run_or_die(self, cmd):
 		if self.run(cmd) != 0:
-			#error("Command failed\n    `%s`" % cmd)
 			print "Command failed\n    `%s`" % cmd

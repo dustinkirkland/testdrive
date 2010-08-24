@@ -45,7 +45,7 @@ class Testdrive:
 		self.r = None #Release (maverick, lucid, etc)
 		self.m = None #Arch (amd64, i386)
 		self.f = None #Flavor (ubuntu, kubuntu, etc)
-		self.p = None # Ubuntu ISO Repository (cdimage, releases)
+		self.p = None # Ubuntu ISO Repository (cdimage, releases, uec-daily, uec-releases)
 
 	def set_values(self, var, value):
 		if var == 'kvm_args':
@@ -115,13 +115,21 @@ class Testdrive:
 					flavor = 'Ubuntu Studio'
 				elif flavor == 'Ubuntu-server':
 					flavor = 'Ubuntu'
+				elif flavor == 'Uec-server':
+					flavor = 'UEC Server'
+				elif flavor == 'Uec-desktop':
+					flavor = 'UEC Desktop'
 				release = iso.split()[1]
 				url = iso.split()[2]
-				arch = url.split(".iso")[0].split("-")[-1]
-				image = url.split("-%s.iso" % arch)[0].split("-")[-1].capitalize()
-				if image == 'Dvd':
-					image = url.split("-%s.iso" % arch)[0].split("-")[-1].swapcase()
-				name = "%s %s" % (flavor, image)
+				if self.p == 'uec-daily' or self.p == 'uec-releases':
+					arch = url.split(".tar.gz")[0].split("-")[-1]
+					name = "%s" % flavor 
+				else:
+					arch = url.split(".iso")[0].split("-")[-1]
+					image = url.split("-%s.iso" % arch)[0].split("-")[-1].capitalize()
+					if image == 'Dvd':
+						image = url.split("-%s.iso" % arch)[0].split("-")[-1].swapcase()
+					name = "%s %s" % (flavor, image)
 				# Name: Shows a description
 				# URL: Shows the URL from where it downloads the ISO
 				# Arch: Shows the architecture (amd64|i386)
@@ -214,6 +222,9 @@ class Testdrive:
 		if self.p == 'releases':
 			self.u = 'rsync://us.rsync.releases.ubuntu.com/releases'
 
+		if self.p == 'uec-daily' or self.p == 'uec-releases':
+			self.u = 'rsync://uec-images.ubuntu.com/uec-images'
+
 	def run(self, cmd):
 		return(os.system(cmd))
 
@@ -270,6 +281,8 @@ class Testdrive:
 			elif os.path.getsize(self.DISK_FILE) == 0:
 				# Clean up empty file
 				rm_disk = True
+			elif self.p == 'uec-daily' or self.p == 'uec-releases':
+				rm_disk = True
 			if rm_disk:
 				#info("Cleaning up disk image [%s]..." % DISK_FILE)
 				os.unlink(self.DISK_FILE)
@@ -316,6 +329,10 @@ class Testdrive:
 			(status, output) = commands.getstatusoutput("wget -q -O- http://cdimage.ubuntu.com/.manifest-daily | egrep '(amd64|i386)'")
 		elif self.p == 'releases':
 			(status, output) = commands.getstatusoutput("wget -q -O- http://releases.ubuntu.com/.manifest | egrep '(amd64|i386)'")
+		elif self.p == 'uec-daily':
+			(status, output) = commands.getstatusoutput("wget -q -O- http://uec-images.ubuntu.com/.manifest-daily | egrep '(amd64|i386)'")
+		elif self.p == 'uec-releases':
+			(status, output) = commands.getstatusoutput("wget -q -O- http://uec-images.ubuntu.com/.manifest | egrep '(amd64|i386)'")
 		return output
 
 	def update_ubuntu_iso_list_cache(self, str):
@@ -344,3 +361,18 @@ class Testdrive:
 
 	def create_disk_file(self):
 		return tempfile.mkstemp(".img", "testdrive-disk-", "%s" % self.CACHE_IMG)[1]
+
+	def prepare_image_tarball(self):
+		untar = False
+		TAR_BASENAME = os.path.basename(self.PATH_TO_ISO).split(".tar.gz")[0].split("_")[-1]
+		ORIG_DISK_NAME = "%s.img" % TAR_BASENAME
+		FLOPPY_NAME = "%s-floppy" % TAR_BASENAME
+
+		image_path = "%s/%s" % (self.CACHE_ISO, ORIG_DISK_NAME)
+		floppy_path = "%s/%s" % (self.CACHE_ISO, FLOPPY_NAME)
+
+		cmd = 'cd %s && tar Szxvf %s %s %s' % (self.CACHE_ISO, self.PATH_TO_ISO, ORIG_DISK_NAME, FLOPPY_NAME)
+		os.system(cmd)
+		
+		
+

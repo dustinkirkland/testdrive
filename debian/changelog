@@ -1,8 +1,11 @@
 testdrive (3.1) unreleased; urgency=low
 
   * UI Improvements. Thanks to Andrew (and471).
+  * testdrive-cli: Add support to change ISO image repository.
+  * Support for UEC Images: (LP: #619974)
+    - testdrive-cli: Added initial support.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 17 Aug 2010 11:33:59 -0500
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 24 Aug 2010 13:49:41 -0500
 
 testdrive (3.0-0ubuntu1) maverick; urgency=low
 

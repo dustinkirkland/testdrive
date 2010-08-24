@@ -172,6 +172,9 @@ def main():
 	parser.add_option('-l', '--flavor', action='store', type='string', dest='flavor',
 		help=_('hardcode Ubuntu flavor. Available Flavors:\n\
 		     ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio'))
+	parser.add_option('-p', '--repo', action='store', type='string', dest='repository',
+		help=_('hardcode Ubuntu repository from where to obtain ISOs:\n\
+		     releases/cdimage/uec-daily/uec-releases'))
 
 	(opt, args) = parser.parse_args()
 	info(_("version passed: %s") % opt.version)
@@ -240,6 +243,11 @@ def main():
 		hasOptions = True
 		#TODO: Add validate to see if option passed is valid
 		td.f = opt.flavor
+
+	# Harcoding repository from where to obtain list of ISOs
+	if opt.repository:
+		hasOptions = True
+		td.p = opt.repository
 
 	######################################
 	## Choose the virtualization engine ##
@@ -328,6 +336,10 @@ def main():
 			error(_("ISO not found at [%s]") % td.ISO_URL)
 	if cmd != 0:
 		run_or_die(cmd)
+
+	if td.p == 'uec-daily' or td.p == 'uec-releases':
+		info("Preparing UEC image [%s]" % os.path.basename(td.PATH_TO_ISO).split("_")[-1])
+		td.prepare_image_tarball()
 
 	###################
 	## Launch the VM ##
