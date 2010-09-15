@@ -60,6 +60,8 @@ class Testdrive:
 			self.CACHE = value
 		if var == 'cache_img':
 			self.CACHE_IMG = value
+		if var == 'cache_iso':
+			self.CACHE_ISO = value
 		if var == 'clean_img':
 			self.CLEAN_IMG = value
 		if var == 'iso_url':

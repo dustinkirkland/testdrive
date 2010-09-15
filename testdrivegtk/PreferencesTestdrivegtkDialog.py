@@ -516,13 +516,13 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		##################################################################
 		self.preferences = []
 		# CACHE Variables
-		if self.td.CACHE != self.txt_gral_cache.get_text():
+		if self.txt_gral_cache.get_text() != None:
 			self.td.CACHE = self.txt_gral_cache.get_text()
 			self.preferences.append(['cache', self.td.CACHE])
-		if self.td.CACHE_IMG != self.txt_img_cache.get_text():
+		if self.txt_img_cache.get_text() != None:
 			self.td.CACHE_IMG = self.txt_img_cache.get_text()
 			self.preferences.append(['cache_img', self.td.CACHE_IMG])
-		if self.td.CACHE_ISO != self.txt_iso_cache.get_text():
+		if self.txt_iso_cache.get_text() != None:
 			self.td.CACHE_ISO = self.txt_iso_cache.get_text()
 			self.preferences.append(['cache_iso', self.td.CACHE_ISO])
 
@@ -530,49 +530,46 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		if self.repo != None:
 			self.preferences.append(['p', self.td.p])
 
-		if self.td.r != self.r:
+		if self.r != None:
 			self.td.r = self.r
-			if self.r !=None:
-				self.preferences.append(['r', self.td.r])
+			self.preferences.append(['r', self.td.r])
 
 		# KVM Args
-		if self.td.KVM_ARGS != self.txt_kvm_args.get_text():
+		if self.txt_kvm_args.get_text() != None:
 			self.td.KVM_ARGS = self.txt_kvm_args.get_text()
 			self.preferences.append(['kvm_args', self.td.KVM_ARGS])
 
-		if self.td.SMP != self.txt_smp_nbr.get_text():
+		if self.txt_smp_nbr.get_text() != None:
 			self.td.SMP = self.txt_smp_nbr.get_text()
 			self.preferences.append(['smp', self.td.SMP])
 
 		#ARCHs
 		if 'amd64' in self.arch and 'i386' in self.arch:
 			self.td.m = self.arch
-			pass
 		elif 'amd64' in self.arch or 'i386' in self.arch:
 			self.td.m = self.arch
 			self.preferences.append(['m', self.td.m[0]])
 
 		# VIRT Methods
-		if self.td.VIRT != self.virt_method and self.virt_method != None:
+		if self.virt_method != None:
 			self.td.VIRT = self.virt_method
 			self.preferences.append(['virt', self.td.VIRT])
 
 		# Memory - TODO: Add validation of text
 		if self.mem == 'other':
 			self.mem = self.cbe_mem_size.child.get_text()
-		if self.td.MEM != self.mem or self.mem not in MEM_SIZE_TAB:
+		if self.mem != None or self.mem not in MEM_SIZE_TAB:
 			self.td.MEM = self.mem
 			self.preferences.append(['mem', self.td.MEM])
 
 		# Disk Size - TODO: Add validation of text
 		if self.disk_size == 'other':
 			self.disk_size = self.cbe_disk_size.child.get_text()
-		if self.td.DISK_SIZE.replace('G','') != self.disk_size or self.disk_size not in DISK_SIZE_TAB:
+		if self.disk_size != None or self.disk_size not in DISK_SIZE_TAB:
 			self.td.DISK_SIZE = "%sG" % self.disk_size
 			self.preferences.append(['disk_size', self.td.DISK_SIZE])
 
 		# Flavors
-		#if self.td.f != self.flavors[:-2]:
 		self.td.f = self.flavors[:-2]
 		self.preferences.append(['f', self.td.f])
 
