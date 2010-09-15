@@ -431,13 +431,12 @@ class TestdrivegtkWindow(gtk.Window):
 				for iso in ISO:
 					if iso['category'] == dist and iso['arch'] == arch:
 						c = c + 1
-						table = gtk.Table(2, 1, False)
+						table = gtk.Table(2, 3, False)
 						lb_iso_name = gtk.CheckButton("%s - (%s)" % (iso["name"], self.td.r))
 						lb_iso_name.show()
 						filename = os.path.basename(iso["url"])
 						path = "%s/%s_%s" % (self.td.CACHE_ISO, iso["category"], filename)
 						if os.path.exists(path):
-							#lb_cache = gtk.Label("CACHE: [%s] %s" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path))), filename))
 							lb_cache = gtk.Label(_("<i>     CACHE: [%s]</i>") % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path)))))
 						else:
 							lb_cache = gtk.Label(_("<i>     CACHE: [empty]</i>"))
@@ -447,16 +446,14 @@ class TestdrivegtkWindow(gtk.Window):
 						lb_cache.show()
 						# Adding the Spiiner
 						spin = gtk.Spinner()
-						spin.set_size_request(25, -1);
+						spin.set_size_request(18, -1);
 						spin.hide()
-						lb_progress = gtk.Label()
-						lb_progress.hide()
-						lb_iso_name.connect("clicked", self.on_select_iso_clicked, spin, lb_progress, lb_cache, iso["url"], iso["category"], vm_id)
+						lb_iso_name.connect("clicked", self.on_select_iso_clicked, spin, lb_cache, iso["url"], iso["category"], vm_id)
 						vm_id += 1
-						table.attach(spin, 0, 1, 0, 1, gtk.FILL, gtk.FILL | gtk.EXPAND)
-						table.attach(lb_progress, 0, 1, 1, 2, gtk.FILL, gtk.FILL | gtk.EXPAND)
-						table.attach(lb_iso_name, 1, 2, 0, 1, gtk.FILL | gtk.EXPAND, gtk.FILL)
-						table.attach(lb_cache, 1, 2, 1, 2, gtk.FILL, gtk.FILL, 0, 5)
+						table.attach(lb_iso_name, 0, 3, 0, 1, gtk.FILL | gtk.EXPAND, gtk.FILL | gtk.EXPAND)
+						table.attach(spin, 0, 1, 1, 2, gtk.FILL, gtk.FILL | gtk.EXPAND)
+						table.attach(lb_cache, 1, 2, 1, 2, gtk.FILL | gtk.EXPAND, gtk.FILL | gtk.EXPAND, 0, 5)
+						#table.attach(lb_progress, 2, 3, 1, 2, gtk.FILL | gtk.EXPAND, gtk.FILL | gtk.EXPAND)
 						table.show()
 						viewport = gtk.Viewport()
 						viewport.add(table)
@@ -467,7 +464,7 @@ class TestdrivegtkWindow(gtk.Window):
 
 					if iso['category'] == dist and iso['category'] == 'other':
 						c = c + 1
-						table = gtk.Table(2, 1, False)
+						table = gtk.Table(2, 3, False)
 						lb_iso_name = gtk.CheckButton("%s" % iso["name"])
 						lb_iso_name.show()
 						filename = os.path.basename(iso["url"])
@@ -482,16 +479,14 @@ class TestdrivegtkWindow(gtk.Window):
 						lb_cache.show()
 						# Adding the Spiiner
 						spin = gtk.Spinner()
-						spin.set_size_request(25, -1);
+						spin.set_size_request(18, -1);
 						spin.hide()
-						lb_progress = gtk.Label()
-						lb_progress.hide()
-						lb_iso_name.connect("clicked", self.on_select_iso_clicked, spin, lb_progress, lb_cache, iso["url"], iso["category"], vm_id)
+						lb_iso_name.connect("clicked", self.on_select_iso_clicked, spin, lb_cache, iso["url"], iso["category"], vm_id)
 						vm_id += 1
-						table.attach(spin, 0, 1, 0, 1, gtk.FILL, gtk.FILL | gtk.EXPAND)
-						table.attach(lb_progress, 0, 1, 1, 2, gtk.FILL, gtk.FILL | gtk.EXPAND)
-						table.attach(lb_iso_name, 1, 2, 0, 1, gtk.FILL | gtk.EXPAND, gtk.FILL)
-						table.attach(lb_cache, 1, 2, 1, 2, gtk.FILL, gtk.FILL, 0, 5)
+						table.attach(lb_iso_name, 0, 3, 0, 1, gtk.FILL | gtk.EXPAND, gtk.FILL | gtk.EXPAND)
+						table.attach(spin, 0, 1, 1, 2, gtk.FILL, gtk.FILL | gtk.EXPAND)
+						table.attach(lb_cache, 1, 2, 1, 2, gtk.FILL | gtk.EXPAND, gtk.FILL | gtk.EXPAND, 0, 5)
+						#table.attach(lb_progress, 2, 3, 1, 2, gtk.FILL | gtk.EXPAND, gtk.FILL | gtk.EXPAND)
 						table.show()
 						viewport = gtk.Viewport()
 						viewport.add(table)
@@ -565,7 +560,7 @@ class TestdrivegtkWindow(gtk.Window):
 
 		vbox.pack_start(bbox, True, True)
 
-	def on_select_iso_clicked(self, widget, spin, lb_progress, status_label, url=None, iso_path_header=None, vm_id=None):
+	def on_select_iso_clicked(self, widget, spin, status_label, url=None, iso_path_header=None, vm_id=None):
 		###################################################################
 		# When ISO is clicked, does the setup to be ready to launch/sync ##
 		###################################################################
@@ -586,7 +581,7 @@ class TestdrivegtkWindow(gtk.Window):
 			launch_cmd = self.prepare_to_launch_vm()
 			if sync_cmd:
 				url = self.td.PATH_TO_ISO
-				sync_thread = SyncThread(status_label, spin, lb_progress, sync_cmd, url)
+				sync_thread = SyncThread(status_label, spin, sync_cmd, url)
 			if launch_cmd:
 				launch_thread = LaunchThread(status_label, launch_cmd, self.td.VIRT)
 			self.isos_to_run.append([sync_thread, launch_thread, self.td.DISK_FILE, status])
@@ -697,10 +692,10 @@ class TestdrivegtkWindow(gtk.Window):
 ########## Class that support threading for ISO Syncing ###########
 ###################################################################
 class SyncThread(threading.Thread):
-	def __init__(self, label, spinner, progress, cmd, url):
+	#def __init__(self, label, spinner, progress, cmd, url):
+	def __init__(self, label, spinner, cmd, url):
 		threading.Thread.__init__ (self)
 		self.spin = spinner
-		self.progress_label = progress
 		self.status_label = label
 		self.previous_text = label.get_text()
 		self.command = cmd
@@ -712,13 +707,11 @@ class SyncThread(threading.Thread):
 		cmd = self.command.split()
 		self.p = subprocess.Popen(cmd, stdout=subprocess.PIPE, universal_newlines = True)
 		percent = re.compile(r'(\d+)%')
-		self.progress_label.show()
-		self.progress_label.set_markup("<span size='10000'>0%</span>")
 		self.status_label.show()
 		self.spin.show()
 		self.spin.start()
-		text = _("Downloading %s...") % os.path.basename(self.url).partition("_")[2]
-		self.status_label.set_markup("<b><i><span size='10000'>    %s</span></i></b>" % text)
+		text = _(" Downloading %s (0%%)") % os.path.basename(self.url).partition("_")[2]
+		self.status_label.set_markup("<b><span size='10000'>%s</span></b>" % text)
 		prev = None
 		while not self.stopthread.isSet():
 			if self.p.poll() != None:
@@ -738,8 +731,9 @@ class SyncThread(threading.Thread):
 				cur = match.group(1)
 				if prev != cur:
 					prev = match.group(1)
-					self.progress_label.set_markup("<span size='10000'>%s%%</span>" % prev)
-			time.sleep(0.1)
+					text = _(" Downloading %s (%s%%)") % (os.path.basename(self.url).partition("_")[2], prev)
+					self.status_label.set_markup("<b><span size='10000'>%s</span></b>" % text)
+			time.sleep(1)
 
 	def stop(self):
 		try:
@@ -750,7 +744,6 @@ class SyncThread(threading.Thread):
 			pass
 		self.spin.stop()
 		self.spin.hide()
-		self.progress_label.hide()
 		self.p = None
 		self.stopthread.set()
 
