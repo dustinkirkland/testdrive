@@ -7,8 +7,9 @@ testdrive (3.1) unreleased; urgency=low
   * Improve the way the downloading widget is displayed. (LP: #618166)
   * testdrive-gtk: Fix preferences dialog issue. (LP: #630364)
   * testdrive/testdrive.py: Fix loading of CACHE_ISO if changed.
+  * Allow Mobile ISO's to be TestDrived. (LP: #645052)
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Wed, 15 Sep 2010 16:41:45 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Wed, 22 Sep 2010 12:15:01 -0400
 
 testdrive (3.0-0ubuntu1) maverick; urgency=low
 

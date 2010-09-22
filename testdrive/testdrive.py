@@ -102,16 +102,24 @@ class Testdrive:
 			if iso.split()[1] == self.r:
 				# TODO: Add support for UEC
 				category = iso.split()[0]
-				if category == 'ubuntu-netbook':
+				if category == 'ubuntu-server':
 					category = 'ubuntu'
-				elif category == 'ubuntu-server':
+				elif category == 'ubuntu-netbook':
+					category = 'ubuntu'
+				elif category == 'ubuntu-mobile':
 					category = 'ubuntu'
 				elif category == 'kubuntu-netbook':
+					category = 'kubuntu'
+				elif category == 'kubuntu-mobile':
 					category = 'kubuntu'
 				flavor = iso.split()[0].capitalize()
 				if flavor == 'Ubuntu-netbook':
 					flavor = 'Ubuntu'
+				elif flavor == 'Ubuntu-mobile':
+					flavor == 'Ubuntu'
 				elif flavor == 'Kubuntu-netbook':
+					flavor = 'Kubuntu'
+				elif flavor == 'Kubuntu-mobile':
 					flavor = 'Kubuntu'
 				elif flavor == 'Ubuntustudio':
 					flavor = 'Ubuntu Studio'

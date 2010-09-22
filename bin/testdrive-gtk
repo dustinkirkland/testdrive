@@ -719,7 +719,6 @@ class SyncThread(threading.Thread):
 				self.p = None
 				self.spin.stop()
 				self.spin.hide()
-				self.progress_label.hide()
 				break
 
 			#gtk.gdk.threads_enter()
