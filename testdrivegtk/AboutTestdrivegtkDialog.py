@@ -42,7 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.'
 __authors__ = ['Andres Rodriguez <andreserl@ubuntu.com>']
 __description__ = 'PyGTK Front-end for TestDrive'
 __website__ = "https://launchpad.net/testdrive"
-__copyright__ = "Copyright © 2009 Canonical Ltd."
+__copyright__ = "Copyright © 2010 Canonical Ltd."
 
 class AboutTestdrivegtkDialog(gtk.AboutDialog):
 	__gtype_name__ = "AboutTestdrivegtkDialog"
