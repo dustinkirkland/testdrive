@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
+# -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 ### BEGIN LICENSE
 # Copyright (C) 2010 Canonical Ltd.
 # 
@@ -258,9 +258,9 @@ class TestdrivegtkWindow(gtk.Window):
 		imagelist = os.listdir(self.td.CACHE_IMG)
 		for disk in imagelist:
 			path = "%s/%s" % (self.td.CACHE_IMG, disk)
-		        (status, output) = commands.getstatusoutput("file %s | grep -qs 'empty'" % path)
-		        if status == 0:
-                		os.unlink(path)
+			(status, output) = commands.getstatusoutput("file %s | grep -qs 'empty'" % path)
+			if status == 0:
+				os.unlink(path)
 		for disk in self.isos_to_run:
 			self.td.DISK_FILE = disk[2]
 			self.td.delete_image()
@@ -352,7 +352,7 @@ class TestdrivegtkWindow(gtk.Window):
 	def on_distro_tab_change(self, widget, none=None, current_page=None):
 		###################################################################
 		##### Shows the "Add Other ISOs" if "Other" has been selected #####
-		###################################################################			
+		###################################################################
 		label = widget.get_tab_label(widget.get_nth_page(current_page))
 		text = label.get_text()
 		self.btn_add_iso.set_sensitive(text == TAB_LABEL[7]["label"])
@@ -385,8 +385,8 @@ class TestdrivegtkWindow(gtk.Window):
 		self.notebook.set_border_width(10)
 		self.notebook.connect("switch-page", self.on_distro_tab_change)
 		vbox_tabs.add(self.notebook)
-        	self.show_tabs = True
-        	self.show_border = True
+		self.show_tabs = True
+		self.show_border = True
 
 		## DETERMINE WHICH ISO's to Show in TABS ##
 		i = 0
@@ -506,7 +506,7 @@ class TestdrivegtkWindow(gtk.Window):
 					vbox2.add(no_isos_label)
 
 				vbox2.show()
-					
+
 				if dist != 'other':
 					fr_arch.add(vbox2)
 					fr_arch.show()
@@ -608,7 +608,6 @@ class TestdrivegtkWindow(gtk.Window):
 			"""
 			return
 		for t in self.isos_to_run:
-			#if t[3] == None or t[3] != "launch":
 			if t[0].p is None and t[1].p is None:
 				t[3] = "sync"
 				try:
@@ -632,14 +631,13 @@ class TestdrivegtkWindow(gtk.Window):
 		for t in self.isos_to_run:
 			if t[0].p is None and t[1].p is None:
 				t[3] = "launch"
-				#t[0] = None
 				try:
 					t[1].start()
 				except:
 					pass
 			else:
 				logging.debug(_("launch_iso: Thread is executing or syncing..."))
-		
+
 	def on_create_iso_disk_clicked(self, widget, data=None):
 		###################################################################
 		############ Launches USB Creator for the selected ISO ############
@@ -771,7 +769,7 @@ class LaunchThread(threading.Thread):
 		cmd = self.command.split()
 		self.p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
 		self.status_label.show()
-		text = _("     Running VM...")
+		text = _("     Running Virtual Machine...")
 
 		if self.virt == 'kvm':
 			while not self.stopthread.isSet():

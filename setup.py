@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 ### BEGIN LICENSE
 # Copyright (C) 2010 Canonical Ltd.
 # 
@@ -93,7 +93,7 @@ class InstallAndUpdateDataDirectory(DistUtilsExtra.auto.install_auto):
 
 DistUtilsExtra.auto.setup(
 	name='testdrive',
-	version='3.0',
+	version='3.1',
 	license='GPL-3',
 	author='Andres Rodriguez',
 	author_email='andreserl@ubuntu.com',

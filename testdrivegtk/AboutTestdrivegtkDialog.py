@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 ### BEGIN LICENSE
 # Copyright (C) 2010 Canonical Ltd.
 # 
@@ -26,7 +26,7 @@ import gettext
 from gettext import gettext as _
 gettext.textdomain('testdrive')
 
-__version__ = '3.0'
+__version__ = '3.1'
 __licensenotice__ = 'This program is free software: you can redistribute it and/or modify\n\
 it under the terms of the GNU General Public License as published by\n\
 the Free Software Foundation, either version 3 of the License, or\n\
