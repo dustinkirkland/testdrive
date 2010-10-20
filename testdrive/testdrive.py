@@ -383,6 +383,3 @@ class Testdrive:
 
 		cmd = 'cd %s && tar Szxvf %s %s %s' % (self.CACHE_ISO, self.PATH_TO_ISO, ORIG_DISK_NAME, FLOPPY_NAME)
 		os.system(cmd)
-		
-		
-
