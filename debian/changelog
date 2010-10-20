@@ -1,3 +1,9 @@
+testdrive (3.2) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Wed, 20 Oct 2010 16:47:56 -0400
+
 testdrive (3.1-0ubuntu1) natty; urgency=low
 
   * UI Improvements. Thanks to Andrew (and471).
