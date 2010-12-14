@@ -205,6 +205,15 @@ class Testdrive:
 		if len(self.DISK_SIZE) == 0:
 			self.DISK_SIZE = "6G"
 
+		if len(self.MEM) == 0:
+			total = commands.getoutput("grep ^MemTotal /proc/meminfo | awk '{print $2}'")
+			if total > 1000000:
+				self.MEM = "512"
+			elif total > 750000:
+				self.MEM = "384"
+			else:
+				self.MEM = "256"
+
 		if len(self.KVM_ARGS) == 0:
 			self.KVM_ARGS = "-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370"
 
