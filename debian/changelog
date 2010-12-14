@@ -1,8 +1,9 @@
 testdrive (3.2) unreleased; urgency=low
 
   * Fix automatic detection of MEM if not specified. (LP: #690400)
+  * Add stanza to set MEM to 1024 if enough memory. Update GTK as well.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 14 Dec 2010 17:51:42 -0500
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 14 Dec 2010 17:57:23 -0500
 
 testdrive (3.1-0ubuntu1) natty; urgency=low
 
