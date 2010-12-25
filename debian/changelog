@@ -1,8 +1,8 @@
 testdrive (3.3) unreleased; urgency=low
 
-  * UNRELEASED
+  * Fix zsync failure if cwd is not same filesystem as $HOME (LP: #680138)
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 14 Dec 2010 18:07:01 -0500
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Sat, 25 Dec 2010 16:09:11 -0500
 
 testdrive (3.2-0ubuntu1) natty; urgency=low
 
