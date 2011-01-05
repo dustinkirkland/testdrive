@@ -255,10 +255,9 @@ class Testdrive:
 			return cmd
 		elif self.PROTO == "zsync" or self.PROTO == "http" or self.PROTO == "ftp":
 			if commands.getstatusoutput("which zsync")[0] == 0:
-				os.chdir(self.CACHE_ISO)
 				if self.ISO_URL.partition("://")[0] == "zsync":
 					self.ISO_URL = self.ISO_URL.replace('zsync', 'http')
-				cmd = "zsync %s.zsync -o %s" % (self.ISO_URL, self.PATH_TO_ISO)
+				cmd = "cd '%s' && zsync %s.zsync -o %s" % (self.CACHE_ISO, self.ISO_URL, self.PATH_TO_ISO)
 				return cmd
 			else:
 				cmd = "wget %s -O %s" % (self.ISO_URL, self.PATH_TO_ISO)

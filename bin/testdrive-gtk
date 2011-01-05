@@ -702,8 +702,7 @@ class SyncThread(threading.Thread):
 		self.p = None
 
 	def run(self):
-		cmd = self.command.split()
-		self.p = subprocess.Popen(cmd, stdout=subprocess.PIPE, universal_newlines = True)
+		self.p = subprocess.Popen(self.command, shell=True, stdout=subprocess.PIPE, universal_newlines = True)
 		percent = re.compile(r'(\d+)%')
 		self.status_label.show()
 		self.spin.show()
