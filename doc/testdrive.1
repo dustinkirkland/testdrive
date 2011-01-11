@@ -10,7 +10,9 @@ testdrive [\-d] [\-f FILE] [\-l FLAVOR] [\-r RELEASE] [\-u URL] [\-v|\-\-version
 
 \fB\-f FILE\fP - path to a configuration file to read
 
-\fB\-l FLAVOR\fP - hardcode Ubuntu flavor to testdrive; can be [ubuntu|kubuntu|xubuntu|edubuntu|myhbuntu|ubuntustudio]
+\fB\-l FLAVOR\fP - hardcode Ubuntu flavor to testdrive; can be [ubuntu|kubuntu|xubuntu|edubuntu|myhbuntu|ubuntustudio|uec-server]
+
+\fB\-p REPOSITORY\fP - select Ubuntu repositoru; can be [cdimage|releases|uec-daily]
 
 \fB\-r RELEASE\fP - hardcode Ubuntu release codename to testdrive
 
@@ -19,13 +21,46 @@ testdrive [\-d] [\-f FILE] [\-l FLAVOR] [\-r RELEASE] [\-u URL] [\-v|\-\-version
 \fB\-v|\-\-version\fP - display the version and the hypervisor to be used, and exit
 
 .SH DESCRIPTION
-\fBtestdrive\fP is a utility that allows you to easily download the latest Ubuntu development release and run it in a KVM virtual machine.
+\fBtestdrive\fP is a utility that allows you to easily download the latest Ubuntu development release or UEC image, and run it in a KVM virtual machine.
 
 The global configuration file, \fI/etc/testdriverc\fP, is sourced first, followed by the user's local configuration file, \fI~/.testdriverc\fP, and xdg configuration \fI~/.config/testdrive/testdriverc\fP.
 
 Users wanting to change the behavior default configuration can make a copy of the global configuration \fI/etc/testdriverc\fP, and either store it as \fI~/.testdriverc\fP, or as another file and pass that filename on the command line.
 
 Downloaded ISO files and disk images are stored in \fI~/.cache/testdrive\fP, and may optionally be cleaned out, periodically.
+
+.SH EXAMPLES
+Specify repository (Defaults to Ubuntu development release):
+.RS
+testdrive \-p cdimage
+.RE
+.RS
+testdrive \-p releases
+.RE
+.RS
+testdrive \-p uec-daily
+.RE
+
+Specify repository and flavor (Defaults to latest Ubuntu release available):
+.RS
+testdrive \-p cdimage -l kubuntu
+.RE
+.RS
+testdrive \-p releases -l kubuntu
+.RE
+.RS
+testdrive \-p uec-daily -l uec-server
+.RE
+
+Launch local ISO image:
+.RS
+testdrive \-u /local/path/to/image.iso
+.RE
+
+Launch UEC local image
+.RS
+testdrive \-u /local/path/to/uec-image.tar.gz
+.RE
 
 .SH FILES
 \fI/etc/testdriverc\fP, \fI~/.testdriverc\fP, \fI~/.config/testdrive/testdriverc\fP, \fI~/.cache/testdrive\fP
