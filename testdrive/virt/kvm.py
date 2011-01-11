@@ -48,8 +48,8 @@ class KVM:
 		print "Running the Virtual Machine..."
 		#os.system("kvm -m %s -smp %s -cdrom %s -drive file=%s,if=virtio,cache=writeback,index=0,boot=on %s" % (self.td.MEM, self.td.SMP, self.td.PATH_TO_ISO, self.td.DISK_FILE, self.td.KVM_ARGS))
 		if self.td.p == 'uec-daily' or self.td.p == 'uec-releases':
-			cmd = "kvm -boot a -fda %s -drive file=%s,if=virtio" % (self.FLOPPY_FILE, self.td.DISK_FILE)
-		else:		
+			cmd = "kvm -boot a -fda %s -drive file=%s,if=virtio %s" % (self.FLOPPY_FILE, self.td.DISK_FILE, self.td.KVM_ARGS)
+		else:
 			cmd = "kvm -m %s -smp %s -cdrom %s -drive file=%s,if=virtio,cache=writeback,index=0,boot=on %s" % (self.td.MEM, self.td.SMP, self.td.PATH_TO_ISO, self.td.DISK_FILE, self.td.KVM_ARGS)
 		return cmd
 

@@ -2,8 +2,9 @@ testdrive (3.4) unreleased; urgency=low
 
   * Fully support launching local uec image (tar.gz):
     - 'testdrive -u </uec-image>'
+  * testdrive/virt/kvm.py: Add additional KVM_ARGS to launch uec-images.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 11 Jan 2011 10:45:02 -0600
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 11 Jan 2011 10:51:27 -0600
 
 testdrive (3.3-0ubuntu1) natty; urgency=low
 
