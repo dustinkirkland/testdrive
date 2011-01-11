@@ -105,7 +105,10 @@ def is_disk_img(file):
 def is_uec_img(file):
 	img = False
 	floppy = False
-	tar = tarfile.open(file)
+	try:
+		tar = tarfile.open(file)
+	except:
+		return False
 	tarball = tar.getnames()
 	for item in tarball:
         	if str(item).split(".")[-1] == "img":
@@ -126,19 +129,15 @@ def run_or_die(cmd):
 	if run(cmd) != 0:
 		error(_("Command failed\n    `%s`") % cmd)
 
-def run_vm(command, td):
-	i = 0
-	cmd = []
-	while(i != -1):
-		try:
-			cmd.append(command.split()[i])
-		except:
-			i = -1
-			break
-		i = i + 1
-	p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+def run_vm(cmd, td, curses):
+	if not curses:
+		p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
 	if td.VIRT == 'kvm':
-		p.wait()
+		if curses:
+			info(_("Launching Virtual Machine using CURSES as screen mode"))
+			run_or_die(cmd)
+		else:
+			p.wait()
 	elif td.VIRT == 'virtualbox':
 		# Give this VM a few seconds to start up
 		time.sleep(5)
@@ -161,6 +160,7 @@ def main():
 	update_cache = None
 	codename = None
 	cdimage = None
+	uec_curses = False
 
 	# Option Parser
 	usage = "usage: %prog <parameters>\n\
@@ -194,6 +194,8 @@ def main():
 	parser.add_option('-p', '--repo', action='store', type='string', dest='repository',
 		help=_('hardcode Ubuntu repository from where to obtain ISOs:\n\
 		     releases/cdimage/uec-daily/uec-releases'))
+	parser.add_option('-c', '--curses', action='store_true', default=False, dest='curses',
+		help=_('displays the Virtual Machine in the shell. Only valid for UEC images.'))
 
 	(opt, args) = parser.parse_args()
 	info(_("version passed: %s") % opt.version)
@@ -205,7 +207,6 @@ def main():
 		# for same function
 		td.get_virt()
 		sys.exit(0)
-
 
 	##############################
 	## Configuration Files Code ##
@@ -244,8 +245,10 @@ def main():
 			td.DISK_FILE = opt.url
 			td.ISO_URL = "file:///dev/null"
 		elif is_uec_img(opt.url):
-			#TODO: Add logic to handle UEC images.
 			td.p = 'uec-daily'
+			if opt.curses:
+				td.KVM_ARGS = td.KVM_ARGS + ' -curses'
+				uec_curses = True
 			td.ISO_URL = is_iso(opt.url)
 		else:
 			td.ISO_URL = is_iso(opt.url)
@@ -385,7 +388,8 @@ def main():
 	info(_("Launching Virtual Machine..."))
 	try:
 		cmd = virt.launch_virt()
-		run_vm(cmd, td)
+		print "\t%s" % cmd
+		run_vm(cmd, td, uec_curses)
 	except:
 		error(_("Unable to launch Virtual Machine"))
 

@@ -6,6 +6,8 @@ testdrive \- Test Drive the current Ubuntu Development Snapshot in a VM
 testdrive [\-d] [\-f FILE] [\-l FLAVOR] [\-r RELEASE] [\-u URL] [\-v|\-\-version]
 
 .SH OPTIONS
+\fB\-c|\-\-curses\fP - Use KVM CURSES mode when launching a UEC image
+
 \fB\-d\fP - launch usb-creator after testdriving ISO
 
 \fB\-f FILE\fP - path to a configuration file to read
@@ -60,6 +62,11 @@ testdrive \-u /local/path/to/image.iso
 Launch UEC local image
 .RS
 testdrive \-u /local/path/to/uec-image.tar.gz
+.RE
+
+Launch UEC local image with KVM curses
+.RS
+testdrive \-u /local/path/to/uec-image.tar.gz --curses
 .RE
 
 .SH FILES
