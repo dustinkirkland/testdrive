@@ -382,7 +382,7 @@ class Testdrive:
 	def create_disk_file(self):
 		return tempfile.mkstemp(".img", "testdrive-disk-", "%s" % self.CACHE_IMG)[1]
 
-	def prepare_image_tarball(self):
+	def prepare_uec_img_tarball(self):
 		untar = False
 		TAR_BASENAME = os.path.basename(self.PATH_TO_ISO).split(".tar.gz")[0].split("_")[-1]
 		ORIG_DISK_NAME = "%s.img" % TAR_BASENAME

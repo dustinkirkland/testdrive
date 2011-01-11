@@ -19,7 +19,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import commands, hashlib, os, string, sys, tempfile, time, platform, subprocess
+import commands, hashlib, os, string, sys, tempfile, time, platform, subprocess, tarfile
 from optparse import OptionParser
 
 import gettext
@@ -86,6 +86,8 @@ def is_iso(file):
 	# If it's a local path, test it for viability
 	if commands.getstatusoutput("file \"%s\" | grep -qs \"ISO 9660\"" % file)[0] == 0:
 		return("file://%s" % file)
+	elif tarfile.is_tarfile(file):
+		return("file://%s" % file)
 	else:
 		error(_("Invalid ISO URL [%s]") % file)
 
@@ -99,6 +101,23 @@ def is_disk_img(file):
 		# probably a virtual box image
 		return True
 	return False
+
+def is_uec_img(file):
+	img = False
+	floppy = False
+	tar = tarfile.open(file)
+	tarball = tar.getnames()
+	for item in tarball:
+        	if str(item).split(".")[-1] == "img":
+                	img = True
+	        elif str(item).split("-")[-1] == "floppy" and img:
+        	        floppy = True
+                	break
+
+	if img and floppy:
+        	return True
+	else:
+	        return False
 
 def run(cmd):
 	return(os.system(cmd))
@@ -187,16 +206,6 @@ def main():
 		td.get_virt()
 		sys.exit(0)
 
-	# TODO: is_iso function is locally used to see if the url is indeed one or not. Could be used by the front-end
-	# Process the rest of the options
-	if opt.url:
-		hasOptions = True
-		if is_disk_img(opt.url):
-			# Argument is an existing qcow2 image
-			td.DISK_FILE = opt.url
-			td.ISO_URL = "file:///dev/null"
-		else:
-			td.ISO_URL = is_iso(opt.url)
 
 	##############################
 	## Configuration Files Code ##
@@ -225,6 +234,21 @@ def main():
 	##########################################
 	## UI Options needed after config files ##
 	##########################################
+
+	# TODO: is_iso function is locally used to see if the url is indeed one or not. Could be used by the front-end
+	# Process the rest of the options
+	if opt.url:
+		hasOptions = True
+		if is_disk_img(opt.url):
+			# Argument is an existing qcow2 image
+			td.DISK_FILE = opt.url
+			td.ISO_URL = "file:///dev/null"
+		elif is_uec_img(opt.url):
+			#TODO: Add logic to handle UEC images.
+			td.p = 'uec-daily'
+			td.ISO_URL = is_iso(opt.url)
+		else:
+			td.ISO_URL = is_iso(opt.url)
 
 	# Launch usb-creator
 	if opt.desktop:
@@ -336,10 +360,9 @@ def main():
 			error(_("ISO not found at [%s]") % td.ISO_URL)
 	if cmd != 0:
 		run_or_die(cmd)
-
 	if td.p == 'uec-daily' or td.p == 'uec-releases':
 		info("Preparing UEC image [%s]" % os.path.basename(td.PATH_TO_ISO).split("_")[-1])
-		td.prepare_image_tarball()
+		td.prepare_uec_img_tarball()
 
 	###################
 	## Launch the VM ##
