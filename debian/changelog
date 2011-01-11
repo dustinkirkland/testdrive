@@ -2,8 +2,9 @@ testdrive (3.5) unreleased; urgency=low
 
   * doc/testdrive.1: Update manpage.
   * bin/testdrive: Add possibility to launch UEC image with "curses" in kvm.
+  * Ensure that UEC images are only launched when using KVM.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 11 Jan 2011 15:56:14 -0600
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 11 Jan 2011 16:02:07 -0600
 
 testdrive (3.4-0ubuntu1) natty; urgency=low
 
