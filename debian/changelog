@@ -1,3 +1,9 @@
+testdrive (3.6) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 11 Jan 2011 16:06:57 -0600
+
 testdrive (3.5-0ubuntu1) natty; urgency=low
 
   * doc/testdrive.1: Update manpage.
