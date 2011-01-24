@@ -1,8 +1,9 @@
 testdrive (3.6) unreleased; urgency=low
 
-  * UNRELEASED
+  * Correctly show the version of TestDrive GTK. Thanks to Alexander Telenga
+    to pointing it out. (LP: #706928)
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 11 Jan 2011 16:06:57 -0600
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Mon, 24 Jan 2011 09:25:09 -0500
 
 testdrive (3.5-0ubuntu1) natty; urgency=low
 
