@@ -1,4 +1,4 @@
-testdrive (3.6) unreleased; urgency=low
+testdrive (3.6-0ubuntu1) natty; urgency=low
 
   * Correctly show the version of TestDrive GTK. Thanks to Alexander Telenga
     to pointing it out. (LP: #706928)
@@ -9,7 +9,7 @@ testdrive (3.6) unreleased; urgency=low
       + testdrive/virt/{kvm,virtualbox,parallels}.py: Update to support change.
   * Code clean-up
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Wed, 26 Jan 2011 19:22:02 -0500
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Wed, 26 Jan 2011 19:39:29 -0500
 
 testdrive (3.5-0ubuntu1) natty; urgency=low
 
