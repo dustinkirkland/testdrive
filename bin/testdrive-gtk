@@ -46,6 +46,10 @@ TAB_LABEL.append({"dist":"mythbuntu", "label":"Mythbuntu"})
 TAB_LABEL.append({"dist":"ubuntustudio", "label":"Ubuntu Studio"})
 TAB_LABEL.append({"dist":"other", "label":_("Other")})
 
+global ISOLIST
+
+ISOLIST = []
+
 # optional Launchpad integration
 # this shouldn't crash if not found as it is simply used for bug reporting
 try:
@@ -299,15 +303,6 @@ class TestdrivegtkWindow(gtk.Window):
 						"kvm-ok"
 						"\n"
 						"sudo apt-get install virtualbox-ose"))
-		if self.td.VIRT == "kvm":
-			logging.info(_("Using KVM for virtual machine hosting..."))
-			self.virt = kvm.KVM(self.td)
-		if self.td.VIRT == "virtualbox":
-			logging.info(_("Using VirtualBox for virtual machine hosting..."))
-			self.virt = virtualbox.VBox(self.td)
-		if self.td.VIRT == "paralels":
-			logging.info(_("Using Parallels Desktop for virtual machine hosting..."))
-			self.virt = parallels.Parallels(self.td)
 
 	def obtain_isos_list(self):
 		###################################################################
@@ -375,6 +370,9 @@ class TestdrivegtkWindow(gtk.Window):
 		###################################################################
 		############ Creates all the Distro Tabs and the ISO's ############
 		###################################################################
+		# Making sure global variable ISOLIST is clean.
+		global ISOLIST
+		ISOLIST = []
 		vm_id = 0
 		ISO = iso_list
 		# Create TABS
@@ -448,7 +446,9 @@ class TestdrivegtkWindow(gtk.Window):
 						spin = gtk.Spinner()
 						spin.set_size_request(18, -1);
 						spin.hide()
-						lb_iso_name.connect("clicked", self.on_select_iso_clicked, spin, lb_cache, iso["url"], iso["category"], vm_id)
+						#lb_iso_name.connect("clicked", self.on_select_iso_clicked, spin, lb_cache, iso["url"], iso["category"], vm_id)
+						lb_iso_name.connect("clicked", self.on_select_iso_clicked, vm_id)
+						ISOLIST.append({"vm_id":vm_id, "url":iso["url"], "prefix":iso["category"], "spinner":spin, "lb_status":lb_cache})
 						vm_id += 1
 						table.attach(lb_iso_name, 0, 3, 0, 1, gtk.FILL | gtk.EXPAND, gtk.FILL | gtk.EXPAND)
 						table.attach(spin, 0, 1, 1, 2, gtk.FILL, gtk.FILL | gtk.EXPAND)
@@ -481,7 +481,9 @@ class TestdrivegtkWindow(gtk.Window):
 						spin = gtk.Spinner()
 						spin.set_size_request(18, -1);
 						spin.hide()
-						lb_iso_name.connect("clicked", self.on_select_iso_clicked, spin, lb_cache, iso["url"], iso["category"], vm_id)
+						#lb_iso_name.connect("clicked", self.on_select_iso_clicked, spin, lb_cache, iso["url"], iso["category"], vm_id)
+						lb_iso_name.connect("clicked", self.on_select_iso_clicked, vm_id)
+						ISOLIST.append({"vm_id":vm_id, "url":iso["url"], "prefix":iso["category"], "spinner":spin, "lb_status":lb_cache})
 						vm_id += 1
 						table.attach(lb_iso_name, 0, 3, 0, 1, gtk.FILL | gtk.EXPAND, gtk.FILL | gtk.EXPAND)
 						table.attach(spin, 0, 1, 1, 2, gtk.FILL, gtk.FILL | gtk.EXPAND)
@@ -560,32 +562,82 @@ class TestdrivegtkWindow(gtk.Window):
 
 		vbox.pack_start(bbox, True, True)
 
-	def on_select_iso_clicked(self, widget, spin, status_label, url=None, iso_path_header=None, vm_id=None):
+	#def on_select_iso_clicked(self, widget, spin, status_label, url=None, iso_path_header=None, vm_id=None):
+	#ISOLIST.append({"vm_id":vm_id, "url":iso["url"], "prefix":iso["category"], "spin":spin, "lb_status":lb_cache})
+	#lb_iso_name.connect("clicked", self.on_select_iso_clicked, spin, lb_cache, iso["url"], iso["category"], vm_id)
+	def on_select_iso_clicked(self, widget, vm_id):
 		###################################################################
 		# When ISO is clicked, does the setup to be ready to launch/sync ##
 		###################################################################
-		# This will set the ISO_URL to be able to launch
+		#ISOLIST[vm_id]["vm_id"]     #
+		#ISOLIST[vm_id]["url"]       # self.td.ISO_URL
+		#ISOLIST[vm_id]["prefix"]    # self.td.ISO_PATH_HEADER
+		#ISOLIST[vm_id]["spinner"]   #
+		#ISOLIST[vm_id]["lb_status"] #
+		# Added later:
+		#ISOLIST[vm_id]["path_to_iso"] # Path to the ISO
+		#ISOLIST[vm_id]["sync_cmd"]  # Sync command used
+		#ISOLIST[vm_id]["vbox_name"] # Name for VBOX/Parallels
+		#ISOLIST[vm_id]["virt"]      # Holds the Virt Object
+		#ISOLIST[vm_id]["virt_type"] # Defines the type of virt (kvm, vbox, parallels)
+
 		launch_cmd = None
 		sync_cmd = None
-
-		self.td.ISO_URL = url
-		self.td.ISO_PATH_HEADER = iso_path_header
-		self.td.set_launch_path()
 		launch_thread = None
 		status = None
-		sync_cmd = self.obtain_sync_protocol_cmd()
+
+		self.td.ISO_URL = ISOLIST[vm_id]["url"]
+		self.td.ISO_PATH_HEADER = ISOLIST[vm_id]["prefix"]
+		self.td.set_launch_path()
+
+		ISOLIST[vm_id]["path_to_iso"] = self.td.PATH_TO_ISO
+		# TODO - This is a workaround to issue of zsync command. See testdrive.py 'cd '%s' && zsync etc etc'
+		cmd = self.obtain_sync_protocol_cmd()
+		if self.td.PROTO == "zsync":
+			ISOLIST[vm_id]["sync_cmd"] = cmd.split("&&")[1].strip()
+		else:
+			ISOLIST[vm_id]["sync_cmd"] = cmd
+
 		if widget.get_active() == True:
 			self.td.DISK_FILE = self.td.create_disk_file()
-			# Only for vbox and parallels
 			self.td.VBOX_NAME = "%s-%s" % (self.td.PKG, vm_id)
-			launch_cmd = self.prepare_to_launch_vm()
-			if sync_cmd:
-				url = self.td.PATH_TO_ISO
-				sync_thread = SyncThread(status_label, spin, sync_cmd, url)
-			if launch_cmd:
-				launch_thread = LaunchThread(status_label, launch_cmd, self.td.VIRT)
+			ISOLIST[vm_id]["vbox_name"] = self.td.VBOX_NAME
+
+			# Instancing Sync Thread
+			sync_thread = SyncThread(vm_id)
+
+			# Selecting virt method and Instancing VIRT object
+			if self.td.VIRT == "kvm":
+				logging.info(_("Using KVM for virtual machine hosting..."))
+				virt = kvm.KVM(self.td)
+			if self.td.VIRT == "virtualbox":
+				logging.info(_("Using VirtualBox for virtual machine hosting..."))
+				virt = virtualbox.VBox(self.td)
+			if self.td.VIRT == "paralels":
+				logging.info(_("Using Parallels Desktop for virtual machine hosting..."))
+				virt = parallels.Parallels(self.td)
+
+			# Passing VIRT object to ISOLIST
+			ISOLIST[vm_id]["virt"] = virt
+			ISOLIST[vm_id]["virt_type"] = self.td.VIRT
+
+			# Instancing Launch Thread
+			launch_thread = LaunchThread(vm_id)
+
 			self.isos_to_run.append([sync_thread, launch_thread, self.td.DISK_FILE, status])
 
+		if widget.get_active() == False:
+			for t in self.isos_to_run:
+				if t[0].command == ISOLIST[vm_id]["sync_cmd"]:
+					t[0].stop()
+					t[1].stop()
+					self.td.DISK_FILE = t[2]
+					self.td.delete_image()
+					self.isos_to_run.remove(t)
+
+                ###############################################################################
+		# TODO - TODO - TODO - Determine better method to stop des-selected ISO's
+		"""
 		if widget.get_active() == False:
 			for t in self.isos_to_run:
 				#if t[0].command == sync_cmd or t[1].command == launch_cmd:
@@ -595,6 +647,7 @@ class TestdrivegtkWindow(gtk.Window):
 					self.td.DISK_FILE = t[2]
 					self.td.delete_image()
 					self.isos_to_run.remove(t)
+		"""
 
 	def on_sync_iso_clicked(self, widget, data=None):
 		###################################################################
@@ -663,46 +716,25 @@ class TestdrivegtkWindow(gtk.Window):
 			self.on_error_dialog(_("Unable to launch USB Creator!"))
 			return
 
-	def prepare_to_launch_vm(self):
-		###################################################################
-		######## Prepare the VM to launch and return launch command #######
-		###################################################################
-		logging.info(_("Validating Virtualization Method..."))
-		try:
-			self.virt.validate_virt()
-		except:
-			logging.error(_('Unable to validate Virtualization Method [%s]') % self.td.VIRT)
-			self.on_error_dialog(_('Unable to validate Virtualization Method [%s]') % self.td.VIRT)
-
-		#self.on_info_dialog("Setting up Virtual Machine...")
-		logging.info(_('Setting up Virtual Machine...'))
-		try:
-			self.virt.setup_virt()
-		except:
-			logging.error(_('Unable to setup Virtual Machine'))
-			self.on_error_dialog(_('Unable to setup Virtual Machine'))
-
-		#self.on_info_dialog("Launching Virtual Machine...")
-		logging.info(_('Obtaining Virtual Machine launch command...'))
-		return self.virt.launch_virt()
-
 ###################################################################
 ########## Class that support threading for ISO Syncing ###########
 ###################################################################
 class SyncThread(threading.Thread):
 	#def __init__(self, label, spinner, progress, cmd, url):
-	def __init__(self, label, spinner, cmd, url):
+	def __init__(self, vm_id):
 		threading.Thread.__init__ (self)
-		self.spin = spinner
-		self.status_label = label
-		self.previous_text = label.get_text()
-		self.command = cmd
+		self.spin = ISOLIST[vm_id]["spinner"]
+		self.status_label = ISOLIST[vm_id]["lb_status"]
+		self.previous_text = self.status_label.get_text()
 		self.stopthread = threading.Event()
-		self.url = url
+		self.url = ISOLIST[vm_id]["path_to_iso"]
 		self.p = None
+		self.proto = ISOLIST[vm_id]["url"].split("://")[0]
+		self.command = ISOLIST[vm_id]["sync_cmd"]
 
 	def run(self):
-		self.p = subprocess.Popen(self.command, shell=True, stdout=subprocess.PIPE, universal_newlines = True)
+		cmd = self.command.split()
+		self.p = subprocess.Popen(cmd, stdout=subprocess.PIPE, universal_newlines = True)
 		percent = re.compile(r'(\d+)%')
 		self.status_label.show()
 		self.spin.show()
@@ -754,21 +786,37 @@ class SyncThread(threading.Thread):
 ###################################################################
 class LaunchThread(threading.Thread):
 	####def __init__(self, label, cmd):
-	def __init__(self, label, cmd, virt):
-		threading.Thread.__init__ (self)
-		self.status_label = label
-		self.previous_text = label.get_text()
-		self.command = cmd
+	###def __init__(self, label, cmd, virt):
+	def __init__(self, vm_id):
+		threading.Thread.__init__(self)
+		self.status_label = ISOLIST[vm_id]["lb_status"]
+		self.previous_text = ISOLIST[vm_id]["lb_status"].get_text()
 		self.stopthread = threading.Event()
+		self.virt = ISOLIST[vm_id]["virt_type"]
+		self.ovirt = ISOLIST[vm_id]["virt"]
+		self.VBOX_NAME = ISOLIST[vm_id]["vbox_name"]
 		self.p = None
-		self.virt = virt
-		self.VBOX_NAME = self.command.split()[2]
+
+	def prepare_to_launch_vm(self):
+                ###################################################################
+                ######## Prepare the VM to launch and return launch command #######
+                ###################################################################
+		# TODO TODO TODO - Re-add validation
+		self.ovirt.validate_virt()
+		self.ovirt.setup_virt()
+		return self.ovirt.launch_virt()
 
 	def run(self):
-		cmd = self.command.split()
+		if self.virt == "virtualbox":
+			text = _("    Configuring Virtual Machine...")
+			self.status_label.set_markup("<b><i>%s</i></b>" % text)
+			self.status_label.show()
+		command = self.prepare_to_launch_vm()
+		cmd = command.split()
 		self.p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-		self.status_label.show()
 		text = _("     Running Virtual Machine...")
+		self.status_label.set_markup("<b><i>%s</i></b>" % text)
+		self.status_label.show()
 
 		if self.virt == 'kvm':
 			while not self.stopthread.isSet():
@@ -776,10 +824,6 @@ class LaunchThread(threading.Thread):
 					self.status_label.set_markup("<i>%s</i>" % self.previous_text)
 					self.p = None
 					break
-				gtk.gdk.threads_enter()
-				# Update label
-				self.status_label.set_markup("<b><i>%s</i></b>" % text)
-				gtk.gdk.threads_leave()
 				time.sleep(0.1)
 
 		elif self.virt == 'virtualbox':
@@ -789,10 +833,6 @@ class LaunchThread(threading.Thread):
 					self.status_label.set_markup("<i>%s</i>" % self.previous_text)
 					self.p = None
 					break
-				gtk.gdk.threads_enter()
-				# Update label
-				self.status_label.set_markup("<b><i>%s</i></b>" % text)
-				gtk.gdk.threads_leave()
 				time.sleep(2)
 
 		elif self.virt == 'parallels':
@@ -801,16 +841,15 @@ class LaunchThread(threading.Thread):
 					self.status_label.set_markup("<i>%s</i>" % self.previous_text)
 					self.p = None
 					break
-				gtk.gdk.threads_enter()
-				# Update label
-				self.status_label.set_markup("<b><i>%s</i></b>" % text)
-				gtk.gdk.threads_leave()
 				time.sleep(2)
 
 	def stop(self):
 		try:
 			if self.p.poll() is None:
 				self.p.terminate()
+				self.status_label.set_markup("<i>%s</i>" % self.previous_text)
+			if self.virt == "virtualbox":
+				os.system("VBoxManage controlvm %s poweroff" % self.VBOX_NAME)
 				self.status_label.set_markup("<i>%s</i>" % self.previous_text)
 		except:
 			pass
