@@ -240,19 +240,16 @@ def main():
 	if td.VIRT == 1:
 		error(_("Your CPU supports KVM acceleration; please install KVM:\n\
 			sudo apt-get install qemu-kvm"))
-	if td.VIRT == 0:
+	elif td.VIRT == 0:
 		error(_("Your CPU does not support acceleration; run kvm-ok for more information; then please install VirtualBox:\n\
 			kvm-ok\n\
 			sudo apt-get install virtualbox-ose"))
-	if td.VIRT == "kvm":
+	elif td.VIRT == "kvm":
 		info(_("Using KVM for virtual machine hosting..."));
-		virt = kvm.KVM(td)
-	if td.VIRT == "virtualbox":
+	elif td.VIRT == "virtualbox":
 		info(_("Using VirtualBox for virtual machine hosting..."))
-		virt = virtualbox.VBox(td)
-	if td.VIRT == "paralels":
+	elif td.VIRT == "paralels":
 		info(_("Using Parallels Desktop for virtual machine hosting..."))
-		virt = parallels.Parallels(td)
 
 	##########################################
 	## UI Options needed after config files ##
@@ -369,6 +366,19 @@ def main():
 		info("Preparing UEC image [%s]" % os.path.basename(td.PATH_TO_ISO).split("_")[-1])
 		td.prepare_uec_img_tarball()
 
+	##########################
+	## Creating Virt Object ##
+	##########################
+	# Create DISK_FILE to initialize Virt Method defaults.
+	if len(td.DISK_FILE) == 0:
+		td.DISK_FILE = td.create_disk_file()
+	if td.VIRT == "kvm":
+		virt = kvm.KVM(td)
+	if td.VIRT == "virtualbox":
+		virt = virtualbox.VBox(td)
+	if td.VIRT == "paralels":
+		virt = parallels.Parallels(td)
+
 	###################
 	## Launch the VM ##
 	###################
@@ -380,9 +390,6 @@ def main():
 
 	info(_("Setting up Virtual Machine..."))
 	try:
-		# Only create DISK_FILE after validating VM, not on defaults.
-		if len(td.DISK_FILE) == 0:
-			td.DISK_FILE = td.create_disk_file()
 		virt.setup_virt()
 	except:
 		error(_("Unable to setup Virtual Machine"))
