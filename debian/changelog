@@ -1,3 +1,9 @@
+testdrive (3.8) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Thu, 27 Jan 2011 10:33:17 -0500
+
 testdrive (3.7-0ubuntu1) natty; urgency=low
 
   * testdrive-cli: Fix launch issue after refactoring virt creation methods.
