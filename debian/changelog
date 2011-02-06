@@ -2,8 +2,10 @@ testdrive (3.8) unreleased; urgency=low
 
   * testdrive-gtk: Do not update the UI when "Saving" from Preferences if
     they are unchanged (LP: #713740)
+  * Add support for VirtualBox 4.0. Thanks to Dario Vertini. (LP: #703816)
+  * Remove support for VirtualBox 3.0 as it was no longer supported.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Sun, 06 Feb 2011 11:41:53 -0500
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Sun, 06 Feb 2011 13:41:40 -0500
 
 testdrive (3.7-0ubuntu1) natty; urgency=low
 

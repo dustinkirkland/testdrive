@@ -25,7 +25,7 @@ Package: testdrive-common
 Architecture: all
 XB-Python-Version: ${python:Versions}
 Depends: ${python:Depends}, ${misc:Depends},
- qemu-kvm | kvm ( >= 1:84+dfsg-0ubuntu12.4 ) | virtualbox-ose ( >= 3.0.8) | virtualbox-3.0 | virtualbox-3.1 | virtualbox-3.2,
+ qemu-kvm | kvm ( >= 1:84+dfsg-0ubuntu12.4 ) | virtualbox-ose ( >= 3.1.6) | virtualbox-3.1 | virtualbox-3.2 | virtualbox-4.0,
  rsync,
  wget
 Recommends: zsync, usb-creator-gtk | usb-creator-kde, cpu-checker, kvm-pxe
