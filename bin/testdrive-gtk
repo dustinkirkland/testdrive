@@ -166,12 +166,26 @@ class TestdrivegtkWindow(gtk.Window):
 		"""Display the preferences window for testdrivegtk."""
 		prefs = PreferencesTestdrivegtkDialog.PreferencesTestdrivegtkDialog()
 		response = prefs.run()
+		ui_recreate = False
 		if response == gtk.RESPONSE_OK:
 			# Make any updates based on changed preferences here.
-			self.td = prefs.get_preferences()
-			self.notebook.destroy()
+			#self.td = prefs.get_preferences()
+			#self.notebook.destroy()
+			#self.td.set_defaults()
+			#self.create_isos_interface()
+
+			# Obtain preferences
+			td = prefs.get_preferences()
+			# If Repo (p), Release, Arch (m), Flavor, or ISO CACHE are different, then, regenerate the UI
+			if self.td.p != td.p or self.td.r != td.r or self.td.m != td.m or self.td.f != td.f or self.td.CACHE_ISO != td.CACHE_ISO:
+				ui_recreate = True
+			# Update preferences
+			self.td = td
 			self.td.set_defaults()
-			self.create_isos_interface()
+			# Recreate UI
+			if ui_recreate:
+				self.notebook.destroy()
+				self.create_isos_interface()
 			pass
 		prefs.destroy()
 
