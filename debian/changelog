@@ -1,4 +1,4 @@
-testdrive (3.8) unreleased; urgency=low
+testdrive (3.8-0ubuntu1) natty; urgency=low
 
   * testdrive-gtk: Do not update the UI when "Saving" from Preferences if
     they are unchanged (LP: #713740)
@@ -7,7 +7,7 @@ testdrive (3.8) unreleased; urgency=low
   * debian/rules: Add --with python2.
   * Update release version
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 08 Feb 2011 15:17:04 -0500
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 08 Feb 2011 15:26:58 -0500
 
 testdrive (3.7-0ubuntu1) natty; urgency=low
 
