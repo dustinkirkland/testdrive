@@ -4,8 +4,10 @@ testdrive (3.8) unreleased; urgency=low
     they are unchanged (LP: #713740)
   * Add support for VirtualBox 4.0. Thanks to Dario Vertini. (LP: #703816)
   * Remove support for VirtualBox 3.0 as it was no longer supported.
+  * debian/rules: Add --with python2.
+  * Update release version
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Sun, 06 Feb 2011 13:41:40 -0500
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 08 Feb 2011 15:17:04 -0500
 
 testdrive (3.7-0ubuntu1) natty; urgency=low
 
