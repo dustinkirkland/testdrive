@@ -1,3 +1,9 @@
+testdrive (3.9) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 08 Feb 2011 15:27:03 -0500
+
 testdrive (3.8-0ubuntu1) natty; urgency=low
 
   * testdrive-gtk: Do not update the UI when "Saving" from Preferences if
