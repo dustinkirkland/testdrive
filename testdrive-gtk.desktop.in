@@ -3,6 +3,6 @@ _Name=Test Drive an Ubuntu ISO
 _Comment=Download and run an Ubuntu ISO in a Virtual Machine
 Categories=Utility;System;
 Exec=testdrive-gtk
-Icon=testdrivegtk
+Icon=testdrive-gtk
 Terminal=false
 Type=Application

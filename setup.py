@@ -67,7 +67,7 @@ def update_desktop_file(datadir):
 
         for line in fin:            
             if 'Icon=' in line:
-                line = "Icon=%s\n" % (datadir + 'media/testdrive.png')
+                line = "Icon=%s\n" % (datadir + 'media/testdrive-gtk.xpm')
             fout.write(line)
         fout.flush()
         fout.close()
@@ -81,7 +81,7 @@ def update_desktop_file(datadir):
 class InstallAndUpdateDataDirectory(DistUtilsExtra.auto.install_auto):
     def run(self):
         previous_value = update_data_path(self.prefix + '/share/testdrivegtk/')
-        update_desktop_file(self.prefix + '/share/testdrivegtk/')
+        #update_desktop_file(self.prefix + '/share/testdrivegtk/')
         DistUtilsExtra.auto.install_auto.run(self)
         update_data_path(self.prefix, previous_value)
 
@@ -109,7 +109,8 @@ DistUtilsExtra.auto.setup(
 			('share/testdrivegtk/ui', glob('data/ui/*.ui')),
 			('share/testdrivegtk/ui', glob('data/ui/*.xml')),
 			('share/testdrivegtk/media', glob('data/media/*.png')),
-			('share/testdrivegtk/media', glob('data/media/*.svg'))
+			('share/testdrivegtk/media', glob('data/media/*.svg')),
+			('share/pixmaps', glob('data/media/testdrive-gtk.xpm'))
 			],
 	cmdclass={'install': InstallAndUpdateDataDirectory}
 	)
