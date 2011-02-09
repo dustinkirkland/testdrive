@@ -1,4 +1,4 @@
-testdrive (3.9) unreleased; urgency=low
+testdrive (3.9-0ubuntu1) natty; urgency=low
 
   * debian/control: Switch to python-support; Add missing Dependencies.
   * Fix installation of desktop file icon:
@@ -7,7 +7,7 @@ testdrive (3.9) unreleased; urgency=low
     - testdrive-gtk.desktop.in: Update Icon name.
     - debian/testdrive-gtk.install: Install new icon.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Wed, 09 Feb 2011 17:55:35 -0500
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Wed, 09 Feb 2011 17:56:35 -0500
 
 testdrive (3.8-0ubuntu1) natty; urgency=low
 
