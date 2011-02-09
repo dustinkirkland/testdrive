@@ -3,8 +3,7 @@ Section: python
 Priority: extra
 Maintainer: Dustin Kirkland <kirkland@ubuntu.com>
 Standards-Version: 3.8.3
-Build-Depends: debhelper (>= 7), gettext-base
-Build-Depends-Indep: python, python-central (>= 0.5), python-distutils-extra (>= 2.10)
+Build-Depends: debhelper (>= 7), gettext-base, python, python-support (>= 0.6.4), python-distutils-extra (>= 2.10)
 XS-Python-Version: current
 Homepage: http://launchpad.net/testdrive
 Vcs-Bzr: http://bazaar.launchpad.net/~kirkland/testdrive/trunk
@@ -66,7 +65,10 @@ XB-Python-Version: ${python:Versions}
 Depends: ${misc:Depends},
  ${python:Depends},
  testdrive-common (= ${source:Version}),
- python-gtk2
+ python-gtk2,
+ python-notify,
+ python-xdg,
+ python-launchpad-integration
 Description: run the daily Ubuntu ISO in a virtual machine (GTK Front-end)
  Testdrive helps you download and run the daily Ubuntu development ISO
  in a virtual machine on your local hardware.
