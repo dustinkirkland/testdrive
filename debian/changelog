@@ -1,8 +1,12 @@
 testdrive (3.10) unreleased; urgency=low
 
-  * UNRELEASED
+  * bin/testdrive: qemu image output of file changed. Update accordingly.
+  * testdrive-gtk: Add Messaging Indicator.
+    - indicator/testdrive-gtk: Add
+    - debian/testdrive-gtk.install: Install indicator.
+    - setup.py: Update installer to do the same as above.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Wed, 09 Feb 2011 17:56:38 -0500
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 15 Feb 2011 17:53:29 -0500
 
 testdrive (3.9-0ubuntu1) natty; urgency=low
 

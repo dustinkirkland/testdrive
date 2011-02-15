@@ -93,7 +93,7 @@ class InstallAndUpdateDataDirectory(DistUtilsExtra.auto.install_auto):
 
 DistUtilsExtra.auto.setup(
 	name='testdrive',
-	version='3.9',
+	version='3.10',
 	license='GPL-3',
 	author='Andres Rodriguez',
 	author_email='andreserl@ubuntu.com',
@@ -110,7 +110,8 @@ DistUtilsExtra.auto.setup(
 			('share/testdrivegtk/ui', glob('data/ui/*.xml')),
 			('share/testdrivegtk/media', glob('data/media/*.png')),
 			('share/testdrivegtk/media', glob('data/media/*.svg')),
-			('share/pixmaps', glob('data/media/testdrive-gtk.xpm'))
+			('share/pixmaps', glob('data/media/testdrive-gtk.xpm')),
+			('share/indicators/messages/applications', glob('indicator/testdrive-gtk'))
 			],
 	cmdclass={'install': InstallAndUpdateDataDirectory}
 	)

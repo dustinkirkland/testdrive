@@ -79,6 +79,14 @@ from testdrivegtk import (
 	AboutTestdrivegtkDialog, PreferencesTestdrivegtkDialog, AddOtherTestdrivegtkDialog)
 from testdrivegtk.helpers import get_builder
 
+try:
+	import indicate
+	import gobject
+	import webbrowser
+	message_indicator = True
+except:
+	message_indicator = False
+
 
 class TestdrivegtkWindow(gtk.Window):
 	__gtype_name__ = "TestdrivegtkWindow"
@@ -149,6 +157,66 @@ class TestdrivegtkWindow(gtk.Window):
 
 		self.create_launch_buttons()
 		self.create_isos_interface()
+
+		###################################################################
+		######### Messages Indicator / Menu                     ###########
+		###################################################################
+		if message_indicator:
+			self.timea = 15
+			self.timeb = 3600
+			self.indicator = None
+			self.messaging_indicator_menu()
+
+	# Initializes the indicator
+	def messaging_indicator_menu(self):
+		DESKTOP_FILE = "/usr/share/applications/testdrive-gtk.desktop"
+		# Initializes the Server
+		server = indicate.indicate_server_ref_default()
+		server.set_type("message.testdrive")
+		server.set_desktop_file(DESKTOP_FILE)
+		server.connect("server-display", self.on_indicator_server_activate)
+		server.show()
+
+		# Initializes the Indicator
+		self.indicator = indicate.Indicator()
+		self.indicator.set_property("name", "Pre-release available for testing!")
+		self.indicator.set_property_time("time", time.time())
+		#indicator.show()
+
+		self.indicator.connect("user-display", self.on_indicator_message_clicked)
+
+		# Checks every 3600 seconds - hour - (If TestDrive is open that long)
+		gobject.timeout_add_seconds(self.timea, self.on_check_qa_releases_available, self.timea)
+		gobject.timeout_add_seconds(self.timeb, self.on_check_qa_releases_available, self.timeb)
+
+	# Checks for the availability of ISOs at iso.qa.ubuntu.com and displays notification if so.
+	def on_check_qa_releases_available(self, time):
+		output = ""
+		logging.info(_("Checking available ISOs at the ISO tracker [http://iso.qa.ubuntu.com] every %s seconds") % time)
+		try:
+			(status, output) = commands.getstatusoutput("wget -q -O- http://iso.qa.ubuntu.com/qatracker/dllist")
+		except:
+			logging.error(_("Unable to check the ISO tracker"))
+
+		if output != "":
+			self.indicator.show()
+			self.indicator.set_property_bool("draw-attention", True)
+			return False
+
+		if time == self.timea:
+			return False
+
+		return True
+
+	# Click event for Indicator: Opens website when the notification is being clicked.
+	def on_indicator_message_clicked(self, indicator, timestamp):
+		webbrowser.open("http://iso.qa.ubuntu.com/")
+		self.indicator.hide()
+
+	# Click event for Indicator Server.
+	def on_indicator_server_activate(self, server, timestamp):
+		# TODO: Should show TestDrive if it has been minimized
+		print "Server has been clicked"
 
 	def update_status_bar(self):
 		data1 = _("<b>Release:</b> %s") % self.td.r

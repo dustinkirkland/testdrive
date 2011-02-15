@@ -96,6 +96,10 @@ def is_disk_img(file):
 	if status == 0:
 		# qemu/kvm qcow2 image
 		return True
+	(status, output) = commands.getstatusoutput("file %s | grep -qs 'QEMU QCOW Image'" % file)
+	if status == 0:
+		# qemu/kvm qcow2 image
+		return True
 	(status, output) = commands.getstatusoutput("file %s | grep -qs '.img: data$'" % file)
 	if status == 0:
 		# probably a virtual box image
@@ -259,6 +263,7 @@ def main():
 	# Process the rest of the options
 	if opt.url:
 		hasOptions = True
+		print "################################ past disk_image"
 		if is_disk_img(opt.url):
 			# Argument is an existing qcow2 image
 			td.DISK_FILE = opt.url
