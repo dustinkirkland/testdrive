@@ -5,8 +5,9 @@ testdrive (3.10) unreleased; urgency=low
     - indicator/testdrive-gtk: Add
     - debian/testdrive-gtk.install: Install indicator.
     - setup.py: Update installer to do the same as above.
+  * bin/testdrive: Add initial support for logging. Only log kvm commands.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 15 Feb 2011 17:53:29 -0500
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 15 Feb 2011 18:58:59 -0500
 
 testdrive (3.9-0ubuntu1) natty; urgency=low
 

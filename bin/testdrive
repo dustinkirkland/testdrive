@@ -200,6 +200,8 @@ def main():
 		     releases/cdimage/uec-daily/uec-releases'))
 	parser.add_option('-c', '--curses', action='store_true', default=False, dest='curses',
 		help=_('displays the Virtual Machine in the shell. Only valid for UEC images.'))
+	#parser.add_option('-v', '--verbose', action='store_true', default=False, dest='verbose',
+	#	help=_('show debug messages'))
 
 	(opt, args) = parser.parse_args()
 	info(_("version passed: %s") % opt.version)
@@ -307,6 +309,16 @@ def main():
 	#################################
 	td.set_defaults()
 
+	#################################
+	## Initializing Logging	       ##
+	## Only logs KVM command       ##
+	#################################
+	import logging
+	KVMLOG = "%s/kvm.log" % td.CACHE
+	logging.basicConfig(filename=KVMLOG, level=logging.DEBUG)
+	logging = logging.getLogger('testdrive')
+	#logging.debug('logging enabled')
+
 	#################################################
 	## Obtain the Ubuntu ISO List from the cdimage ##
 	## Obtain Release Codename from ISO cache      ##
@@ -403,6 +415,8 @@ def main():
 	try:
 		cmd = virt.launch_virt()
 		print "\t%s" % cmd
+		if td.VIRT == "kvm":
+			logging.debug("%s:%s" % (time.strftime("%Y-%m-%d_%H:%M:%S"), cmd))
 		run_vm(cmd, td, uec_curses)
 	except:
 		error(_("Unable to launch Virtual Machine"))
