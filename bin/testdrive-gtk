@@ -194,10 +194,12 @@ class TestdrivegtkWindow(gtk.Window):
 		output = ""
 		logging.info(_("Checking available ISOs at the ISO tracker [http://iso.qa.ubuntu.com] every %s seconds") % time)
 		try:
-			(status, output) = commands.getstatusoutput("wget -q -O- http://iso.qa.ubuntu.com/qatracker/dllist")
+			#(status, output) = commands.getstatusoutput("wget -q -O- http://iso.qa.ubuntu.com/qatracker/dllist")
+			(status, output) = commands.getstatusoutput("wget -q -O- http://iso.qa.ubuntu.com/qatracker | egrep 'iso.qa.ubuntu.com/qatracker/test'")
 		except:
 			logging.error(_("Unable to check the ISO tracker"))
 
+		# If output is not empty, display the message
 		if output != "":
 			self.indicator.show()
 			self.indicator.set_property_bool("draw-attention", True)
