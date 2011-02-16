@@ -1,4 +1,4 @@
-testdrive (3.10) unreleased; urgency=low
+testdrive (3.10-0ubuntu1) natty; urgency=low
 
   * bin/testdrive: qemu image output of file changed. Update accordingly.
   * testdrive-gtk: Add Messaging Indicator.
@@ -8,7 +8,7 @@ testdrive (3.10) unreleased; urgency=low
   * bin/testdrive: Add initial support for logging. Only log kvm commands.
   * debian/control: Add Depends to python-indicate for testdrive-gtk.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 15 Feb 2011 19:07:25 -0500
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 15 Feb 2011 19:22:59 -0500
 
 testdrive (3.9-0ubuntu1) natty; urgency=low
 
