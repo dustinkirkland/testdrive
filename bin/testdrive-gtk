@@ -162,7 +162,7 @@ class TestdrivegtkWindow(gtk.Window):
 		######### Messages Indicator / Menu                     ###########
 		###################################################################
 		if message_indicator:
-			self.timea = 15
+			self.timea = 5
 			self.timeb = 3600
 			self.indicator = None
 			self.messaging_indicator_menu()
