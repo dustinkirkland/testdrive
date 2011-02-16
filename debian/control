@@ -68,6 +68,7 @@ Depends: ${misc:Depends},
  python-gtk2,
  python-notify,
  python-xdg,
+ python-indicate (>= 3.0.0),
  python-launchpad-integration
 Description: run the daily Ubuntu ISO in a virtual machine (GTK Front-end)
  Testdrive helps you download and run the daily Ubuntu development ISO
