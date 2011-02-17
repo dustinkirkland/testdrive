@@ -1,8 +1,8 @@
 testdrive (3.11) unreleased; urgency=low
 
-  * UNRELEASED
+  * Disable the Installation and use of the Messaging indicator.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 15 Feb 2011 19:23:03 -0500
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Thu, 17 Feb 2011 13:30:13 -0500
 
 testdrive (3.10-0ubuntu1) natty; urgency=low
 

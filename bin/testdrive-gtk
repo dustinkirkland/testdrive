@@ -1,4 +1,4 @@
-#!/usr/bin/python
+!/usr/bin/python
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 ### BEGIN LICENSE
 # Copyright (C) 2010 Canonical Ltd.
@@ -83,7 +83,8 @@ try:
 	import indicate
 	import gobject
 	import webbrowser
-	message_indicator = True
+	#message_indicator = True
+	message_indicator = False
 except:
 	message_indicator = False
 
@@ -201,6 +202,11 @@ class TestdrivegtkWindow(gtk.Window):
 
 		# If output is not empty, display the message
 		if output != "":
+			global notifications_available
+			if notifications_available:
+				# Notification
+				self.notification = pynotify.Notification("TestDrive an Ubuntu ISO!", "Pre-release available for testing!", imageURI)
+				self.notification.show()
 			self.indicator.show()
 			self.indicator.set_property_bool("draw-attention", True)
 			return False
