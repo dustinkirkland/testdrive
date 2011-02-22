@@ -1,8 +1,10 @@
 testdrive (3.11) unreleased; urgency=low
 
   * Disable the Installation and use of the Messaging indicator.
+  * testdrive-gtk: Create Application Indicator. Will appear only when ISO's
+    are available for Testing.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Thu, 17 Feb 2011 13:30:13 -0500
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 22 Feb 2011 15:27:26 -0500
 
 testdrive (3.10-0ubuntu1) natty; urgency=low
 

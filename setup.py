@@ -109,9 +109,9 @@ DistUtilsExtra.auto.setup(
 			('share/testdrivegtk/ui', glob('data/ui/*.ui')),
 			('share/testdrivegtk/ui', glob('data/ui/*.xml')),
 			('share/testdrivegtk/media', glob('data/media/*.png')),
-			('share/testdrivegtk/media', glob('data/media/*.svg')),
-			('share/pixmaps', glob('data/media/testdrive-gtk.xpm')),
-			('share/testdrivegtk/indicator', glob('indicator/testdrive-gtk'))
+			('share/testdrivegtk/media', glob('data/media/*.svg'))
+			#('share/pixmaps', glob('data/media/testdrive-gtk.xpm')),
+			#('share/testdrivegtk/indicator', glob('indicator/testdrive-gtk'))
 			#('share/indicators/messages/applications', glob('indicator/testdrive-gtk'))
 			],
 	cmdclass={'install': InstallAndUpdateDataDirectory}

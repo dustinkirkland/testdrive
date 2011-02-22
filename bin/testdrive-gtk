@@ -1,4 +1,4 @@
-!/usr/bin/python
+#!/usr/bin/python
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 ### BEGIN LICENSE
 # Copyright (C) 2010 Canonical Ltd.
@@ -88,6 +88,13 @@ try:
 except:
 	message_indicator = False
 
+try:
+	import appindicator
+	imageURI = 'file://' + PROJECT_ROOT_DIRECTORY + '/data/media/testdrive.png'
+	application_indicator = True
+except:
+	application_indicator = False
+
 
 class TestdrivegtkWindow(gtk.Window):
 	__gtype_name__ = "TestdrivegtkWindow"
@@ -162,11 +169,44 @@ class TestdrivegtkWindow(gtk.Window):
 		###################################################################
 		######### Messages Indicator / Menu                     ###########
 		###################################################################
+		self.notified = False
 		if message_indicator:
 			self.timea = 5
 			self.timeb = 3600
 			self.indicator = None
 			self.messaging_indicator_menu()
+
+		if application_indicator:
+			self.timea = 5
+			self.timeb = 3600
+			self.appindicator = None
+			self.application_indicator_menu()
+
+	def application_indicator_menu(self):
+		self.appindicator = appindicator.Indicator ("testdrive", "indicator-messages", appindicator.CATEGORY_APPLICATION_STATUS)
+		self.appindicator.set_status (appindicator.STATUS_PASSIVE)
+		self.appindicator.set_icon("testdrive-indicator")
+		#self.appindicator.set_attention_icon("distributor-logo")
+
+		# create a menu
+		self.app_indicator_menu = gtk.Menu()
+
+		# create items for the menu - labels, checkboxes, radio buttons and images are supported:
+		item = gtk.MenuItem("Pre-release available for testing!")
+		item.connect("activate", self.on_indicator_message_clicked, item)
+		item.show()
+		self.app_indicator_menu.append(item)
+
+		image = gtk.ImageMenuItem(gtk.STOCK_QUIT)
+		image.connect("activate", self.quit)
+		image.show()
+
+		self.app_indicator_menu.append(image)
+		self.app_indicator_menu.show()
+		self.appindicator.set_menu(self.app_indicator_menu)
+
+		gobject.timeout_add_seconds(self.timea, self.on_check_qa_releases_available, self.timea)
+		gobject.timeout_add_seconds(self.timeb, self.on_check_qa_releases_available, self.timeb)
 
 	# Initializes the indicator
 	def messaging_indicator_menu(self):
@@ -193,6 +233,8 @@ class TestdrivegtkWindow(gtk.Window):
 	# Checks for the availability of ISOs at iso.qa.ubuntu.com and displays notification if so.
 	def on_check_qa_releases_available(self, time):
 		output = ""
+		if self.notified is True:
+			return False
 		logging.info(_("Checking available ISOs at the ISO tracker [http://iso.qa.ubuntu.com] every %s seconds") % time)
 		try:
 			#(status, output) = commands.getstatusoutput("wget -q -O- http://iso.qa.ubuntu.com/qatracker/dllist")
@@ -207,8 +249,14 @@ class TestdrivegtkWindow(gtk.Window):
 				# Notification
 				self.notification = pynotify.Notification("TestDrive an Ubuntu ISO!", "Pre-release available for testing!", imageURI)
 				self.notification.show()
-			self.indicator.show()
-			self.indicator.set_property_bool("draw-attention", True)
+			global message_indicator
+			if message_indicator:
+				self.indicator.show()
+				self.indicator.set_property_bool("draw-attention", True)
+			global application_indicator
+			if application_indicator:
+				self.appindicator.set_status(appindicator.STATUS_ACTIVE)
+			self.notified = True
 			return False
 
 		if time == self.timea:
@@ -219,7 +267,10 @@ class TestdrivegtkWindow(gtk.Window):
 	# Click event for Indicator: Opens website when the notification is being clicked.
 	def on_indicator_message_clicked(self, indicator, timestamp):
 		webbrowser.open("http://iso.qa.ubuntu.com/")
-		self.indicator.hide()
+		if message_indicator:
+			self.indicator.hide()
+		if application_indicator:
+			self.appindicator.set_status(appindicator.STATUS_PASSIVE)
 
 	# Click event for Indicator Server.
 	def on_indicator_server_activate(self, server, timestamp):
