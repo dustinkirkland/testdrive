@@ -26,7 +26,10 @@ import gettext
 from gettext import gettext as _
 gettext.textdomain('testdrive')
 
-__version__ = '3.10'
+import commands
+version = commands.getstatusoutput("dpkg -l testdrive | tail -n1 | awk '{print $3}'")
+
+__version__ = version[1].split("-0")[0]
 __licensenotice__ = 'This program is free software: you can redistribute it and/or modify\n\
 it under the terms of the GNU General Public License as published by\n\
 the Free Software Foundation, either version 3 of the License, or\n\
