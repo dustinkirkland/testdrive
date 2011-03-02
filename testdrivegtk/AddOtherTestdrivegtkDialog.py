@@ -189,7 +189,7 @@ class AddOtherTestdrivegtkDialog(gtk.Dialog):
 		self.txt_other_url = self.builder.get_object("txt_other_url")
 
 		# Initializing TreeView that will list the other ISO's
-		self.liststore = gtk.ListStore(str, str, str)
+		self.liststore = gtk.ListStore(int, str, str)
 		self.treeview = self.builder.get_object("tv_other_isos_list")
 		self.treeview.columns = [None]*3
 		self.treeview.columns[0] = gtk.TreeViewColumn('No.')

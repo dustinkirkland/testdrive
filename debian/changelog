@@ -1,8 +1,10 @@
 testdrive (3.12) unreleased; urgency=low
 
   * testdrive-gtk: Automatically update testdrive's version.
+  * testdrive-gtk Add Other ISO: Fix "value is of wrong type for this column"
+    in liststore. (LP: #727515)
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 25 Feb 2011 16:14:29 -0500
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 01 Mar 2011 20:13:19 -0500
 
 testdrive (3.11-0ubuntu1) natty; urgency=low
 
