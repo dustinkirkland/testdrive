@@ -185,7 +185,8 @@ class TestdrivegtkWindow(gtk.Window):
 	def application_indicator_menu(self):
 		self.appindicator = appindicator.Indicator ("testdrive", "indicator-messages", appindicator.CATEGORY_APPLICATION_STATUS)
 		self.appindicator.set_status (appindicator.STATUS_PASSIVE)
-		self.appindicator.set_icon("testdrive-indicator")
+		#self.appindicator.set_icon("testdrive-indicator")
+		self.appindicator.set_icon("testdrive-attention")
 		#self.appindicator.set_attention_icon("distributor-logo")
 
 		# create a menu

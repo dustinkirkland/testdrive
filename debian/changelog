@@ -1,10 +1,15 @@
 testdrive (3.12) unreleased; urgency=low
 
+  [ Andres Rodriguez ]
   * testdrive-gtk: Automatically update testdrive's version.
   * testdrive-gtk Add Other ISO: Fix "value is of wrong type for this column"
     in liststore. (LP: #727515)
+  * Use new icon for TestDrive GTK Indicator Applet.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 01 Mar 2011 20:13:19 -0500
+  [ Vish <drkvi-a@yahoo.com> ]
+  * Add new TestDrive Icons to be used in the Indicator Applet. (LP: #723768)
+
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 04 Mar 2011 16:18:13 -0500
 
 testdrive (3.11-0ubuntu1) natty; urgency=low
 
