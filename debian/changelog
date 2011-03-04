@@ -1,4 +1,4 @@
-testdrive (3.12) unreleased; urgency=low
+testdrive (3.12-0ubuntu1) natty; urgency=low
 
   [ Andres Rodriguez ]
   * testdrive-gtk: Automatically update testdrive's version.
@@ -9,7 +9,7 @@ testdrive (3.12) unreleased; urgency=low
   [ Vish <drkvi-a@yahoo.com> ]
   * Add new TestDrive Icons to be used in the Indicator Applet. (LP: #723768)
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 04 Mar 2011 16:18:13 -0500
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 04 Mar 2011 16:22:26 -0500
 
 testdrive (3.11-0ubuntu1) natty; urgency=low
 
