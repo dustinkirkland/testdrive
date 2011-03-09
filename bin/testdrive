@@ -265,7 +265,6 @@ def main():
 	# Process the rest of the options
 	if opt.url:
 		hasOptions = True
-		print "################################ past disk_image"
 		if is_disk_img(opt.url):
 			# Argument is an existing qcow2 image
 			td.DISK_FILE = opt.url

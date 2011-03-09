@@ -48,7 +48,8 @@ class KVM:
 	# Code to setup virtual machine
 	def setup_virt(self):
 		if self.p == 'uec-daily' or self.p == 'uec-releases':
-			path = "%s/%s" % (self.CACHE_ISO, self.PATH_TO_ISO.split(".tar.gz")[0].split("_")[-1])
+			#path = "%s/%s" % (self.CACHE_ISO, self.PATH_TO_ISO.split(".tar.gz")[0].split("_")[-1])
+			path = "%s/%s" % (self.CACHE_ISO, os.path.basename(self.PATH_TO_ISO).split(".tar.gz")[0])
 			self.ORIG_DISK = "%s.img" % path
 			self.FLOPPY_FILE = "%s-floppy" % path
 			self.run_or_die("kvm-img create -f qcow2 -b %s %s" % (self.ORIG_DISK, self.DISK_FILE))
