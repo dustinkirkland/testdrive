@@ -1,8 +1,8 @@
-testdrive (3.13) unreleased; urgency=low
+testdrive (3.13-0ubuntu1) natty; urgency=low
 
   * Use correct path for UEC image. (LP: #731922)
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Wed, 09 Mar 2011 10:12:09 -0500
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Wed, 09 Mar 2011 10:17:08 -0500
 
 testdrive (3.12-0ubuntu1) natty; urgency=low
 
