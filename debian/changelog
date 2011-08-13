@@ -1,8 +1,9 @@
 testdrive (3.14) unreleased; urgency=low
 
-  * UNRELEASED
+  * testdriverc: Do not default MEM size. Allows autodetection. (LP: #819836)
+  * Add support for VBox 4.1. (LP: #816265)
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Wed, 09 Mar 2011 10:17:11 -0500
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Sat, 13 Aug 2011 16:03:16 -0400
 
 testdrive (3.13-0ubuntu1) natty; urgency=low
 

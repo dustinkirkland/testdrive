@@ -48,12 +48,12 @@ class VBox:
 		# version string for comparison later
 		self.vboxversion = commands.getoutput("VBoxManage --version")
 		self.vboxversion = ( int(self.vboxversion.split(".")[0]), int(self.vboxversion.split(".")[1]) )
-		if self.vboxversion == (3,1) or self.vboxversion == (3,2) or self.vboxversion == (4,0):
+		if self.vboxversion == (3,1) or self.vboxversion == (3,2) or self.vboxversion == (4,0) or self.vboxversion == (4,1):
 			#info("VirtualBox %s detected." % self.vboxversion)
 			print "INFO: VirtualBox %s.%s detected." % self.vboxversion
 		else:
 			#error("Unsupported version (%s) of VirtualBox; please install v3.0 or v3.1." % self.vboxversion)
-			print "ERROR: Unsupported version (%s.%s) of VirtualBox; please install v3.1, v3.2 or v4.0." % self.vboxversion
+			print "ERROR: Unsupported version (%s.%s) of VirtualBox; please install v3.1, v3.2, v4.0 or v4.1." % self.vboxversion
 			exit(0)
 
 	# Code to setup virtual machine
@@ -66,7 +66,7 @@ class VBox:
 			#info("Creating disk image...")
 			print "INFO: Creating disk image..."
 			self.run_or_die("VBoxManage createhd --filename %s --size %s" % (self.DISK_FILE, self.DISK_SIZE))
-		if self.vboxversion == (3,1) or self.vboxversion == (3,2) or self.vboxversion == (4,0):
+		if self.vboxversion == (3,1) or self.vboxversion == (3,2) or self.vboxversion == (4,0) or self.vboxversion == (4,1):
 			self.run("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 0 --type hdd --medium none" % self.VBOX_NAME)
 			if self.PATH_TO_ISO != "/dev/null":
 				self.run("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 1 --type dvddrive --medium none" % self.VBOX_NAME)
@@ -92,7 +92,7 @@ class VBox:
 	def launch_virt(self):
 		#info("Running the Virtual Machine...")
 		print "Running the Virtual Machine..."
-		if self.vboxversion == (3,1) or self.vboxversion == (3,2) or self.vboxversion == (4,0):
+		if self.vboxversion == (3,1) or self.vboxversion == (3,2) or self.vboxversion == (4,0) or self.vboxversion == (4,1):
 			self.run_or_die("VBoxManage storagectl %s --name \"IDE Controller\" --add ide" % self.VBOX_NAME)
 			self.run_or_die("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 0 --type hdd --medium %s" % (self.VBOX_NAME, self.DISK_FILE))
 			if self.PATH_TO_ISO != "/dev/null":

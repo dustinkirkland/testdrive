@@ -24,8 +24,7 @@ VIRT = kvm
 #VIRT = parallels
 
 # MEM is the amount of memory in MB to give to the VM guest
-# Default: 384
-MEM = 384
+#MEM = 384
 #MEM = 512
 #MEM = 1024
 
