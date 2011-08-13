@@ -195,6 +195,8 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 		self.chk_flavor_mythbuntu.connect("clicked", self.on_select_flavors)
 		self.chk_flavor_ubuntustudio = self.builder.get_object("chk_flavor_ubuntustudio")
 		self.chk_flavor_ubuntustudio.connect("clicked", self.on_select_flavors)
+		self.chk_flavor_lubuntu = self.builder.get_object("chk_flavor_lubuntu")
+		self.chk_flavor_lubuntu.connect("clicked", self.on_select_flavors)
 		self.chk_flavor_other = self.builder.get_object("chk_flavor_other")
 		self.chk_flavor_other.connect("clicked", self.on_select_flavors)
 
@@ -288,6 +290,8 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 					self.chk_flavor_mythbuntu.set_active(True)
 				elif flavor == 'ubuntustudio':
 					self.chk_flavor_ubuntustudio.set_active(True)
+				elif flavor == 'lubuntu':
+					self.chk_flavor_lubuntu.set_active(True)
 				elif flavor == 'other':
 					self.chk_flavor_other.set_active(True)
 				else:
@@ -429,6 +433,8 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 			self.flavors = self.flavors + "mythbuntu, "
 		if self.chk_flavor_ubuntustudio.get_active():
 			self.flavors = self.flavors + "ubuntustudio, "
+		if self.chk_flavor_lubuntu.get_active():
+			self.flavors = self.flavors + "lubuntu, "
 		if self.chk_flavor_other.get_active():
 			self.flavors = self.flavors + "other, "
 

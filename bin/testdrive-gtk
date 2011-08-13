@@ -44,6 +44,7 @@ TAB_LABEL.append({"dist":"ubuntu-server", "label":"Server"})
 TAB_LABEL.append({"dist":"edubuntu", "label":"Edubuntu"})
 TAB_LABEL.append({"dist":"mythbuntu", "label":"Mythbuntu"})
 TAB_LABEL.append({"dist":"ubuntustudio", "label":"Ubuntu Studio"})
+TAB_LABEL.append({"dist":"lubuntu", "label":"Lubuntu"})
 TAB_LABEL.append({"dist":"other", "label":_("Other")})
 
 global ISOLIST

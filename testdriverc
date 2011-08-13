@@ -68,7 +68,7 @@ p = cdimage
 
 # The following line determines the default Ubuntu Flavor used by TestDrive.
 # Possible flavors are: 
-# ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio/uec-server/uec-desktop
+# ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio/lubuntu/uec-server/uec-desktop
 f = ubuntu
 
 # Section for TestDrive GTK specific variables.
@@ -76,5 +76,5 @@ f = ubuntu
 
 # The following line determines the default Ubuntu Flavors used by TestDrive GTK.
 # Possible flavors are:
-# ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio
+# ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio/lubuntu
 f = ubuntu, kubuntu, xubuntu
