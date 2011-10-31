@@ -6,15 +6,15 @@ testdrive \- Test Drive the current Ubuntu Development Snapshot in a VM
 testdrive [\-d] [\-f FILE] [\-l FLAVOR] [\-r RELEASE] [\-u URL] [\-v|\-\-version]
 
 .SH OPTIONS
-\fB\-c|\-\-curses\fP - Use KVM CURSES mode when launching a UEC image
+\fB\-c|\-\-curses\fP - Use KVM CURSES mode when launching a Cloud image
 
 \fB\-d\fP - launch usb-creator after testdriving ISO
 
 \fB\-f FILE\fP - path to a configuration file to read
 
-\fB\-l FLAVOR\fP - hardcode Ubuntu flavor to testdrive; can be [ubuntu|kubuntu|xubuntu|edubuntu|myhbuntu|ubuntustudio|lubuntu|uec-server]
+\fB\-l FLAVOR\fP - hardcode Ubuntu flavor to testdrive; can be [ubuntu|kubuntu|xubuntu|edubuntu|myhbuntu|ubuntustudio|lubuntu|cloud-server]
 
-\fB\-p REPOSITORY\fP - select Ubuntu repositoru; can be [cdimage|releases|uec-daily]
+\fB\-p REPOSITORY\fP - select Ubuntu repositoru; can be [cdimage|releases|cloud-daily]
 
 \fB\-r RELEASE\fP - hardcode Ubuntu release codename to testdrive
 
@@ -23,7 +23,7 @@ testdrive [\-d] [\-f FILE] [\-l FLAVOR] [\-r RELEASE] [\-u URL] [\-v|\-\-version
 \fB\-v|\-\-version\fP - display the version and the hypervisor to be used, and exit
 
 .SH DESCRIPTION
-\fBtestdrive\fP is a utility that allows you to easily download the latest Ubuntu development release or UEC image, and run it in a KVM virtual machine.
+\fBtestdrive\fP is a utility that allows you to easily download the latest Ubuntu development release or Cloud image, and run it in a KVM virtual machine.
 
 The global configuration file, \fI/etc/testdriverc\fP, is sourced first, followed by the user's local configuration file, \fI~/.testdriverc\fP, and xdg configuration \fI~/.config/testdrive/testdriverc\fP.
 
@@ -40,7 +40,7 @@ testdrive \-p cdimage
 testdrive \-p releases
 .RE
 .RS
-testdrive \-p uec-daily
+testdrive \-p cloud-daily
 .RE
 
 Specify repository and flavor (Defaults to latest Ubuntu release available):
@@ -51,7 +51,7 @@ testdrive \-p cdimage -l kubuntu
 testdrive \-p releases -l kubuntu
 .RE
 .RS
-testdrive \-p uec-daily -l uec-server
+testdrive \-p cloud-daily -l cloud-server
 .RE
 
 Launch local ISO image:
@@ -59,14 +59,14 @@ Launch local ISO image:
 testdrive \-u /local/path/to/image.iso
 .RE
 
-Launch UEC local image
+Launch Cloud local image
 .RS
-testdrive \-u /local/path/to/uec-image.tar.gz
+testdrive \-u /local/path/to/cloud-image.tar.gz
 .RE
 
-Launch UEC local image with KVM curses
+Launch Cloud local image with KVM curses
 .RS
-testdrive \-u /local/path/to/uec-image.tar.gz --curses
+testdrive \-u /local/path/to/cloud-image.tar.gz --curses
 .RE
 
 .SH FILES

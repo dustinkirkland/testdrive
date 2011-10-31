@@ -51,8 +51,8 @@ KVM_ARGS = -usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es137
 # releases: Will download ISO's from rsync://rsync.releases.ubuntu.com/releases
 p = cdimage
 #p = releases
-#p = uec-daily
-#p = uec-releases
+#p = cloud-daily
+#p = cloud-releases
 
 # Uncomment the following lines if you want to hardcode the Ubuntu release
 # and arch; otherwise, TestDrive will try to determine it dynamically.
@@ -68,7 +68,7 @@ p = cdimage
 
 # The following line determines the default Ubuntu Flavor used by TestDrive.
 # Possible flavors are: 
-# ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio/lubuntu/uec-server/uec-desktop
+# ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio/lubuntu/cloud-server/cloud-desktop
 f = ubuntu
 
 # Section for TestDrive GTK specific variables.

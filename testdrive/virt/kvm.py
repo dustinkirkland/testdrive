@@ -47,7 +47,7 @@ class KVM:
 
 	# Code to setup virtual machine
 	def setup_virt(self):
-		if self.p == 'uec-daily' or self.p == 'uec-releases':
+		if self.p == 'cloud-daily' or self.p == 'cloud-releases':
 			#path = "%s/%s" % (self.CACHE_ISO, self.PATH_TO_ISO.split(".tar.gz")[0].split("_")[-1])
 			path = "%s/%s" % (self.CACHE_ISO, os.path.basename(self.PATH_TO_ISO).split(".tar.gz")[0])
 			self.ORIG_DISK = "%s.img" % path
@@ -61,7 +61,7 @@ class KVM:
 	def launch_virt(self):
 		print "Running the Virtual Machine..."
 		#os.system("kvm -m %s -smp %s -cdrom %s -drive file=%s,if=virtio,cache=writeback,index=0,boot=on %s" % (self.td.MEM, self.td.SMP, self.td.PATH_TO_ISO, self.td.DISK_FILE, self.td.KVM_ARGS))
-		if self.p == 'uec-daily' or self.p == 'uec-releases':
+		if self.p == 'cloud-daily' or self.p == 'cloud-releases':
 			cmd = "kvm -boot a -fda %s -drive file=%s,if=virtio %s" % (self.FLOPPY_FILE, self.DISK_FILE, self.KVM_ARGS)
 		else:
 			cmd = "kvm -m %s -smp %s -cdrom %s -drive file=%s,if=virtio,cache=writeback,index=0,boot=on %s" % (self.MEM, self.SMP, self.PATH_TO_ISO, self.DISK_FILE, self.KVM_ARGS)

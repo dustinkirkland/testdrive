@@ -106,7 +106,7 @@ def is_disk_img(file):
 		return True
 	return False
 
-def is_uec_img(file):
+def is_cloud_img(file):
 	img = False
 	floppy = False
 	try:
@@ -164,7 +164,7 @@ def main():
 	update_cache = None
 	codename = None
 	cdimage = None
-	uec_curses = False
+	cloud_curses = False
 
 	# Option Parser
 	usage = "usage: %prog <parameters>\n\
@@ -197,9 +197,9 @@ def main():
 		     ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio/lubuntu'))
 	parser.add_option('-p', '--repo', action='store', type='string', dest='repository',
 		help=_('hardcode Ubuntu repository from where to obtain ISOs:\n\
-		     releases/cdimage/uec-daily/uec-releases'))
+		     releases/cdimage/cloud-daily/cloud-releases'))
 	parser.add_option('-c', '--curses', action='store_true', default=False, dest='curses',
-		help=_('displays the Virtual Machine in the shell. Only valid for UEC images.'))
+		help=_('displays the Virtual Machine in the shell. Only valid for Cloud images.'))
 	#parser.add_option('-v', '--verbose', action='store_true', default=False, dest='verbose',
 	#	help=_('show debug messages'))
 
@@ -269,13 +269,13 @@ def main():
 			# Argument is an existing qcow2 image
 			td.DISK_FILE = opt.url
 			td.ISO_URL = "file:///dev/null"
-		elif is_uec_img(opt.url):
+		elif is_cloud_img(opt.url):
 			if td.VIRT != 'kvm':
-				error(_("Launching UEC images only works with KVM. Please switch your virtualization method..."))
-			td.p = 'uec-daily'
+				error(_("Launching Cloud images only works with KVM. Please switch your virtualization method..."))
+			td.p = 'cloud-daily'
 			if opt.curses:
 				td.KVM_ARGS = td.KVM_ARGS + ' -curses'
-				uec_curses = True
+				cloud_curses = True
 			td.ISO_URL = is_iso(opt.url)
 		else:
 			td.ISO_URL = is_iso(opt.url)
@@ -378,9 +378,9 @@ def main():
 			error(_("ISO not found at [%s]") % td.ISO_URL)
 	if cmd != 0:
 		run_or_die(cmd)
-	if td.p == 'uec-daily' or td.p == 'uec-releases':
-		info("Preparing UEC image [%s]" % os.path.basename(td.PATH_TO_ISO).split("_")[-1])
-		td.prepare_uec_img_tarball()
+	if td.p == 'cloud-daily' or td.p == 'cloud-releases':
+		info("Preparing Cloud image [%s]" % os.path.basename(td.PATH_TO_ISO).split("_")[-1])
+		td.prepare_cloud_img_tarball()
 
 	##########################
 	## Creating Virt Object ##
@@ -416,7 +416,7 @@ def main():
 		print "\t%s" % cmd
 		if td.VIRT == "kvm":
 			logging.debug("%s:%s" % (time.strftime("%Y-%m-%d_%H:%M:%S"), cmd))
-		run_vm(cmd, td, uec_curses)
+		run_vm(cmd, td, cloud_curses)
 	except:
 		error(_("Unable to launch Virtual Machine"))
 

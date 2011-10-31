@@ -45,7 +45,7 @@ class Testdrive:
 		self.r = None #Release (maverick, lucid, etc)
 		self.m = None #Arch (amd64, i386)
 		self.f = None #Flavor (ubuntu, kubuntu, etc)
-		self.p = None # Ubuntu ISO Repository (cdimage, releases, uec-daily, uec-releases)
+		self.p = None # Ubuntu ISO Repository (cdimage, releases, cloud-daily, cloud-releases)
 
 	def set_values(self, var, value):
 		if var == 'kvm_args':
@@ -100,7 +100,7 @@ class Testdrive:
 		ISO = []
 		for iso in ISOS:
 			if iso.split()[1] == self.r:
-				# TODO: Add support for UEC
+				# TODO: Add support for Cloud
 				category = iso.split()[0]
 				if category == 'ubuntu-server':
 					category = 'ubuntu'
@@ -125,13 +125,13 @@ class Testdrive:
 					flavor = 'Ubuntu Studio'
 				elif flavor == 'Ubuntu-server':
 					flavor = 'Ubuntu'
-				elif flavor == 'Uec-server':
-					flavor = 'UEC Server'
-				elif flavor == 'Uec-desktop':
-					flavor = 'UEC Desktop'
+				elif flavor == 'Cloud-server':
+					flavor = 'Cloud Server'
+				elif flavor == 'Cloud-desktop':
+					flavor = 'Cloud Desktop'
 				release = iso.split()[1]
 				url = iso.split()[2]
-				if self.p == 'uec-daily' or self.p == 'uec-releases':
+				if self.p == 'cloud-daily' or self.p == 'cloud-releases':
 					arch = url.split(".tar.gz")[0].split("-")[-1]
 					name = "%s" % flavor 
 				else:
@@ -243,8 +243,8 @@ class Testdrive:
 		if self.p == 'releases':
 			self.u = 'rsync://us.rsync.releases.ubuntu.com/releases'
 
-		if self.p == 'uec-daily' or self.p == 'uec-releases':
-			self.u = 'rsync://uec-images.ubuntu.com/uec-images'
+		if self.p == 'cloud-daily' or self.p == 'cloud-releases':
+			self.u = 'rsync://cloud-images.ubuntu.com/cloud-images'
 
 	def run(self, cmd):
 		return(os.system(cmd))
@@ -301,7 +301,7 @@ class Testdrive:
 			elif os.path.getsize(self.DISK_FILE) == 0:
 				# Clean up empty file
 				rm_disk = True
-			elif self.p == 'uec-daily' or self.p == 'uec-releases':
+			elif self.p == 'cloud-daily' or self.p == 'cloud-releases':
 				rm_disk = True
 			if rm_disk:
 				#info("Cleaning up disk image [%s]..." % DISK_FILE)
@@ -349,10 +349,10 @@ class Testdrive:
 			(status, output) = commands.getstatusoutput("wget -q -O- http://cdimage.ubuntu.com/.manifest-daily | egrep '(amd64|i386)'")
 		elif self.p == 'releases':
 			(status, output) = commands.getstatusoutput("wget -q -O- http://releases.ubuntu.com/.manifest | egrep '(amd64|i386)'")
-		elif self.p == 'uec-daily':
-			(status, output) = commands.getstatusoutput("wget -q -O- http://uec-images.ubuntu.com/.manifest-daily | egrep '(amd64|i386)'")
-		elif self.p == 'uec-releases':
-			(status, output) = commands.getstatusoutput("wget -q -O- http://uec-images.ubuntu.com/.manifest | egrep '(amd64|i386)'")
+		elif self.p == 'cloud-daily':
+			(status, output) = commands.getstatusoutput("wget -q -O- http://cloud-images.ubuntu.com/.manifest-daily | egrep '(amd64|i386)'")
+		elif self.p == 'cloud-releases':
+			(status, output) = commands.getstatusoutput("wget -q -O- http://cloud-images.ubuntu.com/.manifest | egrep '(amd64|i386)'")
 		return output
 
 	def update_ubuntu_iso_list_cache(self, str):
@@ -382,7 +382,7 @@ class Testdrive:
 	def create_disk_file(self):
 		return tempfile.mkstemp(".img", "testdrive-disk-", "%s" % self.CACHE_IMG)[1]
 
-	def prepare_uec_img_tarball(self):
+	def prepare_cloud_img_tarball(self):
 		untar = False
 		TAR_BASENAME = os.path.basename(self.PATH_TO_ISO).split(".tar.gz")[0].split("_")[-1]
 		ORIG_DISK_NAME = "%s.img" % TAR_BASENAME

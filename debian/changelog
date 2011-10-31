@@ -1,8 +1,9 @@
 testdrive (3.15) unreleased; urgency=low
 
   * Re-enable 'Add Other ISO' button display. (LP: #884243)
+  * Change UEC references to Cloud. (LP: #873231)
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 19 Aug 2011 13:45:27 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Mon, 31 Oct 2011 11:36:12 -0400
 
 testdrive (3.14-0ubuntu1) oneiric; urgency=low
 
