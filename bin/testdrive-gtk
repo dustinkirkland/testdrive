@@ -493,7 +493,7 @@ class TestdrivegtkWindow(gtk.Window):
 		###################################################################
 		label = widget.get_tab_label(widget.get_nth_page(current_page))
 		text = label.get_text()
-		self.btn_add_iso.set_sensitive(text == TAB_LABEL[7]["label"])
+		self.btn_add_iso.set_sensitive(text == TAB_LABEL[8]["label"])
 
 	def create_isos_interface(self):
 		###################################################################

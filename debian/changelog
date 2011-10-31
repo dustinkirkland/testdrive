@@ -1,6 +1,6 @@
 testdrive (3.15) unreleased; urgency=low
 
-  * UNRELEASED
+  * Re-enable 'Add Other ISO' button display. (LP: #884243)
 
  -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 19 Aug 2011 13:45:27 -0400
 
