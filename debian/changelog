@@ -2,8 +2,10 @@ testdrive (3.15) unreleased; urgency=low
 
   * Re-enable 'Add Other ISO' button display. (LP: #884243)
   * Change UEC references to Cloud. (LP: #873231)
+  * bin/testdrive-gtk: Change LPI package to testdrive-gtk (LP: #816266).
+    Thanks to Jeremy Bicha for the fix.
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Mon, 31 Oct 2011 11:36:12 -0400
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Mon, 31 Oct 2011 12:21:00 -0400
 
 testdrive (3.14-0ubuntu1) oneiric; urgency=low
 

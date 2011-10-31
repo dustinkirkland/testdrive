@@ -145,7 +145,7 @@ class TestdrivegtkWindow(gtk.Window):
 			# about LaunchpadIntegration
 			helpmenu = self.builder.get_object('helpMenu')
 			if helpmenu:
-				LaunchpadIntegration.set_sourcepackagename('testdrive')
+				LaunchpadIntegration.set_sourcepackagename('testdrive-gtk')
 				LaunchpadIntegration.add_items(helpmenu, 0, False, True)
 			else:
 				launchpad_available = False
