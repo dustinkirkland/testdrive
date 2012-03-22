@@ -1,3 +1,9 @@
+testdrive (3.18-0ubuntu-1) precise; urgency=low
+
+  * debian/control: Add usb-cretor-gtk to recommends. (LP: #962250)
+
+ -- Paolo Rotolo <paolorotolo@ubuntu-it.org>  Thu, 22 Mar 2012 21:48:06 +0100
+
 testdrive (3.16) unreleased; urgency=low
 
   * UNRELEASED
