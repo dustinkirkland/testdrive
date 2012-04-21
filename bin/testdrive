@@ -31,415 +31,415 @@ from testdrive.virt import kvm, virtualbox, parallels
 
 # Creates the UI list
 def select_iso(td, ISO):
-	while 1:
-		i = 1
-		print(_("\nWelcome to Testdrive!\n"))
-		menu = []
-		for iso in ISO:
-			if iso["category"] == td.f:
-				print("  %d. %s (%s-%s)" % (i, iso["name"], td.r, iso["arch"]))
-				filename = os.path.basename(iso["url"])
-				path = "%s/%s_%s" % (td.CACHE_ISO, iso["category"], filename)
-				if os.path.exists(path):
-					print(_("     +-cache--> [%s] %s") % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path))), filename))
-				i=i+1
-				menu.append({"id":i, "url":iso["url"], "cat": iso["category"]})
-		print(_("  %d. Other (prompt for ISO URL)") % i)
-		try:
-			input = raw_input(_("\nSelect an image to testdrive [1]: "))
-			if len(input) == 0:
-				choice = 1
-			else:
-				choice = int(input)
-		except KeyboardInterrupt:
-			print("\n")
-			exit(0)
-		except:
-			print(_("\nERROR: Invalid input\n"))
-			continue
-		if choice == i:
-			url = raw_input(_("\nEnter an ISO URL to testdrive: "))
-			break
-		elif choice in range(1, i):
-			url = menu[choice-1]["url"]
-			td.ISO_PATH_HEADER = menu[choice-1]["cat"]
-			break
-		else:
-			print(_("\nERROR: Invalid selection\n"))
-	return(url)
+    while 1:
+        i = 1
+        print(_("\nWelcome to Testdrive!\n"))
+        menu = []
+        for iso in ISO:
+            if iso["category"] == td.f:
+                print("  %d. %s (%s-%s)" % (i, iso["name"], td.r, iso["arch"]))
+                filename = os.path.basename(iso["url"])
+                path = "%s/%s_%s" % (td.CACHE_ISO, iso["category"], filename)
+                if os.path.exists(path):
+                    print(_("     +-cache--> [%s] %s") % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path))), filename))
+                i=i+1
+                menu.append({"id":i, "url":iso["url"], "cat": iso["category"]})
+        print(_("  %d. Other (prompt for ISO URL)") % i)
+        try:
+            input = raw_input(_("\nSelect an image to testdrive [1]: "))
+            if len(input) == 0:
+                choice = 1
+            else:
+                choice = int(input)
+        except KeyboardInterrupt:
+            print("\n")
+            exit(0)
+        except:
+            print(_("\nERROR: Invalid input\n"))
+            continue
+        if choice == i:
+            url = raw_input(_("\nEnter an ISO URL to testdrive: "))
+            break
+        elif choice in range(1, i):
+            url = menu[choice-1]["url"]
+            td.ISO_PATH_HEADER = menu[choice-1]["cat"]
+            break
+        else:
+            print(_("\nERROR: Invalid selection\n"))
+    return(url)
 
 def error(str):
-	print(_("\nERROR: %s\n") % str)
-	sys.exit(1)
+    print(_("\nERROR: %s\n") % str)
+    sys.exit(1)
 
 def info(str):
-	print(_("INFO: %s") % str)
+    print(_("INFO: %s") % str)
 
 def warning(str):
-	print(_("WARNING: %s") % str)
+    print(_("WARNING: %s") % str)
 
 def is_iso(file):
-	# If it's a URL, assume it's good
-	for i in ("http", "ftp", "rsync", "file", "zsync"):
-		if string.find(file, "%s://" % i) == 0:
-			return(file)
-	# If it's a local path, test it for viability
-	if commands.getstatusoutput("file \"%s\" | grep -qs \"ISO 9660\"" % file)[0] == 0:
-		return("file://%s" % file)
-	elif tarfile.is_tarfile(file):
-		return("file://%s" % file)
-	else:
-		error(_("Invalid ISO URL [%s]") % file)
+    # If it's a URL, assume it's good
+    for i in ("http", "ftp", "rsync", "file", "zsync"):
+        if string.find(file, "%s://" % i) == 0:
+            return(file)
+    # If it's a local path, test it for viability
+    if commands.getstatusoutput("file \"%s\" | grep -qs \"ISO 9660\"" % file)[0] == 0:
+        return("file://%s" % file)
+    elif tarfile.is_tarfile(file):
+        return("file://%s" % file)
+    else:
+        error(_("Invalid ISO URL [%s]") % file)
 
 def is_disk_img(file):
-	(status, output) = commands.getstatusoutput("file %s | grep -qs 'Qemu Image'" % file)
-	if status == 0:
-		# qemu/kvm qcow2 image
-		return True
-	(status, output) = commands.getstatusoutput("file %s | grep -qs 'QEMU QCOW Image'" % file)
-	if status == 0:
-		# qemu/kvm qcow2 image
-		return True
-	(status, output) = commands.getstatusoutput("file %s | grep -qs '.img: data$'" % file)
-	if status == 0:
-		# probably a virtual box image
-		return True
-	return False
+    (status, output) = commands.getstatusoutput("file %s | grep -qs 'Qemu Image'" % file)
+    if status == 0:
+        # qemu/kvm qcow2 image
+        return True
+    (status, output) = commands.getstatusoutput("file %s | grep -qs 'QEMU QCOW Image'" % file)
+    if status == 0:
+        # qemu/kvm qcow2 image
+        return True
+    (status, output) = commands.getstatusoutput("file %s | grep -qs '.img: data$'" % file)
+    if status == 0:
+        # probably a virtual box image
+        return True
+    return False
 
 def is_cloud_img(file):
-	img = False
-	floppy = False
-	try:
-		tar = tarfile.open(file)
-	except:
-		return False
-	tarball = tar.getnames()
-	for item in tarball:
-        	if str(item).split(".")[-1] == "img":
-                	img = True
-	        elif str(item).split("-")[-1] == "floppy" and img:
-        	        floppy = True
-                	break
+    img = False
+    floppy = False
+    try:
+        tar = tarfile.open(file)
+    except:
+        return False
+    tarball = tar.getnames()
+    for item in tarball:
+            if str(item).split(".")[-1] == "img":
+                    img = True
+            elif str(item).split("-")[-1] == "floppy" and img:
+                    floppy = True
+                    break
 
-	if img and floppy:
-        	return True
-	else:
-	        return False
+    if img and floppy:
+            return True
+    else:
+            return False
 
 def run(cmd):
-	return(os.system(cmd))
+    return(os.system(cmd))
 
 def run_or_die(cmd):
-	if run(cmd) != 0:
-		error(_("Command failed\n    `%s`") % cmd)
+    if run(cmd) != 0:
+        error(_("Command failed\n    `%s`") % cmd)
 
 def run_vm(cmd, td, curses):
-	if not curses:
-		p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
-	if td.VIRT == 'kvm':
-		if curses:
-			info(_("Launching Virtual Machine using CURSES as screen mode"))
-			run_or_die(cmd)
-		else:
-			p.wait()
-	elif td.VIRT == 'virtualbox':
-		# Give this VM a few seconds to start up
-		time.sleep(5)
-		# Loop as long as this VM is running
-		while commands.getstatusoutput("VBoxManage list runningvms | grep -qs %s" % td.VBOX_NAME)[0] == 0:
-			time.sleep(2)
-	elif td.VIRT == 'parallels':
-		# Loop as long as this VM is running
-		while commands.getstatusoutput("prlctl list %s | grep -qs stopped" % td.VBOX_NAME)[0] != 0:
-			time.sleep(2)
+    if not curses:
+        p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    if td.VIRT == 'kvm':
+        if curses:
+            info(_("Launching Virtual Machine using CURSES as screen mode"))
+            run_or_die(cmd)
+        else:
+            p.wait()
+    elif td.VIRT == 'virtualbox':
+        # Give this VM a few seconds to start up
+        time.sleep(5)
+        # Loop as long as this VM is running
+        while commands.getstatusoutput("VBoxManage list runningvms | grep -qs %s" % td.VBOX_NAME)[0] == 0:
+            time.sleep(2)
+    elif td.VIRT == 'parallels':
+        # Loop as long as this VM is running
+        while commands.getstatusoutput("prlctl list %s | grep -qs stopped" % td.VBOX_NAME)[0] != 0:
+            time.sleep(2)
 
 def main():
-	# Initialize Testdrive Class, sending section used to retrieve settings from config file
-	td = testdrive.Testdrive('testdrive')
+    # Initialize Testdrive Class, sending section used to retrieve settings from config file
+    td = testdrive.Testdrive('testdrive')
 
-	# Local UI
-	hasOptions = False
+    # Local UI
+    hasOptions = False
 
-	# Codename cache variables
-	update_cache = None
-	codename = None
-	cdimage = None
-	cloud_curses = False
+    # Codename cache variables
+    update_cache = None
+    codename = None
+    cdimage = None
+    cloud_curses = False
 
-	# Option Parser
-	usage = "usage: %prog <parameters>\n\
-		\n\
-	%prog is a utility that allows you to easily download the latest Ubuntu\n\
-	development release and run it in a virtual machine.\n\
-	\n\
-	All options to this program are handled through the global configuration\n\
-	file, /etc/%progrc, and then the user's local configuration file,\n\
-	~/.%progrc, then the configuration stored in\n\
-	~/.config/%prog/%progrc\n\
-	\n\
-	Users wanting to change the behavior default configuration can make a\n\
-	copy of /etc/%progrc, and pass this as a parameter to %prog.\n"
+    # Option Parser
+    usage = "usage: %prog <parameters>\n\
+        \n\
+    %prog is a utility that allows you to easily download the latest Ubuntu\n\
+    development release and run it in a virtual machine.\n\
+    \n\
+    All options to this program are handled through the global configuration\n\
+    file, /etc/%progrc, and then the user's local configuration file,\n\
+    ~/.%progrc, then the configuration stored in\n\
+    ~/.config/%prog/%progrc\n\
+    \n\
+    Users wanting to change the behavior default configuration can make a\n\
+    copy of /etc/%progrc, and pass this as a parameter to %prog.\n"
 
 
-	parser = OptionParser(usage)
-	parser.add_option('-f', '--config', action='store', type='string', dest='config',
-		help=_('user configuration file (overriding default values'))
-	parser.add_option('-v', '--version', action='store_true', dest='version', default=False,
-		help=_('print version and system data, and exit'))
-	parser.add_option('-u', '--url', action='store', type='string', dest='url',
-		help=_('get ISO image from this URL location'))
-	parser.add_option('-d', '--desktop', action='store_true', dest='desktop', default=False,
-		help=_('try to launch usb-creator for further testing'))
-	parser.add_option('-r', '--release', action='store', type='string', dest='release',
-		help=_('hardcode Ubuntu RELEASE codename'))
-	parser.add_option('-l', '--flavor', action='store', type='string', dest='flavor',
-		help=_('hardcode Ubuntu flavor. Available Flavors:\n\
-		     ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio/lubuntu'))
-	parser.add_option('-p', '--repo', action='store', type='string', dest='repository',
-		help=_('hardcode Ubuntu repository from where to obtain ISOs:\n\
-		     releases/cdimage/cloud-daily/cloud-releases'))
-	parser.add_option('-c', '--curses', action='store_true', default=False, dest='curses',
-		help=_('displays the Virtual Machine in the shell. Only valid for Cloud images.'))
-	#parser.add_option('-v', '--verbose', action='store_true', default=False, dest='verbose',
-	#	help=_('show debug messages'))
+    parser = OptionParser(usage)
+    parser.add_option('-f', '--config', action='store', type='string', dest='config',
+        help=_('user configuration file (overriding default values'))
+    parser.add_option('-v', '--version', action='store_true', dest='version', default=False,
+        help=_('print version and system data, and exit'))
+    parser.add_option('-u', '--url', action='store', type='string', dest='url',
+        help=_('get ISO image from this URL location'))
+    parser.add_option('-d', '--desktop', action='store_true', dest='desktop', default=False,
+        help=_('try to launch usb-creator for further testing'))
+    parser.add_option('-r', '--release', action='store', type='string', dest='release',
+        help=_('hardcode Ubuntu RELEASE codename'))
+    parser.add_option('-l', '--flavor', action='store', type='string', dest='flavor',
+        help=_('hardcode Ubuntu flavor. Available Flavors:\n\
+             ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio/lubuntu'))
+    parser.add_option('-p', '--repo', action='store', type='string', dest='repository',
+        help=_('hardcode Ubuntu repository from where to obtain ISOs:\n\
+             releases/cdimage/cloud-daily/cloud-releases'))
+    parser.add_option('-c', '--curses', action='store_true', default=False, dest='curses',
+        help=_('displays the Virtual Machine in the shell. Only valid for Cloud images.'))
+    #parser.add_option('-v', '--verbose', action='store_true', default=False, dest='verbose',
+    #   help=_('show debug messages'))
 
-	(opt, args) = parser.parse_args()
-	info(_("version passed: %s") % opt.version)
-	if opt.version:
-		hasOptions = True
-		version = commands.getstatusoutput("dpkg -l testdrive-cli | tail -n1 | awk '{print $3}'")
-		info(_("testdrive %s") % version[1])
-		#TODO: Why is get_virt() here? Disable until is determined if we really need it or not. If yes, we'll have to add same code as below,
-		# for same function
-		td.get_virt()
-		sys.exit(0)
+    (opt, args) = parser.parse_args()
+    info(_("version passed: %s") % opt.version)
+    if opt.version:
+        hasOptions = True
+        version = commands.getstatusoutput("dpkg -l testdrive-cli | tail -n1 | awk '{print $3}'")
+        info(_("testdrive %s") % version[1])
+        #TODO: Why is get_virt() here? Disable until is determined if we really need it or not. If yes, we'll have to add same code as below,
+        # for same function
+        td.get_virt()
+        sys.exit(0)
 
-	##############################
-	## Configuration Files Code ##
-	##############################
+    ##############################
+    ## Configuration Files Code ##
+    ##############################
 
-	# prime configuration with defaults
-	config_files = ["/etc/%s" % td.PKGRC, "%s/.%s" % (td.HOME, td.PKGRC), "%s/.config/%s/%s" % (td.HOME, td.PKG, td.PKGRC) ]
-	info(_("config passed: %s") %opt.config)
-	if opt.config:
-		hasOptions = True
-		if opt.config[0] != '/':
-			opt.config = '%s/.config/%s/%s' % (td.HOME, td.PKG, opt.config)
-		config_files += [opt.config]
+    # prime configuration with defaults
+    config_files = ["/etc/%s" % td.PKGRC, "%s/.%s" % (td.HOME, td.PKGRC), "%s/.config/%s/%s" % (td.HOME, td.PKG, td.PKGRC) ]
+    info(_("config passed: %s") %opt.config)
+    if opt.config:
+        hasOptions = True
+        if opt.config[0] != '/':
+            opt.config = '%s/.config/%s/%s' % (td.HOME, td.PKG, opt.config)
+        config_files += [opt.config]
 
-	# try to load configuration files; on error exit
-	# Let the user know which config files were used
-	for i in config_files:
-		info(_('Trying config in %s') % i)
-		if os.path.exists(i):
-			try:
-				td.load_config_file(i)
-				info(_("Using configuration in %s") % i)
-			except:
-				error(_("Invalid configuration [%s]") % i)
+    # try to load configuration files; on error exit
+    # Let the user know which config files were used
+    for i in config_files:
+        info(_('Trying config in %s') % i)
+        if os.path.exists(i):
+            try:
+                td.load_config_file(i)
+                info(_("Using configuration in %s") % i)
+            except:
+                error(_("Invalid configuration [%s]") % i)
 
-	######################################
-	## Choose the virtualization engine ##
-	######################################
-	if not td.VIRT:
-		td.VIRT = td.get_virt()
-	if td.VIRT == 1:
-		error(_("Your CPU supports KVM acceleration; please install KVM:\n\
-			sudo apt-get install qemu-kvm"))
-	elif td.VIRT == 0:
-		error(_("Your CPU does not support acceleration; run kvm-ok for more information; then please install VirtualBox:\n\
-			kvm-ok\n\
-			sudo apt-get install virtualbox-ose"))
-	elif td.VIRT == "kvm":
-		info(_("Using KVM for virtual machine hosting..."));
-	elif td.VIRT == "virtualbox":
-		info(_("Using VirtualBox for virtual machine hosting..."))
-	elif td.VIRT == "paralels":
-		info(_("Using Parallels Desktop for virtual machine hosting..."))
+    ######################################
+    ## Choose the virtualization engine ##
+    ######################################
+    if not td.VIRT:
+        td.VIRT = td.get_virt()
+    if td.VIRT == 1:
+        error(_("Your CPU supports KVM acceleration; please install KVM:\n\
+            sudo apt-get install qemu-kvm"))
+    elif td.VIRT == 0:
+        error(_("Your CPU does not support acceleration; run kvm-ok for more information; then please install VirtualBox:\n\
+            kvm-ok\n\
+            sudo apt-get install virtualbox-ose"))
+    elif td.VIRT == "kvm":
+        info(_("Using KVM for virtual machine hosting..."));
+    elif td.VIRT == "virtualbox":
+        info(_("Using VirtualBox for virtual machine hosting..."))
+    elif td.VIRT == "paralels":
+        info(_("Using Parallels Desktop for virtual machine hosting..."))
 
-	##########################################
-	## UI Options needed after config files ##
-	##########################################
+    ##########################################
+    ## UI Options needed after config files ##
+    ##########################################
 
-	# TODO: is_iso function is locally used to see if the url is indeed one or not. Could be used by the front-end
-	# Process the rest of the options
-	if opt.url:
-		hasOptions = True
-		if is_disk_img(opt.url):
-			# Argument is an existing qcow2 image
-			td.DISK_FILE = opt.url
-			td.ISO_URL = "file:///dev/null"
-		elif is_cloud_img(opt.url):
-			if td.VIRT != 'kvm':
-				error(_("Launching Cloud images only works with KVM. Please switch your virtualization method..."))
-			td.p = 'cloud-daily'
-			if opt.curses:
-				td.KVM_ARGS = td.KVM_ARGS + ' -curses'
-				cloud_curses = True
-			td.ISO_URL = is_iso(opt.url)
-		else:
-			td.ISO_URL = is_iso(opt.url)
+    # TODO: is_iso function is locally used to see if the url is indeed one or not. Could be used by the front-end
+    # Process the rest of the options
+    if opt.url:
+        hasOptions = True
+        if is_disk_img(opt.url):
+            # Argument is an existing qcow2 image
+            td.DISK_FILE = opt.url
+            td.ISO_URL = "file:///dev/null"
+        elif is_cloud_img(opt.url):
+            if td.VIRT != 'kvm':
+                error(_("Launching Cloud images only works with KVM. Please switch your virtualization method..."))
+            td.p = 'cloud-daily'
+            if opt.curses:
+                td.KVM_ARGS = td.KVM_ARGS + ' -curses'
+                cloud_curses = True
+            td.ISO_URL = is_iso(opt.url)
+        else:
+            td.ISO_URL = is_iso(opt.url)
 
-	# Launch usb-creator
-	if opt.desktop:
-		hasOptions = True
-		DESKTOP = 1
-	else:
-		DESKTOP = 0
+    # Launch usb-creator
+    if opt.desktop:
+        hasOptions = True
+        DESKTOP = 1
+    else:
+        DESKTOP = 0
 
-	# Hardcoded release codename from executable. Overrides value in config file
-	if opt.release:
-		hasOptions = True
-		td.r = opt.release
+    # Hardcoded release codename from executable. Overrides value in config file
+    if opt.release:
+        hasOptions = True
+        td.r = opt.release
 
-	# Hardcode Ubuntu Flavor. Overrides value in config file
-	if opt.flavor:
-		hasOptions = True
-		#TODO: Add validate to see if option passed is valid
-		td.f = opt.flavor
+    # Hardcode Ubuntu Flavor. Overrides value in config file
+    if opt.flavor:
+        hasOptions = True
+        #TODO: Add validate to see if option passed is valid
+        td.f = opt.flavor
 
-	# Harcoding repository from where to obtain list of ISOs
-	if opt.repository:
-		hasOptions = True
-		td.p = opt.repository
+    # Harcoding repository from where to obtain list of ISOs
+    if opt.repository:
+        hasOptions = True
+        td.p = opt.repository
 
-	#################################
-	## set defaults were undefined ##
-	#################################
-	td.set_defaults()
+    #################################
+    ## set defaults were undefined ##
+    #################################
+    td.set_defaults()
 
-	#################################
-	## Initializing Logging	       ##
-	## Only logs KVM command       ##
-	#################################
-	import logging
-	KVMLOG = "%s/kvm.log" % td.CACHE
-	logging.basicConfig(filename=KVMLOG, level=logging.DEBUG)
-	logging = logging.getLogger('testdrive')
-	#logging.debug('logging enabled')
+    #################################
+    ## Initializing Logging        ##
+    ## Only logs KVM command       ##
+    #################################
+    import logging
+    KVMLOG = "%s/kvm.log" % td.CACHE
+    logging.basicConfig(filename=KVMLOG, level=logging.DEBUG)
+    logging = logging.getLogger('testdrive')
+    #logging.debug('logging enabled')
 
-	#################################################
-	## Obtain the Ubuntu ISO List from the cdimage ##
-	## Obtain Release Codename from ISO cache      ##
-	#################################################
+    #################################################
+    ## Obtain the Ubuntu ISO List from the cdimage ##
+    ## Obtain Release Codename from ISO cache      ##
+    #################################################
 
-	# Verify if the ISO list is cached, if not, set variable to update/create it.
-	if td.is_iso_list_cached() is False:
-		update_cache = 1
-	# If ISO list is cached, verify if it is expired. If it is, set variable to update it.
-	elif td.is_iso_list_cache_expired() is True:
-		update_cache = 1
+    # Verify if the ISO list is cached, if not, set variable to update/create it.
+    if td.is_iso_list_cached() is False:
+        update_cache = 1
+    # If ISO list is cached, verify if it is expired. If it is, set variable to update it.
+    elif td.is_iso_list_cache_expired() is True:
+        update_cache = 1
 
-	# If variable set to update, obtain the ISO list from the Ubuntu CD Image repository.
-	if update_cache == 1:
-		info(_("Obtaining Ubuntu ISO list from %s...") % td.u)
-		try:
-			cdimage = td.obtain_ubuntu_iso_list_from_repo()
-		except:
-			print _("ERROR: Could not obtain the Ubuntu ISO list from %s...") % td.u
-	# If the ISO List was obtained, update the cache fle
-	if cdimage:
-		try:
-			td.update_ubuntu_iso_list_cache(cdimage)
-		except:
-			error(_("Unable to update the Ubuntu ISO list cache..."))
+    # If variable set to update, obtain the ISO list from the Ubuntu CD Image repository.
+    if update_cache == 1:
+        info(_("Obtaining Ubuntu ISO list from %s...") % td.u)
+        try:
+            cdimage = td.obtain_ubuntu_iso_list_from_repo()
+        except:
+            print _("ERROR: Could not obtain the Ubuntu ISO list from %s...") % td.u
+    # If the ISO List was obtained, update the cache fle
+    if cdimage:
+        try:
+            td.update_ubuntu_iso_list_cache(cdimage)
+        except:
+            error(_("Unable to update the Ubuntu ISO list cache..."))
 
-	# Try to retrieve the ISO list from the cache
-	info(_("Retrieving the Ubuntu ISO list from cache..."))
-	try:
-		isos = td.get_ubuntu_iso_list()
-	except:
-		error(_("Unable to retrieve the Ubuntu ISO list from cache..."))
-	# Obtain Ubuntu Release Codename from ISO cache
-	if not td.r:
-		td.set_ubuntu_release_codename(isos)
-	# Obtain ISO list for Menu
-	ISO = td.list_isos(isos)
+    # Try to retrieve the ISO list from the cache
+    info(_("Retrieving the Ubuntu ISO list from cache..."))
+    try:
+        isos = td.get_ubuntu_iso_list()
+    except:
+        error(_("Unable to retrieve the Ubuntu ISO list from cache..."))
+    # Obtain Ubuntu Release Codename from ISO cache
+    if not td.r:
+        td.set_ubuntu_release_codename(isos)
+    # Obtain ISO list for Menu
+    ISO = td.list_isos(isos)
 
-	####################################################
-	## Obtaining ISO/Setting Launch Path/Get Protocol ##
-	####################################################
-	# Show the Command Line MENU and OBTAIN URL
-	if not td.ISO_URL:
-		td.ISO_URL = select_iso(td, ISO)
+    ####################################################
+    ## Obtaining ISO/Setting Launch Path/Get Protocol ##
+    ####################################################
+    # Show the Command Line MENU and OBTAIN URL
+    if not td.ISO_URL:
+        td.ISO_URL = select_iso(td, ISO)
 
-	# Setting launch path. Comes from merging rev 189
-	td.set_launch_path()
+    # Setting launch path. Comes from merging rev 189
+    td.set_launch_path()
 
-	# BUG: should check disk space availability in CACHE dir
-	# Update the cache
-	info(_("Syncing the specified ISO..."))
-	print("      %s" % td.ISO_URL)
-	cmd = td.get_proto()
-	if cmd == 1:
-		error(_("Unsupported protocol [%s]") % td.PROTO)
-	if td.PROTO != 'file' and td.PROTO != 'rsync':
-		if run("wget --spider -S %s 2>&1 | grep 'HTTP/1.. 200 OK'" % td.ISO_URL) != 0:
-			error(_("ISO not found at [%s]") % td.ISO_URL)
-	if cmd != 0:
-		run_or_die(cmd)
-	if td.p == 'cloud-daily' or td.p == 'cloud-releases':
-		info("Preparing Cloud image [%s]" % os.path.basename(td.PATH_TO_ISO).split("_")[-1])
-		td.prepare_cloud_img_tarball()
+    # BUG: should check disk space availability in CACHE dir
+    # Update the cache
+    info(_("Syncing the specified ISO..."))
+    print("      %s" % td.ISO_URL)
+    cmd = td.get_proto()
+    if cmd == 1:
+        error(_("Unsupported protocol [%s]") % td.PROTO)
+    if td.PROTO != 'file' and td.PROTO != 'rsync':
+        if run("wget --spider -S %s 2>&1 | grep 'HTTP/1.. 200 OK'" % td.ISO_URL) != 0:
+            error(_("ISO not found at [%s]") % td.ISO_URL)
+    if cmd != 0:
+        run_or_die(cmd)
+    if td.p == 'cloud-daily' or td.p == 'cloud-releases':
+        info("Preparing Cloud image [%s]" % os.path.basename(td.PATH_TO_ISO).split("_")[-1])
+        td.prepare_cloud_img_tarball()
 
-	##########################
-	## Creating Virt Object ##
-	##########################
-	# Create DISK_FILE to initialize Virt Method defaults.
-	if len(td.DISK_FILE) == 0:
-		td.DISK_FILE = td.create_disk_file()
-	if td.VIRT == "kvm":
-		virt = kvm.KVM(td)
-	if td.VIRT == "virtualbox":
-		virt = virtualbox.VBox(td)
-	if td.VIRT == "paralels":
-		virt = parallels.Parallels(td)
+    ##########################
+    ## Creating Virt Object ##
+    ##########################
+    # Create DISK_FILE to initialize Virt Method defaults.
+    if len(td.DISK_FILE) == 0:
+        td.DISK_FILE = td.create_disk_file()
+    if td.VIRT == "kvm":
+        virt = kvm.KVM(td)
+    if td.VIRT == "virtualbox":
+        virt = virtualbox.VBox(td)
+    if td.VIRT == "paralels":
+        virt = parallels.Parallels(td)
 
-	###################
-	## Launch the VM ##
-	###################
-	info(_("Validating Virtualization Method...."))
-	try:
-		virt.validate_virt()
-	except:
-		error(_("Unable to validate Virtualization Method [%s]") % td.VIRT)
+    ###################
+    ## Launch the VM ##
+    ###################
+    info(_("Validating Virtualization Method...."))
+    try:
+        virt.validate_virt()
+    except:
+        error(_("Unable to validate Virtualization Method [%s]") % td.VIRT)
 
-	info(_("Setting up Virtual Machine..."))
-	try:
-		virt.setup_virt()
-	except:
-		error(_("Unable to setup Virtual Machine"))
+    info(_("Setting up Virtual Machine..."))
+    try:
+        virt.setup_virt()
+    except:
+        error(_("Unable to setup Virtual Machine"))
 
-	info(_("Launching Virtual Machine..."))
-	try:
-		cmd = virt.launch_virt()
-		print "\t%s" % cmd
-		if td.VIRT == "kvm":
-			logging.debug("%s:%s" % (time.strftime("%Y-%m-%d_%H:%M:%S"), cmd))
-		run_vm(cmd, td, cloud_curses)
-	except:
-		error(_("Unable to launch Virtual Machine"))
+    info(_("Launching Virtual Machine..."))
+    try:
+        cmd = virt.launch_virt()
+        print "\t%s" % cmd
+        if td.VIRT == "kvm":
+            logging.debug("%s:%s" % (time.strftime("%Y-%m-%d_%H:%M:%S"), cmd))
+        run_vm(cmd, td, cloud_curses)
+    except:
+        error(_("Unable to launch Virtual Machine"))
 
-	rm_disk = td.delete_image()
-	if rm_disk:
-		info(_("Cleaning up disk image [%s]...") % td.DISK_FILE)
+    rm_disk = td.delete_image()
+    if rm_disk:
+        info(_("Cleaning up disk image [%s]...") % td.DISK_FILE)
 
-	# Remind about cache cleanup
-	info(_("You may wish to clean up the cache directory..."))
-	print(_("      %s and %s") % (td.CACHE_ISO, td.CACHE_IMG))
-	#run("ls -HhalF %s %s" % (CACHE_ISO, CACHE_IMG))
-	#run("du -sh --apparent-size %s %s 2>/dev/null || du -sh %s %s" % (CACHE_ISO, CACHE_IMG))
+    # Remind about cache cleanup
+    info(_("You may wish to clean up the cache directory..."))
+    print(_("      %s and %s") % (td.CACHE_ISO, td.CACHE_IMG))
+    #run("ls -HhalF %s %s" % (CACHE_ISO, CACHE_IMG))
+    #run("du -sh --apparent-size %s %s 2>/dev/null || du -sh %s %s" % (CACHE_ISO, CACHE_IMG))
 
-	# Launch Desktop
-	if DESKTOP == 1:
-		if os.path.exists("/usr/bin/usb-creator-gtk") or os.path.exists("/usr/bin/usb-creator-kde"):
-			input = raw_input(_("\nLaunch USB Startup Disk Creator for further testing of this ISO? [y/N] "))
-			if input == "y" or input == "Y":
-				td.launch_usb_creator()
-		else:
-			raw_input(_("\nPress <enter> to exit..."))
+    # Launch Desktop
+    if DESKTOP == 1:
+        if os.path.exists("/usr/bin/usb-creator-gtk") or os.path.exists("/usr/bin/usb-creator-kde"):
+            input = raw_input(_("\nLaunch USB Startup Disk Creator for further testing of this ISO? [y/N] "))
+            if input == "y" or input == "Y":
+                td.launch_usb_creator()
+        else:
+            raw_input(_("\nPress <enter> to exit..."))
 
-	sys.exit(0)
+    sys.exit(0)
 
 if __name__ == '__main__':
-	main()
+    main()

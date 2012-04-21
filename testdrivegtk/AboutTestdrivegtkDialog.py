@@ -3,7 +3,7 @@
 # Copyright (C) 2010 Canonical Ltd.
 # 
 # Authors:
-# 	Andres Rodriguez <andreserl@ubuntu.com>
+#   Andres Rodriguez <andreserl@ubuntu.com>
 # 
 # This program is free software: you can redistribute it and/or modify it 
 # under the terms of the GNU General Public License version 3, as published 
@@ -48,44 +48,44 @@ __website__ = "https://launchpad.net/testdrive"
 __copyright__ = "Copyright © 2010, 2011 Canonical Ltd."
 
 class AboutTestdrivegtkDialog(gtk.AboutDialog):
-	__gtype_name__ = "AboutTestdrivegtkDialog"
+    __gtype_name__ = "AboutTestdrivegtkDialog"
 
-	def __new__(cls):
-		"""Special static method that's automatically called by Python when 
-		constructing a new instance of this class.
+    def __new__(cls):
+        """Special static method that's automatically called by Python when 
+        constructing a new instance of this class.
 
-		Returns a fully instantiated AboutTestdrivegtkDialog object.
-		"""
-		builder = get_builder('AboutTestdrivegtkDialog')
-		new_object = builder.get_object("about_testdrivegtk_dialog")
-		new_object.finish_initializing(builder)
-		return new_object
+        Returns a fully instantiated AboutTestdrivegtkDialog object.
+        """
+        builder = get_builder('AboutTestdrivegtkDialog')
+        new_object = builder.get_object("about_testdrivegtk_dialog")
+        new_object.finish_initializing(builder)
+        return new_object
 
-	def finish_initializing(self, builder):
-		"""Called while initializing this instance in __new__
+    def finish_initializing(self, builder):
+        """Called while initializing this instance in __new__
 
-		finish_initalizing should be called after parsing the ui definition
-		and creating a AboutTestdrivegtkDialog object with it in order to
-		finish initializing the start of the new AboutTestdrivegtkDialog
-		instance.
+        finish_initalizing should be called after parsing the ui definition
+        and creating a AboutTestdrivegtkDialog object with it in order to
+        finish initializing the start of the new AboutTestdrivegtkDialog
+        instance.
 
-		Put your initialization code in here and leave __init__ undefined.
-		"""
-		# Get a reference to the builder and set up the signals.
-		self.builder = builder
-		self.builder.connect_signals(self)
+        Put your initialization code in here and leave __init__ undefined.
+        """
+        # Get a reference to the builder and set up the signals.
+        self.builder = builder
+        self.builder.connect_signals(self)
 
-		# Code for other initialization actions should be added here.
-		dialog = builder.get_object("about_testdrivegtk_dialog")
-		
-		dialog.set_version(__version__)
-		dialog.set_authors(__authors__)
-		dialog.set_comments(__description__)
-		dialog.set_license(__licensenotice__)
-		dialog.set_website(__website__)
-		dialog.set_copyright(__copyright__)
+        # Code for other initialization actions should be added here.
+        dialog = builder.get_object("about_testdrivegtk_dialog")
+        
+        dialog.set_version(__version__)
+        dialog.set_authors(__authors__)
+        dialog.set_comments(__description__)
+        dialog.set_license(__licensenotice__)
+        dialog.set_website(__website__)
+        dialog.set_copyright(__copyright__)
 
 if __name__ == "__main__":
-	dialog = AboutTestdrivegtkDialog()
-	dialog.show()
-	gtk.main()
+    dialog = AboutTestdrivegtkDialog()
+    dialog.show()
+    gtk.main()

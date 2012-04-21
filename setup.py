@@ -4,7 +4,7 @@
 # Copyright (C) 2010 Canonical Ltd.
 # 
 # Authors:
-# 	Andres Rodriguez <andreserl@ubuntu.com>
+#   Andres Rodriguez <andreserl@ubuntu.com>
 # 
 # This program is free software: you can redistribute it and/or modify it 
 # under the terms of the GNU General Public License version 3, as published 
@@ -92,28 +92,28 @@ class InstallAndUpdateDataDirectory(DistUtilsExtra.auto.install_auto):
 ##################################################################################
 
 DistUtilsExtra.auto.setup(
-	name='testdrive',
-	version='3.10',
-	license='GPL-3',
-	author='Andres Rodriguez',
-	author_email='andreserl@ubuntu.com',
-	description='Test Drive an Ubuntu ISO',
-	long_description='Download and run an Ubuntu ISO in a Virtual Machine',
-	url='https://launchpad.net/testdrive',
-	packages=[	'testdrive',
-			'testdrive.virt',
-			'testdrivegtk'],
-	scripts=['bin/testdrive', 'bin/testdrive-gtk'],
-	data_files=[	('/etc', ['testdriverc']),
-			('share/testdrive', ['testdriverc']),
-			('share/testdrivegtk/ui', glob('data/ui/*.ui')),
-			('share/testdrivegtk/ui', glob('data/ui/*.xml')),
-			('share/testdrivegtk/media', glob('data/media/*.png')),
-			('share/testdrivegtk/media', glob('data/media/*.svg'))
-			#('share/pixmaps', glob('data/media/testdrive-gtk.xpm')),
-			#('share/testdrivegtk/indicator', glob('indicator/testdrive-gtk'))
-			#('share/indicators/messages/applications', glob('indicator/testdrive-gtk'))
-			],
-	cmdclass={'install': InstallAndUpdateDataDirectory}
-	)
+    name='testdrive',
+    version='3.10',
+    license='GPL-3',
+    author='Andres Rodriguez',
+    author_email='andreserl@ubuntu.com',
+    description='Test Drive an Ubuntu ISO',
+    long_description='Download and run an Ubuntu ISO in a Virtual Machine',
+    url='https://launchpad.net/testdrive',
+    packages=[  'testdrive',
+            'testdrive.virt',
+            'testdrivegtk'],
+    scripts=['bin/testdrive', 'bin/testdrive-gtk'],
+    data_files=[    ('/etc', ['testdriverc']),
+            ('share/testdrive', ['testdriverc']),
+            ('share/testdrivegtk/ui', glob('data/ui/*.ui')),
+            ('share/testdrivegtk/ui', glob('data/ui/*.xml')),
+            ('share/testdrivegtk/media', glob('data/media/*.png')),
+            ('share/testdrivegtk/media', glob('data/media/*.svg'))
+            #('share/pixmaps', glob('data/media/testdrive-gtk.xpm')),
+            #('share/testdrivegtk/indicator', glob('indicator/testdrive-gtk'))
+            #('share/indicators/messages/applications', glob('indicator/testdrive-gtk'))
+            ],
+    cmdclass={'install': InstallAndUpdateDataDirectory}
+    )
 
