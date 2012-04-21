@@ -554,6 +554,7 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
         #ARCHs
         if 'amd64' in self.arch and 'i386' in self.arch:
             self.td.m = self.arch
+            self.td.m.sort()
             self.preferences.append(['m', ' '.join(self.td.m)])
         elif 'amd64' in self.arch or 'i386' in self.arch:
             self.td.m = self.arch
