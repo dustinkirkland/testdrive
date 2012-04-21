@@ -73,7 +73,7 @@ class Testdrive:
 		if var == 'r':
 			self.r = value
 		if var == 'm':
-			self.m = [value]
+			self.m = value.split()
 		if var == 'f':
 			self.f = value
 		if var == 'p':

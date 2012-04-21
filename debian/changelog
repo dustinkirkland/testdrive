@@ -5,8 +5,9 @@ testdrive (3.16) unreleased; urgency=low
 
   [ Andres Rodriguez ]
   * testdrive/virt/kvm.py: Generate UUID. (LP: #959308)
+  * correctly save arch's in preferences (LP: #873235)
 
- -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 20 Apr 2012 17:52:59 -0700
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Fri, 20 Apr 2012 18:39:14 -0700
 
 testdrive (3.15-0ubuntu1) precise; urgency=low
 
