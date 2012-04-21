@@ -19,7 +19,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import commands, os
+import commands, os, uuid
 
 class KVM:
 
@@ -61,10 +61,11 @@ class KVM:
 	def launch_virt(self):
 		print "Running the Virtual Machine..."
 		#os.system("kvm -m %s -smp %s -cdrom %s -drive file=%s,if=virtio,cache=writeback,index=0,boot=on %s" % (self.td.MEM, self.td.SMP, self.td.PATH_TO_ISO, self.td.DISK_FILE, self.td.KVM_ARGS))
+		UUID = uuid.uuid4()
 		if self.p == 'cloud-daily' or self.p == 'cloud-releases':
-			cmd = "kvm -boot a -fda %s -drive file=%s,if=virtio %s" % (self.FLOPPY_FILE, self.DISK_FILE, self.KVM_ARGS)
+			cmd = "kvm -uuid %s -boot a -fda %s -drive file=%s,if=virtio %s" % (UUID, self.FLOPPY_FILE, self.DISK_FILE, self.KVM_ARGS)
 		else:
-			cmd = "kvm -m %s -smp %s -cdrom %s -drive file=%s,if=virtio,cache=writeback,index=0,boot=on %s" % (self.MEM, self.SMP, self.PATH_TO_ISO, self.DISK_FILE, self.KVM_ARGS)
+			cmd = "kvm -uuid %s -m %s -smp %s -cdrom %s -drive file=%s,if=virtio,cache=writeback,index=0,boot=on %s" % (UUID, self.MEM, self.SMP, self.PATH_TO_ISO, self.DISK_FILE, self.KVM_ARGS)
 		return cmd
 
 	def run(self, cmd):
