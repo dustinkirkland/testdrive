@@ -1,6 +1,7 @@
 testdrive (3.16) unreleased; urgency=low
 
-  * UNRELEASED
+  [ Philip Muškovac ]
+  * Correctly display versions for both -cli and -gtk
 
  -- Andres Rodriguez <andreserl@ubuntu.com>  Mon, 31 Oct 2011 12:28:07 -0400
 

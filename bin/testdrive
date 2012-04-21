@@ -207,7 +207,7 @@ def main():
 	info(_("version passed: %s") % opt.version)
 	if opt.version:
 		hasOptions = True
-		version = commands.getstatusoutput("dpkg -l testdrive | tail -n1 | awk '{print $3}'")
+		version = commands.getstatusoutput("dpkg -l testdrive-cli | tail -n1 | awk '{print $3}'")
 		info(_("testdrive %s") % version[1])
 		#TODO: Why is get_virt() here? Disable until is determined if we really need it or not. If yes, we'll have to add same code as below,
 		# for same function
