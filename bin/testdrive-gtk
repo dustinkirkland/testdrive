@@ -51,14 +51,6 @@ global ISOLIST
 
 ISOLIST = []
 
-# optional Launchpad integration
-# this shouldn't crash if not found as it is simply used for bug reporting
-try:
-    import LaunchpadIntegration
-    launchpad_available = True
-except:
-    launchpad_available = False
-
 # Add project root directory (enable symlink, and trunk execution).
 PROJECT_ROOT_DIRECTORY = os.path.abspath(
     os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0]))))
@@ -138,17 +130,6 @@ class TestdrivegtkWindow(gtk.Window):
         self.sync_threads = []
         self.launch_threads = []
         self.isos_to_run = []
-
-        global launchpad_available
-        if launchpad_available:
-            # see https://wiki.ubuntu.com/UbuntuDevelopment/Internationalisation/Coding for more information
-            # about LaunchpadIntegration
-            helpmenu = self.builder.get_object('helpMenu')
-            if helpmenu:
-                LaunchpadIntegration.set_sourcepackagename('testdrive-gtk')
-                LaunchpadIntegration.add_items(helpmenu, 0, False, True)
-            else:
-                launchpad_available = False
 
         ###################################################################
         ######## Obtaining the settings from the Preferences Class ########
