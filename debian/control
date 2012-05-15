@@ -3,7 +3,7 @@ Section: python
 Priority: extra
 Maintainer: Dustin Kirkland <kirkland@ubuntu.com>
 Standards-Version: 3.8.3
-Build-Depends: debhelper (>= 7), gettext-base, python, python-support (>= 0.6.4), python-distutils-extra (>= 2.10)
+Build-Depends: debhelper (>= 7), gettext-base, python (>= 2.6.6-3~), python-distutils-extra (>= 2.10)
 XS-Python-Version: current
 Homepage: http://launchpad.net/testdrive
 Vcs-Bzr: http://bazaar.launchpad.net/~kirkland/testdrive/trunk
@@ -22,7 +22,6 @@ Description: run the daily Ubuntu ISO in a virtual machine (meta-package)
 
 Package: testdrive-common
 Architecture: all
-XB-Python-Version: ${python:Versions}
 Depends: ${python:Depends}, ${misc:Depends},
  qemu-kvm | kvm ( >= 1:84+dfsg-0ubuntu12.4 ) | virtualbox-ose ( >= 3.1.6) | virtualbox-3.1 | virtualbox-3.2 | virtualbox-4.0,
  rsync,
@@ -43,7 +42,6 @@ Description: run the daily Ubuntu ISO in a virtual machine (common files)
 
 Package: testdrive-cli
 Architecture: all
-XB-Python-Version: ${python:Versions}
 Depends: ${misc:Depends},
  ${python:Depends},
  testdrive-common (= ${source:Version})
@@ -61,7 +59,6 @@ Description: run the daily Ubuntu ISO in a virtual machine (command line)
 
 Package: testdrive-gtk
 Architecture: all
-XB-Python-Version: ${python:Versions}
 Depends: ${misc:Depends},
  ${python:Depends},
  testdrive-common (= ${source:Version}),

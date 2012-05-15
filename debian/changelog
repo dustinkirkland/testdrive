@@ -7,6 +7,8 @@ testdrive (3.16) UNRELEASED; urgency=low
   * testdrive/virt/kvm.py: Generate UUID. (LP: #959308)
   * correctly save arch's in preferences (LP: #873235)
   * Change tabs to spaces.
+  * debian/source/format: Added.
+  * fully migrate to dh_python2
 
   [ Robert Ancell ]
   * debian/control:
@@ -14,7 +16,7 @@ testdrive (3.16) UNRELEASED; urgency=low
   * bin/testdrive-gtk:
     - We no longer do Launchpad integration (LP: #999413)
 
- -- Robert Ancell <robert.ancell@canonical.com>  Tue, 15 May 2012 10:20:57 +1200
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 15 May 2012 16:58:37 -0400
 
 testdrive (3.15-0ubuntu1) precise; urgency=low
 
