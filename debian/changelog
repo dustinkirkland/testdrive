@@ -7,12 +7,12 @@ testdrive (3.16) UNRELEASED; urgency=low
   * testdrive/virt/kvm.py: Generate UUID. (LP: #959308)
   * correctly save arch's in preferences (LP: #873235)
   * Change tabs to spaces.
-  
+
   [ Robert Ancell ]
   * debian/control:
     - Drop dependency on python-launchpad-integration
   * bin/testdrive-gtk:
-    - We no longer do Launchpad integration
+    - We no longer do Launchpad integration (LP: #999413)
 
  -- Robert Ancell <robert.ancell@canonical.com>  Tue, 15 May 2012 10:20:57 +1200
 
