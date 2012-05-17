@@ -1,7 +1,8 @@
 Source: testdrive
 Section: python
 Priority: extra
-Maintainer: Dustin Kirkland <kirkland@ubuntu.com>
+Maintainer: Andres Rodriguez <andreserl@ubuntu.com>
+XSBC-Original-Maintainer: Dustin Kirkland <kirkland@ubuntu.com>
 Standards-Version: 3.8.3
 Build-Depends: debhelper (>= 7), gettext-base, python (>= 2.6.6-3~), python-distutils-extra (>= 2.10)
 XS-Python-Version: current
