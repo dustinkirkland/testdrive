@@ -1,4 +1,4 @@
-testdrive (3.16) UNRELEASED; urgency=low
+testdrive (3.16-0ubuntu1) quantal; urgency=low
 
   [ Philip Muškovac ]
   * Correctly display versions for both -cli and -gtk
