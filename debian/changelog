@@ -5,8 +5,11 @@ testdrive (3.17) unreleased; urgency=low
     installed. (LP: #1098080)
 
   [ Andres Rodriguez ]
-  * testdrive-common depends on python-xdg (LP: #1023571)
+  * debian/control:
+    - Bump Standards Version to 3.9.3
+    - testdrive-common depends on python-xdg (LP: #1023571)
   * Make package more lintian clean (LP: #1079259)
+    - doc/testdrive.1: Fix manpage.
   * disable build of i18n:
     - setup.cfg: Add to disable i18n as it causes a broken build.
     - testdrive-gtk.desktop: Add. Doesn't support translations.
