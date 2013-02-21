@@ -25,6 +25,7 @@ Package: testdrive-common
 Architecture: all
 Depends: ${python:Depends}, ${misc:Depends},
  qemu-kvm | kvm ( >= 1:84+dfsg-0ubuntu12.4 ) | virtualbox-ose ( >= 3.1.6) | virtualbox-3.1 | virtualbox-3.2 | virtualbox-4.0,
+ python-xdg,
  rsync,
  wget
 Recommends: zsync, usb-creator-gtk | usb-creator-kde, cpu-checker, kvm-pxe
@@ -65,7 +66,6 @@ Depends: ${misc:Depends},
  testdrive-common (= ${source:Version}),
  python-gtk2,
  python-notify,
- python-xdg,
  python-indicate
 Description: run the daily Ubuntu ISO in a virtual machine (GTK Front-end)
  Testdrive helps you download and run the daily Ubuntu development ISO
