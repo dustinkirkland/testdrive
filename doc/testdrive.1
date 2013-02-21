@@ -12,7 +12,7 @@ testdrive [\-d] [\-f FILE] [\-l FLAVOR] [\-r RELEASE] [\-u URL] [\-v|\-\-version
 
 \fB\-f FILE\fP - path to a configuration file to read
 
-\fB\-l FLAVOR\fP - hardcode Ubuntu flavor to testdrive; can be [ubuntu|kubuntu|xubuntu|edubuntu|myhbuntu|ubuntustudio|lubuntu|cloud-server]
+\fB\-l FLAVOR\fP - hardcode Ubuntu flavor to testdrive; can be [ubuntu | kubuntu | xubuntu | edubuntu | myhbuntu | ubuntustudio | lubuntu | cloud-server]
 
 \fB\-p REPOSITORY\fP - select Ubuntu repositoru; can be [cdimage|releases|cloud-daily]
 
@@ -45,13 +45,13 @@ testdrive \-p cloud-daily
 
 Specify repository and flavor (Defaults to latest Ubuntu release available):
 .RS
-testdrive \-p cdimage -l kubuntu
+testdrive \-p cdimage \-l kubuntu
 .RE
 .RS
-testdrive \-p releases -l kubuntu
+testdrive \-p releases \-l kubuntu
 .RE
 .RS
-testdrive \-p cloud-daily -l cloud-server
+testdrive \-p cloud-daily \-l cloud-server
 .RE
 
 Launch local ISO image:
@@ -66,7 +66,7 @@ testdrive \-u /local/path/to/cloud-image.tar.gz
 
 Launch Cloud local image with KVM curses
 .RS
-testdrive \-u /local/path/to/cloud-image.tar.gz --curses
+testdrive \-u /local/path/to/cloud-image.tar.gz \-\-curses
 .RE
 
 .SH FILES

@@ -1,7 +1,8 @@
 testdrive (3.17) unreleased; urgency=low
 
   [Benjamin Kerensa]
-  * Fix hang on "Configuring Virtual Machine" when Virtualbox 4.2 installed. (LP: #1098080)
+  * Fix hang on "Configuring Virtual Machine" when Virtualbox 4.2
+    installed. (LP: #1098080)
 
  -- Andres Rodriguez <andreserl@ubuntu.com>  Thu, 17 May 2012 12:18:20 -0400
 
