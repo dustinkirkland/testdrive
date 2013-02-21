@@ -2,6 +2,6 @@ debian/tmp/usr/lib/python*/*/testdrivegtk/*.py
 debian/tmp/usr/lib/python*/*/testdrivegtk/__init__.py
 debian/tmp/usr/share/testdrivegtk
 debian/tmp/usr/bin/testdrive-gtk
-debian/tmp/usr/share/applications/testdrive-gtk.desktop
+testdrive-gtk.desktop usr/share/applications/testdrive-gtk.desktop
 #debian/tmp/usr/share/pixmaps/testdrive-gtk.xpm
 #debian/tmp/usr/share/indicators/messages/applications/testdrive-gtk
