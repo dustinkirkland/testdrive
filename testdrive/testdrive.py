@@ -112,6 +112,8 @@ class Testdrive:
                     category = 'kubuntu'
                 elif category == 'kubuntu-mobile':
                     category = 'kubuntu'
+                elif category == 'kubuntu-active':
+                    category = 'kubuntu'
                 flavor = iso.split()[0].capitalize()
                 if flavor == 'Ubuntu-netbook':
                     flavor = 'Ubuntu'
@@ -121,6 +123,8 @@ class Testdrive:
                     flavor = 'Kubuntu'
                 elif flavor == 'Kubuntu-mobile':
                     flavor = 'Kubuntu'
+                elif flavor == 'Kubuntu-active':
+                    flavor = 'Kubuntu Active'
                 elif flavor == 'Ubuntustudio':
                     flavor = 'Ubuntu Studio'
                 elif flavor == 'Ubuntu-server':
