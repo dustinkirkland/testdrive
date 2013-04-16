@@ -24,7 +24,7 @@ Description: run the daily Ubuntu ISO in a virtual machine (meta-package)
 Package: testdrive-common
 Architecture: all
 Depends: ${python:Depends}, ${misc:Depends},
- qemu-kvm | kvm ( >= 1:84+dfsg-0ubuntu12.4 ) | virtualbox-ose ( >= 3.1.6) | virtualbox-3.1 | virtualbox-3.2 | virtualbox-4.0,
+ qemu-kvm | kvm ( >= 1:84+dfsg-0ubuntu12.4 ) | virtualbox ( >= 4.0) | virtualbox-3.1 | virtualbox-3.2 | virtualbox-4.0,
  python-xdg,
  rsync,
  wget

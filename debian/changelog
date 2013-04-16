@@ -4,6 +4,10 @@ testdrive (3.19) unreleased; urgency=low
   * testdrive/testdrive.py: Fix duplicated cdimage ISO entries. Only use
     current, not pending. (LP: #1162057)
 
+  [ Adam Conrad ]
+  * Switch virtualbox-ose dependency to virtualbox, as the empty
+    package has been dropped in the packaging of the 4.2 series.
+
  -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 16 Apr 2013 09:40:46 -0700
 
 testdrive (3.18-0ubuntu1) raring; urgency=low
