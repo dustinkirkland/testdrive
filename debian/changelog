@@ -8,6 +8,9 @@ testdrive (3.19) unreleased; urgency=low
   * Switch virtualbox-ose dependency to virtualbox, as the empty
     package has been dropped in the packaging of the 4.2 series.
 
+  [ Dmitrijs Ledkovs ]
+  * Drop python-indicate dependency, as it was disabled in 3.11-0ubuntu1.
+
  -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 16 Apr 2013 09:40:46 -0700
 
 testdrive (3.18-0ubuntu1) raring; urgency=low

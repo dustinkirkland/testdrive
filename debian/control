@@ -65,8 +65,7 @@ Depends: ${misc:Depends},
  ${python:Depends},
  testdrive-common (= ${source:Version}),
  python-gtk2,
- python-notify,
- python-indicate
+ python-notify
 Description: run the daily Ubuntu ISO in a virtual machine (GTK Front-end)
  Testdrive helps you download and run the daily Ubuntu development ISO
  in a virtual machine on your local hardware.
