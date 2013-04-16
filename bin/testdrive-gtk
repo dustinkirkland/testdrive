@@ -73,7 +73,7 @@ from testdrivegtk import (
 from testdrivegtk.helpers import get_builder
 
 try:
-    import indicate
+    #import indicate
     import gobject
     import webbrowser
     #message_indicator = True
