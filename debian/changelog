@@ -1,11 +1,11 @@
-testdrive (3.18) unreleased; urgency=low
+testdrive (3.18-0ubuntu1) raring; urgency=low
 
   [ Howard Chan ]
   * testdrive/testdrive.py:
     - this addes a Kubuntu Active Desktop image to TestDrive
       and fixes LP: #1154563
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 15 Apr 2013 21:30:30 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 15 Apr 2013 21:42:17 -0500
 
 testdrive (3.17-0ubuntu1) raring; urgency=low
 
