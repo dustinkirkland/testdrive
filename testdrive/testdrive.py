@@ -350,7 +350,7 @@ class Testdrive:
 
     def obtain_ubuntu_iso_list_from_repo(self):
         if self.p == 'cdimage':
-            (status, output) = commands.getstatusoutput("wget -q -O- http://cdimage.ubuntu.com/.manifest-daily | egrep '(amd64|i386)'")
+            (status, output) = commands.getstatusoutput("wget -q -O- http://cdimage.ubuntu.com/.manifest-daily | egrep '(amd64|i386)' | egrep '(current)'")
         elif self.p == 'releases':
             (status, output) = commands.getstatusoutput("wget -q -O- http://releases.ubuntu.com/.manifest | egrep '(amd64|i386)'")
         elif self.p == 'cloud-daily':

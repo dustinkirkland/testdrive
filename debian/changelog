@@ -1,8 +1,10 @@
 testdrive (3.19) unreleased; urgency=low
 
-  * UNRELEASED
+  [ Sergio Meneses ]
+  * testdrive/testdrive.py: Fix duplicated cdimage ISO entries. Only use
+    current, not pending. (LP: #1162057)
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 15 Apr 2013 21:42:20 -0500
+ -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 16 Apr 2013 09:40:46 -0700
 
 testdrive (3.18-0ubuntu1) raring; urgency=low
 
