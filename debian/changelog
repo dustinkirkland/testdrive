@@ -1,6 +1,7 @@
 testdrive (3.20) unreleased; urgency=low
 
-  * UNRELEASED
+  * bin/testdrive-gtk: Remove a importing 'indicate' module, which will
+    cause testdrive-gtk to crash on fresh installs (LP: #1162027)
 
  -- Andres Rodriguez <andreserl@ubuntu.com>  Tue, 16 Apr 2013 10:01:40 -0700
 
