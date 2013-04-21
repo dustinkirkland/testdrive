@@ -1,7 +1,10 @@
-testdrive (3.21) unreleased; urgency=low
+testdrive (3.21-0ubuntu1) UNRELEASED; urgency=low
 
   [ Paolo Rotolo ]
   * debian/control: Add usb-cretor-gtk to recommends. (LP: #962250)
+
+  [ Howard Chan ]
+  * Add UbuntuKylin to Testdrive. (LP: #1170617)
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 18 Apr 2013 11:22:39 -0500
 

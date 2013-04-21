@@ -194,7 +194,7 @@ def main():
         help=_('hardcode Ubuntu RELEASE codename'))
     parser.add_option('-l', '--flavor', action='store', type='string', dest='flavor',
         help=_('hardcode Ubuntu flavor. Available Flavors:\n\
-             ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio/lubuntu'))
+             ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio/lubuntu/ubuntukylin'))
     parser.add_option('-p', '--repo', action='store', type='string', dest='repository',
         help=_('hardcode Ubuntu repository from where to obtain ISOs:\n\
              releases/cdimage/cloud-daily/cloud-releases'))
