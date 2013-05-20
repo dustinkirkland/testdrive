@@ -993,7 +993,7 @@ if __name__ == "__main__":
     # Set the logging level to show debug messages.
     if options.verbose:
         logging.basicConfig(level=logging.DEBUG)
-        logging = logging.getLogger('testdrivegtk')
+        logging = logging.getLogger('testdrive')
         logging.debug('logging enabled')
 
     # Run the application.
