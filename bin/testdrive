@@ -19,7 +19,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import commands, hashlib, os, string, sys, tempfile, time, platform, subprocess, tarfile
+import commands, hashlib, os, string, sys, tempfile, time, platform, subprocess, tarfile, logging
 from optparse import OptionParser
 
 import gettext
@@ -28,6 +28,22 @@ gettext.textdomain('testdrive')
 
 from testdrive import testdrive
 from testdrive.virt import kvm, virtualbox, parallels
+
+# Start logger
+logger = logging.getLogger("testdrive")
+logger.setLevel(logging.DEBUG)
+
+# Logging to the console
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+
+# Logger formatter
+formatter = logging.Formatter("%(levelname)s: %(message)s")
+ch.setFormatter(formatter)
+
+# Add the handlers
+logger.addHandler(ch)
+
 
 # Creates the UI list
 def select_iso(td, ISO):
@@ -55,7 +71,7 @@ def select_iso(td, ISO):
             print("\n")
             exit(0)
         except:
-            print(_("\nERROR: Invalid input\n"))
+            logger.error(_("\nERROR: Invalid input\n"))
             continue
         if choice == i:
             url = raw_input(_("\nEnter an ISO URL to testdrive: "))
@@ -65,18 +81,18 @@ def select_iso(td, ISO):
             td.ISO_PATH_HEADER = menu[choice-1]["cat"]
             break
         else:
-            print(_("\nERROR: Invalid selection\n"))
+            logger.error(_("\nERROR: Invalid selection\n"))
     return(url)
 
 def error(str):
-    print(_("\nERROR: %s\n") % str)
+    logger.error(_("\n%s\n") % str)
     sys.exit(1)
 
 def info(str):
-    print(_("INFO: %s") % str)
+    logger.info(_("%s") % str)
 
 def warning(str):
-    print(_("WARNING: %s") % str)
+    logger.warning(_("%s") % str)
 
 def is_iso(file):
     # If it's a URL, assume it's good
@@ -308,16 +324,6 @@ def main():
     #################################
     td.set_defaults()
 
-    #################################
-    ## Initializing Logging        ##
-    ## Only logs KVM command       ##
-    #################################
-    import logging
-    KVMLOG = "%s/kvm.log" % td.CACHE
-    logging.basicConfig(filename=KVMLOG, level=logging.DEBUG)
-    logging = logging.getLogger('testdrive')
-    #logging.debug('logging enabled')
-
     #################################################
     ## Obtain the Ubuntu ISO List from the cdimage ##
     ## Obtain Release Codename from ISO cache      ##
@@ -336,7 +342,7 @@ def main():
         try:
             cdimage = td.obtain_ubuntu_iso_list_from_repo()
         except:
-            print _("ERROR: Could not obtain the Ubuntu ISO list from %s...") % td.u
+            error(_("ERROR: Could not obtain the Ubuntu ISO list from %s...") % td.u)
     # If the ISO List was obtained, update the cache fle
     if cdimage:
         try:

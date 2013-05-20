@@ -19,7 +19,9 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import commands, os, uuid
+import commands, os, uuid, logging
+
+logger = logging.getLogger("testdrive.virt.kvm")
 
 class KVM:
 
@@ -43,7 +45,7 @@ class KVM:
     def validate_virt(self):
         (status, output) = commands.getstatusoutput("kvm-ok")
         if status != 0:
-            print(output)
+            logger.info(output)
 
     # Code to setup virtual machine
     def setup_virt(self):
@@ -54,18 +56,17 @@ class KVM:
             self.FLOPPY_FILE = "%s-floppy" % path
             self.run_or_die("kvm-img create -f qcow2 -b %s %s" % (self.ORIG_DISK, self.DISK_FILE))
         elif not os.path.exists(self.DISK_FILE) or self.is_disk_empty():
-            print "Creating disk image [%s]..." % self.DISK_FILE
+            logger.info("Creating disk image [%s]..." % self.DISK_FILE)
             self.run_or_die("kvm-img create -f qcow2 %s %s" % (self.DISK_FILE, self.DISK_SIZE))
 
     # Code launch virtual machine
     def launch_virt(self):
-        print "Running the Virtual Machine..."
-        #os.system("kvm -m %s -smp %s -cdrom %s -drive file=%s,if=virtio,cache=writeback,index=0,boot=on %s" % (self.td.MEM, self.td.SMP, self.td.PATH_TO_ISO, self.td.DISK_FILE, self.td.KVM_ARGS))
+        logger.info("Running the Virtual Machine...")
         UUID = uuid.uuid4()
         if self.p == 'cloud-daily' or self.p == 'cloud-releases':
-            cmd = "kvm -uuid %s -boot a -fda %s -drive file=%s,if=virtio %s" % (UUID, self.FLOPPY_FILE, self.DISK_FILE, self.KVM_ARGS)
+            cmd = "qemu-system-x86_64 -uuid %s -boot a -fda %s -drive file=%s,if=virtio %s" % (UUID, self.FLOPPY_FILE, self.DISK_FILE, self.KVM_ARGS)
         else:
-            cmd = "kvm -uuid %s -m %s -smp %s -cdrom %s -drive file=%s,if=virtio,cache=writeback,index=0,boot=on %s" % (UUID, self.MEM, self.SMP, self.PATH_TO_ISO, self.DISK_FILE, self.KVM_ARGS)
+            cmd = "qemu-system-x86_64 -uuid %s -m %s -smp %s -cdrom %s -drive file=%s,if=virtio,cache=writeback,index=0 %s" % (UUID, self.MEM, self.SMP, self.PATH_TO_ISO, self.DISK_FILE, self.KVM_ARGS)
         return cmd
 
     def run(self, cmd):
@@ -73,4 +74,4 @@ class KVM:
 
     def run_or_die(self, cmd):
         if self.run(cmd) != 0:
-            print "Command failed\n    `%s`" % cmd
+            logger.error("Command failed\n    `%s`" % cmd)
