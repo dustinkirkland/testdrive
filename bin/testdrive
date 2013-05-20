@@ -88,12 +88,6 @@ def error(str):
     logger.error(_("\n%s\n") % str)
     sys.exit(1)
 
-def info(str):
-    logger.info(_("%s") % str)
-
-def warning(str):
-    logger.warning(_("%s") % str)
-
 def is_iso(file):
     # If it's a URL, assume it's good
     for i in ("http", "ftp", "rsync", "file", "zsync"):
@@ -154,7 +148,7 @@ def run_vm(cmd, td, curses):
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     if td.VIRT == 'kvm':
         if curses:
-            info(_("Launching Virtual Machine using CURSES as screen mode"))
+            logger.info(_("Launching Virtual Machine using CURSES as screen mode"))
             run_or_die(cmd)
         else:
             p.wait()
@@ -220,11 +214,11 @@ def main():
     #   help=_('show debug messages'))
 
     (opt, args) = parser.parse_args()
-    info(_("version passed: %s") % opt.version)
+    logger.info(_("version passed: %s") % opt.version)
     if opt.version:
         hasOptions = True
         version = commands.getstatusoutput("dpkg -l testdrive-cli | tail -n1 | awk '{print $3}'")
-        info(_("testdrive %s") % version[1])
+        logger.info(_("testdrive %s") % version[1])
         #TODO: Why is get_virt() here? Disable until is determined if we really need it or not. If yes, we'll have to add same code as below,
         # for same function
         td.get_virt()
@@ -236,7 +230,7 @@ def main():
 
     # prime configuration with defaults
     config_files = ["/etc/%s" % td.PKGRC, "%s/.%s" % (td.HOME, td.PKGRC), "%s/.config/%s/%s" % (td.HOME, td.PKG, td.PKGRC) ]
-    info(_("config passed: %s") %opt.config)
+    logger.info(_("config passed: %s") %opt.config)
     if opt.config:
         hasOptions = True
         if opt.config[0] != '/':
@@ -246,11 +240,11 @@ def main():
     # try to load configuration files; on error exit
     # Let the user know which config files were used
     for i in config_files:
-        info(_('Trying config in %s') % i)
+        logger.info(_('Trying config in %s') % i)
         if os.path.exists(i):
             try:
                 td.load_config_file(i)
-                info(_("Using configuration in %s") % i)
+                logger.info(_("Using configuration in %s") % i)
             except:
                 error(_("Invalid configuration [%s]") % i)
 
@@ -267,11 +261,11 @@ def main():
             kvm-ok\n\
             sudo apt-get install virtualbox-ose"))
     elif td.VIRT == "kvm":
-        info(_("Using KVM for virtual machine hosting..."));
+        logger.info(_("Using KVM for virtual machine hosting..."));
     elif td.VIRT == "virtualbox":
-        info(_("Using VirtualBox for virtual machine hosting..."))
+        logger.info(_("Using VirtualBox for virtual machine hosting..."))
     elif td.VIRT == "paralels":
-        info(_("Using Parallels Desktop for virtual machine hosting..."))
+        logger.info(_("Using Parallels Desktop for virtual machine hosting..."))
 
     ##########################################
     ## UI Options needed after config files ##
@@ -338,7 +332,7 @@ def main():
 
     # If variable set to update, obtain the ISO list from the Ubuntu CD Image repository.
     if update_cache == 1:
-        info(_("Obtaining Ubuntu ISO list from %s...") % td.u)
+        logger.info(_("Obtaining Ubuntu ISO list from %s...") % td.u)
         try:
             cdimage = td.obtain_ubuntu_iso_list_from_repo()
         except:
@@ -351,7 +345,7 @@ def main():
             error(_("Unable to update the Ubuntu ISO list cache..."))
 
     # Try to retrieve the ISO list from the cache
-    info(_("Retrieving the Ubuntu ISO list from cache..."))
+    logger.info(_("Retrieving the Ubuntu ISO list from cache..."))
     try:
         isos = td.get_ubuntu_iso_list()
     except:
@@ -374,7 +368,7 @@ def main():
 
     # BUG: should check disk space availability in CACHE dir
     # Update the cache
-    info(_("Syncing the specified ISO..."))
+    logger.info(_("Syncing the specified ISO..."))
     print("      %s" % td.ISO_URL)
     cmd = td.get_proto()
     if cmd == 1:
@@ -385,7 +379,7 @@ def main():
     if cmd != 0:
         run_or_die(cmd)
     if td.p == 'cloud-daily' or td.p == 'cloud-releases':
-        info("Preparing Cloud image [%s]" % os.path.basename(td.PATH_TO_ISO).split("_")[-1])
+        logger.info("Preparing Cloud image [%s]" % os.path.basename(td.PATH_TO_ISO).split("_")[-1])
         td.prepare_cloud_img_tarball()
 
     ##########################
@@ -404,19 +398,19 @@ def main():
     ###################
     ## Launch the VM ##
     ###################
-    info(_("Validating Virtualization Method...."))
+    logger.info(_("Validating Virtualization Method...."))
     try:
         virt.validate_virt()
     except:
         error(_("Unable to validate Virtualization Method [%s]") % td.VIRT)
 
-    info(_("Setting up Virtual Machine..."))
+    logger.info(_("Setting up Virtual Machine..."))
     try:
         virt.setup_virt()
     except:
         error(_("Unable to setup Virtual Machine"))
 
-    info(_("Launching Virtual Machine..."))
+    logger.info(_("Launching Virtual Machine..."))
     try:
         cmd = virt.launch_virt()
         print "\t%s" % cmd
@@ -428,10 +422,10 @@ def main():
 
     rm_disk = td.delete_image()
     if rm_disk:
-        info(_("Cleaning up disk image [%s]...") % td.DISK_FILE)
+        logger.info(_("Cleaning up disk image [%s]...") % td.DISK_FILE)
 
     # Remind about cache cleanup
-    info(_("You may wish to clean up the cache directory..."))
+    logger.info(_("You may wish to clean up the cache directory..."))
     print(_("      %s and %s") % (td.CACHE_ISO, td.CACHE_IMG))
     #run("ls -HhalF %s %s" % (CACHE_ISO, CACHE_IMG))
     #run("du -sh --apparent-size %s %s 2>/dev/null || du -sh %s %s" % (CACHE_ISO, CACHE_IMG))
