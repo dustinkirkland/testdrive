@@ -197,6 +197,8 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
         self.chk_flavor_ubuntustudio.connect("clicked", self.on_select_flavors)
         self.chk_flavor_lubuntu = self.builder.get_object("chk_flavor_lubuntu")
         self.chk_flavor_lubuntu.connect("clicked", self.on_select_flavors)
+        self.chk_flavor_ubuntukylin = self.builder.get_object("chk_flavor_ubuntukylin")
+        self.chk_flavor_ubuntukylin.connect("clicked", self.on_select_flavors)
         self.chk_flavor_other = self.builder.get_object("chk_flavor_other")
         self.chk_flavor_other.connect("clicked", self.on_select_flavors)
 
@@ -292,6 +294,8 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
                     self.chk_flavor_ubuntustudio.set_active(True)
                 elif flavor == 'lubuntu':
                     self.chk_flavor_lubuntu.set_active(True)
+                elif flavor == 'ubuntukylin':
+                    self.chk_flavor_ubuntukylin.set_active(True)
                 elif flavor == 'other':
                     self.chk_flavor_other.set_active(True)
                 else:
@@ -435,6 +439,8 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
             self.flavors = self.flavors + "ubuntustudio, "
         if self.chk_flavor_lubuntu.get_active():
             self.flavors = self.flavors + "lubuntu, "
+        if self.chk_flavor_ubuntukylin.get_active():
+            self.flavors = self.flavors + "ubuntukylin, "
         if self.chk_flavor_other.get_active():
             self.flavors = self.flavors + "other, "
 
