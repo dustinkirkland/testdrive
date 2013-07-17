@@ -1,9 +1,9 @@
-testdrive (3.22) unreleased; urgency=low
+testdrive (3.22-0ubuntu1) saucy; urgency=low
 
   * No changes
   * Re-release, due to minor bug in my release scripts
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 15 Jul 2013 17:38:11 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 17 Jul 2013 09:46:03 -0500
 
 testdrive (3.21-0ubuntu1) saucy; urgency=low
 
