@@ -1,6 +1,7 @@
 testdrive (3.22) unreleased; urgency=low
 
-  * UNRELEASED
+  * No changes
+  * Re-release, due to minor bug in my release scripts
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 15 Jul 2013 17:38:11 -0500
 
