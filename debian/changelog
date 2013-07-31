@@ -1,6 +1,8 @@
 testdrive (3.23) unreleased; urgency=low
 
-  * UNRELEASED
+  [ Jackson Doak ]
+  * doc/testdrive.1, setup.py:
+    - manpage and version fixes for upload to pypi
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 17 Jul 2013 09:46:05 -0500
 
