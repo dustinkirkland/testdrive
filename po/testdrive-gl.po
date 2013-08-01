@@ -1,146 +1,147 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) 2010 Canonical Ltd.
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Galician translation for testdrive
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the testdrive package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: testdrive\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-08-06 18:04-0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2011-09-24 06:30+0000\n"
+"Last-Translator: Gal_Escriban <Unknown>\n"
+"Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-08-01 01:20+0000\n"
+"X-Generator: Launchpad (build 16718)\n"
 
 #: ../testdrive-gtk.desktop.in.h:1
 msgid "Download and run an Ubuntu ISO in a Virtual Machine"
-msgstr ""
+msgstr "Descargar e executar unha ISO de Ubuntu nunha máquina virtual"
 
 #: ../testdrive-gtk.desktop.in.h:2
 msgid "Test Drive an Ubuntu ISO"
-msgstr ""
+msgstr "Probar unha ISO de Ubuntu"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:1
 msgid "<b>Architectures:</b>"
-msgstr ""
+msgstr "<b>Arquitecturas:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:2
 msgid "<b>Cache:</b>"
-msgstr ""
+msgstr "<b>Cache:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:3
 msgid "<b>Data Paths</b>"
-msgstr ""
+msgstr "<b> Rutas dos ficheiros</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:4
 msgid "<b>Disk Size:</b>"
-msgstr ""
+msgstr "<b>Tamaño do disco:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:5
 msgid "<b>GB</b>"
-msgstr ""
+msgstr "<b>GB</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:6
 msgid "<b>Hypervisor</b>"
-msgstr ""
+msgstr "<b>Hipervisor</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:7
 msgid "<b>ISO Cache:</b>"
-msgstr ""
+msgstr "<b>Cache da ISO:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:8
 msgid "<b>ISO List Cache:</b>"
-msgstr ""
+msgstr "<b>Lista cache da ISO:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:9
 msgid "<b>Image Cache:</b>"
-msgstr ""
+msgstr "<b>Cache da imaxe:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:10
 msgid "<b>KVM Args:</b>"
-msgstr ""
+msgstr "<b>Argumentos KVM:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:11
 msgid "<b>MB</b>"
-msgstr ""
+msgstr "<b>MB</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:12
 msgid "<b>Memory:</b>"
-msgstr ""
+msgstr "<b>Memoria:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:13
 msgid "<b>Processors:</b>"
-msgstr ""
+msgstr "<b>Procesadores:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:14
 msgid "<b>Release:</b>"
-msgstr ""
+msgstr "<b>Publicación:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:15
 msgid "<b>Repository:</b>"
-msgstr ""
+msgstr "<b>Repositorio:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:16
 msgid "<b>Ubuntu Flavors</b>"
-msgstr ""
+msgstr "<b>Variedades Ubuntu</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:17
 msgid "<b>Ubuntu Releases</b>"
-msgstr ""
+msgstr "<b>Punlicacións Ubuntu</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:18
 msgid "<b>Virtual Machine Options</b>"
-msgstr ""
+msgstr "<b>Opcions da maquina virtual</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:19
 msgid "Clean"
-msgstr ""
+msgstr "Limpar"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:20
 msgid "Distributions"
-msgstr ""
+msgstr "Distribucions"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:21
 msgid "Edubuntu"
-msgstr ""
+msgstr "Edubuntu"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:22
 msgid "General"
-msgstr ""
+msgstr "Xeral"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:23
 msgid "KVM"
-msgstr ""
+msgstr "KVM"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:24
 msgid "Kubuntu"
-msgstr ""
+msgstr "Kubuntu"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:25
 msgid "Mythbuntu"
-msgstr ""
+msgstr "Mythbuntu"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:26 ../bin/testdrive-gtk.py:47
 msgid "Other"
-msgstr ""
+msgstr "Outro"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:27
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:36
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:37
 msgid "Other..."
-msgstr ""
+msgstr "Outro..."
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:28
 msgid "Parallels"
-msgstr ""
+msgstr "Paralelos"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:29
 msgid "Ubuntu"
-msgstr ""
+msgstr "Ubuntu"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:30
 msgid "Ubuntu Studio"
@@ -152,7 +153,7 @@ msgstr ""
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:32
 msgid "VirtualBox"
-msgstr ""
+msgstr "VirtualBox"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:33
 msgid "Virtualization"
@@ -160,11 +161,11 @@ msgstr ""
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:34
 msgid "Xubuntu"
-msgstr ""
+msgstr "Xubuntu"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:35
 msgid "amd64"
-msgstr ""
+msgstr "amd64"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:36
 msgid "i386"
@@ -180,16 +181,16 @@ msgstr ""
 #: ../bin/testdrive-gtk.py:150
 #, python-format
 msgid "<b>Release:</b> %s"
-msgstr ""
+msgstr "<b>Publicación:</b>%s"
 
 #: ../bin/testdrive-gtk.py:151
 #, python-format
 msgid "<b>ISO Repository:</b> http://%s.ubuntu.com/"
-msgstr ""
+msgstr "<b>Repositorio da ISO:</b> http://%s.ubuntu.com/"
 
 #: ../bin/testdrive-gtk.py:177
 msgid "Add an ISO to TestDrive"
-msgstr ""
+msgstr "Engadir unha ISO ao TestDrive"
 
 #: ../bin/testdrive-gtk.py:193
 msgid ""

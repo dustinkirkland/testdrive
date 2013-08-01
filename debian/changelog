@@ -1,4 +1,4 @@
-testdrive (3.23) unreleased; urgency=low
+testdrive (3.23) UNRELEASED; urgency=low
 
   [ Jackson Doak ]
   * doc/testdrive.1, setup.py:
