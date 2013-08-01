@@ -6,3 +6,4 @@ Exec=testdrive-gtk
 Icon=testdrive-gtk
 Terminal=false
 Type=Application
+Keywords=ISO;Testing;Ubuntu;Daily;VM;Virtual Machine;zsync;rsync;Testdrive

@@ -1,8 +1,19 @@
-testdrive (3.23) unreleased; urgency=low
+testdrive (3.23) UNRELEASED; urgency=low
 
   [ Jackson Doak ]
   * doc/testdrive.1, setup.py:
     - manpage and version fixes for upload to pypi
+  * debian/control, po/testdrive-bs.po, po/testdrive-ca.po,
+    po/testdrive-de.po, po/testdrive-el.po, po/testdrive-en_AU.po,
+    po/testdrive-es.po, po/testdrive-et.po, po/testdrive-fi.po,
+    po/testdrive-fr.po, po/testdrive-gl.po, po/testdrive-he.po,
+    po/testdrive-hr.po, po/testdrive-hu.po, po/testdrive-it.po,
+    po/testdrive-nds.po, po/testdrive-nl.po, po/testdrive-pl.po,
+    po/testdrive.pot, po/testdrive-pt_BR.po, po/testdrive-pt.po,
+    po/testdrive-ru.po, po/testdrive-sr.po, po/testdrive-sv.po,
+    po/testdrive-th.po, po/testdrive-tr.po, po/testdrive-uk.po,
+    testdrive-gtk.desktop, testdrive-gtk.desktop.in:
+    - updated for translations
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 17 Jul 2013 09:46:05 -0500
 

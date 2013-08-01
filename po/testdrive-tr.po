@@ -1,28 +1,29 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) 2010 Canonical Ltd.
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Turkish translation for testdrive
+# Copyright (c) 2012 Rosetta Contributors and Canonical Ltd 2012
+# This file is distributed under the same license as the testdrive package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: testdrive\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-08-06 18:04-0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2012-03-06 11:13+0000\n"
+"Last-Translator: Şâkir Aşçı <Unknown>\n"
+"Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-08-01 01:20+0000\n"
+"X-Generator: Launchpad (build 16718)\n"
 
 #: ../testdrive-gtk.desktop.in.h:1
 msgid "Download and run an Ubuntu ISO in a Virtual Machine"
-msgstr ""
+msgstr "Sanal Makine'de denemek için bir Ubuntu ISO'su indirin ve çalıştırın"
 
 #: ../testdrive-gtk.desktop.in.h:2
 msgid "Test Drive an Ubuntu ISO"
-msgstr ""
+msgstr "Ubuntu ISO Deneme Yazılımı"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:1
 msgid "<b>Architectures:</b>"
@@ -30,19 +31,19 @@ msgstr ""
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:2
 msgid "<b>Cache:</b>"
-msgstr ""
+msgstr "<b>Önbellek:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:3
 msgid "<b>Data Paths</b>"
-msgstr ""
+msgstr "<b>Veri Yolları</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:4
 msgid "<b>Disk Size:</b>"
-msgstr ""
+msgstr "<b>Disk Boyutu:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:5
 msgid "<b>GB</b>"
-msgstr ""
+msgstr "<b>GB</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:6
 msgid "<b>Hypervisor</b>"
@@ -66,23 +67,23 @@ msgstr ""
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:11
 msgid "<b>MB</b>"
-msgstr ""
+msgstr "<b>MB</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:12
 msgid "<b>Memory:</b>"
-msgstr ""
+msgstr "<b>Bellek:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:13
 msgid "<b>Processors:</b>"
-msgstr ""
+msgstr "<b>İşlemciler:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:14
 msgid "<b>Release:</b>"
-msgstr ""
+msgstr "<b>Dağıtım:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:15
 msgid "<b>Repository:</b>"
-msgstr ""
+msgstr "<b>Depo:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:16
 msgid "<b>Ubuntu Flavors</b>"
@@ -90,27 +91,27 @@ msgstr ""
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:17
 msgid "<b>Ubuntu Releases</b>"
-msgstr ""
+msgstr "<b>Ubuntu Sürümleri</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:18
 msgid "<b>Virtual Machine Options</b>"
-msgstr ""
+msgstr "<b>Sanal Makine Seçenekleri</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:19
 msgid "Clean"
-msgstr ""
+msgstr "Temizle"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:20
 msgid "Distributions"
-msgstr ""
+msgstr "Dağıtımlar"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:21
 msgid "Edubuntu"
-msgstr ""
+msgstr "Edubuntu"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:22
 msgid "General"
-msgstr ""
+msgstr "Genel"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:23
 msgid "KVM"
@@ -118,21 +119,21 @@ msgstr ""
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:24
 msgid "Kubuntu"
-msgstr ""
+msgstr "Kubuntu"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:25
 msgid "Mythbuntu"
-msgstr ""
+msgstr "Mythbuntu"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:26 ../bin/testdrive-gtk.py:47
 msgid "Other"
-msgstr ""
+msgstr "Diğer"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:27
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:36
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:37
 msgid "Other..."
-msgstr ""
+msgstr "Diğer..."
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:28
 msgid "Parallels"
@@ -140,7 +141,7 @@ msgstr ""
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:29
 msgid "Ubuntu"
-msgstr ""
+msgstr "Ubuntu"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:30
 msgid "Ubuntu Studio"
@@ -152,23 +153,23 @@ msgstr ""
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:32
 msgid "VirtualBox"
-msgstr ""
+msgstr "VirtualBox"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:33
 msgid "Virtualization"
-msgstr ""
+msgstr "Sanallaştırma"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:34
 msgid "Xubuntu"
-msgstr ""
+msgstr "Xubuntu"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:35
 msgid "amd64"
-msgstr ""
+msgstr "amd64"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:36
 msgid "i386"
-msgstr ""
+msgstr "i386"
 
 #. ##################################################################
 #. ####### Obtaining the settings from the Preferences Class ########
@@ -185,7 +186,7 @@ msgstr ""
 #: ../bin/testdrive-gtk.py:151
 #, python-format
 msgid "<b>ISO Repository:</b> http://%s.ubuntu.com/"
-msgstr ""
+msgstr "<b>ISO Deposu:</b> http://%s.ubuntu.com/"
 
 #: ../bin/testdrive-gtk.py:177
 msgid "Add an ISO to TestDrive"
@@ -198,6 +199,10 @@ msgid ""
 "\n"
 "sudo apt-get install testdrive-cli"
 msgstr ""
+"'testdrive' yüklü olmadığı için dosya açılamıyor.\n"
+"Lütfen testdrive paketini yükleyin: \n"
+"\n"
+"sudo apt-get install testdrive-cli"
 
 #: ../bin/testdrive-gtk.py:197
 msgid "TestDrive an ISO or Disk Image"
@@ -415,6 +420,8 @@ msgid ""
 "\n"
 "ERROR: Invalid input\n"
 msgstr ""
+"\n"
+"HATA: Geçersiz girdi\n"
 
 #: ../bin/testdrive.py:61
 msgid ""
@@ -427,6 +434,8 @@ msgid ""
 "\n"
 "ERROR: Invalid selection\n"
 msgstr ""
+"\n"
+"HATA: Geçersiz seçim\n"
 
 #: ../bin/testdrive.py:72
 #, python-format
@@ -434,21 +443,23 @@ msgid ""
 "\n"
 "ERROR: %s\n"
 msgstr ""
+"\n"
+"HATA: %s\n"
 
 #: ../bin/testdrive.py:76
 #, python-format
 msgid "INFO: %s"
-msgstr ""
+msgstr "BİLGİ: %s"
 
 #: ../bin/testdrive.py:79
 #, python-format
 msgid "WARNING: %s"
-msgstr ""
+msgstr "UYARI: %s"
 
 #: ../bin/testdrive.py:90 ../testdrivegtk/AddOtherTestdrivegtkDialog.py:155
 #, python-format
 msgid "Invalid ISO URL [%s]"
-msgstr ""
+msgstr "Geçersiz ISO bağlantı adresi [%s]"
 
 #: ../bin/testdrive.py:108
 #, python-format
@@ -506,12 +517,12 @@ msgstr ""
 #: ../bin/testdrive.py:218
 #, python-format
 msgid "Using configuration in %s"
-msgstr ""
+msgstr "%s içerisinde bulunan yapılandırma kullanılıyor"
 
 #: ../bin/testdrive.py:220
 #, python-format
 msgid "Invalid configuration [%s]"
-msgstr ""
+msgstr "Geçersiz yapılandırma [%s]"
 
 #: ../bin/testdrive.py:250
 msgid ""
@@ -531,12 +542,12 @@ msgstr ""
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:321
 #, python-format
 msgid "Obtaining Ubuntu ISO list from %s..."
-msgstr ""
+msgstr "%s üzerinden Ubuntu ISO listesi alınıyor..."
 
 #: ../bin/testdrive.py:289
 #, python-format
 msgid "ERROR: Could not obtain the Ubuntu ISO list from %s..."
-msgstr ""
+msgstr "HATA: %s üzerinden Ubuntu ISO listesi alınamadı..."
 
 #: ../bin/testdrive.py:295
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:333
@@ -552,7 +563,7 @@ msgstr ""
 #: ../bin/testdrive.py:328 ../testdrivegtk/AddOtherTestdrivegtkDialog.py:167
 #, python-format
 msgid "ISO not found at [%s]"
-msgstr ""
+msgstr "[%s] üzerinde ISO dosyası bulunamadı"
 
 #. ##################
 #. # Launch the VM ##
@@ -563,11 +574,11 @@ msgstr ""
 
 #: ../bin/testdrive.py:350
 msgid "Launching Virtual Machine..."
-msgstr ""
+msgstr "Sanal Makine başlatılıyor..."
 
 #: ../bin/testdrive.py:355
 msgid "Unable to launch Virtual Machine"
-msgstr ""
+msgstr "Sanal Makine başlatılamadı"
 
 #: ../bin/testdrive.py:359
 #, python-format
@@ -582,7 +593,7 @@ msgstr ""
 #: ../bin/testdrive.py:363
 #, python-format
 msgid "      %s and %s"
-msgstr ""
+msgstr "      %s ve %s"
 
 #: ../bin/testdrive.py:370
 msgid ""
@@ -595,10 +606,12 @@ msgid ""
 "\n"
 "Press <enter> to exit..."
 msgstr ""
+"\n"
+"Çıkmak için <Enter>'a basın..."
 
 #: ../data/ui/TestdrivegtkWindow.ui.h:1
 msgid "ISO Repository"
-msgstr ""
+msgstr "ISO Deposu"
 
 #: ../data/ui/TestdrivegtkWindow.ui.h:2
 msgid "TestDrive Front-end"
@@ -606,27 +619,27 @@ msgstr ""
 
 #: ../data/ui/TestdrivegtkWindow.ui.h:3
 msgid "Ubuntu Release"
-msgstr ""
+msgstr "Ubuntu Dağıtımı"
 
 #: ../data/ui/TestdrivegtkWindow.ui.h:4
 msgid "_Edit"
-msgstr ""
+msgstr "_Düzenle"
 
 #: ../data/ui/TestdrivegtkWindow.ui.h:5
 msgid "_File"
-msgstr ""
+msgstr "_Dosya"
 
 #: ../data/ui/TestdrivegtkWindow.ui.h:6
 msgid "_Help"
-msgstr ""
+msgstr "_Yardım"
 
 #: ../data/ui/TestdrivegtkWindow.ui.h:7
 msgid "_View"
-msgstr ""
+msgstr "_Görünüm"
 
 #: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:1
 msgid "<b>Description:</b>"
-msgstr ""
+msgstr "<b>Açıklama:</b>"
 
 #: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:2
 msgid "<b>Sync Protocol:</b>"
@@ -634,35 +647,35 @@ msgstr ""
 
 #: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:3
 msgid "<b>URL:</b>"
-msgstr ""
+msgstr "<b>Bağlantı adresi:</b>"
 
 #: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:4
 msgid "Add"
-msgstr ""
+msgstr "Ekle"
 
 #: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:5
 msgid "Cancel"
-msgstr ""
+msgstr "İptal Et"
 
 #: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:6
 msgid "Delete"
-msgstr ""
+msgstr "Sil"
 
 #: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:7
 msgid "Edit"
-msgstr ""
+msgstr "Düzenle"
 
 #: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:8
 msgid "Other ISO List:"
-msgstr ""
+msgstr "Diğer ISO listesi:"
 
 #: ../testdrivegtk/AddOtherTestdrivegtkDialog.py:135
 msgid "Please insert a Description"
-msgstr ""
+msgstr "Lütfen Açıklama yazın"
 
 #: ../testdrivegtk/AddOtherTestdrivegtkDialog.py:140
 msgid "Please insert a URL"
-msgstr ""
+msgstr "Lütfen bir bağlantı adresi yazın"
 
 #: ../testdrivegtk/AddOtherTestdrivegtkDialog.py:171
 msgid "No sync protocol has been selected, please select one."
@@ -670,7 +683,7 @@ msgstr ""
 
 #: ../testdrivegtk/AddOtherTestdrivegtkDialog.py:196
 msgid "Description"
-msgstr ""
+msgstr "Açıklama"
 
 #: ../testdrivegtk/AddOtherTestdrivegtkDialog.py:227
 msgid "Select Protocol:"
@@ -682,11 +695,11 @@ msgstr ""
 
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:98
 msgid "finish_initialization()"
-msgstr ""
+msgstr "finish_initialization()"
 
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:136
 msgid "Select Repository:"
-msgstr ""
+msgstr "Depoyu Seçin:"
 
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:147
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:474
@@ -698,12 +711,12 @@ msgstr ""
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:211
 #, python-format
 msgid "Reading config file: [%s]"
-msgstr ""
+msgstr "Yapılandırma dosyası okunuyor: [%s]"
 
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:213
 #, python-format
 msgid "Unable to load config file [%s]"
-msgstr ""
+msgstr "[%s] yapılandırma dosyası yüklenemedi"
 
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:268
 #, python-format
@@ -713,7 +726,7 @@ msgstr ""
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:325
 #, python-format
 msgid "Could not obtain the Ubuntu ISO list from %s..."
-msgstr ""
+msgstr "Ubuntu ISO listesi %s üzerinden alınamadı..."
 
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:329
 msgid "Updating the Ubuntu ISO list cache..."
@@ -721,9 +734,9 @@ msgstr ""
 
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:337
 msgid "get_preferences()"
-msgstr ""
+msgstr "get_preferences()"
 
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:456
 #, python-format
 msgid "Unable to clean up files from [%s]"
-msgstr ""
+msgstr "[%s] üzerinde bulunan dosyalar silinemedi"

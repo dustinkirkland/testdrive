@@ -1,56 +1,58 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) 2010 Canonical Ltd.
+# Catalan translations for PACKAGE package
+# Traduccions al català del paquet «PACKAGE».
+# Copyright (C) 2010 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# David Planella <david.planella@ubuntu.com>, 2010.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-06 18:04-0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2010-08-20 07:59+0000\n"
+"Last-Translator: David Planella <david.planella@ubuntu.com>\n"
+"Language-Team: Catalan\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-08-01 01:20+0000\n"
+"X-Generator: Launchpad (build 16718)\n"
 
 #: ../testdrive-gtk.desktop.in.h:1
 msgid "Download and run an Ubuntu ISO in a Virtual Machine"
-msgstr ""
+msgstr "Baixeu i executeu una ISO de l'Ubuntu en una màquina virtual"
 
 #: ../testdrive-gtk.desktop.in.h:2
 msgid "Test Drive an Ubuntu ISO"
-msgstr ""
+msgstr "Comproveu una ISO de l'Ubuntu"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:1
 msgid "<b>Architectures:</b>"
-msgstr ""
+msgstr "<b>Arquitectures:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:2
 msgid "<b>Cache:</b>"
-msgstr ""
+msgstr "<b>Memòria cau:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:3
 msgid "<b>Data Paths</b>"
-msgstr ""
+msgstr "<b>Camins de dades</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:4
 msgid "<b>Disk Size:</b>"
-msgstr ""
+msgstr "<b>Mida del disc:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:5
 msgid "<b>GB</b>"
-msgstr ""
+msgstr "<b>GB</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:6
 msgid "<b>Hypervisor</b>"
-msgstr ""
+msgstr "<b>Hipervisor</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:7
 msgid "<b>ISO Cache:</b>"
-msgstr ""
+msgstr "<b>Memòria cau d'imatges ISO:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:8
 msgid "<b>ISO List Cache:</b>"
@@ -58,31 +60,31 @@ msgstr ""
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:9
 msgid "<b>Image Cache:</b>"
-msgstr ""
+msgstr "<b>Memòria cau d'imatges:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:10
 msgid "<b>KVM Args:</b>"
-msgstr ""
+msgstr "<b>Arguments del KVM:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:11
 msgid "<b>MB</b>"
-msgstr ""
+msgstr "<b>MB</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:12
 msgid "<b>Memory:</b>"
-msgstr ""
+msgstr "<b>Memòria</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:13
 msgid "<b>Processors:</b>"
-msgstr ""
+msgstr "<b>Processadors:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:14
 msgid "<b>Release:</b>"
-msgstr ""
+msgstr "<b>Versió:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:15
 msgid "<b>Repository:</b>"
-msgstr ""
+msgstr "<b>Dipòsit:</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:16
 msgid "<b>Ubuntu Flavors</b>"
@@ -90,85 +92,85 @@ msgstr ""
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:17
 msgid "<b>Ubuntu Releases</b>"
-msgstr ""
+msgstr "<b>Versions de l'Ubuntu</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:18
 msgid "<b>Virtual Machine Options</b>"
-msgstr ""
+msgstr "<b>Opcions de la màquina virtual</b>"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:19
 msgid "Clean"
-msgstr ""
+msgstr "Neteja"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:20
 msgid "Distributions"
-msgstr ""
+msgstr "Distribucions"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:21
 msgid "Edubuntu"
-msgstr ""
+msgstr "Edubuntu"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:22
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:23
 msgid "KVM"
-msgstr ""
+msgstr "KVM"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:24
 msgid "Kubuntu"
-msgstr ""
+msgstr "Kubuntu"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:25
 msgid "Mythbuntu"
-msgstr ""
+msgstr "Mythbuntu"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:26 ../bin/testdrive-gtk.py:47
 msgid "Other"
-msgstr ""
+msgstr "Altres"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:27
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:36
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:37
 msgid "Other..."
-msgstr ""
+msgstr "Altres..."
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:28
 msgid "Parallels"
-msgstr ""
+msgstr "Parallels"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:29
 msgid "Ubuntu"
-msgstr ""
+msgstr "Ubuntu"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:30
 msgid "Ubuntu Studio"
-msgstr ""
+msgstr "Ubuntu Studio"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:31
 msgid "Update"
-msgstr ""
+msgstr "Actualitza"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:32
 msgid "VirtualBox"
-msgstr ""
+msgstr "VirtualBox"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:33
 msgid "Virtualization"
-msgstr ""
+msgstr "Virtualització"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:34
 msgid "Xubuntu"
-msgstr ""
+msgstr "Xubuntu"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:35
 msgid "amd64"
-msgstr ""
+msgstr "amd64"
 
 #: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:36
 msgid "i386"
-msgstr ""
+msgstr "i386"
 
 #. ##################################################################
 #. ####### Obtaining the settings from the Preferences Class ########
@@ -180,16 +182,16 @@ msgstr ""
 #: ../bin/testdrive-gtk.py:150
 #, python-format
 msgid "<b>Release:</b> %s"
-msgstr ""
+msgstr "<b>Versió:</b> %s"
 
 #: ../bin/testdrive-gtk.py:151
 #, python-format
 msgid "<b>ISO Repository:</b> http://%s.ubuntu.com/"
-msgstr ""
+msgstr "<b>Dipòsit d'imatges ISO</b> http://%s.ubuntu.com/"
 
 #: ../bin/testdrive-gtk.py:177
 msgid "Add an ISO to TestDrive"
-msgstr ""
+msgstr "Afegiu una imatge ISO per comprovar"
 
 #: ../bin/testdrive-gtk.py:193
 msgid ""
@@ -198,10 +200,14 @@ msgid ""
 "\n"
 "sudo apt-get install testdrive-cli"
 msgstr ""
+"No s'ha pogut obrir perquè el «testdrive» no està instal·lat.\n"
+"Instal·leu el testdrive: \n"
+"\n"
+"sudo apt-get install testdrive-cli"
 
 #: ../bin/testdrive-gtk.py:197
 msgid "TestDrive an ISO or Disk Image"
-msgstr ""
+msgstr "Comproveu una imatge ISO o de disc"
 
 #. ##################################################################
 #. ## Obtains the command for the Sync process based on Protocol ####
@@ -213,7 +219,7 @@ msgstr ""
 #: ../bin/testdrive-gtk.py:275 ../bin/testdrive.py:325
 #, python-format
 msgid "Unsupported protocol [%s]"
-msgstr ""
+msgstr "El protocol no és compatible [%s]"
 
 #. ##################################################################
 #. #### Obtains the Virtualization Method, if not shows warnings ####
@@ -251,15 +257,16 @@ msgstr ""
 
 #: ../bin/testdrive-gtk.py:303 ../bin/testdrive.py:257
 msgid "Using KVM for virtual machine hosting..."
-msgstr ""
+msgstr "S'està utilitzant el KVM per hostatjar la màquina virtual..."
 
 #: ../bin/testdrive-gtk.py:306 ../bin/testdrive.py:260
 msgid "Using VirtualBox for virtual machine hosting..."
-msgstr ""
+msgstr "S'està utilitzant el Virtualbox per hostatjar la màquina virtual..."
 
 #: ../bin/testdrive-gtk.py:309 ../bin/testdrive.py:263
 msgid "Using Parallels Desktop for virtual machine hosting..."
 msgstr ""
+"S'està utilitzant el Parallels Desktop per hostatjar la màquina virtual..."
 
 #. ##################################################################
 #. ### Obtains the list of ISO available from the iso list cache ####
@@ -268,59 +275,63 @@ msgstr ""
 #: ../bin/testdrive-gtk.py:318 ../bin/testdrive.py:298
 msgid "Retrieving the Ubuntu ISO list from cache..."
 msgstr ""
+"S'està recollint la llista d'imatges ISO de l'Ubuntu de la memòria cau..."
 
 #: ../bin/testdrive-gtk.py:322 ../bin/testdrive-gtk.py:323
 #: ../bin/testdrive.py:302
 msgid "Unable to retrieve the Ubuntu ISO list from cache..."
 msgstr ""
+"No s'ha pogut recollir la llista d'imatges ISO de l'Ubuntu de la memòria "
+"cau..."
 
 #. lb_cache = gtk.Label("CACHE: [%s] %s" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path))), filename))
 #: ../bin/testdrive-gtk.py:441 ../bin/testdrive-gtk.py:476
 #: ../bin/testdrive-gtk.py:774
 #, python-format
 msgid "<i>     CACHE: [%s]</i>"
-msgstr ""
+msgstr "<i>     MEM. CAU: [%s]</i>"
 
 #: ../bin/testdrive-gtk.py:443 ../bin/testdrive-gtk.py:478
 #: ../bin/testdrive-gtk.py:776
 msgid "<i>     CACHE: [empty]</i>"
-msgstr ""
+msgstr "<i>     MEM. CAU: [buida]</i>"
 
 #: ../bin/testdrive-gtk.py:506
 msgid "<b><i>There are no Other ISOs yet...</i></b>"
-msgstr ""
+msgstr "<b><i>Encara no hi ha cap altra imatge ISO...</i></b>"
 
 #: ../bin/testdrive-gtk.py:509
 msgid "<b><i>There are no ISOs for this architecture yet...</i></b>"
 msgstr ""
+"<b><i>Encara no hi ha cap imatge ISO per a aquesta arquitectura...</i></b>"
 
 #. Add Button
 #: ../bin/testdrive-gtk.py:546
 msgid "Add ISO"
-msgstr ""
+msgstr "Afegeix una imatge ISO"
 
 #. Create Buttons
 #: ../bin/testdrive-gtk.py:554
 msgid "Create USB Disk"
-msgstr ""
+msgstr "Crea un disc USB"
 
 #. bbox.add(button)
 #: ../bin/testdrive-gtk.py:561
 msgid "Sync"
-msgstr ""
+msgstr "Sincronitza"
 
 #. bbox.add(button)
 #: ../bin/testdrive-gtk.py:568
 msgid "Launch"
-msgstr ""
+msgstr "Executa"
 
 #: ../bin/testdrive-gtk.py:639
 msgid "sync_iso: Thread is executing..."
-msgstr ""
+msgstr "sync_iso: s'està executant el fil..."
 
 #: ../bin/testdrive-gtk.py:661
 msgid "launch_iso: Thread is executing or syncing..."
-msgstr ""
+msgstr "launch_iso: s'està executant o sincronitzant el fil..."
 
 #: ../bin/testdrive-gtk.py:668
 msgid ""
@@ -328,6 +339,9 @@ msgid ""
 "\n"
 "Please select an ISO to create an USB Startup Disk."
 msgstr ""
+"No heu seleccionat cap imatge ISO.\n"
+"\n"
+"Seleccioneu una imatge ISO per crear un disc d'arrencada USB."
 
 #: ../bin/testdrive-gtk.py:673
 msgid ""
@@ -335,6 +349,9 @@ msgid ""
 "\n"
 "Please select only 1 ISO to continue!"
 msgstr ""
+"Heu seleccionat més d'una imatge ISO.\n"
+"\n"
+"Seleccioneu només una imatge ISO per continuar."
 
 #: ../bin/testdrive-gtk.py:678
 msgid ""
@@ -345,14 +362,14 @@ msgstr ""
 
 #: ../bin/testdrive-gtk.py:685
 msgid "Unable to launch USB Creator!"
-msgstr ""
+msgstr "No s'ha pogut executar el creador de discos d'arrencada USB"
 
 #. ##################################################################
 #. ####### Prepare the VM to launch and return launch command #######
 #. ##################################################################
 #: ../bin/testdrive-gtk.py:692
 msgid "Validating Virtualization Method..."
-msgstr ""
+msgstr "S'està validant el mètode de virtualització..."
 
 #: ../bin/testdrive-gtk.py:696 ../bin/testdrive-gtk.py:697
 #: ../bin/testdrive.py:339
@@ -378,26 +395,28 @@ msgstr ""
 #: ../bin/testdrive-gtk.py:735
 #, python-format
 msgid "Downloading %s..."
-msgstr ""
+msgstr "S'està baixant %s..."
 
 #: ../bin/testdrive-gtk.py:797
 msgid "     Running VM..."
-msgstr ""
+msgstr "     S'està executant la màquina virtual..."
 
 #: ../bin/testdrive-gtk.py:853
 msgid "Show debug messages"
-msgstr ""
+msgstr "Mostra els missatges de depuració"
 
 #: ../bin/testdrive.py:36
 msgid ""
 "\n"
 "Welcome to Testdrive!\n"
 msgstr ""
+"\n"
+"Us donem la benvinguda al Testdrive!\n"
 
 #: ../bin/testdrive.py:44
 #, python-format
 msgid "     +-cache--> [%s] %s"
-msgstr ""
+msgstr "     +-mem. cau--> [%s] %s"
 
 #: ../bin/testdrive.py:47
 #, python-format
@@ -438,12 +457,12 @@ msgstr ""
 #: ../bin/testdrive.py:76
 #, python-format
 msgid "INFO: %s"
-msgstr ""
+msgstr "INFO: %s"
 
 #: ../bin/testdrive.py:79
 #, python-format
 msgid "WARNING: %s"
-msgstr ""
+msgstr "AVÍS: %s"
 
 #: ../bin/testdrive.py:90 ../testdrivegtk/AddOtherTestdrivegtkDialog.py:155
 #, python-format
@@ -456,6 +475,8 @@ msgid ""
 "Command failed\n"
 "    `%s`"
 msgstr ""
+"Ha fallat l'ordre\n"
+"    «%s»"
 
 #: ../bin/testdrive.py:163
 msgid "user configuration file (overriding default values"
