@@ -14,6 +14,8 @@ testdrive (3.23) UNRELEASED; urgency=low
     po/testdrive-th.po, po/testdrive-tr.po, po/testdrive-uk.po,
     testdrive-gtk.desktop, testdrive-gtk.desktop.in:
     - updated for translations
+  * debian/source/format, po/testdrive.pot, setup.cfg:
+    - enabled translations, changed source format to "native", refreshed .pot
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 17 Jul 2013 09:46:05 -0500
 
