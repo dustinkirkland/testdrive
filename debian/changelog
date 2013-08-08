@@ -1,4 +1,4 @@
-testdrive (3.23) UNRELEASED; urgency=low
+testdrive (3.23-0ubuntu1) saucy; urgency=low
 
   [ Jackson Doak ]
   * doc/testdrive.1, setup.py:
@@ -17,7 +17,7 @@ testdrive (3.23) UNRELEASED; urgency=low
   * debian/source/format, po/testdrive.pot, setup.cfg:
     - enabled translations, changed source format to "native", refreshed .pot
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 17 Jul 2013 09:46:05 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 08 Aug 2013 08:50:05 +0100
 
 testdrive (3.22-0ubuntu1) saucy; urgency=low
 
