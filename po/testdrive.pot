@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-11 06:51+1000\n"
+"POT-Creation-Date: 2013-08-11 07:31+1000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -391,7 +391,7 @@ msgid ""
 msgstr ""
 
 #: ../bin/testdrive.py:335
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:335
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:339
 #, python-format
 msgid "Obtaining Ubuntu ISO list from %s..."
 msgstr ""
@@ -402,7 +402,7 @@ msgid "ERROR: Could not obtain the Ubuntu ISO list from %s..."
 msgstr ""
 
 #: ../bin/testdrive.py:345
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:347
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:351
 msgid "Unable to update the Ubuntu ISO list cache..."
 msgstr ""
 
@@ -510,7 +510,7 @@ msgid "Select Repository:"
 msgstr ""
 
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:149
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:492
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:496
 msgid "Select Release:"
 msgstr ""
 
@@ -526,25 +526,25 @@ msgstr ""
 msgid "Unable to load config file [%s]"
 msgstr ""
 
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:278
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:282
 #, python-format
 msgid " of %s available."
 msgstr ""
 
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:339
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:343
 #, python-format
 msgid "Could not obtain the Ubuntu ISO list from %s..."
 msgstr ""
 
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:343
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:347
 msgid "Updating the Ubuntu ISO list cache..."
 msgstr ""
 
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:351
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:355
 msgid "get_preferences()"
 msgstr ""
 
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:474
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:478
 #, python-format
 msgid "Unable to clean up files from [%s]"
 msgstr ""
