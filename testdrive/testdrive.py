@@ -215,7 +215,9 @@ class Testdrive:
 
         if len(self.MEM) == 0:
             total = commands.getoutput("grep ^MemTotal /proc/meminfo | awk '{print $2}'")
-            if total > 2000000:
+            if total > 4000000:
+                self.MEM = "2048"
+            elif total > 2000000:
                 self.MEM = "1024"
             elif total > 1000000:
                 self.MEM = "512"

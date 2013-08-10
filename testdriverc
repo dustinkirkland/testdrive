@@ -24,9 +24,11 @@ VIRT = kvm
 #VIRT = parallels
 
 # MEM is the amount of memory in MB to give to the VM guest
+#MEM = 256
 #MEM = 384
 #MEM = 512
 #MEM = 1024
+#MEM = 2048
 
 # SMP is the number of processors to give to the VM guest if
 # running in KVM.
