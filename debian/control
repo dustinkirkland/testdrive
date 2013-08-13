@@ -5,7 +5,7 @@ Maintainer: Andres Rodriguez <andreserl@ubuntu.com>
 Uploaders: Dustin Kirkland <kirkland@ubuntu.com>,
 	Jackson Doak <noskcaj@ubuntu.com>
 Standards-Version: 3.9.4
-Build-Depends: debhelper (>= 7), gettext-base, python (>= 2.6.6-3~), python-distutils-extra (>= 2.10)
+Build-Depends: debhelper (>= 9), gettext-base, python (>= 2.6.6-3~), python-distutils-extra (>= 2.10)
 X-Python-Version: >= 2.6
 Homepage: http://launchpad.net/testdrive
 Vcs-Bzr: http://bazaar.launchpad.net/~kirkland/testdrive/trunk
@@ -26,7 +26,9 @@ Package: testdrive-common
 Architecture: all
 Depends: ${python:Depends}, ${misc:Depends},
  qemu-kvm | kvm ( >= 1:84+dfsg-0ubuntu12.4 ) | virtualbox ( >= 4.0),
- python-xdg, rsync, wget
+ python-xdg,
+ rsync, 
+ wget
 Recommends: zsync, usb-creator-gtk | usb-creator-kde, cpu-checker, kvm-pxe
 Description: run the daily Ubuntu ISO in a virtual machine (common files)
  Testdrive helps you download and run the daily Ubuntu development ISO
