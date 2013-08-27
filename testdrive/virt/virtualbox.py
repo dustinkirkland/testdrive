@@ -45,15 +45,15 @@ class VBox:
     # Code to validate if virtualization is installed/supported
     def validate_virt(self):
         # Determine which version of VirtualBox we have installed.  What is returned is
-        # typically a string such as '3.1.0r55467', lets assume that the command line
-        # is consistent within 3.1.x, 3.2.x and 4.0.x versions extract this part of the
+        # typically a string such as '4.1.0r55467', lets assume that the command line
+        # is consistent within 4.x.x versions extract this part of the
         # version string for comparison later
         self.vboxversion = commands.getoutput("VBoxManage --version")
         self.vboxversion = ( int(self.vboxversion.split(".")[0]), int(self.vboxversion.split(".")[1]) )
-        if self.vboxversion == (3,1) or self.vboxversion == (3,2) or self.vboxversion == (4,0) or self.vboxversion == (4,1) or self.vboxversion == (4,2):
+        if self.vboxversion == (4,0) or self.vboxversion == (4,1) or self.vboxversion == (4,2):
             logger.info("VirtualBox %s.%s detected." % self.vboxversion)
         else:
-            logger.error("ERROR: Unsupported version (%s.%s) of VirtualBox; please install v3.1, v3.2, v4.0 or v4.1." % self.vboxversion)
+            logger.error("ERROR: Unsupported version (%s.%s) of VirtualBox; please install v4.0, v4.1 or v4.2." % self.vboxversion)
             exit(0)
 
     # Code to setup virtual machine
@@ -65,7 +65,7 @@ class VBox:
             self.DISK_SIZE = self.DISK_SIZE.replace("G", "000")
             logger.info("Creating disk image...")
             self.run_or_die("VBoxManage createhd --filename %s --size %s" % (self.DISK_FILE, self.DISK_SIZE))
-        if self.vboxversion == (3,1) or self.vboxversion == (3,2) or self.vboxversion == (4,0) or self.vboxversion == (4,1) or self.vboxversion == (4,2):
+        if self.vboxversion == (4,0) or self.vboxversion == (4,1) or self.vboxversion == (4,2):
             self.run("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 0 --type hdd --medium none" % self.VBOX_NAME)
             if self.PATH_TO_ISO != "/dev/null":
                 self.run("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 1 --type dvddrive --medium none" % self.VBOX_NAME)
@@ -90,7 +90,7 @@ class VBox:
     # Code launch virtual machine
     def launch_virt(self):
         logger.info("Running the Virtual Machine...")
-        if self.vboxversion == (3,1) or self.vboxversion == (3,2) or self.vboxversion == (4,0) or self.vboxversion == (4,1) or self.vboxversion == (4,2):
+        if self.vboxversion == (4,0) or self.vboxversion == (4,1) or self.vboxversion == (4,2):
             self.run_or_die("VBoxManage storagectl %s --name \"IDE Controller\" --add ide" % self.VBOX_NAME)
             self.run_or_die("VBoxManage storageattach %s --storagectl \"IDE Controller\" --port 0 --device 0 --type hdd --medium %s" % (self.VBOX_NAME, self.DISK_FILE))
             if self.PATH_TO_ISO != "/dev/null":

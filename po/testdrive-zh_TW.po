@@ -1,16 +1,16 @@
-# Turkish translation for testdrive
-# Copyright (c) 2012 Rosetta Contributors and Canonical Ltd 2012
+# Chinese (Traditional) translation for testdrive
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
 # This file is distributed under the same license as the testdrive package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: testdrive\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-08-02 08:14+1000\n"
-"PO-Revision-Date: 2013-08-03 17:31+0000\n"
-"Last-Translator: Volkan Gezer <Unknown>\n"
-"Language-Team: Turkish <tr@li.org>\n"
+"PO-Revision-Date: 2013-08-10 09:55+0000\n"
+"Last-Translator: Howard Chan <smartboyhw@gmail.com>\n"
+"Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,26 +19,26 @@ msgstr ""
 
 #: ../testdrive-gtk.desktop.in.h:1
 msgid "Test Drive an Ubuntu ISO"
-msgstr "Ubuntu ISO Deneme Yazılımı"
+msgstr "測試一個Ubuntu ISO"
 
 #: ../testdrive-gtk.desktop.in.h:2
 msgid "Download and run an Ubuntu ISO in a Virtual Machine"
-msgstr "Sanal Makinede denemek için bir Ubuntu ISO'su indirin ve çalıştırın"
+msgstr "下載 Ubuntu ISO 並在虛擬機內執行"
 
 #: ../testdrive-gtk.desktop.in.h:3
 msgid "ISO;Testing;Ubuntu;Daily;VM;Virtual Machine;zsync;rsync;Testdrive"
-msgstr ""
+msgstr "ISO；測試；Ubuntu; 每天；虛擬機器；虛擬機器；zsync; rsync; Testdrive"
 
 #: ../bin/testdrive-gtk.py:49
 msgid "Other"
-msgstr "Diğer"
+msgstr "其他"
 
 #. ##################################################################
 #. ####### Obtaining the settings from the Preferences Class ########
 #. ##################################################################
 #: ../bin/testdrive-gtk.py:139
 msgid "Instancing Preferences..."
-msgstr ""
+msgstr "即時獲取選項"
 
 #: ../bin/testdrive-gtk.py:222
 #, python-format
@@ -59,7 +59,7 @@ msgstr ""
 #: ../bin/testdrive-gtk.py:266
 #, python-format
 msgid "<b>ISO Repository:</b> http://%s.ubuntu.com/"
-msgstr "<b>ISO Deposu:</b> http://%s.ubuntu.com/"
+msgstr ""
 
 #: ../bin/testdrive-gtk.py:306
 msgid "Add an ISO to TestDrive"
@@ -72,10 +72,6 @@ msgid ""
 "\n"
 "sudo apt-get install testdrive-cli"
 msgstr ""
-"'testdrive' yüklü olmadığı için dosya açılamıyor.\n"
-"Lütfen testdrive paketini yükleyin: \n"
-"\n"
-"sudo apt-get install testdrive-cli"
 
 #: ../bin/testdrive-gtk.py:326
 msgid "TestDrive an ISO or Disk Image"
@@ -271,8 +267,6 @@ msgid ""
 "\n"
 "ERROR: Invalid input\n"
 msgstr ""
-"\n"
-"HATA: Geçersiz girdi\n"
 
 #: ../bin/testdrive.py:77
 msgid ""
@@ -285,8 +279,6 @@ msgid ""
 "\n"
 "ERROR: Invalid selection\n"
 msgstr ""
-"\n"
-"HATA: Geçersiz seçim\n"
 
 #: ../bin/testdrive.py:88
 #, python-format
@@ -298,7 +290,7 @@ msgstr ""
 #: ../bin/testdrive.py:102 ../testdrivegtk/AddOtherTestdrivegtkDialog.py:155
 #, python-format
 msgid "Invalid ISO URL [%s]"
-msgstr "Geçersiz ISO bağlantı adresi [%s]"
+msgstr ""
 
 #: ../bin/testdrive.py:144
 #, python-format
@@ -372,12 +364,12 @@ msgstr ""
 #: ../bin/testdrive.py:247
 #, python-format
 msgid "Using configuration in %s"
-msgstr "%s içerisinde bulunan yapılandırma kullanılıyor"
+msgstr ""
 
 #: ../bin/testdrive.py:249
 #, python-format
 msgid "Invalid configuration [%s]"
-msgstr "Geçersiz yapılandırma [%s]"
+msgstr ""
 
 #: ../bin/testdrive.py:257
 msgid ""
@@ -403,12 +395,12 @@ msgstr ""
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:333
 #, python-format
 msgid "Obtaining Ubuntu ISO list from %s..."
-msgstr "%s üzerinden Ubuntu ISO listesi alınıyor..."
+msgstr ""
 
 #: ../bin/testdrive.py:339
 #, python-format
 msgid "ERROR: Could not obtain the Ubuntu ISO list from %s..."
-msgstr "HATA: %s üzerinden Ubuntu ISO listesi alınamadı..."
+msgstr ""
 
 #: ../bin/testdrive.py:345
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:345
@@ -424,7 +416,7 @@ msgstr ""
 #: ../bin/testdrive.py:378 ../testdrivegtk/AddOtherTestdrivegtkDialog.py:167
 #, python-format
 msgid "ISO not found at [%s]"
-msgstr "[%s] üzerinde ISO dosyası bulunamadı"
+msgstr ""
 
 #. ##################
 #. # Launch the VM ##
@@ -448,11 +440,11 @@ msgstr ""
 
 #: ../bin/testdrive.py:413
 msgid "Launching Virtual Machine..."
-msgstr "Sanal Makine başlatılıyor..."
+msgstr ""
 
 #: ../bin/testdrive.py:421
 msgid "Unable to launch Virtual Machine"
-msgstr "Sanal Makine başlatılamadı"
+msgstr ""
 
 #: ../bin/testdrive.py:425
 #, python-format
@@ -467,7 +459,7 @@ msgstr ""
 #: ../bin/testdrive.py:429
 #, python-format
 msgid "      %s and %s"
-msgstr "      %s ve %s"
+msgstr ""
 
 #: ../bin/testdrive.py:436
 msgid ""
@@ -480,16 +472,14 @@ msgid ""
 "\n"
 "Press <enter> to exit..."
 msgstr ""
-"\n"
-"Çıkmak için <Enter>'a basın..."
 
 #: ../testdrivegtk/AddOtherTestdrivegtkDialog.py:135
 msgid "Please insert a Description"
-msgstr "Lütfen Açıklama yazın"
+msgstr ""
 
 #: ../testdrivegtk/AddOtherTestdrivegtkDialog.py:140
 msgid "Please insert a URL"
-msgstr "Lütfen bir bağlantı adresi yazın"
+msgstr ""
 
 #: ../testdrivegtk/AddOtherTestdrivegtkDialog.py:171
 msgid "No sync protocol has been selected, please select one."
@@ -497,7 +487,7 @@ msgstr ""
 
 #: ../testdrivegtk/AddOtherTestdrivegtkDialog.py:196
 msgid "Description"
-msgstr "Açıklama"
+msgstr ""
 
 #: ../testdrivegtk/AddOtherTestdrivegtkDialog.py:227
 msgid "Select Protocol:"
@@ -506,7 +496,7 @@ msgstr ""
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:36
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:37
 msgid "Other..."
-msgstr "Diğer..."
+msgstr ""
 
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:72
 msgid "TestDrive Preferences"
@@ -514,11 +504,11 @@ msgstr ""
 
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:98
 msgid "finish_initialization()"
-msgstr "finish_initialization()"
+msgstr ""
 
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:138
 msgid "Select Repository:"
-msgstr "Depoyu Seçin:"
+msgstr ""
 
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:149
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:490
@@ -530,12 +520,12 @@ msgstr ""
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:217
 #, python-format
 msgid "Reading config file: [%s]"
-msgstr "Yapılandırma dosyası okunuyor: [%s]"
+msgstr ""
 
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:219
 #, python-format
 msgid "Unable to load config file [%s]"
-msgstr "[%s] yapılandırma dosyası yüklenemedi"
+msgstr ""
 
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:276
 #, python-format
@@ -545,7 +535,7 @@ msgstr ""
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:337
 #, python-format
 msgid "Could not obtain the Ubuntu ISO list from %s..."
-msgstr "Ubuntu ISO listesi %s üzerinden alınamadı..."
+msgstr ""
 
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:341
 msgid "Updating the Ubuntu ISO list cache..."
@@ -553,9 +543,9 @@ msgstr ""
 
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:349
 msgid "get_preferences()"
-msgstr "get_preferences()"
+msgstr ""
 
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:472
 #, python-format
 msgid "Unable to clean up files from [%s]"
-msgstr "[%s] üzerinde bulunan dosyalar silinemedi"
+msgstr ""

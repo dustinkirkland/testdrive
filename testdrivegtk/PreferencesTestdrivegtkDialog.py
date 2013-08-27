@@ -33,8 +33,8 @@ from gettext import gettext as _
 gettext.textdomain('testdrive')
 
 ISO_REPOSITORY = ['cdimage', 'releases']
-MEM_SIZE_TAB = ['256', '384', '512', '1024', _('Other...')]
-DISK_SIZE_TAB = ['4', '6', '8', _('Other...')]
+MEM_SIZE_TAB = ['256', '384', '512', '1024', '2048',_('Other...')]
+DISK_SIZE_TAB = ['4', '6', '8', '10', '16',_('Other...')]
 
 class PreferencesTestdrivegtkDialog(gtk.Dialog):
     __gtype_name__ = "PreferencesTestdrivegtkDialog"
@@ -252,9 +252,11 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
             self.cbe_mem_size.set_active(2)
         elif self.td.MEM == '1024':
             self.cbe_mem_size.set_active(3)
+        elif self.td.MEM == '2048':
+            self.cbe_mem_size.set_active(4)
         else:
             self.cbe_mem_size.append_text(self.td.MEM)
-            self.cbe_mem_size.set_active(5)
+            self.cbe_mem_size.set_active(6)
 
         # Disk Size
         if self.td.DISK_SIZE == '4G':
@@ -263,9 +265,13 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
             self.cbe_disk_size.set_active(1)
         elif self.td.DISK_SIZE == '8G':
             self.cbe_disk_size.set_active(2)
+        elif self.td.DISK_SIZE == '10G':
+            self.cbe_disk_size.set_active(3)
+        elif self.td.DISK_SIZE == '16G':
+            self.cbe_disk_size.set_active(4)
         else:
             self.cbe_disk_size.append_text(self.td.DISK_SIZE.replace("G", ""))
-            self.cbe_disk_size.set_active(4)
+            self.cbe_disk_size.set_active(6)
 
         # KVM Args
         self.txt_kvm_args.set_text(self.td.KVM_ARGS)
@@ -406,7 +412,7 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
 
     def on_select_mem(self, entry):
         # On selecting RAM memory.
-        if entry.child.get_text() == MEM_SIZE_TAB[3]:
+        if entry.child.get_text() == MEM_SIZE_TAB[4]:
             entry.child.set_editable(True)
             self.mem = 'other'
         elif entry.get_active() >= 0:

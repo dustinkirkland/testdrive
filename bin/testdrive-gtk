@@ -427,7 +427,7 @@ class TestdrivegtkWindow(gtk.Window):
                         "\n\n"
                         "kvm-ok"
                         "\n"
-                        "sudo apt-get install virtualbox-ose"))
+                        "sudo apt-get install virtualbox"))
 
     def obtain_isos_list(self):
         ###################################################################

@@ -7,193 +7,66 @@ msgid ""
 msgstr ""
 "Project-Id-Version: testdrive\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-08-06 18:04-0400\n"
+"POT-Creation-Date: 2013-08-02 08:14+1000\n"
 "PO-Revision-Date: 2010-09-01 21:28+0000\n"
 "Last-Translator: Daniel Schury <das.surst@gmail.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-08-01 01:20+0000\n"
-"X-Generator: Launchpad (build 16718)\n"
+"X-Launchpad-Export-Date: 2013-08-10 20:12+0000\n"
+"X-Generator: Launchpad (build 16723)\n"
 
 #: ../testdrive-gtk.desktop.in.h:1
+msgid "Test Drive an Ubuntu ISO"
+msgstr "Ein Ubuntu-Abbild testen"
+
+#: ../testdrive-gtk.desktop.in.h:2
 msgid "Download and run an Ubuntu ISO in a Virtual Machine"
 msgstr ""
 "Ein Ubuntu-Abbild herunterladen und in einer virtuellen Maschine testen"
 
-#: ../testdrive-gtk.desktop.in.h:2
-msgid "Test Drive an Ubuntu ISO"
-msgstr "Ein Ubuntu-Abbild testen"
+#: ../testdrive-gtk.desktop.in.h:3
+msgid "ISO;Testing;Ubuntu;Daily;VM;Virtual Machine;zsync;rsync;Testdrive"
+msgstr ""
 
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:1
-msgid "<b>Architectures:</b>"
-msgstr "<b>Architekturen:</b>"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:2
-msgid "<b>Cache:</b>"
-msgstr "<b>Zwischenspeicher:</b>"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:3
-msgid "<b>Data Paths</b>"
-msgstr "<b>Datenpfade</b>"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:4
-msgid "<b>Disk Size:</b>"
-msgstr "<b>Festplattengröße:</b>"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:5
-msgid "<b>GB</b>"
-msgstr "<b>GB</b>"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:6
-msgid "<b>Hypervisor</b>"
-msgstr "<b>Hypervisor</b>"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:7
-msgid "<b>ISO Cache:</b>"
-msgstr "<b>Abbild-Zwischenspeicher:</b>"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:8
-msgid "<b>ISO List Cache:</b>"
-msgstr "<b>Abbildlistenspeicher:</b>"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:9
-msgid "<b>Image Cache:</b>"
-msgstr "<b>Abbildzwischenspeicher:</b>"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:10
-msgid "<b>KVM Args:</b>"
-msgstr "<b>KVM-Argumente:</b>"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:11
-msgid "<b>MB</b>"
-msgstr "<b>MB</b>"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:12
-msgid "<b>Memory:</b>"
-msgstr "<b>Speicher:</b>"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:13
-msgid "<b>Processors:</b>"
-msgstr "<b>Prozessoren:</b>"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:14
-msgid "<b>Release:</b>"
-msgstr "<b>Veröffentlichung:</b>"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:15
-msgid "<b>Repository:</b>"
-msgstr "<b>Paketquelle:</b>"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:16
-msgid "<b>Ubuntu Flavors</b>"
-msgstr "<b>Ubuntu-Variante</b>"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:17
-msgid "<b>Ubuntu Releases</b>"
-msgstr "<b>Ubuntu-Veröffentlichung</b>"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:18
-msgid "<b>Virtual Machine Options</b>"
-msgstr "<b>Einstellungen der virtuellen Maschine</b>"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:19
-msgid "Clean"
-msgstr "Bereinigen"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:20
-msgid "Distributions"
-msgstr "Distributionen"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:21
-msgid "Edubuntu"
-msgstr "Edubuntu"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:22
-msgid "General"
-msgstr "Allgemein"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:23
-msgid "KVM"
-msgstr "KVM"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:24
-msgid "Kubuntu"
-msgstr "Kubuntu"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:25
-msgid "Mythbuntu"
-msgstr "Mythbuntu"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:26 ../bin/testdrive-gtk.py:47
+#: ../bin/testdrive-gtk.py:49
 msgid "Other"
 msgstr "Weitere"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:27
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:36
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:37
-msgid "Other..."
-msgstr "Andere ..."
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:28
-msgid "Parallels"
-msgstr "Parallels"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:29
-msgid "Ubuntu"
-msgstr "Ubuntu"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:30
-msgid "Ubuntu Studio"
-msgstr "Ubuntu Studio"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:31
-msgid "Update"
-msgstr "Aktualisieren"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:32
-msgid "VirtualBox"
-msgstr "VirtualBox"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:33
-msgid "Virtualization"
-msgstr "Virtualisierung"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:34
-msgid "Xubuntu"
-msgstr "Xubuntu"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:35
-msgid "amd64"
-msgstr "amd64"
-
-#: ../data/ui/PreferencesTestdrivegtkDialog.ui.h:36
-msgid "i386"
-msgstr "i386"
 
 #. ##################################################################
 #. ####### Obtaining the settings from the Preferences Class ########
 #. ##################################################################
-#: ../bin/testdrive-gtk.py:136
+#: ../bin/testdrive-gtk.py:139
 msgid "Instancing Preferences..."
 msgstr "Ermittle Einstellungen …"
 
-#: ../bin/testdrive-gtk.py:150
+#: ../bin/testdrive-gtk.py:222
+#, python-format
+msgid ""
+"Checking available ISOs at the ISO tracker [http://iso.qa.ubuntu.com] every "
+"%s seconds"
+msgstr ""
+
+#: ../bin/testdrive-gtk.py:227
+msgid "Unable to check the ISO tracker"
+msgstr ""
+
+#: ../bin/testdrive-gtk.py:265
 #, python-format
 msgid "<b>Release:</b> %s"
 msgstr "<b>Veröffentlichung:</b> %s"
 
-#: ../bin/testdrive-gtk.py:151
+#: ../bin/testdrive-gtk.py:266
 #, python-format
 msgid "<b>ISO Repository:</b> http://%s.ubuntu.com/"
 msgstr "<b>Abbildpaketquelle:</b> http://%s.ubuntu.com/"
 
-#: ../bin/testdrive-gtk.py:177
+#: ../bin/testdrive-gtk.py:306
 msgid "Add an ISO to TestDrive"
 msgstr "Ein Abbild zu TestDrive hinzufügen"
 
-#: ../bin/testdrive-gtk.py:193
+#: ../bin/testdrive-gtk.py:322
 msgid ""
 "Unable to open because 'testdrive' is not installed.\n"
 "Please install testdrive: \n"
@@ -205,18 +78,18 @@ msgstr ""
 "\n"
 "sudo apt-get install testdrive-cli"
 
-#: ../bin/testdrive-gtk.py:197
+#: ../bin/testdrive-gtk.py:326
 msgid "TestDrive an ISO or Disk Image"
 msgstr "Ein ISO- oder Datenträgerabbild mit TestDrive testen"
 
 #. ##################################################################
 #. ## Obtains the command for the Sync process based on Protocol ####
 #. ##################################################################
-#: ../bin/testdrive-gtk.py:272
+#: ../bin/testdrive-gtk.py:401
 msgid "Obtaining the sync protocol for the specified ISO..."
 msgstr "Ermittle das Synchronisierungsprotokoll des angegebenen Abbilds …"
 
-#: ../bin/testdrive-gtk.py:275 ../bin/testdrive.py:325
+#: ../bin/testdrive-gtk.py:404 ../bin/testdrive.py:375
 #, python-format
 msgid "Unsupported protocol [%s]"
 msgstr "Nicht unterstütztes Protokoll [%s]"
@@ -225,16 +98,16 @@ msgstr "Nicht unterstütztes Protokoll [%s]"
 #. #### Obtains the Virtualization Method, if not shows warnings ####
 #. ##################################################################
 #. Choose the virtualization engine
-#: ../bin/testdrive-gtk.py:286
+#: ../bin/testdrive-gtk.py:415
 msgid "Obtaining the virtualization method..."
 msgstr "Ermittle die Virtualisierungsmethode …"
 
-#: ../bin/testdrive-gtk.py:290
+#: ../bin/testdrive-gtk.py:419
 msgid "Your CPU supports KVM acceleration; please install KVM"
 msgstr ""
 "Ihr Prozessor unterstützt KVM-Beschleunigung; Bitte installieren Sie KVM"
 
-#: ../bin/testdrive-gtk.py:291
+#: ../bin/testdrive-gtk.py:420
 msgid ""
 "Your CPU supports KVM acceleration; please install KVM:\n"
 "\n"
@@ -244,7 +117,7 @@ msgstr ""
 "\n"
 "sudo apt-get install qemu-kvm"
 
-#: ../bin/testdrive-gtk.py:295
+#: ../bin/testdrive-gtk.py:424
 msgid ""
 "Your CPU does not support acceleration; run kvm-ok for more information; "
 "then install VBox"
@@ -252,7 +125,7 @@ msgstr ""
 "Ihr Prozessor unterstützt keine Beschleunigung; Führen Sie kvm-ok für "
 "weitere Informationen aus und installieren Sie anschließend VBox"
 
-#: ../bin/testdrive-gtk.py:296
+#: ../bin/testdrive-gtk.py:425
 msgid ""
 "Your CPU does not support acceleration; run kvm-ok for more information;\n"
 "then please install VirtualBox\n"
@@ -266,82 +139,79 @@ msgstr ""
 "kvm-ok\n"
 "sudo apt-get install virtualbox-ose"
 
-#: ../bin/testdrive-gtk.py:303 ../bin/testdrive.py:257
-msgid "Using KVM for virtual machine hosting..."
-msgstr "Verwende KVM als virtuelle Maschine …"
-
-#: ../bin/testdrive-gtk.py:306 ../bin/testdrive.py:260
-msgid "Using VirtualBox for virtual machine hosting..."
-msgstr "Verwende VirtualBox als virtuelle Maschine …"
-
-#: ../bin/testdrive-gtk.py:309 ../bin/testdrive.py:263
-msgid "Using Parallels Desktop for virtual machine hosting..."
-msgstr "Verwende Parallels Desktop als virtuelle Maschine …"
-
 #. ##################################################################
 #. ### Obtains the list of ISO available from the iso list cache ####
 #. ##################################################################
 #. Try to retrieve the ISO list from the cache
-#: ../bin/testdrive-gtk.py:318 ../bin/testdrive.py:298
+#: ../bin/testdrive-gtk.py:438 ../bin/testdrive.py:348
 msgid "Retrieving the Ubuntu ISO list from cache..."
 msgstr "Beziehe die Ubuntu-Abbildliste aus dem Zwischenspeicher …"
 
-#: ../bin/testdrive-gtk.py:322 ../bin/testdrive-gtk.py:323
-#: ../bin/testdrive.py:302
+#: ../bin/testdrive-gtk.py:442 ../bin/testdrive-gtk.py:443
+#: ../bin/testdrive.py:352
 msgid "Unable to retrieve the Ubuntu ISO list from cache..."
 msgstr "Konnte die Ubuntu-Abbildliste nicht aus dem Zwischenspeicher lesen …"
 
-#. lb_cache = gtk.Label("CACHE: [%s] %s" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(path))), filename))
-#: ../bin/testdrive-gtk.py:441 ../bin/testdrive-gtk.py:476
-#: ../bin/testdrive-gtk.py:774
+#: ../bin/testdrive-gtk.py:563 ../bin/testdrive-gtk.py:598
+#: ../bin/testdrive-gtk.py:905
 #, python-format
 msgid "<i>     CACHE: [%s]</i>"
 msgstr "<i>     ZWISCHENSPEICHER: [%s]</i>"
 
-#: ../bin/testdrive-gtk.py:443 ../bin/testdrive-gtk.py:478
-#: ../bin/testdrive-gtk.py:776
+#: ../bin/testdrive-gtk.py:565 ../bin/testdrive-gtk.py:600
+#: ../bin/testdrive-gtk.py:907
 msgid "<i>     CACHE: [empty]</i>"
 msgstr "<i>     ZWISCHENSPEICHER: [leer]</i>"
 
-#: ../bin/testdrive-gtk.py:506
+#: ../bin/testdrive-gtk.py:628
 msgid "<b><i>There are no Other ISOs yet...</i></b>"
 msgstr "<b><i>Dort sind zur Zeit keine anderen Abbilder …</i></b>"
 
-#: ../bin/testdrive-gtk.py:509
+#: ../bin/testdrive-gtk.py:631
 msgid "<b><i>There are no ISOs for this architecture yet...</i></b>"
 msgstr ""
 "<b><i>Dort sind zur Zeit keine anderen Abbilder für diese Architektur "
 "…</i></b>"
 
 #. Add Button
-#: ../bin/testdrive-gtk.py:546
+#: ../bin/testdrive-gtk.py:665
 msgid "Add ISO"
 msgstr "Abbild hinzufügen"
 
 #. Create Buttons
-#: ../bin/testdrive-gtk.py:554
+#: ../bin/testdrive-gtk.py:672
 msgid "Create USB Disk"
 msgstr "USB-Datenträger erstellen"
 
-#. bbox.add(button)
-#: ../bin/testdrive-gtk.py:561
+#: ../bin/testdrive-gtk.py:677
 msgid "Sync"
 msgstr "Synchronisieren"
 
-#. bbox.add(button)
-#: ../bin/testdrive-gtk.py:568
+#: ../bin/testdrive-gtk.py:682
 msgid "Launch"
 msgstr "Starten"
 
-#: ../bin/testdrive-gtk.py:639
+#: ../bin/testdrive-gtk.py:736 ../bin/testdrive.py:264
+msgid "Using KVM for virtual machine hosting..."
+msgstr "Verwende KVM als virtuelle Maschine …"
+
+#: ../bin/testdrive-gtk.py:739 ../bin/testdrive.py:266
+msgid "Using VirtualBox for virtual machine hosting..."
+msgstr "Verwende VirtualBox als virtuelle Maschine …"
+
+#: ../bin/testdrive-gtk.py:742 ../bin/testdrive.py:268
+msgid "Using Parallels Desktop for virtual machine hosting..."
+msgstr "Verwende Parallels Desktop als virtuelle Maschine …"
+
+#: ../bin/testdrive-gtk.py:796
 msgid "sync_iso: Thread is executing..."
 msgstr "sync_iso: Thread wird ausgeführt …"
 
-#: ../bin/testdrive-gtk.py:661
+#: ../bin/testdrive-gtk.py:817
 msgid "launch_iso: Thread is executing or syncing..."
 msgstr "launch_iso: Thread wird ausgeführt oder synchronisiert …"
 
-#: ../bin/testdrive-gtk.py:668
+#: ../bin/testdrive-gtk.py:824
 msgid ""
 "No ISO has been selected.\n"
 "\n"
@@ -351,7 +221,7 @@ msgstr ""
 "\n"
 "Bitte wählen Sie ein Abbild aus, um einen USB-Startdatenträger zu erstellen."
 
-#: ../bin/testdrive-gtk.py:673
+#: ../bin/testdrive-gtk.py:829
 msgid ""
 "More than 1 ISO has been selected.\n"
 "\n"
@@ -361,7 +231,7 @@ msgstr ""
 "\n"
 "Bitte wählen Sie nur ein Abbild aus, um fortzufahren!"
 
-#: ../bin/testdrive-gtk.py:678
+#: ../bin/testdrive-gtk.py:834
 msgid ""
 "The specified ISO does not exist!\n"
 "\n"
@@ -371,52 +241,33 @@ msgstr ""
 "\n"
 "Bitte synchronisieren Sie Ihre Abbilder um fortzufahren."
 
-#: ../bin/testdrive-gtk.py:685
+#: ../bin/testdrive-gtk.py:841
 msgid "Unable to launch USB Creator!"
 msgstr "USB-Erstellungsprogramm konnte nicht gestartet werden!"
 
-#. ##################################################################
-#. ####### Prepare the VM to launch and return launch command #######
-#. ##################################################################
-#: ../bin/testdrive-gtk.py:692
-msgid "Validating Virtualization Method..."
-msgstr "Virtualisierungsmethode wird validiert …"
-
-#: ../bin/testdrive-gtk.py:696 ../bin/testdrive-gtk.py:697
-#: ../bin/testdrive.py:339
+#: ../bin/testdrive-gtk.py:867
 #, python-format
-msgid "Unable to validate Virtualization Method [%s]"
-msgstr "Konnte Virtualisierungsmethode [%s] nicht validieren"
+msgid " Downloading %s (0%%)"
+msgstr ""
 
-#. self.on_info_dialog("Setting up Virtual Machine...")
-#: ../bin/testdrive-gtk.py:700 ../bin/testdrive.py:341
-msgid "Setting up Virtual Machine..."
-msgstr "Virtuelle Maschine wird eingerichtet …"
-
-#: ../bin/testdrive-gtk.py:704 ../bin/testdrive-gtk.py:705
-#: ../bin/testdrive.py:348
-msgid "Unable to setup Virtual Machine"
-msgstr "Virtuelle Maschine konnte nicht eingerichtet werden"
-
-#. self.on_info_dialog("Launching Virtual Machine...")
-#: ../bin/testdrive-gtk.py:708
-msgid "Obtaining Virtual Machine launch command..."
-msgstr "Erhalte Startbefehl für virtuelle Maschine …"
-
-#: ../bin/testdrive-gtk.py:735
+#: ../bin/testdrive-gtk.py:887
 #, python-format
-msgid "Downloading %s..."
-msgstr "Lade %s herunter …"
+msgid " Downloading %s (%s%%)"
+msgstr ""
 
-#: ../bin/testdrive-gtk.py:797
-msgid "     Running VM..."
-msgstr "     Führe VM aus …"
+#: ../bin/testdrive-gtk.py:936
+msgid "    Configuring Virtual Machine..."
+msgstr ""
 
-#: ../bin/testdrive-gtk.py:853
+#: ../bin/testdrive-gtk.py:942
+msgid "     Running Virtual Machine..."
+msgstr ""
+
+#: ../bin/testdrive-gtk.py:991
 msgid "Show debug messages"
 msgstr "Debug-Meldungen anzeigen"
 
-#: ../bin/testdrive.py:36
+#: ../bin/testdrive.py:52
 msgid ""
 "\n"
 "Welcome to Testdrive!\n"
@@ -424,17 +275,17 @@ msgstr ""
 "\n"
 "Willkommen zu TestDrive!\n"
 
-#: ../bin/testdrive.py:44
+#: ../bin/testdrive.py:60
 #, python-format
 msgid "     +-cache--> [%s] %s"
 msgstr "     +-Speicher-->[%s] %s"
 
-#: ../bin/testdrive.py:47
+#: ../bin/testdrive.py:63
 #, python-format
 msgid "  %d. Other (prompt for ISO URL)"
 msgstr "  %d. Andere (Eingabe für Abbild-URL)"
 
-#: ../bin/testdrive.py:49
+#: ../bin/testdrive.py:65
 msgid ""
 "\n"
 "Select an image to testdrive [1]: "
@@ -442,7 +293,7 @@ msgstr ""
 "\n"
 "Wähle ein Abbild für testdrive aus [1]: "
 
-#: ../bin/testdrive.py:58
+#: ../bin/testdrive.py:74
 msgid ""
 "\n"
 "ERROR: Invalid input\n"
@@ -450,7 +301,7 @@ msgstr ""
 "\n"
 "FEHLER: Ungültige Eingabe\n"
 
-#: ../bin/testdrive.py:61
+#: ../bin/testdrive.py:77
 msgid ""
 "\n"
 "Enter an ISO URL to testdrive: "
@@ -458,7 +309,7 @@ msgstr ""
 "\n"
 "Geben Sie eine Abbild-URL für testdrive an: "
 
-#: ../bin/testdrive.py:68
+#: ../bin/testdrive.py:84
 msgid ""
 "\n"
 "ERROR: Invalid selection\n"
@@ -466,31 +317,19 @@ msgstr ""
 "\n"
 "FEHLER: Ungültiger Abschnitt\n"
 
-#: ../bin/testdrive.py:72
+#: ../bin/testdrive.py:88
 #, python-format
 msgid ""
 "\n"
-"ERROR: %s\n"
+"%s\n"
 msgstr ""
-"\n"
-"FEHLER: %s\n"
 
-#: ../bin/testdrive.py:76
-#, python-format
-msgid "INFO: %s"
-msgstr "INFO: %s"
-
-#: ../bin/testdrive.py:79
-#, python-format
-msgid "WARNING: %s"
-msgstr "WARNUNG: %s"
-
-#: ../bin/testdrive.py:90 ../testdrivegtk/AddOtherTestdrivegtkDialog.py:155
+#: ../bin/testdrive.py:102 ../testdrivegtk/AddOtherTestdrivegtkDialog.py:155
 #, python-format
 msgid "Invalid ISO URL [%s]"
 msgstr "Ungültige Abbild-URL [%s]"
 
-#: ../bin/testdrive.py:108
+#: ../bin/testdrive.py:144
 #, python-format
 msgid ""
 "Command failed\n"
@@ -499,107 +338,121 @@ msgstr ""
 "Befehl fehlgeschlagen\n"
 "    »%s«"
 
-#: ../bin/testdrive.py:163
+#: ../bin/testdrive.py:151
+msgid "Launching Virtual Machine using CURSES as screen mode"
+msgstr ""
+
+#: ../bin/testdrive.py:196
 msgid "user configuration file (overriding default values"
 msgstr "Benutzerkonfigurationsdatei (Überschreibt Vorgabewerte)"
 
-#: ../bin/testdrive.py:165
+#: ../bin/testdrive.py:198
 msgid "print version and system data, and exit"
 msgstr "Version und Systemdaten ausgeben und beenden"
 
-#: ../bin/testdrive.py:167
+#: ../bin/testdrive.py:200
 msgid "get ISO image from this URL location"
 msgstr "Abbild von dieser URL erhalten"
 
-#: ../bin/testdrive.py:169
+#: ../bin/testdrive.py:202
 msgid "try to launch usb-creator for further testing"
 msgstr "Versuchen dasUSB-Erstellungsprogramm für weitere Tests starten"
 
-#: ../bin/testdrive.py:171
+#: ../bin/testdrive.py:204
 msgid "hardcode Ubuntu RELEASE codename"
 msgstr "Fest programmierte Ubuntu-VERSION-Codename"
 
-#: ../bin/testdrive.py:173
+#: ../bin/testdrive.py:206
 msgid ""
 "hardcode Ubuntu flavor. Available Flavors:\n"
-"\t\t     ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio"
+"             "
+"ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio/lubuntu/ubuntukylin"
 msgstr ""
-"Fest programmierte Ubuntu-Version. Verfügbare Versionen:\n"
-"\t\t ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio"
 
-#: ../bin/testdrive.py:177
+#: ../bin/testdrive.py:209
+msgid ""
+"hardcode Ubuntu repository from where to obtain ISOs:\n"
+"             releases/cdimage/cloud-daily/cloud-releases"
+msgstr ""
+
+#: ../bin/testdrive.py:212
+msgid ""
+"displays the Virtual Machine in the shell. Only valid for Cloud images."
+msgstr ""
+
+#: ../bin/testdrive.py:217
 #, python-format
 msgid "version passed: %s"
 msgstr "Getestete Version: %s"
 
-#: ../bin/testdrive.py:181
+#: ../bin/testdrive.py:221
 #, python-format
 msgid "testdrive %s"
 msgstr "testdrive %s"
 
-#: ../bin/testdrive.py:204
+#: ../bin/testdrive.py:233
 #, python-format
 msgid "config passed: %s"
 msgstr "Getestete Einstellung: %s"
 
-#: ../bin/testdrive.py:214
+#: ../bin/testdrive.py:243
 #, python-format
 msgid "Trying config in %s"
 msgstr "Teste Konfiguration in %s"
 
-#: ../bin/testdrive.py:218
+#: ../bin/testdrive.py:247
 #, python-format
 msgid "Using configuration in %s"
 msgstr "Verwende Einstellungen in %s"
 
-#: ../bin/testdrive.py:220
+#: ../bin/testdrive.py:249
 #, python-format
 msgid "Invalid configuration [%s]"
 msgstr "Fehlerhafte Einstellungen [%s]"
 
-#: ../bin/testdrive.py:250
+#: ../bin/testdrive.py:257
 msgid ""
 "Your CPU supports KVM acceleration; please install KVM:\n"
-"\t\t\tsudo apt-get install qemu-kvm"
+"            sudo apt-get install qemu-kvm"
 msgstr ""
-"Ihr Prozessor unterstützt KVM-Beschleunigung; Bitte installieren Sie KVM:\n"
-"\t\t\tsudo apt-get install qemu-kvm"
 
-#: ../bin/testdrive.py:253
+#: ../bin/testdrive.py:260
 msgid ""
 "Your CPU does not support acceleration; run kvm-ok for more information; "
 "then please install VirtualBox:\n"
-"\t\t\tkvm-ok\n"
-"\t\t\tsudo apt-get install virtualbox-ose"
+"            kvm-ok\n"
+"            sudo apt-get install virtualbox-ose"
 msgstr ""
-"Ihr Prozessor unterstützt keine Beschleunigung; Führen Sie kvm-ok für weiter "
-"Informationen aus und installieren Sie dann VirtualBox:\n"
-"\t\t\tkvm-ok\n"
-"\t\t\tsudo apt-get install virtualbox-ose"
 
-#: ../bin/testdrive.py:285
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:321
+#: ../bin/testdrive.py:284
+msgid ""
+"Launching Cloud images only works with KVM. Please switch your "
+"virtualization method..."
+msgstr ""
+
+#: ../bin/testdrive.py:335
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:333
 #, python-format
 msgid "Obtaining Ubuntu ISO list from %s..."
 msgstr "Ubuntu-Abbildliste wird von %s geladen …"
 
-#: ../bin/testdrive.py:289
+#: ../bin/testdrive.py:339
 #, python-format
 msgid "ERROR: Could not obtain the Ubuntu ISO list from %s..."
 msgstr "FEHLER: Konnte das Ubuntu-Ablist nicht von der Liste %s beziehen …"
 
-#: ../bin/testdrive.py:295
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:333
+#: ../bin/testdrive.py:345
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:345
 msgid "Unable to update the Ubuntu ISO list cache..."
 msgstr "Der Ubuntu-Abbildspeicher konnte nicht aktualisiert werden …"
 
 #. BUG: should check disk space availability in CACHE dir
 #. Update the cache
-#: ../bin/testdrive.py:321
+#: ../bin/testdrive.py:371
 msgid "Syncing the specified ISO..."
 msgstr "Synchronisiere das ausgewählte Abbild …"
 
-#: ../bin/testdrive.py:328 ../testdrivegtk/AddOtherTestdrivegtkDialog.py:167
+#: ../bin/testdrive.py:378 ../testdrivegtk/AddOtherTestdrivegtkDialog.py:167
 #, python-format
 msgid "ISO not found at [%s]"
 msgstr "Abbild wurde nicht unter [%s] gefunden"
@@ -607,34 +460,47 @@ msgstr "Abbild wurde nicht unter [%s] gefunden"
 #. ##################
 #. # Launch the VM ##
 #. ##################
-#: ../bin/testdrive.py:335
+#: ../bin/testdrive.py:401
 msgid "Validating Virtualization Method...."
 msgstr "Virtualisierungsmethode wird validiert …"
 
-#: ../bin/testdrive.py:350
+#: ../bin/testdrive.py:405
+#, python-format
+msgid "Unable to validate Virtualization Method [%s]"
+msgstr "Konnte Virtualisierungsmethode [%s] nicht validieren"
+
+#: ../bin/testdrive.py:407
+msgid "Setting up Virtual Machine..."
+msgstr "Virtuelle Maschine wird eingerichtet …"
+
+#: ../bin/testdrive.py:411
+msgid "Unable to setup Virtual Machine"
+msgstr "Virtuelle Maschine konnte nicht eingerichtet werden"
+
+#: ../bin/testdrive.py:413
 msgid "Launching Virtual Machine..."
 msgstr "Virtuelle Maschine wird gestartet …"
 
-#: ../bin/testdrive.py:355
+#: ../bin/testdrive.py:421
 msgid "Unable to launch Virtual Machine"
 msgstr "Virtuelle Maschine konnte nicht gestartet werden"
 
-#: ../bin/testdrive.py:359
+#: ../bin/testdrive.py:425
 #, python-format
 msgid "Cleaning up disk image [%s]..."
 msgstr "Festplattenabbild [%s] wird bereinigt …"
 
 #. Remind about cache cleanup
-#: ../bin/testdrive.py:362
+#: ../bin/testdrive.py:428
 msgid "You may wish to clean up the cache directory..."
 msgstr "Eventuell sollten Sie noch den Zwischenspeicherordner aufräumen …"
 
-#: ../bin/testdrive.py:363
+#: ../bin/testdrive.py:429
 #, python-format
 msgid "      %s and %s"
 msgstr "      %s und %s"
 
-#: ../bin/testdrive.py:370
+#: ../bin/testdrive.py:436
 msgid ""
 "\n"
 "Launch USB Startup Disk Creator for further testing of this ISO? [y/N] "
@@ -642,73 +508,13 @@ msgstr ""
 "\n"
 "USB-Startmedienersteller für weitere Tests des Abbilds starten? [y/N] "
 
-#: ../bin/testdrive.py:374
+#: ../bin/testdrive.py:440
 msgid ""
 "\n"
 "Press <enter> to exit..."
 msgstr ""
 "\n"
 "<enter> zum Beenden eingeben …"
-
-#: ../data/ui/TestdrivegtkWindow.ui.h:1
-msgid "ISO Repository"
-msgstr "Abbild-Paketquelle"
-
-#: ../data/ui/TestdrivegtkWindow.ui.h:2
-msgid "TestDrive Front-end"
-msgstr "TestDrive-Oberfläche"
-
-#: ../data/ui/TestdrivegtkWindow.ui.h:3
-msgid "Ubuntu Release"
-msgstr "Ubuntu-Veröffentlichung"
-
-#: ../data/ui/TestdrivegtkWindow.ui.h:4
-msgid "_Edit"
-msgstr "_Bearbeiten"
-
-#: ../data/ui/TestdrivegtkWindow.ui.h:5
-msgid "_File"
-msgstr "_Datei"
-
-#: ../data/ui/TestdrivegtkWindow.ui.h:6
-msgid "_Help"
-msgstr "_Hilfe"
-
-#: ../data/ui/TestdrivegtkWindow.ui.h:7
-msgid "_View"
-msgstr "_Ansicht"
-
-#: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:1
-msgid "<b>Description:</b>"
-msgstr "<b>Beschreibung:</b>"
-
-#: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:2
-msgid "<b>Sync Protocol:</b>"
-msgstr "<b>Synchronisierungsprotokoll:</b>"
-
-#: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:3
-msgid "<b>URL:</b>"
-msgstr "<b>URL:</b>"
-
-#: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:4
-msgid "Add"
-msgstr "Hinzufügen"
-
-#: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:5
-msgid "Cancel"
-msgstr "Abbrechen"
-
-#: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:6
-msgid "Delete"
-msgstr "Löschen"
-
-#: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:7
-msgid "Edit"
-msgstr "Bearbeiten"
-
-#: ../data/ui/AddOtherTestdrivegtkDialog.ui.h:8
-msgid "Other ISO List:"
-msgstr "Liste weiterer Abbilder:"
 
 #: ../testdrivegtk/AddOtherTestdrivegtkDialog.py:135
 msgid "Please insert a Description"
@@ -732,6 +538,11 @@ msgstr "Beschreibung"
 msgid "Select Protocol:"
 msgstr "Protokoll auswählen:"
 
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:36
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:37
+msgid "Other..."
+msgstr "Andere ..."
+
 #: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:72
 msgid "TestDrive Preferences"
 msgstr "TestDrive-Einstellungen"
@@ -740,46 +551,46 @@ msgstr "TestDrive-Einstellungen"
 msgid "finish_initialization()"
 msgstr "finish_initialization()"
 
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:136
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:138
 msgid "Select Repository:"
 msgstr "Paketquelle auswählen:"
 
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:147
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:474
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:149
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:490
 msgid "Select Release:"
 msgstr "Veröffentlichung auswählen:"
 
 #. Load config files for local variables
 #. self.load_config_files(file)
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:211
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:217
 #, python-format
 msgid "Reading config file: [%s]"
 msgstr "Konfigurationsdatei auswählen: [%s]"
 
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:213
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:219
 #, python-format
 msgid "Unable to load config file [%s]"
 msgstr "Konfigurationsdatei [%s] konnte nicht geladen werden"
 
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:268
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:276
 #, python-format
 msgid " of %s available."
 msgstr " von %s verfügbar."
 
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:325
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:337
 #, python-format
 msgid "Could not obtain the Ubuntu ISO list from %s..."
 msgstr "Konnte die Ubuntu-Abbildliste nicht von %s laden …"
 
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:329
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:341
 msgid "Updating the Ubuntu ISO list cache..."
 msgstr "Ubuntu-Abbildspeicher wird aktualisirt …"
 
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:337
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:349
 msgid "get_preferences()"
 msgstr "get_preferences()"
 
-#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:456
+#: ../testdrivegtk/PreferencesTestdrivegtkDialog.py:472
 #, python-format
 msgid "Unable to clean up files from [%s]"
 msgstr "Dateien konnten nicht aus [%s] aufgeräumt werden"

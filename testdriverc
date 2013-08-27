@@ -24,9 +24,11 @@ VIRT = kvm
 #VIRT = parallels
 
 # MEM is the amount of memory in MB to give to the VM guest
+#MEM = 256
 #MEM = 384
 #MEM = 512
 #MEM = 1024
+#MEM = 2048
 
 # SMP is the number of processors to give to the VM guest if
 # running in KVM.
@@ -37,8 +39,11 @@ VIRT = kvm
 # Note that this will be a sparse, qcow2 file, so it should not actually
 # take that much space on the filesystem.
 # Default: 6G
+#DISK_Size = 4G
 DISK_SIZE = 6G
+#DISK_SIZE = 8G
 #DISK_SIZE = 10G
+#Disk_SIZE = 16G
 
 # KVM_ARGS is a string of arbitrary KVM_ARGS to use when launching the VM
 # See kvm(1) for a comprehensive list of arguments

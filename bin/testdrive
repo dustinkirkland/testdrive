@@ -259,7 +259,7 @@ def main():
     elif td.VIRT == 0:
         error(_("Your CPU does not support acceleration; run kvm-ok for more information; then please install VirtualBox:\n\
             kvm-ok\n\
-            sudo apt-get install virtualbox-ose"))
+            sudo apt-get install virtualbox"))
     elif td.VIRT == "kvm":
         logger.info(_("Using KVM for virtual machine hosting..."));
     elif td.VIRT == "virtualbox":
