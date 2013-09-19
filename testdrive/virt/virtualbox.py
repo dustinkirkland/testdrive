@@ -86,6 +86,7 @@ class VBox:
         self.run_or_die("VBoxManage modifyvm %s --boot1 disk" % self.VBOX_NAME)
         self.run_or_die("VBoxManage modifyvm %s --boot2 dvd" % self.VBOX_NAME)
         self.run_or_die("VBoxManage modifyvm %s --nic1 nat" % self.VBOX_NAME)
+   	self.run_or_die("VBoxManage modifyvm %s --pae on" % self.VBOX_NAME)
 
     # Code launch virtual machine
     def launch_virt(self):
