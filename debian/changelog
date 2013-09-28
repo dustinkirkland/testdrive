@@ -1,3 +1,10 @@
+testdrive (3.25) UNRELEASED; urgency=low
+
+  * Fixed VirtualBox PAE option bug. LP: #940755
+    Thanks Ben Blankley
+
+ -- Jackson Doak <noskcaj@ubuntu.com>  Sat, 28 Sep 2013 12:30:24 +1000
+
 testdrive (3.25) unreleased; urgency=low
 
   * UNRELEASED
