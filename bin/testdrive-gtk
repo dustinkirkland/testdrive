@@ -46,7 +46,7 @@ TAB_LABEL.append({"dist":"mythbuntu", "label":"Mythbuntu"})
 TAB_LABEL.append({"dist":"ubuntustudio", "label":"Ubuntu Studio"})
 TAB_LABEL.append({"dist":"lubuntu", "label":"Lubuntu"})
 TAB_LABEL.append({"dist":"ubuntukylin", "label":"UbuntuKylin"})
-TAB_LABEL.append({"dist":"ubuntugnome", "label":"UbuntuGnome"})
+TAB_LABEL.append({"dist":"ubuntugnome", "label":"Ubuntu Gnome"})
 TAB_LABEL.append({"dist":"other", "label":_("Other")})
 
 global ISOLIST
