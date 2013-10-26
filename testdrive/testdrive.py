@@ -116,6 +116,8 @@ class Testdrive:
                     category = 'kubuntu'
                 elif category == 'ubuntukylin':
                     category = 'ubuntukylin'
+                elif category == 'ubuntu-gnome':
+                    category = 'ubuntugnome'
                 flavor = iso.split()[0].capitalize()
                 if flavor == 'Ubuntu-netbook':
                     flavor = 'Ubuntu'
@@ -133,6 +135,8 @@ class Testdrive:
                     flavor = 'Ubuntu'
                 elif flavor == 'Ubuntukylin':
                     flavor = 'UbuntuKylin'
+                elif flavor == 'Ubuntu-gnome':
+                    flavor = 'Ubuntu Gnome'
                 elif flavor == 'Cloud-server':
                     flavor = 'Cloud Server'
                 elif flavor == 'Cloud-desktop':
