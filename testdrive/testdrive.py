@@ -22,6 +22,33 @@
 import os, platform, commands, tempfile, hashlib, ConfigParser, time
 import xdg.BaseDirectory
 
+CATEGORY = {
+    "ubuntu-server":"ubuntu",
+    "ubuntu-netbook":"ubuntu",
+    "ubuntu-mobile":"ubuntu",
+    "kubuntu-netbook":"kubuntu",
+    "kubuntu-mobile":"kubuntu",
+    "kubuntu-active":"kubuntu",
+    "ubuntukylin":"ubuntukylin",
+    "ubuntu-gnome":"ubuntugnome",
+}
+
+
+FLAVORS = {
+    "ubuntu-netbook":"Ubuntu",
+    "ubuntu-mobile":"Ubuntu",
+    "kubuntu-netbook":"Kubuntu",
+    "kubuntu-mobile":"Kubuntu",
+    "kubuntu-active":"Kubuntu",
+    "ubuntustudio":"Ubuntu Studio",
+    "ubuntu-server":"Ubuntu",
+    "ubuntukylin":"UbuntuKylin",
+    "ubuntu-gnome":"Ubuntu Gnome",
+    "cloud-server":"Cloud Server",
+    "cloud-desktop":"Cloud Desktop",
+}
+
+
 class Testdrive:
     def __init__(self, pkg_section):
         self.HOME = os.getenv("HOME", "")
@@ -101,51 +128,19 @@ class Testdrive:
         for iso in ISOS:
             if iso.split()[1] == self.r:
                 # TODO: Add support for Cloud
-                category = iso.split()[0]
-                if category == 'ubuntu-server':
-                    category = 'ubuntu'
-                elif category == 'ubuntu-netbook':
-                    category = 'ubuntu'
-                elif category == 'ubuntu-mobile':
-                    category = 'ubuntu'
-                elif category == 'kubuntu-netbook':
-                    category = 'kubuntu'
-                elif category == 'kubuntu-mobile':
-                    category = 'kubuntu'
-                elif category == 'kubuntu-active':
-                    category = 'kubuntu'
-                elif category == 'ubuntukylin':
-                    category = 'ubuntukylin'
-                elif category == 'ubuntu-gnome':
-                    category = 'ubuntugnome'
-                flavor = iso.split()[0].capitalize()
-                if flavor == 'Ubuntu-netbook':
-                    flavor = 'Ubuntu'
-                elif flavor == 'Ubuntu-mobile':
-                    flavor == 'Ubuntu'
-                elif flavor == 'Kubuntu-netbook':
-                    flavor = 'Kubuntu'
-                elif flavor == 'Kubuntu-mobile':
-                    flavor = 'Kubuntu'
-                elif flavor == 'Kubuntu-active':
-                    flavor = 'Kubuntu Active'
-                elif flavor == 'Ubuntustudio':
-                    flavor = 'Ubuntu Studio'
-                elif flavor == 'Ubuntu-server':
-                    flavor = 'Ubuntu'
-                elif flavor == 'Ubuntukylin':
-                    flavor = 'UbuntuKylin'
-                elif flavor == 'Ubuntu-gnome':
-                    flavor = 'Ubuntu Gnome'
-                elif flavor == 'Cloud-server':
-                    flavor = 'Cloud Server'
-                elif flavor == 'Cloud-desktop':
-                    flavor = 'Cloud Desktop'
+                if iso.split()[0] not in CATEGORY:
+                    category = iso.split()[0]
+                else:
+                    category = CATEGORY[iso.split()[0]]
+                if iso.split()[0] not in FLAVORS:
+                    flavor = iso.split()[0].capitalize()
+                else:
+                    flavor = FLAVORS[iso.split()[0]]
                 release = iso.split()[1]
                 url = iso.split()[2]
                 if self.p == 'cloud-daily' or self.p == 'cloud-releases':
                     arch = url.split(".tar.gz")[0].split("-")[-1]
-                    name = "%s" % flavor 
+                    name = "%s" % flavor
                 else:
                     arch = url.split(".iso")[0].split("-")[-1]
                     image = url.split("-%s.iso" % arch)[0].split("-")[-1].capitalize()
