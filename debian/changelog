@@ -5,6 +5,7 @@ testdrive (3.25) UNRELEASED; urgency=low
     Thanks Ben Blankley
   * Add --version to testdrive-gtk. LP: #1235834
     Thanks Daniel Kessel
+  * Add support for Virtualbox 4.3
 
  -- Jackson Doak <noskcaj@ubuntu.com>  Sat, 28 Sep 2013 12:30:24 +1000
 
