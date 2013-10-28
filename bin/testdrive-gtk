@@ -986,17 +986,40 @@ if __name__ == "__main__":
     # Support for command line options.
     import logging
     import optparse
-    parser = optparse.OptionParser(version="%prog %ver")
+
+    logger = logging.getLogger("testdrive")
+    logger.setLevel(logging.INFO)
+    
+    # Logging to the console
+	ch = logging.StreamHandler()
+	ch.setLevel(logging.DEBUG)
+
+	# Logger formatter
+	formatter = logging.Formatter("%(levelname)s: %(message)s")
+	ch.setFormatter(formatter)
+
+	# Add the handlers
+	logger.addHandler(ch)
+
+    parser = optparse.OptionParser()
     parser.add_option(
-        "-v", "--verbose", action="store_true", dest="verbose",
+        "-d", "--verbose", action="store_true", dest="verbose",
         help=_("Show debug messages"))
+	parser.add_option(
+		"-v", "--version", action="store_true", dest="version",
+		default=False,
+		help=_("print version and system data, and exit")) 
     (options, args) = parser.parse_args()
 
+    if options.version:
+        version = commands.getstatusoutput("dpkg -l testdrive-gtk | tail -n1 | awk '{print $3}'")
+        logger.info(_("testdrive-gtk %s") % version[1])
+        sys.exit(0)
+        
     # Set the logging level to show debug messages.
     if options.verbose:
-        logging.basicConfig(level=logging.DEBUG)
-        logging = logging.getLogger('testdrive')
-        logging.debug('logging enabled')
+        logger.setLevel(logging.DEBUG)
+        logger.debug("logging enabled")
 
     # Run the application.
     window = TestdrivegtkWindow()
