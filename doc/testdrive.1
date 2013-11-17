@@ -1,4 +1,4 @@
-.TH testdrive 1 "5 Nov 2009" testdrive "testdrive"
+.TH testdrive 1 "17 Nov 2013" testdrive "testdrive"
 .SH NAME
 testdrive \- Test Drive the current Ubuntu Development Snapshot in a VM
 
@@ -6,21 +6,37 @@ testdrive \- Test Drive the current Ubuntu Development Snapshot in a VM
 testdrive [\-d] [\-f FILE] [\-l FLAVOR] [\-r RELEASE] [\-u URL] [\-v|\-\-version]
 
 .SH OPTIONS
-\fB\-c|\-\-curses\fP - Use KVM CURSES mode when launching a Cloud image
-
-\fB\-d\fP - launch usb-creator after testdriving ISO
-
-\fB\-f FILE\fP - path to a configuration file to read
-
-\fB\-l FLAVOR\fP - hardcode Ubuntu flavor to testdrive; can be [ubuntu | kubuntu | xubuntu | edubuntu | mythbuntu | ubuntustudio | lubuntu | cloud-server | ubuntukylin ]
-
-\fB\-p REPOSITORY\fP - select Ubuntu repository; can be [cdimage|releases|cloud-daily]
-
-\fB\-r RELEASE\fP - hardcode Ubuntu release codename to testdrive
-
-\fB\-u URL\fP - url to an ISO image to download and use; can be [rsync|zsync|http|ftp|file] protocol
-
-\fB\-v|\-\-version\fP - display the version and the hypervisor to be used, and exit
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+show this help message and exit
+.TP
+\fB\-f\fR CONFIG, \fB\-\-config\fR=\fICONFIG\fR
+user configuration file (overriding default values
+.TP
+\fB\-v\fR, \fB\-\-version\fR
+print version and system data, and exit
+.TP
+\fB\-u\fR URL, \fB\-\-url\fR=\fIURL\fR
+get ISO image from this URL location
+.TP
+\fB\-d\fR, \fB\-\-desktop\fR
+try to launch usb\-creator for further testing
+.TP
+\fB\-r\fR RELEASE, \fB\-\-release\fR=\fIRELEASE\fR
+hardcode Ubuntu RELEASE codename
+.TP
+\fB\-l\fR FLAVOR, \fB\-\-flavor\fR=\fIFLAVOR\fR
+hardcode Ubuntu flavor. Available Flavors:
+ubuntu/kubuntu/xubuntu/edubuntu/mythbuntu/ubuntustudio
+\fI/lubuntu/ubuntukylin\fP
+.TP
+\fB\-p\fR REPOSITORY, \fB\-\-repo\fR=\fIREPOSITORY\fR
+hardcode Ubuntu repository from where to obtain ISOs:
+releases/cdimage/cloud\-daily/cloud\-releases
+.TP
+\fB\-c\fR, \fB\-\-curses\fR
+displays the Virtual Machine in the shell. Only valid
+for Cloud images.
 
 .SH DESCRIPTION
 \fBtestdrive\fP is a utility that allows you to easily download the latest Ubuntu development release or Cloud image, and run it in a virtual machine.
@@ -80,4 +96,4 @@ testdrive \-u /local/path/to/cloud-image.tar.gz \-\-curses
 .SH AUTHOR
 This manpage and the utility was written by Dustin Kirkland <kirkland@canonical.com> for Ubuntu systems (but may be used by others).  Permission is granted to copy, distribute and/or modify this document under the terms of the GNU General Public License, Version 3 published by the Free Software Foundation.
 
-On Debian based systems, the complete text of the GNU General Public License can be found in /usr/share/common-licenses/GPL.
+On Debian based systems, the complete text of the GNU General Public License, version 3, can be found in /usr/share/common-licenses/GPL-3.
