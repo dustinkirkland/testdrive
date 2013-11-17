@@ -8,6 +8,7 @@ testdrive (3.25) UNRELEASED; urgency=low
   * Add support for Virtualbox 4.3
   * Minor Manpage improvements
   * Symlink testdrive.1 to testdrive-gtk.1
+  * debian/control: Update VCS fields
 
  -- Jackson Doak <noskcaj@ubuntu.com>  Sat, 28 Sep 2013 12:30:24 +1000
 
