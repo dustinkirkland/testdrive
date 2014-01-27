@@ -1,5 +1,6 @@
-testdrive (3.25) UNRELEASED; urgency=low
+testdrive (3.25-0ubuntu1) trusty; urgency=low
 
+  [ Jackson Doak ]
   * Fixed VirtualBox PAE option bug. LP: #940755
     Thanks Ben Blankley
   * Add --version to testdrive-gtk. LP: #1235834
@@ -10,7 +11,7 @@ testdrive (3.25) UNRELEASED; urgency=low
     - Update VCS fields
     - Bump standards-version to 3.9.5
 
- -- Jackson Doak <noskcaj@ubuntu.com>  Sat, 28 Sep 2013 12:30:24 +1000
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 27 Jan 2014 10:58:57 +0000
 
 testdrive (3.24-0ubuntu1) saucy; urgency=low
 
