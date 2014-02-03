@@ -1,6 +1,8 @@
 testdrive (3.26) unreleased; urgency=low
 
-  * UNRELEASED
+  * testdriverc:
+    - we really need to enable kvm when launching qemu, if we expect
+      to be able to do anything useful
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 27 Jan 2014 10:59:00 +0000
 

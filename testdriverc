@@ -29,6 +29,9 @@ VIRT = kvm
 #MEM = 512
 #MEM = 1024
 #MEM = 2048
+#MEM = 4096
+#MEM = 8192
+#MEM = 16384
 
 # SMP is the number of processors to give to the VM guest if
 # running in KVM.
@@ -47,7 +50,7 @@ DISK_SIZE = 6G
 
 # KVM_ARGS is a string of arbitrary KVM_ARGS to use when launching the VM
 # See kvm(1) for a comprehensive list of arguments
-KVM_ARGS = -usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370 -vga cirrus
+KVM_ARGS = -usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370 -vga cirrus -enable-kvm
 
 # Uncomment the following line if you want to hardcode the Ubuntu Repository
 # from where the ISO's are going to be retrieved; otherwise, they will be
