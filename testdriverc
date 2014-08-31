@@ -41,10 +41,10 @@ VIRT = kvm
 # DISK_SIZE is the size of the disk image
 # Note that this will be a sparse, qcow2 file, so it should not actually
 # take that much space on the filesystem.
-# Default: 6G
+# Default: 8G
 #DISK_Size = 4G
-DISK_SIZE = 6G
-#DISK_SIZE = 8G
+#DISK_SIZE = 6G
+DISK_SIZE = 8G
 #DISK_SIZE = 10G
 #Disk_SIZE = 16G
 
