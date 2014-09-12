@@ -860,6 +860,7 @@ class SyncThread(threading.Thread):
 
     def run(self):
         cmd = self.command.split()
+        logging.debug("executing command `%s`", ' '.join(cmd))
         self.p = subprocess.Popen(cmd, stdout=subprocess.PIPE, universal_newlines = True)
         percent = re.compile(r'(\d+)%')
         self.status_label.show()
@@ -887,6 +888,14 @@ class SyncThread(threading.Thread):
                     prev = match.group(1)
                     text = _(" Downloading %s (%s%%)") % (os.path.basename(self.url).partition("_")[2], prev)
                     self.status_label.set_markup("<b><span size='10000'>%s</span></b>" % text)
+            if self.p and self.p.poll() and self.p.returncode > 0:
+                text = _(" Error downloading [%s]") % (' '.join(cmd))
+                logging.error(text)
+                self.status_label.set_markup("<b><span size='10000'>%s</span></b>" % text)
+                self.spin.stop()
+                self.spin.hide()
+                return
+
             time.sleep(1)
 
     def stop(self):
