@@ -739,7 +739,7 @@ class TestdrivegtkWindow(gtk.Window):
             if self.td.VIRT == "virtualbox":
                 logging.info(_("Using VirtualBox for virtual machine hosting..."))
                 virt = virtualbox.VBox(self.td)
-            if self.td.VIRT == "paralels":
+            if self.td.VIRT == "parallels":
                 logging.info(_("Using Parallels Desktop for virtual machine hosting..."))
                 virt = parallels.Parallels(self.td)
 
