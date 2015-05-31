@@ -310,9 +310,9 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
                     self.chk_flavor_ubuntukylin.set_active(True)
                 elif flavor == 'ubuntugnome':
                     self.chk_flavor_ubuntugnome.set_active(True)
-                elif flavor == 'ubuntumate':
+                elif flavor == 'ubuntu-mate':
                     self.chk_flavor_ubuntumate.set_active(True)
-                elif flavor == 'ubuntudesktopnext':
+                elif flavor == 'ubuntu-desktop-next':
                     self.chk_flavor_ubuntudesktopnext.set_active(True)
                 elif flavor == 'other':
                     self.chk_flavor_other.set_active(True)
@@ -462,9 +462,9 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
         if self.chk_flavor_ubuntugnome.get_active():
             self.flavors = self.flavors + "ubuntugnome, "
         if self.chk_flavor_ubuntumate.get_active():
-            self.flavors = self.flavors + "ubuntumate, "
+            self.flavors = self.flavors + "ubuntu-mate, "
         if self.chk_flavor_ubuntudesktopnext.get_active():
-            self.flavors = self.flavors + "ubuntudesktopnext, "
+            self.flavors = self.flavors + "ubuntu-desktop-next, "
         if self.chk_flavor_other.get_active():
             self.flavors = self.flavors + "other, "
 
