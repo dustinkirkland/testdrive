@@ -201,6 +201,10 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
         self.chk_flavor_ubuntukylin.connect("clicked", self.on_select_flavors)
         self.chk_flavor_ubuntugnome = self.builder.get_object("chk_flavor_ubuntugnome")
         self.chk_flavor_ubuntugnome.connect("clicked", self.on_select_flavors)
+        self.chk_flavor_ubuntumate = self.builder.get_object("chk_flavor_ubuntumate")
+        self.chk_flavor_ubuntumate.connect("clicked", self.on_select_flavors)
+        self.chk_flavor_ubuntudesktopnext = self.builder.get_object("chk_flavor_ubuntudesktopnext")
+        self.chk_flavor_ubuntudesktopnext.connect("clicked", self.on_select_flavors)
         self.chk_flavor_other = self.builder.get_object("chk_flavor_other")
         self.chk_flavor_other.connect("clicked", self.on_select_flavors)
 
@@ -306,6 +310,10 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
                     self.chk_flavor_ubuntukylin.set_active(True)
                 elif flavor == 'ubuntugnome':
                     self.chk_flavor_ubuntugnome.set_active(True)
+                elif flavor == 'ubuntumate':
+                    self.chk_flavor_ubuntumate.set_active(True)
+                elif flavor == 'ubuntudesktopnext':
+                    self.chk_flavor_ubuntudesktopnext.set_active(True)
                 elif flavor == 'other':
                     self.chk_flavor_other.set_active(True)
                 else:
@@ -453,6 +461,10 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
             self.flavors = self.flavors + "ubuntukylin, "
         if self.chk_flavor_ubuntugnome.get_active():
             self.flavors = self.flavors + "ubuntugnome, "
+        if self.chk_flavor_ubuntumate.get_active():
+            self.flavors = self.flavors + "ubuntumate, "
+        if self.chk_flavor_ubuntudesktopnext.get_active():
+            self.flavors = self.flavors + "ubuntudesktopnext, "
         if self.chk_flavor_other.get_active():
             self.flavors = self.flavors + "other, "
 
