@@ -260,7 +260,7 @@ class Testdrive:
 
     def get_proto(self):
         if self.PROTO == "rsync":
-            cmd = "rsync -azPL %s %s" % (self.ISO_URL, self.PATH_TO_ISO)
+            cmd = "rsync --contimeout=5 --timeout=10 -azPL %s %s" % (self.ISO_URL, self.PATH_TO_ISO)
             return cmd
         elif self.PROTO == "zsync" or self.PROTO == "http" or self.PROTO == "ftp":
             if commands.getstatusoutput("which zsync")[0] == 0:
