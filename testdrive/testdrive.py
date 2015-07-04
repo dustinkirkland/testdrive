@@ -31,6 +31,8 @@ CATEGORY = {
     "kubuntu-active":"kubuntu",
     "ubuntukylin":"ubuntukylin",
     "ubuntu-gnome":"ubuntugnome",
+    "ubuntu-mate":"ubuntumate",
+    "ubuntu-desktop-next":"ubuntudesktopnext",
 }
 
 
@@ -44,6 +46,8 @@ FLAVORS = {
     "ubuntu-server":"Ubuntu",
     "ubuntukylin":"UbuntuKylin",
     "ubuntu-gnome":"Ubuntu Gnome",
+    "ubuntu-mate":"Ubuntu MATE",
+    "ubuntu-desktop-next":"Ubuntu Desktop Next",
     "cloud-server":"Cloud Server",
     "cloud-desktop":"Cloud Desktop",
 }
