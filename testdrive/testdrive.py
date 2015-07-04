@@ -214,7 +214,7 @@ class Testdrive:
             self.SMP = commands.getoutput("grep -c ^processor /proc/cpuinfo")
 
         if len(self.DISK_SIZE) == 0:
-            self.DISK_SIZE = "6G"
+            self.DISK_SIZE = "8G"
 
         if len(self.MEM) == 0:
             total = commands.getoutput("grep ^MemTotal /proc/meminfo | awk '{print $2}'")
