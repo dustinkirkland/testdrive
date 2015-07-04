@@ -21,9 +21,13 @@
 
 import commands, os, time, logging
 
+from .base import VirtException, VirtBase
+
+
 logger = logging.getLogger("testdrive.virt.vbox")
 
-class VBox:
+
+class VBox(VirtBase):
 
     def __init__(self, td):
         self.vboxversion = None
@@ -42,19 +46,32 @@ class VBox:
             return True
         return False
 
+    def get_vboxversion(self):
+        status, verstr = commands.getstatusoutput("VBoxManage --version")
+        if status != 0:
+            raise VirtException("No VirtualBox found")
+        try:
+            self.vboxversion = (int(verstr.split(".")[0]),
+                                int(verstr.split(".")[1]))
+        except (IndexError, ValueError) as exc:
+            raise VirtException("Can not extract version "
+                                "[VBoxManage --version]")
+
+
     # Code to validate if virtualization is installed/supported
     def validate_virt(self):
         # Determine which version of VirtualBox we have installed.  What is returned is
         # typically a string such as '4.1.0r55467', lets assume that the command line
         # is consistent within 4.x.x versions extract this part of the
         # version string for comparison later
-        self.vboxversion = commands.getoutput("VBoxManage --version")
-        self.vboxversion = ( int(self.vboxversion.split(".")[0]), int(self.vboxversion.split(".")[1]) )
-        if self.vboxversion == (4,0) or self.vboxversion == (4,1) or self.vboxversion == (4,2) or self.vboxversion == (4,3):
+        self.vboxversion = self.get_vboxversion()
+        supported_versions = ((4,0), (4,1), (4,2), (4,3))
+        if self.vboxversion in supported_versions:
             logger.info("VirtualBox %s.%s detected." % self.vboxversion)
         else:
-            logger.error("ERROR: Unsupported version (%s.%s) of VirtualBox; please install v4.0 or newer." % self.vboxversion)
-            exit(0)
+            err_text = ("Unsupported version (%s.%s) of VirtualBox; "
+                         "please install v4.0 or newer.") % self.vboxversion
+            raise VirtException(err_text)
 
     # Code to setup virtual machine
     def setup_virt(self):
@@ -104,10 +121,3 @@ class VBox:
         # Loop as long as this VM is running
         #while commands.getstatusoutput("VBoxManage list runningvms | grep -qs %s" % self.td.VBOX_NAME)[0] == 0:
         #   time.sleep(2)
-
-    def run(self, cmd):
-        return(os.system(cmd))
-
-    def run_or_die(self, cmd):
-        if self.run(cmd) != 0:
-            logger.error("Command failed\n    `%s`" % cmd)

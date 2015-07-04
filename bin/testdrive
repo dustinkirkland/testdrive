@@ -74,8 +74,12 @@ def select_iso(td, ISO):
             logger.error(_("\nERROR: Invalid input\n"))
             continue
         if choice == i:
-            url = raw_input(_("\nEnter an ISO URL to testdrive: "))
-            break
+            try:
+                url = raw_input(_("\nEnter an ISO URL to testdrive: "))
+                break
+            except KeyboardInterrupt:
+                print("\n")
+                exit(0)
         elif choice in range(1, i):
             url = menu[choice-1]["url"]
             td.ISO_PATH_HEADER = menu[choice-1]["cat"]
@@ -85,7 +89,7 @@ def select_iso(td, ISO):
     return(url)
 
 def error(str):
-    logger.error(_("\n%s\n") % str)
+    logger.error("\n%s\n" % str)
     sys.exit(1)
 
 def is_iso(file):
@@ -401,14 +405,15 @@ def main():
     logger.info(_("Validating Virtualization Method...."))
     try:
         virt.validate_virt()
-    except:
-        error(_("Unable to validate Virtualization Method [%s]") % td.VIRT)
+    except Exception as exc:
+        error(_("Unable to validate Virtualization Method [%s] (%s)") % \
+              (td.VIRT, exc))
 
     logger.info(_("Setting up Virtual Machine..."))
     try:
         virt.setup_virt()
-    except:
-        error(_("Unable to setup Virtual Machine"))
+    except Exception as exc:
+        error(_("Unable to setup Virtual Machine (%s)") % exc)
 
     logger.info(_("Launching Virtual Machine..."))
     try:
@@ -417,8 +422,8 @@ def main():
         if td.VIRT == "kvm":
             logging.debug("%s:%s" % (time.strftime("%Y-%m-%d_%H:%M:%S"), cmd))
         run_vm(cmd, td, cloud_curses)
-    except:
-        error(_("Unable to launch Virtual Machine"))
+    except Exception as exc:
+        error(_("Unable to launch Virtual Machine (%s)") % (exc))
 
     rm_disk = td.delete_image()
     if rm_disk:

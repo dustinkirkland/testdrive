@@ -481,7 +481,7 @@ class PreferencesTestdrivegtkDialog(gtk.Dialog):
                 path = "%s/%s" % (cache_path, file)
                 os.unlink(path)
         except:
-            on_error_dlg(_("Unable to clean up files from [%s]") % cache_path)
+            self.on_error_dlg(_("Unable to clean up files from [%s]") % cache_path)
     
     def on_select_iso_image_repo(self, widget):
         ##################################################################

@@ -742,7 +742,6 @@ class TestdrivegtkWindow(gtk.Window):
             if self.td.VIRT == "parallels":
                 logging.info(_("Using Parallels Desktop for virtual machine hosting..."))
                 virt = parallels.Parallels(self.td)
-
             # Passing VIRT object to ISOLIST
             ISOLIST[vm_id]["virt"] = virt
             ISOLIST[vm_id]["virt_type"] = self.td.VIRT
@@ -933,20 +932,24 @@ class LaunchThread(threading.Thread):
         self.p = None
 
     def prepare_to_launch_vm(self):
-                ###################################################################
-                ######## Prepare the VM to launch and return launch command #######
-                ###################################################################
-        # TODO TODO TODO - Re-add validation
-        self.ovirt.validate_virt()
-        self.ovirt.setup_virt()
-        return self.ovirt.launch_virt()
-
-    def run(self):
-        if self.virt == "virtualbox":
-            text = _("    Configuring Virtual Machine...")
+        """Prepare the VM to launch and return launch command"""
+        try:
+            self.ovirt.validate_virt()
+            self.ovirt.setup_virt()
+            return self.ovirt.launch_virt()
+        except Exception as exc:
+            text = _("Error preparing virtualization: %s") % (exc)
             self.status_label.set_markup("<b><i>%s</i></b>" % text)
             self.status_label.show()
+            logging.error("%s", exc, exc_info=1)
+
+    def run(self):
+        text = _("    Configuring Virtual Machine...")
+        self.status_label.set_markup("<b><i>%s</i></b>" % text)
+        self.status_label.show()
         command = self.prepare_to_launch_vm()
+        if not command: return
+        logger.info("Running VM command %s", command)
         cmd = command.split()
         self.p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
         text = _("     Running Virtual Machine...")
@@ -957,6 +960,7 @@ class LaunchThread(threading.Thread):
             while not self.stopthread.isSet():
                 if self.p.poll() != None:
                     self.status_label.set_markup("<i>%s</i>" % self.previous_text)
+                    self.status_label.show()
                     self.p = None
                     break
                 time.sleep(0.1)
@@ -977,6 +981,7 @@ class LaunchThread(threading.Thread):
                     self.p = None
                     break
                 time.sleep(2)
+
 
     def stop(self):
         try:

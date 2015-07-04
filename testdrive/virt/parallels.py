@@ -19,9 +19,16 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import logging
 import commands, os, time
 
-class Parallels:
+from .base import VirtBase, VirtException
+
+
+logger = logging.getLogger(__name__)
+
+
+class Parallels(VirtBase):
 
     def __init__(self, td):
         self.HOME = td.HOME
@@ -32,8 +39,11 @@ class Parallels:
         self.DISK_SIZE = td.DISK_SIZE
         self.VBOX_NAME = td.VBOX_NAME
 
-    # Code to validate if virtualization is installed/supported
     def validate_virt(self):
+        """validate if virtualization is installed/supported"""
+        if commands.getstatusoutput("which prlctl")[0] != 0:
+            raise VirtException("prlctl not found")
+
         if commands.getstatusoutput("prlctl list %s | grep -qsv \"UUID\"" % self.VBOX_NAME)[0] == 0:
             self.run_or_die("prlctl delete %s" % self.VBOX_NAME)
 
@@ -55,11 +65,3 @@ class Parallels:
         # Loop as long as this VM is running
         #while commands.getstatusoutput("prlctl list %s | grep -qs stopped" % self.td.VBOX_NAME)[0] != 0:
         #   time.sleep(2)
-
-    def run(self, cmd):
-        return(os.system(cmd))
-
-    def run_or_die(self, cmd):
-        if self.run(cmd) != 0:
-            #error("Command failed\n    `%s`" % cmd)
-            print "Command failed\n    `%s`" % cmd
