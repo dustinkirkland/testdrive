@@ -22,13 +22,13 @@
 import sys
 import commands, os, uuid, logging
 
-from .base import VirtException
+from .base import VirtException, VirtBase
 
 
 logger = logging.getLogger("testdrive.virt.kvm")
 
 
-class KVM:
+class KVM(VirtBase):
 
     def __init__(self, td):
         self.p = td.p
@@ -77,7 +77,7 @@ class KVM:
             self.FLOPPY_FILE = "%s-floppy" % path
             self.run_or_die("%s create -f qcow2 -b %s %s" % (kvm_img, self.ORIG_DISK, self.DISK_FILE))
         elif not os.path.exists(self.DISK_FILE) or self.is_disk_empty():
-            logger.info("Creating disk image [%s]..." % self.DISK_FILE)
+            logger.info("Creating disk image [%s] with [size:%s]..." % (self.DISK_FILE, self.DISK_SIZE))
             self.run_or_die("%s create -f qcow2 %s %s" % (kvm_img, self.DISK_FILE, self.DISK_SIZE))
 
     # Code launch virtual machine
@@ -89,3 +89,4 @@ class KVM:
         else:
             cmd = "qemu-system-x86_64 -uuid %s -m %s -smp %s -cdrom %s -drive file=%s,if=virtio,cache=writeback,index=0 %s" % (UUID, self.MEM, self.SMP, self.PATH_TO_ISO, self.DISK_FILE, self.KVM_ARGS)
         return cmd
+

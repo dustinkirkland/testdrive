@@ -34,6 +34,9 @@ import threading, subprocess, commands
 import random
 import re
 
+import logging
+logger = logging.getLogger("testdrive-gtk")
+
 gtk.gdk.threads_init()
 
 TAB_LABEL = []
@@ -139,7 +142,7 @@ class TestdrivegtkWindow(gtk.Window):
         ######## Obtaining the settings from the Preferences Class ########
         ###################################################################
 
-        logging.debug(_("Instancing Preferences..."))
+        logger.debug(_("Instancing Preferences..."))
         dlg = PreferencesTestdrivegtkDialog.PreferencesTestdrivegtkDialog()
         self.td = dlg.get_preferences()
 
@@ -222,12 +225,12 @@ class TestdrivegtkWindow(gtk.Window):
         output = ""
         if self.notified is True:
             return False
-        logging.info(_("Checking available ISOs at the ISO tracker [http://iso.qa.ubuntu.com] every %s seconds") % time)
+        logger.info(_("Checking available ISOs at the ISO tracker [http://iso.qa.ubuntu.com] every %s seconds") % time)
         try:
             #(status, output) = commands.getstatusoutput("wget -q -O- http://iso.qa.ubuntu.com/qatracker/dllist")
             (status, output) = commands.getstatusoutput("wget -q -O- http://iso.qa.ubuntu.com/qatracker | egrep 'iso.qa.ubuntu.com/qatracker/test'")
         except:
-            logging.error(_("Unable to check the ISO tracker"))
+            logger.error(_("Unable to check the ISO tracker"))
 
         # If output is not empty, display the message
         if output != "":
@@ -401,7 +404,7 @@ class TestdrivegtkWindow(gtk.Window):
         ###################################################################
         ### Obtains the command for the Sync process based on Protocol ####
         ###################################################################
-        logging.info(_("Obtaining the sync protocol for the specified ISO..."))
+        logger.info(_("Obtaining the sync protocol for the specified ISO..."))
         cmd = self.td.get_proto()
         if cmd == 1:
             self.on_error_dialog(_("Unsupported protocol [%s]") % self.td.PROTO)
@@ -415,16 +418,16 @@ class TestdrivegtkWindow(gtk.Window):
         ###################################################################
 
         # Choose the virtualization engine
-        logging.info(_("Obtaining the virtualization method..."))
+        logger.info(_("Obtaining the virtualization method..."))
         if not self.td.VIRT:
             self.td.VIRT = self.td.get_virt()
         if self.td.VIRT == 1:
-            logging.error(_("Your CPU supports KVM acceleration; please install KVM"))
+            logger.error(_("Your CPU supports KVM acceleration; please install KVM"))
             self.on_warn_dialog(  _("Your CPU supports KVM acceleration; please install KVM:"
                         "\n\n"
                         "sudo apt-get install qemu-kvm"))
         if self.td.VIRT == 0:
-            logging.error(_("Your CPU does not support acceleration; run kvm-ok for more information; then install VBox"))
+            logger.error(_("Your CPU does not support acceleration; run kvm-ok for more information; then install VBox"))
             self.on_warn_dialog(  _("Your CPU does not support acceleration; run kvm-ok for more information;\n"
                         "then please install VirtualBox"
                         "\n\n"
@@ -438,11 +441,11 @@ class TestdrivegtkWindow(gtk.Window):
         ###################################################################
 
         # Try to retrieve the ISO list from the cache
-        logging.info(_("Retrieving the Ubuntu ISO list from cache..."))
+        logger.info(_("Retrieving the Ubuntu ISO list from cache..."))
         try:
             isos = self.td.get_ubuntu_iso_list()
         except:
-            logging.error(_("Unable to retrieve the Ubuntu ISO list from cache..."))
+            logger.error(_("Unable to retrieve the Ubuntu ISO list from cache..."))
             self.on_error_dialog(_("Unable to retrieve the Ubuntu ISO list from cache..."))
             return []
         return isos
@@ -736,13 +739,13 @@ class TestdrivegtkWindow(gtk.Window):
 
             # Selecting virt method and Instancing VIRT object
             if self.td.VIRT == "kvm":
-                logging.info(_("Using KVM for virtual machine hosting..."))
+                logger.info(_("Using KVM for virtual machine hosting..."))
                 virt = kvm.KVM(self.td)
             if self.td.VIRT == "virtualbox":
-                logging.info(_("Using VirtualBox for virtual machine hosting..."))
+                logger.info(_("Using VirtualBox for virtual machine hosting..."))
                 virt = virtualbox.VBox(self.td)
             if self.td.VIRT == "parallels":
-                logging.info(_("Using Parallels Desktop for virtual machine hosting..."))
+                logger.info(_("Using Parallels Desktop for virtual machine hosting..."))
                 virt = parallels.Parallels(self.td)
             # Passing VIRT object to ISOLIST
             ISOLIST[vm_id]["virt"] = virt
@@ -795,7 +798,7 @@ class TestdrivegtkWindow(gtk.Window):
                 except:
                     pass
             else:
-                logging.debug(_("sync_iso: Thread is executing..."))
+                logger.debug(_("sync_iso: Thread is executing..."))
 
     def on_launch_button_clicked(self, widget, data=None):
         ###################################################################
@@ -816,7 +819,7 @@ class TestdrivegtkWindow(gtk.Window):
                 except:
                     pass
             else:
-                logging.debug(_("launch_iso: Thread is executing or syncing..."))
+                logger.debug(_("launch_iso: Thread is executing or syncing..."))
 
     def on_create_iso_disk_clicked(self, widget, data=None):
         ###################################################################
@@ -861,7 +864,7 @@ class SyncThread(threading.Thread):
 
     def run(self):
         cmd = self.command.split()
-        logging.debug("executing command `%s`", ' '.join(cmd))
+        logger.debug("executing command `%s`", ' '.join(cmd))
         self.p = subprocess.Popen(cmd, stdout=subprocess.PIPE, universal_newlines = True)
         percent = re.compile(r'(\d+)%')
         self.status_label.show()
@@ -891,7 +894,7 @@ class SyncThread(threading.Thread):
                     self.status_label.set_markup("<b><span size='10000'>%s</span></b>" % text)
             if self.p and self.p.poll() and self.p.returncode > 0:
                 text = _(" Error downloading [%s]") % (' '.join(cmd))
-                logging.error(text)
+                logger.error(text)
                 self.status_label.set_markup("<b><span size='10000'>%s</span></b>" % text)
                 self.spin.stop()
                 self.spin.hide()
@@ -943,7 +946,7 @@ class LaunchThread(threading.Thread):
             text = _("Error preparing virtualization: %s") % (exc)
             self.status_label.set_markup("<b><i>%s</i></b>" % text)
             self.status_label.show()
-            logging.error("%s", exc, exc_info=1)
+            logger.error("%s", exc, exc_info=1)
 
     def run(self):
         text = _("    Configuring Virtual Machine...")
@@ -1000,10 +1003,8 @@ class LaunchThread(threading.Thread):
 
 if __name__ == "__main__":
     # Support for command line options.
-    import logging
     import optparse
 
-    logger = logging.getLogger("testdrive")
     logger.setLevel(logging.INFO)
     
     # Logging to the console
