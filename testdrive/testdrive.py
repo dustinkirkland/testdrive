@@ -230,7 +230,7 @@ class Testdrive:
                 self.MEM = "256"
 
         if len(self.KVM_ARGS) == 0:
-            self.KVM_ARGS = "-usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370"
+            self.KVM_ARGS = "-usb -usbdevice mouse -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370 -vga cirrus -show-cursor -enable-kvm"
 
         if len(self.VBOX_NAME) == 0:
             self.VBOX_NAME = self.PKG

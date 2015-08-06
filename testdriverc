@@ -50,7 +50,7 @@ DISK_SIZE = 8G
 
 # KVM_ARGS is a string of arbitrary KVM_ARGS to use when launching the VM
 # See kvm(1) for a comprehensive list of arguments
-KVM_ARGS = -usb -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370 -vga cirrus -enable-kvm
+KVM_ARGS = -usb -usbdevice mouse -usbdevice tablet -net nic,model=virtio -net user -soundhw es1370 -vga cirrus -show-cursor -enable-kvm
 
 # Uncomment the following line if you want to hardcode the Ubuntu Repository
 # from where the ISO's are going to be retrieved; otherwise, they will be
